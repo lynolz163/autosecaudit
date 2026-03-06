@@ -1,0 +1,26 @@
+{
+  "decision_summary": "Proposed 3 safe action(s), total estimated cost 25, remaining budget after plan 5. Blocked actions: 2.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "passive_config_audit",
+      "target": "https://lynolz.com:443",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "efbb8a4100c2295cd5ed66a9e2aa26f89be041957aa749a256d9f3a0138bbdeb",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

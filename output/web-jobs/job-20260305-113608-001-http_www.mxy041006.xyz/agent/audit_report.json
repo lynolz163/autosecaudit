@@ -1,0 +1,647 @@
+{
+  "meta": {
+    "generated_at": "2026-03-05T03:37:33.791963+00:00",
+    "target": "http://www.mxy041006.xyz/",
+    "decision_summary": "[phase:active_discovery] No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.",
+    "resumed": false,
+    "resumed_from": "None"
+  },
+  "summary": {
+    "audit_score": 77,
+    "score_label": "Good",
+    "total_findings": 8,
+    "vulnerability_findings": 8,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 4,
+      "info": 3
+    },
+    "history_count": 11,
+    "iteration_count": 3,
+    "budget_remaining": 52,
+    "budget_start_inferred": 100,
+    "unique_tools_executed": 11,
+    "service_origins_observed": 1,
+    "api_endpoint_count": 0
+  },
+  "history": [
+    {
+      "index": 1,
+      "tool": "passive_config_audit",
+      "target": "http://www.mxy041006.xyz:80",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:09.370757+00:00",
+      "ended_at": "2026-03-05T03:36:21.004699+00:00",
+      "action_cost": 3,
+      "budget_before": 100,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 2,
+      "tool": "tech_stack_fingerprint",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:21.013842+00:00",
+      "ended_at": "2026-03-05T03:36:22.260046+00:00",
+      "action_cost": 2,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 3,
+      "tool": "git_exposure_check",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:22.269542+00:00",
+      "ended_at": "2026-03-05T03:36:28.822179+00:00",
+      "action_cost": 2,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 4,
+      "tool": "security_txt_check",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:28.830876+00:00",
+      "ended_at": "2026-03-05T03:36:29.941927+00:00",
+      "action_cost": 1,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 5,
+      "tool": "login_form_detector",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:29.951378+00:00",
+      "ended_at": "2026-03-05T03:36:31.924627+00:00",
+      "action_cost": 3,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 6,
+      "tool": "http_security_headers",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:31.933826+00:00",
+      "ended_at": "2026-03-05T03:36:33.709233+00:00",
+      "action_cost": 3,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 7,
+      "tool": "source_map_detector",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:33.718458+00:00",
+      "ended_at": "2026-03-05T03:36:44.558556+00:00",
+      "action_cost": 2,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 8,
+      "tool": "js_endpoint_extractor",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:44.567945+00:00",
+      "ended_at": "2026-03-05T03:36:53.925925+00:00",
+      "action_cost": 4,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 9,
+      "tool": "api_schema_discovery",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:36:53.987828+00:00",
+      "ended_at": "2026-03-05T03:37:01.768463+00:00",
+      "action_cost": 4,
+      "budget_before": 80,
+      "budget_after": 52,
+      "error": null
+    },
+    {
+      "index": 10,
+      "tool": "dynamic_crawl",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:37:01.776476+00:00",
+      "ended_at": "2026-03-05T03:37:18.018432+00:00",
+      "action_cost": 12,
+      "budget_before": 52,
+      "budget_after": 52,
+      "error": null
+    },
+    {
+      "index": 11,
+      "tool": "active_web_crawler",
+      "target": "http://www.mxy041006.xyz:80/",
+      "status": "completed",
+      "started_at": "2026-03-05T03:37:18.027859+00:00",
+      "ended_at": "2026-03-05T03:37:33.705194+00:00",
+      "action_cost": 12,
+      "budget_before": 52,
+      "budget_after": 52,
+      "error": null
+    }
+  ],
+  "budget_trace": [
+    {
+      "step": 0,
+      "label": "Start",
+      "tool": "",
+      "cost": 0,
+      "budget_before": 100,
+      "budget_after": 100,
+      "cumulative_spent": 0
+    },
+    {
+      "step": 1,
+      "label": "1. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 100,
+      "budget_after": 80,
+      "cumulative_spent": 3
+    },
+    {
+      "step": 2,
+      "label": "2. tech_stack_fingerprint",
+      "tool": "tech_stack_fingerprint",
+      "cost": 2,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 5
+    },
+    {
+      "step": 3,
+      "label": "3. git_exposure_check",
+      "tool": "git_exposure_check",
+      "cost": 2,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 7
+    },
+    {
+      "step": 4,
+      "label": "4. security_txt_check",
+      "tool": "security_txt_check",
+      "cost": 1,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 8
+    },
+    {
+      "step": 5,
+      "label": "5. login_form_detector",
+      "tool": "login_form_detector",
+      "cost": 3,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 11
+    },
+    {
+      "step": 6,
+      "label": "6. http_security_headers",
+      "tool": "http_security_headers",
+      "cost": 3,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 14
+    },
+    {
+      "step": 7,
+      "label": "7. source_map_detector",
+      "tool": "source_map_detector",
+      "cost": 2,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 16
+    },
+    {
+      "step": 8,
+      "label": "8. js_endpoint_extractor",
+      "tool": "js_endpoint_extractor",
+      "cost": 4,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 20
+    },
+    {
+      "step": 9,
+      "label": "9. api_schema_discovery",
+      "tool": "api_schema_discovery",
+      "cost": 4,
+      "budget_before": 80,
+      "budget_after": 52,
+      "cumulative_spent": 24
+    },
+    {
+      "step": 10,
+      "label": "10. dynamic_crawl",
+      "tool": "dynamic_crawl",
+      "cost": 12,
+      "budget_before": 52,
+      "budget_after": 52,
+      "cumulative_spent": 36
+    },
+    {
+      "step": 11,
+      "label": "11. active_web_crawler",
+      "tool": "active_web_crawler",
+      "cost": 12,
+      "budget_before": 52,
+      "budget_after": 52,
+      "cumulative_spent": 48
+    }
+  ],
+  "coverage": {
+    "tool_stats": [
+      {
+        "tool": "active_web_crawler",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "api_schema_discovery",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "dynamic_crawl",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "git_exposure_check",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "http_security_headers",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "js_endpoint_extractor",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "login_form_detector",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "passive_config_audit",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "security_txt_check",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "source_map_detector",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "tech_stack_fingerprint",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      }
+    ],
+    "unique_tools_executed": 11,
+    "service_origins_observed": 1,
+    "service_origins": [
+      "http://www.mxy041006.xyz"
+    ],
+    "api_endpoint_count": 0,
+    "discovered_url_count": 4,
+    "parameter_count": 0,
+    "tech_stack": [
+      "nginx"
+    ],
+    "config_exposure_count": 0,
+    "completed_actions": 11,
+    "failed_actions": 0,
+    "error_actions": 0,
+    "highlights": [
+      "Observed 1 HTTP(S) service origin(s).",
+      "Detected technology hints: nginx."
+    ]
+  },
+  "recon": {
+    "target_info": {
+      "target": "http://www.mxy041006.xyz/",
+      "scope": [
+        "http://www.mxy041006.xyz/"
+      ],
+      "service_origins": [
+        "http://www.mxy041006.xyz"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ports_services": {
+      "ports": [],
+      "services": []
+    },
+    "tls_certificate": {},
+    "http_headers": {
+      "content-length": "429",
+      "accept-ranges": "bytes",
+      "alt-svc": "quic=\":443\"; h3=\":443\"; h3-29=\":443\"; h3-27=\":443\";h3-25=\":443\"; h3-T050=\":443\"; h3-Q050=\":443\";h3-Q049=\":443\";h3-Q048=\":443\"; h3-Q046=\":443\"; h3-Q043=\":443\"",
+      "connection": "keep-alive",
+      "content-type": "text/html",
+      "date": "Thu, 05 Mar 2026 03:36:32 GMT",
+      "etag": "\"69a6977c-1ad\"",
+      "keep-alive": "timeout=60",
+      "last-modified": "Tue, 03 Mar 2026 08:10:36 GMT",
+      "proxy-connection": "keep-alive",
+      "server": "nginx",
+      "strict-transport-security": "max-age=31536000"
+    },
+    "tech_stack": [
+      "nginx"
+    ],
+    "waf_cdn": [],
+    "security_policies": {
+      "security_txt": {
+        "present": false,
+        "status_code": 404,
+        "url": "http://www.mxy041006.xyz:80/.well-known/security.txt",
+        "has_contact": false,
+        "has_expires": false,
+        "line_count": 7,
+        "content_preview": null
+      },
+      "csp_evaluation": {},
+      "cookies": []
+    },
+    "login_forms": [],
+    "api_schemas": [],
+    "config_exposures": [],
+    "git_exposures": [],
+    "source_maps": [],
+    "discovered_urls": [
+      "http://www.mxy041006.xyz/",
+      "http://www.mxy041006.xyz/assets/index-CNfVobV3.js",
+      "http://www.mxy041006.xyz/assets/index-D9QJqW-W.css",
+      "http://www.mxy041006.xyz:80/"
+    ],
+    "api_endpoints": [],
+    "url_parameters": {},
+    "error_page_markers": [],
+    "tools_executed": [
+      {
+        "tool": "passive_config_audit",
+        "target": "http://www.mxy041006.xyz:80",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "tech_stack_fingerprint",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "git_exposure_check",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "security_txt_check",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "login_form_detector",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "http_security_headers",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "source_map_detector",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "js_endpoint_extractor",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "api_schema_discovery",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "dynamic_crawl",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "active_web_crawler",
+        "target": "http://www.mxy041006.xyz:80/",
+        "status": "completed",
+        "duration_ms": null
+      }
+    ]
+  },
+  "scope": {
+    "scope": [
+      "http://www.mxy041006.xyz/"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "http://www.mxy041006.xyz"
+      },
+      {
+        "type": "endpoint",
+        "data": "http://www.mxy041006.xyz/"
+      },
+      {
+        "type": "endpoint",
+        "data": "http://www.mxy041006.xyz/assets/index-CNfVobV3.js"
+      },
+      {
+        "type": "endpoint",
+        "data": "http://www.mxy041006.xyz/assets/index-D9QJqW-W.css"
+      },
+      {
+        "type": "endpoint",
+        "data": "http://www.mxy041006.xyz:80/"
+      }
+    ],
+    "surface": {
+      "config_exposures": [],
+      "tech_stack": [
+        "nginx"
+      ],
+      "git_exposures": [],
+      "security_txt": {
+        "present": false,
+        "status_code": 404,
+        "url": "http://www.mxy041006.xyz:80/.well-known/security.txt",
+        "has_contact": false,
+        "has_expires": false,
+        "line_count": 7,
+        "content_preview": null
+      },
+      "login_forms": [],
+      "api_endpoints": [],
+      "url_parameters": {},
+      "parameter_origins": {},
+      "http_security_headers": {
+        "content-length": "429",
+        "accept-ranges": "bytes",
+        "alt-svc": "quic=\":443\"; h3=\":443\"; h3-29=\":443\"; h3-27=\":443\";h3-25=\":443\"; h3-T050=\":443\"; h3-Q050=\":443\";h3-Q049=\":443\";h3-Q048=\":443\"; h3-Q046=\":443\"; h3-Q043=\":443\"",
+        "connection": "keep-alive",
+        "content-type": "text/html",
+        "date": "Thu, 05 Mar 2026 03:36:32 GMT",
+        "etag": "\"69a6977c-1ad\"",
+        "keep-alive": "timeout=60",
+        "last-modified": "Tue, 03 Mar 2026 08:10:36 GMT",
+        "proxy-connection": "keep-alive",
+        "server": "nginx",
+        "strict-transport-security": "max-age=31536000"
+      },
+      "source_maps": [],
+      "discovered_urls": [
+        "http://www.mxy041006.xyz/",
+        "http://www.mxy041006.xyz/assets/index-CNfVobV3.js",
+        "http://www.mxy041006.xyz/assets/index-D9QJqW-W.css",
+        "http://www.mxy041006.xyz:80/"
+      ],
+      "api_schemas": []
+    }
+  },
+  "findings": [
+    {
+      "index": 1,
+      "type": "vuln",
+      "name": "Passive Technology Fingerprint",
+      "severity": "info",
+      "evidence": "{\"server\": \"nginx\", \"status_code\": 200, \"tech_stack\": [\"nginx\"], \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Review exposed technology markers and minimize unnecessary fingerprinting signals where practical."
+    },
+    {
+      "index": 2,
+      "type": "vuln",
+      "name": "security.txt Missing",
+      "severity": "low",
+      "evidence": "{\"status_code\": 404, \"url\": \"http://www.mxy041006.xyz:80/.well-known/security.txt\"}",
+      "reproduction_steps": [],
+      "recommendation": "Publish a valid security.txt file with contact and expiry metadata."
+    },
+    {
+      "index": 3,
+      "type": "vuln",
+      "name": "Login Form Detection",
+      "severity": "info",
+      "evidence": "{\"forms\": [], \"status_code\": 200, \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Use the discovered auth surface to drive low-risk validation of cookie and session controls."
+    },
+    {
+      "index": 4,
+      "type": "vuln",
+      "name": "CSP Missing",
+      "severity": "medium",
+      "evidence": "{\"missing_header\": \"content-security-policy\", \"status_code\": 200, \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Add a Content-Security-Policy to reduce XSS impact."
+    },
+    {
+      "index": 5,
+      "type": "vuln",
+      "name": "X-Frame-Options Missing",
+      "severity": "low",
+      "evidence": "{\"missing_header\": \"x-frame-options\", \"status_code\": 200, \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Set X-Frame-Options or CSP frame-ancestors."
+    },
+    {
+      "index": 6,
+      "type": "vuln",
+      "name": "X-Content-Type-Options Missing",
+      "severity": "low",
+      "evidence": "{\"missing_header\": \"x-content-type-options\", \"status_code\": 200, \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Set X-Content-Type-Options: nosniff."
+    },
+    {
+      "index": 7,
+      "type": "vuln",
+      "name": "Referrer-Policy Missing",
+      "severity": "low",
+      "evidence": "{\"missing_header\": \"referrer-policy\", \"status_code\": 200, \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Set Referrer-Policy to reduce cross-origin leakage."
+    },
+    {
+      "index": 8,
+      "type": "vuln",
+      "name": "JavaScript Endpoint Extraction",
+      "severity": "info",
+      "evidence": "{\"count\": 0, \"scripts\": [\"http://www.mxy041006.xyz:80/assets/index-CNfVobV3.js\"], \"url\": \"http://www.mxy041006.xyz:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Review exposed client-side endpoints and ensure undocumented APIs are properly scoped and protected."
+    }
+  ]
+}

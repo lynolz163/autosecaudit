@@ -1,0 +1,89 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "sql_sanitization_audit",
+    "target": "https://edu.360-24.com:443/",
+    "options": {
+      "method": "GET",
+      "params": {
+        "account": "",
+        "captcha": "",
+        "password": ""
+      }
+    },
+    "priority": 23,
+    "cost": 8,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "f7a239783dc09a7243c69a9554c5974e6252cce91a163adf932c61cc129b458a",
+    "reason": "Send bounded SQL hygiene probes to parameterized endpoints and inspect responses. on crawler-confirmed parameterized endpoint.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "params_available",
+      "crawler_signal_present"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 15940,
+  "attempts": 1,
+  "result": {
+    "target_url": "https://edu.360-24.com:443/",
+    "is_vulnerable": false,
+    "checked_parameters": [
+      "account",
+      "captcha",
+      "password"
+    ],
+    "tested_payloads": 15,
+    "finding": null,
+    "notes": [
+      "Parameter `account` appears reflected; skipped time-based check for this parameter.",
+      "Parameter `captcha` appears reflected; skipped time-based check for this parameter.",
+      "Parameter `password` appears reflected; skipped time-based check for this parameter."
+    ],
+    "errors": []
+  },
+  "metadata": {
+    "skill_name": "sql_sanitization_audit",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "sql_sanitization_audit",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "target_url": "https://edu.360-24.com:443/",
+        "is_vulnerable": false,
+        "checked_parameters": [
+          "account",
+          "captcha",
+          "password"
+        ],
+        "tested_payloads": 15,
+        "finding": null,
+        "notes": [
+          "Parameter `account` appears reflected; skipped time-based check for this parameter.",
+          "Parameter `captcha` appears reflected; skipped time-based check for this parameter.",
+          "Parameter `password` appears reflected; skipped time-based check for this parameter."
+        ],
+        "errors": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 15940
+  }
+}

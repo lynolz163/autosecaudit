@@ -1,0 +1,52 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "dynamic_crawl",
+    "target": "https://lynolz.com:443/",
+    "options": {
+      "allow_domain": [
+        "lynolz.com"
+      ],
+      "max_depth": 2
+    },
+    "priority": 20,
+    "cost": 12,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "5c0b27e93337f278ab7354c9dca3b484d409aed839f567f76c026717e6fc566b",
+    "reason": "Expand in-scope surface and discover hidden endpoints/forms.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "playwright is required. Install with `pip install playwright` and run `playwright install`.",
+  "duration_ms": 2,
+  "result": {
+    "error": "playwright is required. Install with `pip install playwright` and run `playwright install`."
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "dynamic_crawl",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "error",
+      "payload": {
+        "error": "playwright is required. Install with `pip install playwright` and run `playwright install`."
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": "playwright is required. Install with `pip install playwright` and run `playwright install`.",
+    "raw_output": null,
+    "duration_ms": 0
+  }
+}

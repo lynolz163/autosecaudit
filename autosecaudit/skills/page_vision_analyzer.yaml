@@ -1,0 +1,51 @@
+{
+  "skill": {
+    "name": "page_vision_analyzer",
+    "version": "1.0",
+    "tool": "page_vision_analyzer",
+    "category": "discovery",
+    "description": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis."
+  },
+  "triggers": {
+    "phase": ["active_discovery", "verification"],
+    "when": [
+      {"condition": "has_http_origin"},
+      {"condition": "not_already_done"}
+    ],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {
+    "defaults": {
+      "timeout_seconds": 20,
+      "wait_until": "networkidle",
+      "full_page": true,
+      "enable_vision_llm": true,
+      "max_vision_image_bytes": 2000000,
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks."
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.vision_snapshots", "condition": "non_empty", "meaning": "rendered screenshot and UI analysis completed"}
+    ],
+    "output_extraction": {},
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_login_ui_signal": {
+      "trigger": ["login_form_detector", "cookie_security_audit"],
+      "reason": "Login-oriented UI cues should trigger authentication/session checks.",
+      "when_surface_contains": {"vision_signals": ["login_interface"]}
+    },
+    "on_admin_ui_signal": {
+      "trigger": ["passive_config_audit", "nuclei_exploit_check"],
+      "reason": "Admin/debug UI cues should trigger config and exploit-safety verification.",
+      "when_surface_contains": {"vision_signals": ["admin_surface", "debug_surface"]}
+    }
+  },
+  "risk": {"level": "low", "cost": 7, "priority": 19, "retry": {"max_retries": 1, "backoff_seconds": 1.0}},
+  "dependencies": {"runtime": "playwright", "tools": ["dynamic_crawl"]}
+}

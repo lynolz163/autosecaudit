@@ -1,0 +1,47 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "tech_stack_fingerprint",
+    "target": "http://edu.360-24.com:8000/",
+    "options": {},
+    "priority": 1,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "cf01215c3809da0e6433d94a51f8737952ec39786645151fb915e321166eaa09",
+    "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "Remote end closed connection without response",
+  "duration_ms": 5008,
+  "result": {
+    "error": "Remote end closed connection without response"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "tech_stack_fingerprint",
+    "target": "http://edu.360-24.com:8000/",
+    "data": {
+      "status": "error",
+      "payload": {
+        "error": "Remote end closed connection without response"
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": "Remote end closed connection without response",
+    "raw_output": null,
+    "duration_ms": 5008
+  }
+}

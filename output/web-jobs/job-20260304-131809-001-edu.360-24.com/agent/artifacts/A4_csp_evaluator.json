@@ -1,0 +1,33 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "csp_evaluator",
+    "target": "http://edu.360-24.com:8008/",
+    "options": {},
+    "priority": 28,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "505059e84b486545cbec099ab5acb75c960a242d2a6b0dbd766f7fd3daf8734d",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "circuit_open:csp_evaluator:failures=3",
+  "duration_ms": 2,
+  "attempts": 0,
+  "result": {
+    "error": "circuit_open:csp_evaluator:failures=3"
+  },
+  "metadata": {},
+  "tool_result": null
+}

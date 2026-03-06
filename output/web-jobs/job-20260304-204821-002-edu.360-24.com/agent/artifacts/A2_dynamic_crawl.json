@@ -1,0 +1,207 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "dynamic_crawl",
+    "target": "https://edu.360-24.com:443/",
+    "options": {
+      "allow_domain": [
+        "edu.360-24.com"
+      ],
+      "max_depth": 2
+    },
+    "priority": 20,
+    "cost": 12,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "0ca62361a922421f1f1fd265bf654ef997b81aa1e0ef40c8bff91306d4e8017a",
+    "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 13743,
+  "attempts": 1,
+  "result": {
+    "start_url": "https://edu.360-24.com:443/",
+    "max_depth": 2,
+    "visited_pages": 2,
+    "discovered_urls": [
+      "https://edu.360-24.com/",
+      "https://edu.360-24.com/api/auth/captcha",
+      "https://edu.360-24.com/api/user/profile",
+      "https://edu.360-24.com/bootstrap-5.3.2-dist/css/bootstrap.min.css",
+      "https://edu.360-24.com/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js",
+      "https://edu.360-24.com/css/login-dark.css",
+      "https://edu.360-24.com/img/login.png",
+      "https://edu.360-24.com/img/logo.png",
+      "https://edu.360-24.com/index.html",
+      "https://edu.360-24.com/js/api.js",
+      "https://edu.360-24.com/js/login-dark.js",
+      "https://edu.360-24.com/js/security-utils.js",
+      "https://edu.360-24.com:443/"
+    ],
+    "api_endpoints": [
+      {
+        "url": "https://edu.360-24.com/api/auth/captcha",
+        "method": "GET",
+        "source": "fetch"
+      },
+      {
+        "url": "https://edu.360-24.com/api/user/profile",
+        "method": "GET",
+        "source": "fetch"
+      }
+    ],
+    "url_parameters": {},
+    "parameter_origins": {},
+    "tech_stack": [],
+    "errors": []
+  },
+  "metadata": {
+    "skill_name": "dynamic_crawl",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "dynamic_crawl",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "start_url": "https://edu.360-24.com:443/",
+        "max_depth": 2,
+        "visited_pages": 2,
+        "discovered_urls": [
+          "https://edu.360-24.com/",
+          "https://edu.360-24.com/api/auth/captcha",
+          "https://edu.360-24.com/api/user/profile",
+          "https://edu.360-24.com/bootstrap-5.3.2-dist/css/bootstrap.min.css",
+          "https://edu.360-24.com/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js",
+          "https://edu.360-24.com/css/login-dark.css",
+          "https://edu.360-24.com/img/login.png",
+          "https://edu.360-24.com/img/logo.png",
+          "https://edu.360-24.com/index.html",
+          "https://edu.360-24.com/js/api.js",
+          "https://edu.360-24.com/js/login-dark.js",
+          "https://edu.360-24.com/js/security-utils.js",
+          "https://edu.360-24.com:443/"
+        ],
+        "api_endpoints": [
+          {
+            "url": "https://edu.360-24.com/api/auth/captcha",
+            "method": "GET",
+            "source": "fetch"
+          },
+          {
+            "url": "https://edu.360-24.com/api/user/profile",
+            "method": "GET",
+            "source": "fetch"
+          }
+        ],
+        "url_parameters": {},
+        "parameter_origins": {},
+        "tech_stack": [],
+        "errors": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/api/auth/captcha"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/api/user/profile"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/bootstrap-5.3.2-dist/css/bootstrap.min.css"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/css/login-dark.css"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/img/login.png"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/img/logo.png"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/index.html"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/js/api.js"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/js/login-dark.js"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com/js/security-utils.js"
+        },
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com:443/"
+        }
+      ],
+      "surface_delta": {
+        "discovered_urls": [
+          "https://edu.360-24.com/",
+          "https://edu.360-24.com/api/auth/captcha",
+          "https://edu.360-24.com/api/user/profile",
+          "https://edu.360-24.com/bootstrap-5.3.2-dist/css/bootstrap.min.css",
+          "https://edu.360-24.com/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js",
+          "https://edu.360-24.com/css/login-dark.css",
+          "https://edu.360-24.com/img/login.png",
+          "https://edu.360-24.com/img/logo.png",
+          "https://edu.360-24.com/index.html",
+          "https://edu.360-24.com/js/api.js",
+          "https://edu.360-24.com/js/login-dark.js",
+          "https://edu.360-24.com/js/security-utils.js",
+          "https://edu.360-24.com:443/"
+        ],
+        "api_endpoints": [
+          {
+            "url": "https://edu.360-24.com/api/auth/captcha",
+            "method": "GET",
+            "source": "fetch"
+          },
+          {
+            "url": "https://edu.360-24.com/api/user/profile",
+            "method": "GET",
+            "source": "fetch"
+          }
+        ],
+        "url_parameters": {},
+        "parameter_origins": {},
+        "tech_stack": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 13743
+  }
+}

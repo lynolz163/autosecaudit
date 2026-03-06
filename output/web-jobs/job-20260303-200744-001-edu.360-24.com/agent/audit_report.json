@@ -1,0 +1,821 @@
+{
+  "meta": {
+    "generated_at": "2026-03-03T12:13:57.408352+00:00",
+    "target": "edu.360-24.com",
+    "decision_summary": "Proposed 8 safe action(s), total estimated cost 24, remaining budget after plan 56.",
+    "resumed": false,
+    "resumed_from": "None"
+  },
+  "summary": {
+    "audit_score": 100,
+    "score_label": "Excellent",
+    "total_findings": 1,
+    "vulnerability_findings": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "history_count": 6,
+    "iteration_count": 2,
+    "budget_remaining": 56,
+    "budget_start_inferred": 88
+  },
+  "history": [
+    {
+      "index": 1,
+      "tool": "subdomain_enum_passive",
+      "target": "edu.360-24.com",
+      "status": "completed",
+      "started_at": "2026-03-03T12:08:17.056647+00:00",
+      "ended_at": "2026-03-03T12:08:19.327896+00:00",
+      "action_cost": 5,
+      "budget_before": 100,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 2,
+      "tool": "nmap_scan",
+      "target": "edu.360-24.com",
+      "status": "completed",
+      "started_at": "2026-03-03T12:08:19.337934+00:00",
+      "ended_at": "2026-03-03T12:08:32.651887+00:00",
+      "action_cost": 15,
+      "budget_before": 80,
+      "budget_after": 80,
+      "error": null
+    },
+    {
+      "index": 3,
+      "tool": "passive_config_audit",
+      "target": "http://edu.360-24.com:3128",
+      "status": "completed",
+      "started_at": "2026-03-03T12:09:16.747343+00:00",
+      "ended_at": "2026-03-03T12:10:31.873640+00:00",
+      "action_cost": 3,
+      "budget_before": 80,
+      "budget_after": 56,
+      "error": null
+    },
+    {
+      "index": 4,
+      "tool": "passive_config_audit",
+      "target": "http://edu.360-24.com:5800",
+      "status": "completed",
+      "started_at": "2026-03-03T12:10:31.883388+00:00",
+      "ended_at": "2026-03-03T12:11:47.021184+00:00",
+      "action_cost": 3,
+      "budget_before": 56,
+      "budget_after": 56,
+      "error": null
+    },
+    {
+      "index": 5,
+      "tool": "passive_config_audit",
+      "target": "http://edu.360-24.com:80",
+      "status": "completed",
+      "started_at": "2026-03-03T12:11:47.032811+00:00",
+      "ended_at": "2026-03-03T12:12:42.197533+00:00",
+      "action_cost": 3,
+      "budget_before": 56,
+      "budget_after": 56,
+      "error": null
+    },
+    {
+      "index": 6,
+      "tool": "passive_config_audit",
+      "target": "http://edu.360-24.com:8000",
+      "status": "completed",
+      "started_at": "2026-03-03T12:12:42.207729+00:00",
+      "ended_at": "2026-03-03T12:13:57.341859+00:00",
+      "action_cost": 3,
+      "budget_before": 56,
+      "budget_after": 56,
+      "error": null
+    }
+  ],
+  "budget_trace": [
+    {
+      "step": 0,
+      "label": "Start",
+      "tool": "",
+      "cost": 0,
+      "budget_before": 88,
+      "budget_after": 88,
+      "cumulative_spent": 0
+    },
+    {
+      "step": 1,
+      "label": "1. subdomain_enum_passive",
+      "tool": "subdomain_enum_passive",
+      "cost": 5,
+      "budget_before": 100,
+      "budget_after": 80,
+      "cumulative_spent": 5
+    },
+    {
+      "step": 2,
+      "label": "2. nmap_scan",
+      "tool": "nmap_scan",
+      "cost": 15,
+      "budget_before": 80,
+      "budget_after": 80,
+      "cumulative_spent": 20
+    },
+    {
+      "step": 3,
+      "label": "3. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 80,
+      "budget_after": 56,
+      "cumulative_spent": 23
+    },
+    {
+      "step": 4,
+      "label": "4. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 56,
+      "budget_after": 56,
+      "cumulative_spent": 26
+    },
+    {
+      "step": 5,
+      "label": "5. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 56,
+      "budget_after": 56,
+      "cumulative_spent": 29
+    },
+    {
+      "step": 6,
+      "label": "6. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 56,
+      "budget_after": 56,
+      "cumulative_spent": 32
+    }
+  ],
+  "scope": {
+    "scope": [
+      "edu.360-24.com"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "edu.360-24.com"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:80"
+      },
+      {
+        "type": "service",
+        "data": "https://edu.360-24.com:443"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:3128"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:5800"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:8000"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:8008"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:8080"
+      },
+      {
+        "type": "service",
+        "data": "https://edu.360-24.com:8443"
+      },
+      {
+        "type": "service",
+        "data": "http://edu.360-24.com:8888"
+      }
+    ],
+    "surface": {
+      "discovered_subdomains": [],
+      "nmap_hosts": [
+        {
+          "state": "up",
+          "addresses": [
+            {
+              "addr": "39.99.43.46",
+              "addrtype": "ipv4"
+            }
+          ],
+          "hostnames": [
+            "edu.360-24.com"
+          ],
+          "open_ports": [
+            {
+              "port": 7,
+              "protocol": "tcp",
+              "service": "echo",
+              "version": ""
+            },
+            {
+              "port": 9,
+              "protocol": "tcp",
+              "service": "discard",
+              "version": ""
+            },
+            {
+              "port": 13,
+              "protocol": "tcp",
+              "service": "daytime",
+              "version": ""
+            },
+            {
+              "port": 21,
+              "protocol": "tcp",
+              "service": "ftp",
+              "version": ""
+            },
+            {
+              "port": 22,
+              "protocol": "tcp",
+              "service": "ssh",
+              "version": ""
+            },
+            {
+              "port": 23,
+              "protocol": "tcp",
+              "service": "telnet",
+              "version": ""
+            },
+            {
+              "port": 25,
+              "protocol": "tcp",
+              "service": "smtp",
+              "version": ""
+            },
+            {
+              "port": 26,
+              "protocol": "tcp",
+              "service": "rsftp",
+              "version": ""
+            },
+            {
+              "port": 37,
+              "protocol": "tcp",
+              "service": "time",
+              "version": ""
+            },
+            {
+              "port": 53,
+              "protocol": "tcp",
+              "service": "domain",
+              "version": ""
+            },
+            {
+              "port": 79,
+              "protocol": "tcp",
+              "service": "finger",
+              "version": ""
+            },
+            {
+              "port": 80,
+              "protocol": "tcp",
+              "service": "http",
+              "version": ""
+            },
+            {
+              "port": 81,
+              "protocol": "tcp",
+              "service": "hosts2-ns",
+              "version": ""
+            },
+            {
+              "port": 88,
+              "protocol": "tcp",
+              "service": "kerberos-sec",
+              "version": ""
+            },
+            {
+              "port": 106,
+              "protocol": "tcp",
+              "service": "pop3pw",
+              "version": ""
+            },
+            {
+              "port": 110,
+              "protocol": "tcp",
+              "service": "pop3",
+              "version": ""
+            },
+            {
+              "port": 111,
+              "protocol": "tcp",
+              "service": "rpcbind",
+              "version": ""
+            },
+            {
+              "port": 113,
+              "protocol": "tcp",
+              "service": "ident",
+              "version": ""
+            },
+            {
+              "port": 119,
+              "protocol": "tcp",
+              "service": "nntp",
+              "version": ""
+            },
+            {
+              "port": 135,
+              "protocol": "tcp",
+              "service": "msrpc",
+              "version": ""
+            },
+            {
+              "port": 139,
+              "protocol": "tcp",
+              "service": "netbios-ssn",
+              "version": ""
+            },
+            {
+              "port": 143,
+              "protocol": "tcp",
+              "service": "imap",
+              "version": ""
+            },
+            {
+              "port": 144,
+              "protocol": "tcp",
+              "service": "news",
+              "version": ""
+            },
+            {
+              "port": 179,
+              "protocol": "tcp",
+              "service": "bgp",
+              "version": ""
+            },
+            {
+              "port": 199,
+              "protocol": "tcp",
+              "service": "smux",
+              "version": ""
+            },
+            {
+              "port": 389,
+              "protocol": "tcp",
+              "service": "ldap",
+              "version": ""
+            },
+            {
+              "port": 427,
+              "protocol": "tcp",
+              "service": "svrloc",
+              "version": ""
+            },
+            {
+              "port": 443,
+              "protocol": "tcp",
+              "service": "https",
+              "version": ""
+            },
+            {
+              "port": 444,
+              "protocol": "tcp",
+              "service": "snpp",
+              "version": ""
+            },
+            {
+              "port": 445,
+              "protocol": "tcp",
+              "service": "microsoft-ds",
+              "version": ""
+            },
+            {
+              "port": 513,
+              "protocol": "tcp",
+              "service": "login",
+              "version": ""
+            },
+            {
+              "port": 514,
+              "protocol": "tcp",
+              "service": "shell",
+              "version": ""
+            },
+            {
+              "port": 515,
+              "protocol": "tcp",
+              "service": "printer",
+              "version": ""
+            },
+            {
+              "port": 543,
+              "protocol": "tcp",
+              "service": "klogin",
+              "version": ""
+            },
+            {
+              "port": 544,
+              "protocol": "tcp",
+              "service": "kshell",
+              "version": ""
+            },
+            {
+              "port": 548,
+              "protocol": "tcp",
+              "service": "afp",
+              "version": ""
+            },
+            {
+              "port": 554,
+              "protocol": "tcp",
+              "service": "rtsp",
+              "version": ""
+            },
+            {
+              "port": 631,
+              "protocol": "tcp",
+              "service": "ipp",
+              "version": ""
+            },
+            {
+              "port": 646,
+              "protocol": "tcp",
+              "service": "ldp",
+              "version": ""
+            },
+            {
+              "port": 873,
+              "protocol": "tcp",
+              "service": "rsync",
+              "version": ""
+            },
+            {
+              "port": 990,
+              "protocol": "tcp",
+              "service": "ftps",
+              "version": ""
+            },
+            {
+              "port": 1025,
+              "protocol": "tcp",
+              "service": "NFS-or-IIS",
+              "version": ""
+            },
+            {
+              "port": 1026,
+              "protocol": "tcp",
+              "service": "LSA-or-nterm",
+              "version": ""
+            },
+            {
+              "port": 1027,
+              "protocol": "tcp",
+              "service": "IIS",
+              "version": ""
+            },
+            {
+              "port": 1028,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 1029,
+              "protocol": "tcp",
+              "service": "ms-lsa",
+              "version": ""
+            },
+            {
+              "port": 1110,
+              "protocol": "tcp",
+              "service": "nfsd-status",
+              "version": ""
+            },
+            {
+              "port": 1433,
+              "protocol": "tcp",
+              "service": "ms-sql-s",
+              "version": ""
+            },
+            {
+              "port": 1720,
+              "protocol": "tcp",
+              "service": "h323q931",
+              "version": ""
+            },
+            {
+              "port": 1723,
+              "protocol": "tcp",
+              "service": "pptp",
+              "version": ""
+            },
+            {
+              "port": 1755,
+              "protocol": "tcp",
+              "service": "wms",
+              "version": ""
+            },
+            {
+              "port": 1900,
+              "protocol": "tcp",
+              "service": "upnp",
+              "version": ""
+            },
+            {
+              "port": 2000,
+              "protocol": "tcp",
+              "service": "cisco-sccp",
+              "version": ""
+            },
+            {
+              "port": 2001,
+              "protocol": "tcp",
+              "service": "dc",
+              "version": ""
+            },
+            {
+              "port": 2049,
+              "protocol": "tcp",
+              "service": "nfs",
+              "version": ""
+            },
+            {
+              "port": 2121,
+              "protocol": "tcp",
+              "service": "ccproxy-ftp",
+              "version": ""
+            },
+            {
+              "port": 2717,
+              "protocol": "tcp",
+              "service": "pn-requester",
+              "version": ""
+            },
+            {
+              "port": 3000,
+              "protocol": "tcp",
+              "service": "ppp",
+              "version": ""
+            },
+            {
+              "port": 3128,
+              "protocol": "tcp",
+              "service": "squid-http",
+              "version": ""
+            },
+            {
+              "port": 3306,
+              "protocol": "tcp",
+              "service": "mysql",
+              "version": ""
+            },
+            {
+              "port": 3389,
+              "protocol": "tcp",
+              "service": "ms-wbt-server",
+              "version": ""
+            },
+            {
+              "port": 3986,
+              "protocol": "tcp",
+              "service": "mapper-ws_ethd",
+              "version": ""
+            },
+            {
+              "port": 4899,
+              "protocol": "tcp",
+              "service": "radmin",
+              "version": ""
+            },
+            {
+              "port": 5000,
+              "protocol": "tcp",
+              "service": "upnp",
+              "version": ""
+            },
+            {
+              "port": 5009,
+              "protocol": "tcp",
+              "service": "airport-admin",
+              "version": ""
+            },
+            {
+              "port": 5051,
+              "protocol": "tcp",
+              "service": "ida-agent",
+              "version": ""
+            },
+            {
+              "port": 5060,
+              "protocol": "tcp",
+              "service": "sip",
+              "version": ""
+            },
+            {
+              "port": 5101,
+              "protocol": "tcp",
+              "service": "admdog",
+              "version": ""
+            },
+            {
+              "port": 5190,
+              "protocol": "tcp",
+              "service": "aol",
+              "version": ""
+            },
+            {
+              "port": 5357,
+              "protocol": "tcp",
+              "service": "wsdapi",
+              "version": ""
+            },
+            {
+              "port": 5432,
+              "protocol": "tcp",
+              "service": "postgresql",
+              "version": ""
+            },
+            {
+              "port": 5631,
+              "protocol": "tcp",
+              "service": "pcanywheredata",
+              "version": ""
+            },
+            {
+              "port": 5666,
+              "protocol": "tcp",
+              "service": "nrpe",
+              "version": ""
+            },
+            {
+              "port": 5800,
+              "protocol": "tcp",
+              "service": "vnc-http",
+              "version": ""
+            },
+            {
+              "port": 5900,
+              "protocol": "tcp",
+              "service": "vnc",
+              "version": ""
+            },
+            {
+              "port": 6000,
+              "protocol": "tcp",
+              "service": "X11",
+              "version": ""
+            },
+            {
+              "port": 6001,
+              "protocol": "tcp",
+              "service": "X11:1",
+              "version": ""
+            },
+            {
+              "port": 6646,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 7070,
+              "protocol": "tcp",
+              "service": "realserver",
+              "version": ""
+            },
+            {
+              "port": 8000,
+              "protocol": "tcp",
+              "service": "http-alt",
+              "version": ""
+            },
+            {
+              "port": 8008,
+              "protocol": "tcp",
+              "service": "http",
+              "version": ""
+            },
+            {
+              "port": 8009,
+              "protocol": "tcp",
+              "service": "ajp13",
+              "version": ""
+            },
+            {
+              "port": 8080,
+              "protocol": "tcp",
+              "service": "http-proxy",
+              "version": ""
+            },
+            {
+              "port": 8081,
+              "protocol": "tcp",
+              "service": "blackice-icecap",
+              "version": ""
+            },
+            {
+              "port": 8443,
+              "protocol": "tcp",
+              "service": "https-alt",
+              "version": ""
+            },
+            {
+              "port": 8888,
+              "protocol": "tcp",
+              "service": "sun-answerbook",
+              "version": ""
+            },
+            {
+              "port": 9100,
+              "protocol": "tcp",
+              "service": "jetdirect",
+              "version": ""
+            },
+            {
+              "port": 9999,
+              "protocol": "tcp",
+              "service": "abyss",
+              "version": ""
+            },
+            {
+              "port": 10000,
+              "protocol": "tcp",
+              "service": "snet-sensor-mgmt",
+              "version": ""
+            },
+            {
+              "port": 32768,
+              "protocol": "tcp",
+              "service": "filenet-tms",
+              "version": ""
+            },
+            {
+              "port": 49152,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49153,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49154,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49155,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49156,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49157,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            }
+          ]
+        }
+      ],
+      "config_exposures": []
+    }
+  },
+  "findings": [
+    {
+      "index": 1,
+      "type": "info",
+      "name": "Passive Subdomain Enumeration Results",
+      "severity": "info",
+      "evidence": "{\"domain\": \"edu.360-24.com\", \"count\": 0, \"subdomains\": []}",
+      "reproduction_steps": [
+        "Query crt.sh for %.edu.360-24.com and review returned SAN/CN values."
+      ],
+      "recommendation": "Review evidence, confirm impact, and apply least-privilege plus secure configuration controls."
+    }
+  ]
+}

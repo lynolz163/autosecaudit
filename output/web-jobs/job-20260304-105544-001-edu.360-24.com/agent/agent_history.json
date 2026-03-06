@@ -1,0 +1,42 @@
+[
+  {
+    "tool": "subdomain_enum_passive",
+    "target": "edu.360-24.com",
+    "options": {
+      "max_results": 100
+    },
+    "idempotency_key": "10e21621592842adadd5250d7f4280912e5a885a6a8a6b7739ace32d3de9b6d2",
+    "status": "completed",
+    "started_at": "2026-03-04T02:56:26.450461+00:00",
+    "ended_at": "2026-03-04T02:56:28.890131+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-105544-001-edu.360-24.com/agent/artifacts/A1_subdomain_enum_passive.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 100,
+    "budget_after": 80
+  },
+  {
+    "tool": "nmap_scan",
+    "target": "edu.360-24.com",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "idempotency_key": "14f1648c4166ab616504ec316b01ad2c794154be2c3dcb83c49f3539db8596e6",
+    "status": "error",
+    "started_at": "2026-03-04T02:56:28.899070+00:00",
+    "ended_at": "2026-03-04T02:56:28.901575+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-105544-001-edu.360-24.com/agent/artifacts/A2_nmap_scan.json"
+    ],
+    "error": "NmapTool.run() got an unexpected keyword argument 'ports'",
+    "action_cost": 15,
+    "budget_before": 80,
+    "budget_after": 80
+  }
+]

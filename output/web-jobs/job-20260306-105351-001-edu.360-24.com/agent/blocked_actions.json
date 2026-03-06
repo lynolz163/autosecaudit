@@ -1,0 +1,112 @@
+[
+  {
+    "action": {
+      "action_id": "A3",
+      "tool_name": "rag_intel_lookup",
+      "target": "http://edu.360-24.com:3128/",
+      "options": {
+        "component": "nginx",
+        "max_results": 6,
+        "query": "$component $version security weaknesses",
+        "version": null
+      },
+      "priority": 24,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c37d9430261c2b9ca5fb9a3dff4c027b93a954eb431d53ad01ed2a452edba5a0",
+      "reason": "Retrieve exploit patterns and testing heuristics from local security knowledge corpus. based on detected technology stack.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "tech_stack_available"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "rag_intel_lookup_version_invalid"
+  },
+  {
+    "action": {
+      "action_id": "A4",
+      "tool_name": "cve_lookup",
+      "target": "http://edu.360-24.com:3128/",
+      "options": {
+        "component": "nginx",
+        "max_results": 10,
+        "severity": "medium",
+        "version": null
+      },
+      "priority": 30,
+      "cost": 5,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "6668e1b80cff0925fdcf18459db042c860bdb72c91360e4068ef6434d762ac5c",
+      "reason": "Query NVD for known CVEs based on detected technology components. based on detected technology stack.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "tech_stack_available"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "cve_lookup_version_invalid"
+  },
+  {
+    "action": {
+      "action_id": "A2",
+      "tool_name": "csp_evaluator",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {},
+      "priority": 28,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "505059e84b486545cbec099ab5acb75c960a242d2a6b0dbd766f7fd3daf8734d",
+      "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "circuit_open:csp_evaluator:failures=3"
+  },
+  {
+    "action": {
+      "action_id": "A3",
+      "tool_name": "cookie_security_audit",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {},
+      "priority": 29,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "16944fb3fa7c8aa356ac3cb728778d0dc23e400579b466e3908f714c521609f7",
+      "reason": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "circuit_open:cookie_security_audit:failures=3"
+  }
+]

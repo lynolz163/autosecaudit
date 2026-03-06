@@ -1,0 +1,33 @@
+2026-03-04 11:08:44 [INFO] autosecaudit - LLM router enabled: primary=openai/gpt-4.1-mini, fallbacks=[], default_provider=openai
+2026-03-04 11:08:44 [INFO] autosecaudit - [agent] run_start | start | budget=100, max_iterations=6, timeout=1800.0s, resumed=False
+2026-03-04 11:08:44 [WARNING] autosecaudit - LLM attempt failed (openai/gpt-4.1-mini: openai package is not installed; install it or use openai_compatible provider)
+2026-03-04 11:08:44 [WARNING] autosecaudit - LLM router failed; using fallback empty suggestion: all LLM providers/models failed: openai/gpt-4.1-mini: openai package is not installed; install it or use openai_compatible provider
+2026-03-04 11:08:44 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://edu.360-24.com:443
+2026-03-04 11:09:01 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=17031
+2026-03-04 11:09:01 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-04 11:09:03 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A2 status=completed duration_ms=1703
+2026-03-04 11:09:03 [INFO] autosecaudit - [git_exposure_check] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-04 11:09:11 [INFO] autosecaudit - [git_exposure_check] action_end | success | A3 status=completed duration_ms=8108
+2026-03-04 11:09:11 [INFO] autosecaudit - [security_txt_check] action_start | start | A4 target=https://edu.360-24.com:443/
+2026-03-04 11:09:12 [INFO] autosecaudit - [security_txt_check] action_end | success | A4 status=completed duration_ms=1343
+2026-03-04 11:09:12 [INFO] autosecaudit - [login_form_detector] action_start | start | A5 target=https://edu.360-24.com:443/
+2026-03-04 11:09:14 [INFO] autosecaudit - [login_form_detector] action_end | success | A5 status=completed duration_ms=1595
+2026-03-04 11:09:14 [INFO] autosecaudit - [http_security_headers] action_start | start | A6 target=https://edu.360-24.com:443/
+2026-03-04 11:09:16 [INFO] autosecaudit - [http_security_headers] action_end | success | A6 status=completed duration_ms=1735
+2026-03-04 11:09:16 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A7 target=https://edu.360-24.com:443/
+2026-03-04 11:09:16 [INFO] autosecaudit - [ssl_expiry_check] action_end | success | A7 status=completed duration_ms=105
+2026-03-04 11:09:16 [INFO] autosecaudit - [source_map_detector] action_start | start | A8 target=https://edu.360-24.com:443/
+2026-03-04 11:09:32 [INFO] autosecaudit - [source_map_detector] action_end | success | A8 status=completed duration_ms=16052
+2026-03-04 11:09:32 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-04 11:09:32 [WARNING] autosecaudit - LLM attempt failed (openai/gpt-4.1-mini: openai package is not installed; install it or use openai_compatible provider)
+2026-03-04 11:09:32 [WARNING] autosecaudit - LLM router failed; using fallback empty suggestion: all LLM providers/models failed: openai/gpt-4.1-mini: openai package is not installed; install it or use openai_compatible provider
+2026-03-04 11:09:32 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://edu.360-24.com:443/
+2026-03-04 11:09:45 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=12606
+2026-03-04 11:09:45 [INFO] autosecaudit - [agent] phase_transition | info | phase=deep_testing reason=advance:active_discovery
+2026-03-04 11:09:45 [WARNING] autosecaudit - LLM attempt failed (openai/gpt-4.1-mini: openai package is not installed; install it or use openai_compatible provider)
+2026-03-04 11:09:45 [WARNING] autosecaudit - LLM router failed; using fallback empty suggestion: all LLM providers/models failed: openai/gpt-4.1-mini: openai package is not installed; install it or use openai_compatible provider
+2026-03-04 11:09:45 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=https://edu.360-24.com:443/
+2026-03-04 11:09:47 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=2321
+2026-03-04 11:09:47 [INFO] autosecaudit - [cors_misconfiguration] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-04 11:09:51 [INFO] autosecaudit - [cors_misconfiguration] action_end | success | A2 status=completed duration_ms=3902
+2026-03-04 11:09:51 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A3 target=https://edu.360-24.com:443/

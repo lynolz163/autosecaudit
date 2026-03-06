@@ -1,0 +1,109 @@
+{
+  "action": {
+    "action_id": "A8",
+    "tool_name": "ssl_expiry_check",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "priority": 6,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "c51e6ac53759adbdc8b314081a2988710c789fd2137a7e79ac0dbe994f17c32d",
+    "reason": "Check TLS certificate expiry dates on HTTPS origins.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "https_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 607,
+  "attempts": 1,
+  "result": {
+    "host": "edu.360-24.com",
+    "port": 443,
+    "days_left": 7,
+    "expires_at": "2026-03-12T23:59:59+00:00",
+    "tls_version": "TLSv1.3",
+    "subject_alt_name": [
+      [
+        "DNS",
+        "*.360-24.com"
+      ],
+      [
+        "DNS",
+        "360-24.com"
+      ]
+    ]
+  },
+  "metadata": {
+    "skill_name": "ssl_expiry_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "ssl_expiry_check",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "host": "edu.360-24.com",
+        "port": 443,
+        "days_left": 7,
+        "expires_at": "2026-03-12T23:59:59+00:00",
+        "tls_version": "TLSv1.3",
+        "subject_alt_name": [
+          [
+            "DNS",
+            "*.360-24.com"
+          ],
+          [
+            "DNS",
+            "360-24.com"
+          ]
+        ]
+      },
+      "findings": [
+        {
+          "type": "vuln",
+          "name": "TLS Certificate Expiring Within 7 Days",
+          "severity": "high",
+          "evidence": "{\"host\": \"edu.360-24.com\", \"port\": 443, \"days_left\": 7, \"expires_at\": \"2026-03-12T23:59:59+00:00\", \"tls_version\": \"TLSv1.3\", \"subject_alt_name\": [[\"DNS\", \"*.360-24.com\"], [\"DNS\", \"360-24.com\"]]}",
+          "reproduction_steps": [
+            "Open TLS connection to edu.360-24.com:443.",
+            "Observe imminent certificate expiry."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "tls_metadata": {
+          "host": "edu.360-24.com",
+          "port": 443,
+          "days_left": 7,
+          "expires_at": "2026-03-12T23:59:59+00:00",
+          "tls_version": "TLSv1.3",
+          "subject_alt_name": [
+            [
+              "DNS",
+              "*.360-24.com"
+            ],
+            [
+              "DNS",
+              "360-24.com"
+            ]
+          ]
+        }
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 607
+  }
+}

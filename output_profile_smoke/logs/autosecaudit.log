@@ -1,0 +1,14 @@
+2026-02-22 15:54:51 [INFO] autosecaudit - LLM router enabled: primary=codex/gpt-5, fallbacks=[], default_provider=codex
+2026-02-22 15:54:51 [INFO] autosecaudit - LLM request via provider=codex model=gpt-5
+2026-02-22 15:54:52 [WARNING] autosecaudit - LLM attempt failed (codex/gpt-5: codex network error: <urlopen error timed out>)
+2026-02-22 15:54:52 [WARNING] autosecaudit - LLM router failed; using fallback empty suggestion: all LLM providers/models failed: codex/gpt-5: codex network error: <urlopen error timed out>
+2026-02-22 15:54:52 [INFO] autosecaudit - [agent] plan_only | success | Plan generated without execution.
+2026-02-22 15:54:52 [INFO] autosecaudit - Agent decision summary: Proposed 2 safe action(s), total estimated cost 15, remaining budget after plan 35.
+2026-02-22 15:54:52 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output_profile_smoke\agent\ActionPlan.json
+2026-02-22 15:54:52 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output_profile_smoke\agent\agent_history.json
+2026-02-22 15:54:52 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output_profile_smoke\agent\agent_state.json
+2026-02-22 15:54:52 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output_profile_smoke\agent\blocked_actions.json
+2026-02-22 15:54:52 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output_profile_smoke\agent\artifact_index.json
+2026-02-22 15:54:52 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output_profile_smoke\agent\agent_report.md
+2026-02-22 15:54:52 [INFO] autosecaudit - Findings: 0, Budget remaining: 50
+2026-02-22 15:54:52 [INFO] autosecaudit - Resumed: False, Resumed from: None

@@ -1,0 +1,8 @@
+{"timestamp": "2026-03-06T11:46:59.395831+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=50, max_iterations=5, timeout=600.0s, resumed=False"}
+{"timestamp": "2026-03-06T11:47:00.368667+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=example.com"}
+{"timestamp": "2026-03-06T11:47:02.512867+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2131"}
+{"timestamp": "2026-03-06T11:47:02.516195+00:00", "plugin_id": "dns_zone_audit", "action": "action_start", "status": "start", "detail": "A2 target=example.com"}
+{"timestamp": "2026-03-06T11:47:02.534065+00:00", "plugin_id": "dns_zone_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=3"}
+{"timestamp": "2026-03-06T11:47:02.798694+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 2: no executable actions after policy/scheduler."}
+{"timestamp": "2026-03-06T11:47:03.403050+00:00", "plugin_id": "agent", "action": "report_snapshot", "status": "info", "detail": "markdown=agent_report_example-com_20260306T114703Z.md, html=agent_report_example-com_20260306T114703Z.html, json=audit_report_example-com_20260306T114703Z.json"}
+{"timestamp": "2026-03-06T11:47:03.405329+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=2, findings=2"}

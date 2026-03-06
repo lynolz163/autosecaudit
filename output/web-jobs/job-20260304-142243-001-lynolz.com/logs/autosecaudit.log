@@ -1,0 +1,85 @@
+2026-03-04 14:22:43 [INFO] autosecaudit - LLM router enabled: primary=deepseek-reasoner, fallbacks=[], default_provider=openai
+2026-03-04 14:22:43 [INFO] autosecaudit - [agent] run_start | start | budget=1000, max_iterations=10, timeout=1800.0s, resumed=False
+2026-03-04 14:22:43 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:23:38 [INFO] autosecaudit - [subdomain_enum_passive] action_start | start | A1 target=lynolz.com
+2026-03-04 14:23:40 [INFO] autosecaudit - [subdomain_enum_passive] action_end | success | A1 status=completed duration_ms=2678
+2026-03-04 14:23:40 [INFO] autosecaudit - [nmap_scan] action_start | start | A2 target=lynolz.com
+2026-03-04 14:23:53 [INFO] autosecaudit - [nmap_scan] action_end | success | A2 status=completed duration_ms=12183
+2026-03-04 14:23:53 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-04 14:23:53 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:24:46 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://lynolz.com:443/
+2026-03-04 14:24:53 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=7273
+2026-03-04 14:24:53 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=https://lynolz.com:443/
+2026-03-04 14:26:28 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=94761
+2026-03-04 14:26:28 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=https://lynolz.com:443
+2026-03-04 14:29:28 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A4 status=error duration_ms=180016
+2026-03-04 14:29:28 [INFO] autosecaudit - [agent] phase_transition | info | phase=deep_testing reason=advance:active_discovery
+2026-03-04 14:29:28 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:30:26 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=https://dogs.lynolz.com:443/
+2026-03-04 14:30:28 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=1512
+2026-03-04 14:30:28 [INFO] autosecaudit - [csp_evaluator] action_start | start | A7 target=https://lynolz.com:443/
+2026-03-04 14:30:29 [INFO] autosecaudit - [csp_evaluator] action_end | success | A7 status=completed duration_ms=751
+2026-03-04 14:30:29 [INFO] autosecaudit - [cors_misconfiguration] action_start | start | A2 target=https://dogs.lynolz.com:443/
+2026-03-04 14:30:31 [INFO] autosecaudit - [cors_misconfiguration] action_end | success | A2 status=completed duration_ms=2733
+2026-03-04 14:30:31 [INFO] autosecaudit - [cors_misconfiguration] action_start | start | A8 target=https://lynolz.com:443/
+2026-03-04 14:30:34 [INFO] autosecaudit - [cors_misconfiguration] action_end | success | A8 status=completed duration_ms=2393
+2026-03-04 14:30:34 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A3 target=https://dogs.lynolz.com:443/
+2026-03-04 14:30:35 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A3 status=completed duration_ms=870
+2026-03-04 14:30:35 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A4 target=https://dogs.lynolz.com:443/
+2026-03-04 14:30:42 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A4 status=completed duration_ms=7465
+2026-03-04 14:30:42 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A5 target=https://dogs.lynolz.com:443/
+2026-03-04 14:30:44 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A5 status=completed duration_ms=1509
+2026-03-04 14:30:44 [INFO] autosecaudit - [param_fuzzer] action_start | start | A6 target=https://dogs.lynolz.com:443/
+2026-03-04 14:30:46 [INFO] autosecaudit - [param_fuzzer] action_end | success | A6 status=completed duration_ms=1828
+2026-03-04 14:30:46 [INFO] autosecaudit - [agent] phase_transition | info | phase=verification reason=advance:deep_testing
+2026-03-04 14:30:46 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:31:45 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=http://lynolz.com:80/
+2026-03-04 14:31:47 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=1654
+2026-03-04 14:31:47 [INFO] autosecaudit - [csp_evaluator] action_start | start | A5 target=https://lynolz.com:8443/
+2026-03-04 14:31:49 [INFO] autosecaudit - [csp_evaluator] action_end | success | A5 status=completed duration_ms=1511
+2026-03-04 14:31:49 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A2 target=https://dogs.lynolz.com:443/100
+2026-03-04 14:31:50 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A2 status=completed duration_ms=1631
+2026-03-04 14:31:50 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A3 target=https://dogs.lynolz.com:443/100
+2026-03-04 14:31:58 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A3 status=completed duration_ms=7417
+2026-03-04 14:31:58 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A6 target=https://dogs.lynolz.com:443/101
+2026-03-04 14:31:59 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A6 status=completed duration_ms=1657
+2026-03-04 14:31:59 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A7 target=https://dogs.lynolz.com:443/101
+2026-03-04 14:32:05 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A7 status=completed duration_ms=5720
+2026-03-04 14:32:05 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A4 target=https://lynolz.com:443/
+2026-03-04 14:32:06 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A4 status=completed duration_ms=720
+2026-03-04 14:32:06 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A8 target=http://lynolz.com:80/
+2026-03-04 14:32:07 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A8 status=completed duration_ms=1636
+2026-03-04 14:32:07 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:33:09 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=http://lynolz.com:8080/
+2026-03-04 14:33:10 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=1436
+2026-03-04 14:33:10 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A2 target=https://lynolz.com:8443/
+2026-03-04 14:33:11 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A2 status=completed duration_ms=778
+2026-03-04 14:33:11 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A3 target=https://dogs.lynolz.com:443/102
+2026-03-04 14:33:12 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A3 status=completed duration_ms=1150
+2026-03-04 14:33:12 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:34:11 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=http://lynolz.com:8000/
+2026-03-04 14:34:19 [INFO] autosecaudit - [csp_evaluator] action_end | error | A1 status=error duration_ms=8012
+2026-03-04 14:34:19 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A2 target=http://lynolz.com:8080/
+2026-03-04 14:34:20 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A2 status=completed duration_ms=581
+2026-03-04 14:34:20 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A3 target=https://dogs.lynolz.com:443/103
+2026-03-04 14:34:22 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A3 status=completed duration_ms=1830
+2026-03-04 14:34:22 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:35:19 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A1 target=http://lynolz.com:8000/
+2026-03-04 14:35:27 [INFO] autosecaudit - [cookie_security_audit] action_end | error | A1 status=error duration_ms=8012
+2026-03-04 14:35:27 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A2 target=https://dogs.lynolz.com:443/200
+2026-03-04 14:35:28 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A2 status=completed duration_ms=1312
+2026-03-04 14:35:28 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A3 target=https://dogs.lynolz.com:443/102
+2026-03-04 14:35:35 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A3 status=completed duration_ms=6736
+2026-03-04 14:35:35 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 14:36:33 [INFO] autosecaudit - [agent] iteration_stop | warning | Iteration 8: no executable actions after policy/scheduler.
+2026-03-04 14:36:33 [INFO] autosecaudit - [agent] run_end | success | history=30, findings=16
+2026-03-04 14:36:33 [INFO] autosecaudit - Agent decision summary: [phase:verification] No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.
+2026-03-04 14:36:33 [INFO] autosecaudit - Action plan: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/ActionPlan.json
+2026-03-04 14:36:33 [INFO] autosecaudit - History: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/agent_history.json
+2026-03-04 14:36:33 [INFO] autosecaudit - State: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/agent_state.json
+2026-03-04 14:36:33 [INFO] autosecaudit - Blocked actions: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/blocked_actions.json
+2026-03-04 14:36:33 [INFO] autosecaudit - Artifact index: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifact_index.json
+2026-03-04 14:36:33 [INFO] autosecaudit - Markdown report: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/agent_report.md
+2026-03-04 14:36:33 [INFO] autosecaudit - HTML visual report: /workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/agent_report.html
+2026-03-04 14:36:33 [INFO] autosecaudit - Findings: 16, Budget remaining: 816
+2026-03-04 14:36:33 [INFO] autosecaudit - Resumed: False, Resumed from: None

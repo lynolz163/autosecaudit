@@ -1,0 +1,87 @@
+2026-02-17 17:53:31 [INFO] autosecaudit - Audit started for target: https://edu.360-24.com
+2026-02-17 17:53:31 [INFO] autosecaudit - [framework] audit_start | start | Selected plugins: dns_discovery, http_headers_validation, tls_certificate_validation
+2026-02-17 17:53:31 [INFO] autosecaudit - [dns_discovery] plugin_start | start | Executing plugin: DNS Discovery
+2026-02-17 17:53:31 [INFO] autosecaudit - [dns_discovery] dns_lookup | info | Resolving host: edu.360-24.com
+2026-02-17 17:53:32 [INFO] autosecaudit - [dns_discovery] plugin_end | success | Finished with status=passed, findings=1
+2026-02-17 17:53:32 [INFO] autosecaudit - [http_headers_validation] plugin_start | start | Executing plugin: HTTP Header Validation
+2026-02-17 17:53:32 [INFO] autosecaudit - [http_headers_validation] http_request | info | Fetching headers from: https://edu.360-24.com
+2026-02-17 17:53:40 [INFO] autosecaudit - [http_headers_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-17 17:53:40 [INFO] autosecaudit - [tls_certificate_validation] plugin_start | start | Executing plugin: TLS Certificate Validation
+2026-02-17 17:53:40 [INFO] autosecaudit - [tls_certificate_validation] tls_connect | info | Connecting to edu.360-24.com:443 for certificate validation
+2026-02-17 17:53:45 [INFO] autosecaudit - [tls_certificate_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-17 17:53:45 [INFO] autosecaudit - [framework] audit_end | success | Summary: total_plugins=3, total_findings=1, status_counts={'passed': 1, 'failed': 0, 'error': 2, 'skipped': 0}, severity_counts={'info': 1, 'low': 0, 'medium': 0, 'high': 0, 'critical': 0}
+2026-02-17 17:53:45 [INFO] autosecaudit - Audit finished for target: https://edu.360-24.com
+2026-02-17 17:53:45 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.json
+2026-02-17 17:53:45 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.md
+2026-02-17 17:55:19 [INFO] autosecaudit - Audit started for target: https://lynolz.com
+2026-02-17 17:55:19 [INFO] autosecaudit - [framework] audit_start | start | Selected plugins: dns_discovery, http_headers_validation, tls_certificate_validation
+2026-02-17 17:55:19 [INFO] autosecaudit - [dns_discovery] plugin_start | start | Executing plugin: DNS Discovery
+2026-02-17 17:55:19 [INFO] autosecaudit - [dns_discovery] dns_lookup | info | Resolving host: lynolz.com
+2026-02-17 17:55:20 [INFO] autosecaudit - [dns_discovery] plugin_end | success | Finished with status=passed, findings=1
+2026-02-17 17:55:20 [INFO] autosecaudit - [http_headers_validation] plugin_start | start | Executing plugin: HTTP Header Validation
+2026-02-17 17:55:20 [INFO] autosecaudit - [http_headers_validation] http_request | info | Fetching headers from: https://lynolz.com
+2026-02-17 17:55:20 [INFO] autosecaudit - [http_headers_validation] plugin_end | warning | Finished with status=failed, findings=4
+2026-02-17 17:55:20 [INFO] autosecaudit - [tls_certificate_validation] plugin_start | start | Executing plugin: TLS Certificate Validation
+2026-02-17 17:55:20 [INFO] autosecaudit - [tls_certificate_validation] tls_connect | info | Connecting to lynolz.com:443 for certificate validation
+2026-02-17 17:55:21 [INFO] autosecaudit - [tls_certificate_validation] plugin_end | success | Finished with status=passed, findings=1
+2026-02-17 17:55:21 [INFO] autosecaudit - [framework] audit_end | success | Summary: total_plugins=3, total_findings=6, status_counts={'passed': 2, 'failed': 1, 'error': 0, 'skipped': 0}, severity_counts={'info': 2, 'low': 2, 'medium': 1, 'high': 1, 'critical': 0}
+2026-02-17 17:55:21 [INFO] autosecaudit - Audit finished for target: https://lynolz.com
+2026-02-17 17:55:21 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.json
+2026-02-17 17:55:21 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.md
+2026-02-19 00:54:16 [INFO] autosecaudit - Audit started for target: https://edu.360-24.com.com
+2026-02-19 00:54:16 [INFO] autosecaudit - [framework] audit_start | start | Selected plugins: dns_discovery, http_headers_validation, tls_certificate_validation
+2026-02-19 00:54:16 [INFO] autosecaudit - [dns_discovery] plugin_start | start | Executing plugin: DNS Discovery
+2026-02-19 00:54:16 [INFO] autosecaudit - [dns_discovery] dns_lookup | info | Resolving host: edu.360-24.com.com
+2026-02-19 00:54:16 [INFO] autosecaudit - [dns_discovery] plugin_end | success | Finished with status=passed, findings=1
+2026-02-19 00:54:16 [INFO] autosecaudit - [http_headers_validation] plugin_start | start | Executing plugin: HTTP Header Validation
+2026-02-19 00:54:16 [INFO] autosecaudit - [http_headers_validation] http_request | info | Fetching headers from: https://edu.360-24.com.com
+2026-02-19 00:54:17 [INFO] autosecaudit - [http_headers_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-19 00:54:17 [INFO] autosecaudit - [tls_certificate_validation] plugin_start | start | Executing plugin: TLS Certificate Validation
+2026-02-19 00:54:17 [INFO] autosecaudit - [tls_certificate_validation] tls_connect | info | Connecting to edu.360-24.com.com:443 for certificate validation
+2026-02-19 00:54:17 [INFO] autosecaudit - [tls_certificate_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-19 00:54:17 [INFO] autosecaudit - [framework] audit_end | success | Summary: total_plugins=3, total_findings=1, status_counts={'passed': 1, 'failed': 0, 'error': 2, 'skipped': 0}, severity_counts={'info': 1, 'low': 0, 'medium': 0, 'high': 0, 'critical': 0}
+2026-02-19 00:54:17 [INFO] autosecaudit - Audit finished for target: https://edu.360-24.com.com
+2026-02-19 00:54:17 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.json
+2026-02-19 00:54:17 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.md
+2026-02-19 00:54:25 [INFO] autosecaudit - Audit started for target: https://edu.360-24.com
+2026-02-19 00:54:25 [INFO] autosecaudit - [framework] audit_start | start | Selected plugins: dns_discovery, http_headers_validation, tls_certificate_validation
+2026-02-19 00:54:25 [INFO] autosecaudit - [dns_discovery] plugin_start | start | Executing plugin: DNS Discovery
+2026-02-19 00:54:25 [INFO] autosecaudit - [dns_discovery] dns_lookup | info | Resolving host: edu.360-24.com
+2026-02-19 00:54:26 [INFO] autosecaudit - [dns_discovery] plugin_end | success | Finished with status=passed, findings=1
+2026-02-19 00:54:26 [INFO] autosecaudit - [http_headers_validation] plugin_start | start | Executing plugin: HTTP Header Validation
+2026-02-19 00:54:26 [INFO] autosecaudit - [http_headers_validation] http_request | info | Fetching headers from: https://edu.360-24.com
+2026-02-19 00:54:30 [INFO] autosecaudit - [http_headers_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-19 00:54:30 [INFO] autosecaudit - [tls_certificate_validation] plugin_start | start | Executing plugin: TLS Certificate Validation
+2026-02-19 00:54:30 [INFO] autosecaudit - [tls_certificate_validation] tls_connect | info | Connecting to edu.360-24.com:443 for certificate validation
+2026-02-19 00:54:32 [INFO] autosecaudit - [tls_certificate_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-19 00:54:32 [INFO] autosecaudit - [framework] audit_end | success | Summary: total_plugins=3, total_findings=1, status_counts={'passed': 1, 'failed': 0, 'error': 2, 'skipped': 0}, severity_counts={'info': 1, 'low': 0, 'medium': 0, 'high': 0, 'critical': 0}
+2026-02-19 00:54:32 [INFO] autosecaudit - Audit finished for target: https://edu.360-24.com
+2026-02-19 00:54:32 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.json
+2026-02-19 00:54:32 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.md
+2026-02-19 00:55:01 [INFO] autosecaudit - Audit started for target: https://ctf.360-24.com
+2026-02-19 00:55:01 [INFO] autosecaudit - [framework] audit_start | start | Selected plugins: dns_discovery, http_headers_validation, tls_certificate_validation
+2026-02-19 00:55:01 [INFO] autosecaudit - [dns_discovery] plugin_start | start | Executing plugin: DNS Discovery
+2026-02-19 00:55:01 [INFO] autosecaudit - [dns_discovery] dns_lookup | info | Resolving host: ctf.360-24.com
+2026-02-19 00:55:01 [INFO] autosecaudit - [dns_discovery] plugin_end | success | Finished with status=passed, findings=1
+2026-02-19 00:55:01 [INFO] autosecaudit - [http_headers_validation] plugin_start | start | Executing plugin: HTTP Header Validation
+2026-02-19 00:55:01 [INFO] autosecaudit - [http_headers_validation] http_request | info | Fetching headers from: https://ctf.360-24.com
+2026-02-19 00:55:03 [INFO] autosecaudit - [http_headers_validation] plugin_end | error | Finished with status=error, findings=0
+2026-02-19 00:55:03 [INFO] autosecaudit - [tls_certificate_validation] plugin_start | start | Executing plugin: TLS Certificate Validation
+2026-02-19 00:55:03 [INFO] autosecaudit - [tls_certificate_validation] tls_connect | info | Connecting to ctf.360-24.com:443 for certificate validation
+2026-02-19 00:55:03 [INFO] autosecaudit - [tls_certificate_validation] plugin_end | warning | Finished with status=failed, findings=1
+2026-02-19 00:55:03 [INFO] autosecaudit - [framework] audit_end | success | Summary: total_plugins=3, total_findings=2, status_counts={'passed': 1, 'failed': 1, 'error': 1, 'skipped': 0}, severity_counts={'info': 1, 'low': 0, 'medium': 1, 'high': 0, 'critical': 0}
+2026-02-19 00:55:03 [INFO] autosecaudit - Audit finished for target: https://ctf.360-24.com
+2026-02-19 00:55:03 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.json
+2026-02-19 00:55:03 [INFO] autosecaudit - Audit report generated: C:\Users\Administrator\Desktop\agent\output\audit_report.md
+2026-02-22 15:14:48 [INFO] autosecaudit - [agent] run_start | start | budget=50, max_iterations=3, timeout=300.0s, resumed=False
+2026-02-22 15:14:48 [INFO] autosecaudit - [agent] iteration_stop | warning | Iteration 1: no executable actions after policy/scheduler.
+2026-02-22 15:14:48 [INFO] autosecaudit - [agent] run_end | success | history=0, findings=0
+2026-02-22 15:14:48 [INFO] autosecaudit - Agent decision summary: No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.
+2026-02-22 15:14:48 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output\agent\ActionPlan.json
+2026-02-22 15:14:48 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output\agent\agent_history.json
+2026-02-22 15:14:48 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output\agent\agent_state.json
+2026-02-22 15:14:48 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output\agent\blocked_actions.json
+2026-02-22 15:14:48 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output\agent\artifact_index.json
+2026-02-22 15:14:48 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output\agent\agent_report.md
+2026-02-22 15:14:48 [INFO] autosecaudit - Findings: 0, Budget remaining: 50
+2026-02-22 15:14:48 [INFO] autosecaudit - Resumed: False, Resumed from: None

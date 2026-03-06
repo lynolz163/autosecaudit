@@ -1,0 +1,363 @@
+[
+  {
+    "tool": "passive_config_audit",
+    "target": "https://lynolz.com:443",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "idempotency_key": "a0087ff482125ce9043e79a59fe323d5066eb70bf46f770f0e5fdd580ccae44f",
+    "status": "completed",
+    "started_at": "2026-03-04T05:32:40.615516+00:00",
+    "ended_at": "2026-03-04T05:32:53.216717+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A1_passive_config_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 120,
+    "budget_after": 101
+  },
+  {
+    "tool": "tech_stack_fingerprint",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "2e99061a5621936e46301117784a3760bca420a024c157d2851af815fd894b8e",
+    "status": "completed",
+    "started_at": "2026-03-04T05:32:53.226392+00:00",
+    "ended_at": "2026-03-04T05:32:53.985924+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A2_tech_stack_fingerprint.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "git_exposure_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "c88788c22c6ebe50ef540b7630c45307debddba3dcb3a613d2d45a20c75ba945",
+    "status": "completed",
+    "started_at": "2026-03-04T05:32:53.995686+00:00",
+    "ended_at": "2026-03-04T05:32:58.783371+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A3_git_exposure_check.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "security_txt_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "eac56c942493a59f6f0e33edf478702ddde46ebc387badc70e3d388c7d236f6d",
+    "status": "completed",
+    "started_at": "2026-03-04T05:32:58.793548+00:00",
+    "ended_at": "2026-03-04T05:32:59.503333+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A4_security_txt_check.json"
+    ],
+    "action_cost": 1,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "login_form_detector",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "0545b3abdfff27ce628f44ca9a8074e7bd8d10b86ce4d3b62f36c0af5618f767",
+    "status": "completed",
+    "started_at": "2026-03-04T05:32:59.515053+00:00",
+    "ended_at": "2026-03-04T05:33:01.044928+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A5_login_form_detector.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "http_security_headers",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "36a64ed2fd4c3249cb0110aba461c118c170c380f3c30ca679498dc83776de53",
+    "status": "completed",
+    "started_at": "2026-03-04T05:33:01.055574+00:00",
+    "ended_at": "2026-03-04T05:33:02.635584+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A6_http_security_headers.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "ssl_expiry_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "c82c92bb256a0f168b811ceb830e05f701bf675807a874cdebed32a56dc5cd0f",
+    "status": "completed",
+    "started_at": "2026-03-04T05:33:02.645303+00:00",
+    "ended_at": "2026-03-04T05:33:03.180246+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A7_ssl_expiry_check.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "source_map_detector",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "8159c73c58f9345f671f4fdba6ea59e522ff634faef24f0a9b07d2981887254c",
+    "status": "completed",
+    "started_at": "2026-03-04T05:33:03.190389+00:00",
+    "ended_at": "2026-03-04T05:33:15.854660+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A8_source_map_detector.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 101,
+    "budget_after": 101
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "641e8b8dbf0b573ffcec5c24a6a574e1efe8a6a92b556909498a5837ad4c5be1",
+    "status": "completed",
+    "started_at": "2026-03-04T05:33:15.921532+00:00",
+    "ended_at": "2026-03-04T05:33:21.618406+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 101,
+    "budget_after": 63
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "https://lynolz.com:443/",
+    "options": {
+      "allow_domain": [
+        "lynolz.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "5c0b27e93337f278ab7354c9dca3b484d409aed839f567f76c026717e6fc566b",
+    "status": "completed",
+    "started_at": "2026-03-04T05:33:21.629714+00:00",
+    "ended_at": "2026-03-04T05:35:48.147860+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A2_dynamic_crawl.json"
+    ],
+    "action_cost": 12,
+    "budget_before": 63,
+    "budget_after": 63
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "https://lynolz.com:443/",
+    "options": {
+      "allow_domain": [
+        "lynolz.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "38652d8fa374c980c94d768f6a114828dcf63a80e6100e8046d043adc80f3b44",
+    "status": "completed",
+    "started_at": "2026-03-04T05:35:48.168130+00:00",
+    "ended_at": "2026-03-04T05:37:26.410485+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A3_active_web_crawler.json"
+    ],
+    "action_cost": 12,
+    "budget_before": 63,
+    "budget_after": 63
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://lynolz.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "a00b6438b07c644a77aa905172d75122013ae598f28155ad9f106bb9529c8b3f",
+    "status": "failed",
+    "started_at": "2026-03-04T05:37:26.427424+00:00",
+    "ended_at": "2026-03-04T05:37:26.508452+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A4_dirsearch_scan.json"
+    ],
+    "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+    "action_cost": 10,
+    "budget_before": 63,
+    "budget_after": 63
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "6665679e052a16e985eed5034af9188af7f026f550a63b95b3a44ce7450c1f19",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:27.007058+00:00",
+    "ended_at": "2026-03-04T05:37:28.261199+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 63,
+    "budget_after": 29
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "3e125f39c57fc7bcdbaee99bffd7754deaf9088f7c960a28d5f490d82bfed83d",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:28.272748+00:00",
+    "ended_at": "2026-03-04T05:37:32.161519+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A2_cors_misconfiguration.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 29,
+    "budget_after": 29
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "zc2jl"
+      }
+    },
+    "idempotency_key": "3d418c8525d2bd6f7b6ddc4121c0e227963ba377af24960b4bd104743a823c31",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:32.173805+00:00",
+    "ended_at": "2026-03-04T05:37:33.058766+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A3_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 29,
+    "budget_after": 29
+  },
+  {
+    "tool": "sql_sanitization_audit",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "zc2jl"
+      }
+    },
+    "idempotency_key": "8f282e6b3f4b42003ce00c9012b93459fff2ecc394e5b37fb9a37b70ed378bc2",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:33.070012+00:00",
+    "ended_at": "2026-03-04T05:37:39.964578+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A4_sql_sanitization_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 29,
+    "budget_after": 29
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "56ac33d24aa45f34e0b382bfd87626f0330861a407cb0cb9bf397a2b4bbec28f",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:39.975506+00:00",
+    "ended_at": "2026-03-04T05:37:41.035550+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A5_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 29,
+    "budget_after": 29
+  },
+  {
+    "tool": "param_fuzzer",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "max_probes": 6,
+      "method": "GET",
+      "mode": "lightweight",
+      "params": {
+        "_rsc": "zc2jl"
+      }
+    },
+    "idempotency_key": "8575dc63d514f484742c7787f74a8dbf983d3c7cc83085dc0d9b4a65c2abd618",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:41.045946+00:00",
+    "ended_at": "2026-03-04T05:37:43.620351+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A6_param_fuzzer.json"
+    ],
+    "action_cost": 6,
+    "budget_before": 29,
+    "budget_after": 29
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "c1130c96c912342960585b670465f573a81a9073c5faca8ed235fb1b135dd8ec",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:43.780767+00:00",
+    "ended_at": "2026-03-04T05:37:44.877836+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 29,
+    "budget_after": 17
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/100",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "5e6734e106c0a6025fc27664e09afaceeed016ebd99a7f19542b8d2313009c04",
+    "status": "completed",
+    "started_at": "2026-03-04T05:37:44.886254+00:00",
+    "ended_at": "2026-03-04T05:37:45.993701+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/lynolz_agent_check/agent/artifacts/A2_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 17,
+    "budget_after": 17
+  }
+]

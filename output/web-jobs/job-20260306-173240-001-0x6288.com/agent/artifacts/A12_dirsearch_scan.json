@@ -1,0 +1,36 @@
+{
+  "action": {
+    "action_id": "A12",
+    "tool_name": "dirsearch_scan",
+    "target": "http://0x6288.com:8080",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "priority": 30,
+    "cost": 10,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "c0e8652a8027c68c6f501af109f732b1c84271aac7b44773814d9e2af151dfd7",
+    "reason": "Use dirsearch for conservative directory and file discovery.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "circuit_open:dirsearch_scan:failures=3",
+  "duration_ms": 2,
+  "attempts": 0,
+  "result": {
+    "error": "circuit_open:dirsearch_scan:failures=3"
+  },
+  "metadata": {},
+  "tool_result": null
+}

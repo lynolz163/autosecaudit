@@ -1,0 +1,40 @@
+2026-03-03 20:05:51 [INFO] autosecaudit - [agent] run_start | start | budget=100, max_iterations=3, timeout=300.0s, resumed=False
+2026-03-03 20:05:51 [INFO] autosecaudit - [subdomain_enum_passive] action_start | start | A1 target=localhost
+2026-03-03 20:06:04 [INFO] autosecaudit - [subdomain_enum_passive] action_end | error | A1 status=error duration_ms=13638
+2026-03-03 20:06:04 [INFO] autosecaudit - [nmap_scan] action_start | start | A2 target=localhost
+2026-03-03 20:06:05 [INFO] autosecaudit - [nmap_scan] action_end | success | A2 status=completed duration_ms=103
+2026-03-03 20:06:05 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=http://localhost:8080
+2026-03-03 20:06:05 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=58
+2026-03-03 20:06:05 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=http://localhost:8080/
+2026-03-03 20:06:05 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A2 status=completed duration_ms=3
+2026-03-03 20:06:05 [INFO] autosecaudit - [login_form_detector] action_start | start | A3 target=http://localhost:8080/
+2026-03-03 20:06:05 [INFO] autosecaudit - [login_form_detector] action_end | success | A3 status=completed duration_ms=3
+2026-03-03 20:06:05 [INFO] autosecaudit - [http_security_headers] action_start | start | A4 target=http://localhost:8080/
+2026-03-03 20:06:05 [INFO] autosecaudit - [http_security_headers] action_end | success | A4 status=completed duration_ms=3
+2026-03-03 20:06:05 [INFO] autosecaudit - [js_endpoint_extractor] action_start | start | A5 target=http://localhost:8080/
+2026-03-03 20:06:05 [INFO] autosecaudit - [js_endpoint_extractor] action_end | success | A5 status=completed duration_ms=11
+2026-03-03 20:06:05 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A6 target=http://localhost:8080/
+2026-03-03 20:06:10 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A6 status=completed duration_ms=5388
+2026-03-03 20:06:10 [INFO] autosecaudit - [active_web_crawler] action_start | start | A7 target=http://localhost:8080/
+2026-03-03 20:06:15 [INFO] autosecaudit - [active_web_crawler] action_end | success | A7 status=completed duration_ms=4741
+2026-03-03 20:06:15 [INFO] autosecaudit - [cors_misconfiguration] action_start | start | A8 target=http://localhost:8080/
+2026-03-03 20:06:15 [INFO] autosecaudit - [cors_misconfiguration] action_end | success | A8 status=completed duration_ms=6
+2026-03-03 20:06:15 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A1 target=http://localhost:8080
+2026-03-03 20:06:15 [INFO] autosecaudit - [dirsearch_scan] action_end | warning | A1 status=failed duration_ms=79
+2026-03-03 20:06:15 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A2 target=http://localhost:8080/api/audit/events
+2026-03-03 20:06:15 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A2 status=completed duration_ms=18
+2026-03-03 20:06:15 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A3 target=http://localhost:8080/assets/index-DJOZ8zFL.js
+2026-03-03 20:06:15 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A3 status=completed duration_ms=109
+2026-03-03 20:06:15 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A4 target=http://localhost:8080/api/audit/events
+2026-03-03 20:06:15 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A4 status=completed duration_ms=2
+2026-03-03 20:06:15 [INFO] autosecaudit - [agent] run_end | success | history=14, findings=9
+2026-03-03 20:06:15 [INFO] autosecaudit - Agent decision summary: Proposed 4 safe action(s), total estimated cost 34, remaining budget after plan 2.
+2026-03-03 20:06:15 [INFO] autosecaudit - Action plan: /workspace/output/manual-agent-localhost/agent/ActionPlan.json
+2026-03-03 20:06:15 [INFO] autosecaudit - History: /workspace/output/manual-agent-localhost/agent/agent_history.json
+2026-03-03 20:06:15 [INFO] autosecaudit - State: /workspace/output/manual-agent-localhost/agent/agent_state.json
+2026-03-03 20:06:15 [INFO] autosecaudit - Blocked actions: /workspace/output/manual-agent-localhost/agent/blocked_actions.json
+2026-03-03 20:06:15 [INFO] autosecaudit - Artifact index: /workspace/output/manual-agent-localhost/agent/artifact_index.json
+2026-03-03 20:06:15 [INFO] autosecaudit - Markdown report: /workspace/output/manual-agent-localhost/agent/agent_report.md
+2026-03-03 20:06:15 [INFO] autosecaudit - HTML visual report: /workspace/output/manual-agent-localhost/agent/agent_report.html
+2026-03-03 20:06:15 [INFO] autosecaudit - Findings: 9, Budget remaining: 2
+2026-03-03 20:06:15 [INFO] autosecaudit - Resumed: False, Resumed from: None

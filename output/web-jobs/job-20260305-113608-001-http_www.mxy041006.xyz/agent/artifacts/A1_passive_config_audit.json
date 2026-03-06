@@ -1,0 +1,88 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "passive_config_audit",
+    "target": "http://www.mxy041006.xyz:80",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "priority": 0,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "504d994cdc5d7c9521e521e58e4306e4d2764c462f65b0708410ad2843df8ed0",
+    "reason": "Check common sensitive config paths using read-only requests.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 11631,
+  "attempts": 1,
+  "result": {
+    "origin": "http://www.mxy041006.xyz:80",
+    "checked_paths": [
+      ".env",
+      ".env.prod",
+      ".env.local",
+      ".env.backup",
+      ".git/config",
+      "wp-config.php.bak",
+      "database.yml",
+      ".htpasswd",
+      "api/swagger.json",
+      "swagger.json"
+    ],
+    "request_timeout_seconds": 3.0,
+    "max_total_seconds": 18.0,
+    "exposures": []
+  },
+  "metadata": {
+    "skill_name": "passive_config_audit",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "passive_config_audit",
+    "target": "http://www.mxy041006.xyz:80",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "http://www.mxy041006.xyz:80",
+        "checked_paths": [
+          ".env",
+          ".env.prod",
+          ".env.local",
+          ".env.backup",
+          ".git/config",
+          "wp-config.php.bak",
+          "database.yml",
+          ".htpasswd",
+          "api/swagger.json",
+          "swagger.json"
+        ],
+        "request_timeout_seconds": 3.0,
+        "max_total_seconds": 18.0,
+        "exposures": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "config_exposures": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 11631
+  }
+}

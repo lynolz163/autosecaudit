@@ -1,0 +1,154 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "cors_misconfiguration",
+    "target": "https://360-24.com:443/",
+    "options": {},
+    "priority": 22,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "a3559af9371ac5e1322c290510401aa34b452dd1afbeb221ac5c91055aa05399",
+    "reason": "Probe origins for arbitrary Origin reflection and credentialed wildcard CORS behavior.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4862,
+  "attempts": 1,
+  "result": {
+    "origin": "https://360-24.com:443",
+    "probes": [
+      {
+        "origin": "https://evil.example.com",
+        "status_code": 204,
+        "probe_method": "OPTIONS",
+        "allow_origin": "*",
+        "allow_credentials": "true"
+      },
+      {
+        "origin": "null",
+        "status_code": 204,
+        "probe_method": "OPTIONS",
+        "allow_origin": "*",
+        "allow_credentials": "true"
+      },
+      {
+        "origin": "https://360-24.com.evil.invalid",
+        "status_code": 204,
+        "probe_method": "OPTIONS",
+        "allow_origin": "*",
+        "allow_credentials": "true"
+      }
+    ]
+  },
+  "metadata": {
+    "skill_name": "cors_misconfiguration",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "cors_misconfiguration",
+    "target": "https://360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "https://360-24.com:443",
+        "probes": [
+          {
+            "origin": "https://evil.example.com",
+            "status_code": 204,
+            "probe_method": "OPTIONS",
+            "allow_origin": "*",
+            "allow_credentials": "true"
+          },
+          {
+            "origin": "null",
+            "status_code": 204,
+            "probe_method": "OPTIONS",
+            "allow_origin": "*",
+            "allow_credentials": "true"
+          },
+          {
+            "origin": "https://360-24.com.evil.invalid",
+            "status_code": 204,
+            "probe_method": "OPTIONS",
+            "allow_origin": "*",
+            "allow_credentials": "true"
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "vuln",
+          "name": "CORS Allows Any Origin With Credentials",
+          "severity": "high",
+          "evidence": "{\"origin\": \"https://evil.example.com\", \"status_code\": 204, \"probe_method\": \"OPTIONS\", \"allow_origin\": \"*\", \"allow_credentials\": \"true\"}",
+          "reproduction_steps": [
+            "Send OPTIONS/GET request to https://360-24.com:443 with Origin: https://evil.example.com.",
+            "Observe wildcard ACAO plus credentials."
+          ]
+        },
+        {
+          "type": "vuln",
+          "name": "CORS Allows Any Origin With Credentials",
+          "severity": "high",
+          "evidence": "{\"origin\": \"null\", \"status_code\": 204, \"probe_method\": \"OPTIONS\", \"allow_origin\": \"*\", \"allow_credentials\": \"true\"}",
+          "reproduction_steps": [
+            "Send OPTIONS/GET request to https://360-24.com:443 with Origin: null.",
+            "Observe wildcard ACAO plus credentials."
+          ]
+        },
+        {
+          "type": "vuln",
+          "name": "CORS Allows Any Origin With Credentials",
+          "severity": "high",
+          "evidence": "{\"origin\": \"https://360-24.com.evil.invalid\", \"status_code\": 204, \"probe_method\": \"OPTIONS\", \"allow_origin\": \"*\", \"allow_credentials\": \"true\"}",
+          "reproduction_steps": [
+            "Send OPTIONS/GET request to https://360-24.com:443 with Origin: https://360-24.com.evil.invalid.",
+            "Observe wildcard ACAO plus credentials."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "cors_probes": [
+          {
+            "origin": "https://evil.example.com",
+            "status_code": 204,
+            "probe_method": "OPTIONS",
+            "allow_origin": "*",
+            "allow_credentials": "true"
+          },
+          {
+            "origin": "null",
+            "status_code": 204,
+            "probe_method": "OPTIONS",
+            "allow_origin": "*",
+            "allow_credentials": "true"
+          },
+          {
+            "origin": "https://360-24.com.evil.invalid",
+            "status_code": 204,
+            "probe_method": "OPTIONS",
+            "allow_origin": "*",
+            "allow_credentials": "true"
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4862
+  }
+}

@@ -1,0 +1,493 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 15 safe action(s), total estimated cost 113, remaining budget after plan 73.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "api_schema_discovery",
+      "target": "http://0x6288.com:8080/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "dd3af9382b5f2ecf74f922284a09f62ecc0d6d7e0882bc7f774c7f8dcbbc2ec9",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "api_schema_discovery",
+      "target": "http://0x6288.com:8000/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "85d1454de05648ead37ef2517c34dbf8694865407275ec0ce24222299b2874b2",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A13",
+      "tool_name": "api_schema_discovery",
+      "target": "http://0x6288.com:8008/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "222f2c09ebd71df1b42b04f578df1d23933a6a9f911621d3b75f3f0cfa51f9c4",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 22,
+        "read_bytes": 512,
+        "service": "ssh",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "4ecf11e00a9b5b2ae7268edbf91ec6db5ace158c427af93fada03f21e34991d6",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered ssh service port 22.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "ssh",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: ssh"
+        ]
+      }
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 23,
+        "read_bytes": 512,
+        "service": "telnet",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "cd0e7262365b7f817dd53fe3b193d941536e20841074bcb5eea7f820338f0805",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered telnet service port 23.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "telnet",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: telnet"
+        ]
+      }
+    },
+    {
+      "action_id": "A14",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 25,
+        "read_bytes": 512,
+        "service": "smtp",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "90ff9b53ce2c597d4a9d258a93e8e1eabd0460515933bd287585d045a600de42",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered smtp service port 25.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "smtp",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: smtp"
+        ]
+      }
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "page_vision_analyzer",
+      "target": "http://0x6288.com:8080/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 24,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "3d503339e05c9d9691a0e9d69880075113cdadc844f0a3c2fa51c80f8cb34240",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A9",
+      "tool_name": "page_vision_analyzer",
+      "target": "http://0x6288.com:8000/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 24,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "59308dca4c49d43be29085cea101bf56df8c0705c9ea8a03d6a0c87cb752b9f7",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A15",
+      "tool_name": "page_vision_analyzer",
+      "target": "http://0x6288.com:8008/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 24,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "266c2eead25f9f8fab85d3e1e8d89464b7afb56f353251292969514fed7c9ccd",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "dynamic_crawl",
+      "target": "https://0x6288.com:8443/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 25,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "52de4e552470d092960285b597af58b96a89617adf74339621992f8ddba43bb6",
+      "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A10",
+      "tool_name": "dynamic_crawl",
+      "target": "http://0x6288.com:8080/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 25,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "6a2215f411723a81a0e93d0b94b28cd92ee36f0469b06dd68fff7b8565a894c6",
+      "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "active_web_crawler",
+      "target": "https://0x6288.com:8443/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "priority": 26,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "48d70c0a0e1442b9e32b6fdd0fbe139684868dfd62e32a2613392a9085d0ce43",
+      "reason": "Run bounded active crawling with explicit page and depth limits.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A11",
+      "tool_name": "active_web_crawler",
+      "target": "http://0x6288.com:8080/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "priority": 26,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "e8a4582c5d0a6aa64b444431893b80797f2f4691de4e9670d0958eddf5a6b49e",
+      "reason": "Run bounded active crawling with explicit page and depth limits.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A6",
+      "tool_name": "dirsearch_scan",
+      "target": "https://0x6288.com:8443",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 30,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "072ec9644fb9c733fa013b15b32b777038e9fef39ff70f6222ce94f7f768109e",
+      "reason": "Use dirsearch for conservative directory and file discovery.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A12",
+      "tool_name": "dirsearch_scan",
+      "target": "http://0x6288.com:8080",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 30,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c0e8652a8027c68c6f501af109f732b1c84271aac7b44773814d9e2af151dfd7",
+      "reason": "Use dirsearch for conservative directory and file discovery.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ],
+  "ranking_overview": [
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "ssh",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: ssh"
+      ]
+    },
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "telnet",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: telnet"
+      ]
+    },
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "smtp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: smtp"
+      ]
+    }
+  ]
+}

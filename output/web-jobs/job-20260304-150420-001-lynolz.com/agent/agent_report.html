@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoSecAudit Visual Report - lynolz.com</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(14,165,233,0.10), transparent 34%),
+        radial-gradient(circle at 88% 12%, rgba(16,185,129,0.10), transparent 38%),
+        linear-gradient(180deg, #f8fafc, #eef2ff 46%, #f8fafc);
+    }
+    .glass {
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(148,163,184,0.22);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900">
+  <script id="audit-report-data" type="application/json">{"meta": {"generated_at": "2026-03-04T07:05:47.862945+00:00", "target": "lynolz.com", "decision_summary": "[phase:passive_recon] No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.", "resumed": false, "resumed_from": "None"}, "summary": {"audit_score": 100, "score_label": "Excellent", "total_findings": 0, "vulnerability_findings": 0, "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}, "history_count": 3, "iteration_count": 3, "budget_remaining": 77, "budget_start_inferred": 100, "unique_tools_executed": 3, "service_origins_observed": 9, "api_endpoint_count": 0}, "history": [{"index": 1, "tool": "subdomain_enum_passive", "target": "lynolz.com", "status": "error", "started_at": "2026-03-04T07:05:11.206052+00:00", "ended_at": "2026-03-04T07:05:24.317405+00:00", "action_cost": 5, "budget_before": 100, "budget_after": 80, "error": "The read operation timed out"}, {"index": 2, "tool": "nmap_scan", "target": "lynolz.com", "status": "completed", "started_at": "2026-03-04T07:05:24.326476+00:00", "ended_at": "2026-03-04T07:05:36.531893+00:00", "action_cost": 15, "budget_before": 80, "budget_after": 80, "error": null}, {"index": 3, "tool": "passive_config_audit", "target": "https://lynolz.com:443", "status": "completed", "started_at": "2026-03-04T07:05:36.588142+00:00", "ended_at": "2026-03-04T07:05:47.769986+00:00", "action_cost": 3, "budget_before": 80, "budget_after": 77, "error": null}], "budget_trace": [{"step": 0, "label": "Start", "tool": "", "cost": 0, "budget_before": 100, "budget_after": 100, "cumulative_spent": 0}, {"step": 1, "label": "1. subdomain_enum_passive", "tool": "subdomain_enum_passive", "cost": 5, "budget_before": 100, "budget_after": 80, "cumulative_spent": 5}, {"step": 2, "label": "2. nmap_scan", "tool": "nmap_scan", "cost": 15, "budget_before": 80, "budget_after": 80, "cumulative_spent": 20}, {"step": 3, "label": "3. passive_config_audit", "tool": "passive_config_audit", "cost": 3, "budget_before": 80, "budget_after": 77, "cumulative_spent": 23}], "coverage": {"tool_stats": [{"tool": "nmap_scan", "total": 1, "completed": 1, "failed": 0, "error": 0}, {"tool": "passive_config_audit", "total": 1, "completed": 1, "failed": 0, "error": 0}, {"tool": "subdomain_enum_passive", "total": 1, "completed": 0, "failed": 0, "error": 1}], "unique_tools_executed": 3, "service_origins_observed": 9, "service_origins": ["http://lynolz.com:3128", "http://lynolz.com:5800", "http://lynolz.com:80", "http://lynolz.com:8000", "http://lynolz.com:8008", "http://lynolz.com:8080", "http://lynolz.com:8888", "https://lynolz.com:443", "https://lynolz.com:8443"], "api_endpoint_count": 0, "discovered_url_count": 0, "parameter_count": 0, "tech_stack": [], "config_exposure_count": 0, "completed_actions": 2, "failed_actions": 0, "error_actions": 1, "highlights": ["Observed 9 HTTP(S) service origin(s)."]}, "scope": {"scope": ["lynolz.com"], "breadcrumbs": [{"type": "service", "data": "lynolz.com"}, {"type": "service", "data": "http://lynolz.com:80"}, {"type": "service", "data": "https://lynolz.com:443"}, {"type": "service", "data": "http://lynolz.com:3128"}, {"type": "service", "data": "http://lynolz.com:5800"}, {"type": "service", "data": "http://lynolz.com:8000"}, {"type": "service", "data": "http://lynolz.com:8008"}, {"type": "service", "data": "http://lynolz.com:8080"}, {"type": "service", "data": "https://lynolz.com:8443"}, {"type": "service", "data": "http://lynolz.com:8888"}], "surface": {"nmap_hosts": [{"state": "up", "addresses": [{"addr": "104.21.89.22", "addrtype": "ipv4"}], "hostnames": ["lynolz.com"], "open_ports": [{"port": 7, "protocol": "tcp", "service": "echo", "version": ""}, {"port": 9, "protocol": "tcp", "service": "discard", "version": ""}, {"port": 13, "protocol": "tcp", "service": "daytime", "version": ""}, {"port": 21, "protocol": "tcp", "service": "ftp", "version": ""}, {"port": 22, "protocol": "tcp", "service": "ssh", "version": ""}, {"port": 23, "protocol": "tcp", "service": "telnet", "version": ""}, {"port": 25, "protocol": "tcp", "service": "smtp", "version": ""}, {"port": 26, "protocol": "tcp", "service": "rsftp", "version": ""}, {"port": 37, "protocol": "tcp", "service": "time", "version": ""}, {"port": 53, "protocol": "tcp", "service": "domain", "version": ""}, {"port": 79, "protocol": "tcp", "service": "finger", "version": ""}, {"port": 80, "protocol": "tcp", "service": "http", "version": ""}, {"port": 81, "protocol": "tcp", "service": "hosts2-ns", "version": ""}, {"port": 88, "protocol": "tcp", "service": "kerberos-sec", "version": ""}, {"port": 106, "protocol": "tcp", "service": "pop3pw", "version": ""}, {"port": 110, "protocol": "tcp", "service": "pop3", "version": ""}, {"port": 111, "protocol": "tcp", "service": "rpcbind", "version": ""}, {"port": 113, "protocol": "tcp", "service": "ident", "version": ""}, {"port": 119, "protocol": "tcp", "service": "nntp", "version": ""}, {"port": 135, "protocol": "tcp", "service": "msrpc", "version": ""}, {"port": 139, "protocol": "tcp", "service": "netbios-ssn", "version": ""}, {"port": 143, "protocol": "tcp", "service": "imap", "version": ""}, {"port": 144, "protocol": "tcp", "service": "news", "version": ""}, {"port": 179, "protocol": "tcp", "service": "bgp", "version": ""}, {"port": 199, "protocol": "tcp", "service": "smux", "version": ""}, {"port": 389, "protocol": "tcp", "service": "ldap", "version": ""}, {"port": 427, "protocol": "tcp", "service": "svrloc", "version": ""}, {"port": 443, "protocol": "tcp", "service": "https", "version": ""}, {"port": 444, "protocol": "tcp", "service": "snpp", "version": ""}, {"port": 445, "protocol": "tcp", "service": "microsoft-ds", "version": ""}, {"port": 465, "protocol": "tcp", "service": "smtps", "version": ""}, {"port": 513, "protocol": "tcp", "service": "login", "version": ""}, {"port": 514, "protocol": "tcp", "service": "shell", "version": ""}, {"port": 515, "protocol": "tcp", "service": "printer", "version": ""}, {"port": 543, "protocol": "tcp", "service": "klogin", "version": ""}, {"port": 544, "protocol": "tcp", "service": "kshell", "version": ""}, {"port": 548, "protocol": "tcp", "service": "afp", "version": ""}, {"port": 554, "protocol": "tcp", "service": "rtsp", "version": ""}, {"port": 587, "protocol": "tcp", "service": "submission", "version": ""}, {"port": 631, "protocol": "tcp", "service": "ipp", "version": ""}, {"port": 646, "protocol": "tcp", "service": "ldp", "version": ""}, {"port": 873, "protocol": "tcp", "service": "rsync", "version": ""}, {"port": 990, "protocol": "tcp", "service": "ftps", "version": ""}, {"port": 993, "protocol": "tcp", "service": "imaps", "version": ""}, {"port": 995, "protocol": "tcp", "service": "pop3s", "version": ""}, {"port": 1025, "protocol": "tcp", "service": "NFS-or-IIS", "version": ""}, {"port": 1026, "protocol": "tcp", "service": "LSA-or-nterm", "version": ""}, {"port": 1027, "protocol": "tcp", "service": "IIS", "version": ""}, {"port": 1028, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 1029, "protocol": "tcp", "service": "ms-lsa", "version": ""}, {"port": 1110, "protocol": "tcp", "service": "nfsd-status", "version": ""}, {"port": 1433, "protocol": "tcp", "service": "ms-sql-s", "version": ""}, {"port": 1720, "protocol": "tcp", "service": "h323q931", "version": ""}, {"port": 1723, "protocol": "tcp", "service": "pptp", "version": ""}, {"port": 1755, "protocol": "tcp", "service": "wms", "version": ""}, {"port": 1900, "protocol": "tcp", "service": "upnp", "version": ""}, {"port": 2000, "protocol": "tcp", "service": "cisco-sccp", "version": ""}, {"port": 2001, "protocol": "tcp", "service": "dc", "version": ""}, {"port": 2049, "protocol": "tcp", "service": "nfs", "version": ""}, {"port": 2121, "protocol": "tcp", "service": "ccproxy-ftp", "version": ""}, {"port": 2717, "protocol": "tcp", "service": "pn-requester", "version": ""}, {"port": 3000, "protocol": "tcp", "service": "ppp", "version": ""}, {"port": 3128, "protocol": "tcp", "service": "squid-http", "version": ""}, {"port": 3306, "protocol": "tcp", "service": "mysql", "version": ""}, {"port": 3389, "protocol": "tcp", "service": "ms-wbt-server", "version": ""}, {"port": 3986, "protocol": "tcp", "service": "mapper-ws_ethd", "version": ""}, {"port": 4899, "protocol": "tcp", "service": "radmin", "version": ""}, {"port": 5000, "protocol": "tcp", "service": "upnp", "version": ""}, {"port": 5009, "protocol": "tcp", "service": "airport-admin", "version": ""}, {"port": 5051, "protocol": "tcp", "service": "ida-agent", "version": ""}, {"port": 5060, "protocol": "tcp", "service": "sip", "version": ""}, {"port": 5101, "protocol": "tcp", "service": "admdog", "version": ""}, {"port": 5190, "protocol": "tcp", "service": "aol", "version": ""}, {"port": 5357, "protocol": "tcp", "service": "wsdapi", "version": ""}, {"port": 5432, "protocol": "tcp", "service": "postgresql", "version": ""}, {"port": 5631, "protocol": "tcp", "service": "pcanywheredata", "version": ""}, {"port": 5666, "protocol": "tcp", "service": "nrpe", "version": ""}, {"port": 5800, "protocol": "tcp", "service": "vnc-http", "version": ""}, {"port": 5900, "protocol": "tcp", "service": "vnc", "version": ""}, {"port": 6000, "protocol": "tcp", "service": "X11", "version": ""}, {"port": 6001, "protocol": "tcp", "service": "X11:1", "version": ""}, {"port": 6646, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 7070, "protocol": "tcp", "service": "realserver", "version": ""}, {"port": 8000, "protocol": "tcp", "service": "http-alt", "version": ""}, {"port": 8008, "protocol": "tcp", "service": "http", "version": ""}, {"port": 8009, "protocol": "tcp", "service": "ajp13", "version": ""}, {"port": 8080, "protocol": "tcp", "service": "http-proxy", "version": ""}, {"port": 8081, "protocol": "tcp", "service": "blackice-icecap", "version": ""}, {"port": 8443, "protocol": "tcp", "service": "https-alt", "version": ""}, {"port": 8888, "protocol": "tcp", "service": "sun-answerbook", "version": ""}, {"port": 9100, "protocol": "tcp", "service": "jetdirect", "version": ""}, {"port": 9999, "protocol": "tcp", "service": "abyss", "version": ""}, {"port": 10000, "protocol": "tcp", "service": "snet-sensor-mgmt", "version": ""}, {"port": 32768, "protocol": "tcp", "service": "filenet-tms", "version": ""}, {"port": 49152, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49153, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49154, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49155, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49156, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49157, "protocol": "tcp", "service": "unknown", "version": ""}]}], "config_exposures": []}}, "findings": []}</script>
+  <script id="agent-state-data" type="application/json">{"scope": ["lynolz.com"], "breadcrumbs": [{"type": "service", "data": "lynolz.com"}, {"type": "service", "data": "http://lynolz.com:80"}, {"type": "service", "data": "https://lynolz.com:443"}, {"type": "service", "data": "http://lynolz.com:3128"}, {"type": "service", "data": "http://lynolz.com:5800"}, {"type": "service", "data": "http://lynolz.com:8000"}, {"type": "service", "data": "http://lynolz.com:8008"}, {"type": "service", "data": "http://lynolz.com:8080"}, {"type": "service", "data": "https://lynolz.com:8443"}, {"type": "service", "data": "http://lynolz.com:8888"}], "history": [{"tool": "subdomain_enum_passive", "target": "lynolz.com", "options": {"max_results": 100}, "idempotency_key": "7f31c8afc15e8983b82aa0e5cff3aa29758082323404df3830662032f00396a7", "status": "error", "started_at": "2026-03-04T07:05:11.206052+00:00", "ended_at": "2026-03-04T07:05:24.317405+00:00", "retry_attempts": 1, "artifacts": ["/workspace/output/web-jobs/job-20260304-150420-001-lynolz.com/agent/artifacts/A1_subdomain_enum_passive.json"], "error": "The read operation timed out", "action_cost": 5, "budget_before": 100, "budget_after": 80}, {"tool": "nmap_scan", "target": "lynolz.com", "options": {"ports": "top-100", "scan_profile": "conservative_service_discovery", "timeout_seconds": 90, "version_detection": false}, "idempotency_key": "137e887ba0df4cf6132d5529a97d4c4b7a790fdad59c688d4a0352616ba8e9e8", "status": "completed", "started_at": "2026-03-04T07:05:24.326476+00:00", "ended_at": "2026-03-04T07:05:36.531893+00:00", "retry_attempts": 1, "artifacts": ["/workspace/output/web-jobs/job-20260304-150420-001-lynolz.com/agent/artifacts/A2_nmap_scan.json"], "action_cost": 15, "budget_before": 80, "budget_after": 80}, {"tool": "passive_config_audit", "target": "https://lynolz.com:443", "options": {"max_paths": 10, "max_total_seconds": 18, "request_timeout_seconds": 3}, "idempotency_key": "a0087ff482125ce9043e79a59fe323d5066eb70bf46f770f0e5fdd580ccae44f", "status": "completed", "started_at": "2026-03-04T07:05:36.588142+00:00", "ended_at": "2026-03-04T07:05:47.769986+00:00", "retry_attempts": 1, "artifacts": ["/workspace/output/web-jobs/job-20260304-150420-001-lynolz.com/agent/artifacts/A1_passive_config_audit.json"], "action_cost": 3, "budget_before": 80, "budget_after": 77}], "surface": {"nmap_hosts": [{"state": "up", "addresses": [{"addr": "104.21.89.22", "addrtype": "ipv4"}], "hostnames": ["lynolz.com"], "open_ports": [{"port": 7, "protocol": "tcp", "service": "echo", "version": ""}, {"port": 9, "protocol": "tcp", "service": "discard", "version": ""}, {"port": 13, "protocol": "tcp", "service": "daytime", "version": ""}, {"port": 21, "protocol": "tcp", "service": "ftp", "version": ""}, {"port": 22, "protocol": "tcp", "service": "ssh", "version": ""}, {"port": 23, "protocol": "tcp", "service": "telnet", "version": ""}, {"port": 25, "protocol": "tcp", "service": "smtp", "version": ""}, {"port": 26, "protocol": "tcp", "service": "rsftp", "version": ""}, {"port": 37, "protocol": "tcp", "service": "time", "version": ""}, {"port": 53, "protocol": "tcp", "service": "domain", "version": ""}, {"port": 79, "protocol": "tcp", "service": "finger", "version": ""}, {"port": 80, "protocol": "tcp", "service": "http", "version": ""}, {"port": 81, "protocol": "tcp", "service": "hosts2-ns", "version": ""}, {"port": 88, "protocol": "tcp", "service": "kerberos-sec", "version": ""}, {"port": 106, "protocol": "tcp", "service": "pop3pw", "version": ""}, {"port": 110, "protocol": "tcp", "service": "pop3", "version": ""}, {"port": 111, "protocol": "tcp", "service": "rpcbind", "version": ""}, {"port": 113, "protocol": "tcp", "service": "ident", "version": ""}, {"port": 119, "protocol": "tcp", "service": "nntp", "version": ""}, {"port": 135, "protocol": "tcp", "service": "msrpc", "version": ""}, {"port": 139, "protocol": "tcp", "service": "netbios-ssn", "version": ""}, {"port": 143, "protocol": "tcp", "service": "imap", "version": ""}, {"port": 144, "protocol": "tcp", "service": "news", "version": ""}, {"port": 179, "protocol": "tcp", "service": "bgp", "version": ""}, {"port": 199, "protocol": "tcp", "service": "smux", "version": ""}, {"port": 389, "protocol": "tcp", "service": "ldap", "version": ""}, {"port": 427, "protocol": "tcp", "service": "svrloc", "version": ""}, {"port": 443, "protocol": "tcp", "service": "https", "version": ""}, {"port": 444, "protocol": "tcp", "service": "snpp", "version": ""}, {"port": 445, "protocol": "tcp", "service": "microsoft-ds", "version": ""}, {"port": 465, "protocol": "tcp", "service": "smtps", "version": ""}, {"port": 513, "protocol": "tcp", "service": "login", "version": ""}, {"port": 514, "protocol": "tcp", "service": "shell", "version": ""}, {"port": 515, "protocol": "tcp", "service": "printer", "version": ""}, {"port": 543, "protocol": "tcp", "service": "klogin", "version": ""}, {"port": 544, "protocol": "tcp", "service": "kshell", "version": ""}, {"port": 548, "protocol": "tcp", "service": "afp", "version": ""}, {"port": 554, "protocol": "tcp", "service": "rtsp", "version": ""}, {"port": 587, "protocol": "tcp", "service": "submission", "version": ""}, {"port": 631, "protocol": "tcp", "service": "ipp", "version": ""}, {"port": 646, "protocol": "tcp", "service": "ldp", "version": ""}, {"port": 873, "protocol": "tcp", "service": "rsync", "version": ""}, {"port": 990, "protocol": "tcp", "service": "ftps", "version": ""}, {"port": 993, "protocol": "tcp", "service": "imaps", "version": ""}, {"port": 995, "protocol": "tcp", "service": "pop3s", "version": ""}, {"port": 1025, "protocol": "tcp", "service": "NFS-or-IIS", "version": ""}, {"port": 1026, "protocol": "tcp", "service": "LSA-or-nterm", "version": ""}, {"port": 1027, "protocol": "tcp", "service": "IIS", "version": ""}, {"port": 1028, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 1029, "protocol": "tcp", "service": "ms-lsa", "version": ""}, {"port": 1110, "protocol": "tcp", "service": "nfsd-status", "version": ""}, {"port": 1433, "protocol": "tcp", "service": "ms-sql-s", "version": ""}, {"port": 1720, "protocol": "tcp", "service": "h323q931", "version": ""}, {"port": 1723, "protocol": "tcp", "service": "pptp", "version": ""}, {"port": 1755, "protocol": "tcp", "service": "wms", "version": ""}, {"port": 1900, "protocol": "tcp", "service": "upnp", "version": ""}, {"port": 2000, "protocol": "tcp", "service": "cisco-sccp", "version": ""}, {"port": 2001, "protocol": "tcp", "service": "dc", "version": ""}, {"port": 2049, "protocol": "tcp", "service": "nfs", "version": ""}, {"port": 2121, "protocol": "tcp", "service": "ccproxy-ftp", "version": ""}, {"port": 2717, "protocol": "tcp", "service": "pn-requester", "version": ""}, {"port": 3000, "protocol": "tcp", "service": "ppp", "version": ""}, {"port": 3128, "protocol": "tcp", "service": "squid-http", "version": ""}, {"port": 3306, "protocol": "tcp", "service": "mysql", "version": ""}, {"port": 3389, "protocol": "tcp", "service": "ms-wbt-server", "version": ""}, {"port": 3986, "protocol": "tcp", "service": "mapper-ws_ethd", "version": ""}, {"port": 4899, "protocol": "tcp", "service": "radmin", "version": ""}, {"port": 5000, "protocol": "tcp", "service": "upnp", "version": ""}, {"port": 5009, "protocol": "tcp", "service": "airport-admin", "version": ""}, {"port": 5051, "protocol": "tcp", "service": "ida-agent", "version": ""}, {"port": 5060, "protocol": "tcp", "service": "sip", "version": ""}, {"port": 5101, "protocol": "tcp", "service": "admdog", "version": ""}, {"port": 5190, "protocol": "tcp", "service": "aol", "version": ""}, {"port": 5357, "protocol": "tcp", "service": "wsdapi", "version": ""}, {"port": 5432, "protocol": "tcp", "service": "postgresql", "version": ""}, {"port": 5631, "protocol": "tcp", "service": "pcanywheredata", "version": ""}, {"port": 5666, "protocol": "tcp", "service": "nrpe", "version": ""}, {"port": 5800, "protocol": "tcp", "service": "vnc-http", "version": ""}, {"port": 5900, "protocol": "tcp", "service": "vnc", "version": ""}, {"port": 6000, "protocol": "tcp", "service": "X11", "version": ""}, {"port": 6001, "protocol": "tcp", "service": "X11:1", "version": ""}, {"port": 6646, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 7070, "protocol": "tcp", "service": "realserver", "version": ""}, {"port": 8000, "protocol": "tcp", "service": "http-alt", "version": ""}, {"port": 8008, "protocol": "tcp", "service": "http", "version": ""}, {"port": 8009, "protocol": "tcp", "service": "ajp13", "version": ""}, {"port": 8080, "protocol": "tcp", "service": "http-proxy", "version": ""}, {"port": 8081, "protocol": "tcp", "service": "blackice-icecap", "version": ""}, {"port": 8443, "protocol": "tcp", "service": "https-alt", "version": ""}, {"port": 8888, "protocol": "tcp", "service": "sun-answerbook", "version": ""}, {"port": 9100, "protocol": "tcp", "service": "jetdirect", "version": ""}, {"port": 9999, "protocol": "tcp", "service": "abyss", "version": ""}, {"port": 10000, "protocol": "tcp", "service": "snet-sensor-mgmt", "version": ""}, {"port": 32768, "protocol": "tcp", "service": "filenet-tms", "version": ""}, {"port": 49152, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49153, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49154, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49155, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49156, "protocol": "tcp", "service": "unknown", "version": ""}, {"port": 49157, "protocol": "tcp", "service": "unknown", "version": ""}]}], "config_exposures": []}, "budget_remaining": 77, "total_budget": 100, "target": "lynolz.com", "safety_grade": "aggressive", "iteration_count": 3, "resumed": false, "resumed_from": null, "current_phase": "passive_recon", "phase_budget_spent": {"passive_recon": 23}, "phase_history": [], "feedback": {"follow_up_tools": ["xss_protection_audit", "tech_stack_fingerprint", "passive_config_audit", "http_security_headers", "ssl_expiry_check"], "priority_overrides": {"xss_protection_audit": -4, "subdomain_enum_passive": 5}, "risk_signal": "none"}, "findings_count": 0, "circuit_breaker": {"subdomain_enum_passive": {"failures": 1, "opened_at": null, "last_error": "The read operation timed out"}}}</script>
+  <div id="root"></div>
+  <script type="text/babel">
+    const auditReport = JSON.parse(document.getElementById("audit-report-data").textContent || "{}");
+    const agentState = JSON.parse(document.getElementById("agent-state-data").textContent || "{}");
+
+    const severityRank = ["critical", "high", "medium", "low", "info"];
+    const severityBadge = {
+      critical: "bg-rose-600 text-white",
+      high: "bg-orange-500 text-white",
+      medium: "bg-amber-300 text-slate-900",
+      low: "bg-emerald-300 text-slate-900",
+      info: "bg-sky-200 text-slate-900"
+    };
+
+    function MetricCard({ label, value, sub }) {
+      return (
+        <div className="glass rounded-2xl p-4">
+          <div className="text-xs uppercase tracking-[0.14em] text-slate-500">{label}</div>
+          <div className="mt-2 text-2xl font-semibold tabular-nums">{value}</div>
+          {sub ? <div className="mt-1 text-sm text-slate-500">{sub}</div> : null}
+        </div>
+      );
+    }
+
+    function BudgetLineChart({ trace }) {
+      const points = Array.isArray(trace) ? trace.filter((p) => typeof p.cumulative_spent === "number") : [];
+      if (!points.length) {
+        return <div className="text-sm text-slate-500">No budget trace available.</div>;
+      }
+      const width = 760;
+      const height = 220;
+      const pad = 26;
+      const maxY = Math.max(1, ...points.map((p) => p.cumulative_spent || 0));
+      const maxX = Math.max(1, points.length - 1);
+      const coords = points.map((p, i) => {
+        const x = pad + ((width - pad * 2) * (points.length === 1 ? 0 : i / maxX));
+        const y = height - pad - ((height - pad * 2) * ((p.cumulative_spent || 0) / maxY));
+        return { ...p, x, y };
+      });
+      const linePath = coords.map((p, idx) => (idx === 0 ? "M" : "L") + p.x + "," + p.y).join(" ");
+      const areaPath = linePath + " L" + coords[coords.length - 1].x + "," + (height - pad) + " L" + coords[0].x + "," + (height - pad) + " Z";
+      return (
+        <div>
+          <div className="w-full overflow-x-auto">
+            <svg viewBox={"0 0 " + width + " " + height} className="w-full min-w-[520px]">
+              <defs>
+                <linearGradient id="budgetFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.26" />
+                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.03" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width={width} height={height} rx="16" fill="#ffffff" opacity="0.75" />
+              {[0, 0.25, 0.5, 0.75, 1].map((r, idx) => {
+                const y = pad + (height - pad * 2) * r;
+                return <line key={idx} x1={pad} y1={y} x2={width - pad} y2={y} stroke="#e2e8f0" strokeWidth="1" />;
+              })}
+              {coords.length > 1 ? <path d={areaPath} fill="url(#budgetFill)" /> : null}
+              <path d={linePath} fill="none" stroke="#0284c7" strokeWidth="3" strokeLinecap="round" />
+              {coords.map((p) => (
+                <g key={p.step}>
+                  <circle cx={p.x} cy={p.y} r="4" fill="#0284c7" />
+                  <text x={p.x} y={height - 7} textAnchor="middle" fontSize="10" fill="#475569">{p.step}</text>
+                </g>
+              ))}
+            </svg>
+          </div>
+          <div className="mt-3 space-y-1 text-xs text-slate-600">
+            {points.slice(-10).map((p) => (
+              <div key={"legend-" + p.step} className="flex justify-between gap-3">
+                <span className="truncate">{p.label}</span>
+                <span className="tabular-nums">+{p.cost || 0} (total {p.cumulative_spent || 0})</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function ScopeMap({ scopePayload }) {
+      const scopeList = Array.isArray(scopePayload?.scope) ? scopePayload.scope : [];
+      const breadcrumbs = Array.isArray(scopePayload?.breadcrumbs) ? scopePayload.breadcrumbs : [];
+      const surface = scopePayload?.surface && typeof scopePayload.surface === "object" ? scopePayload.surface : {};
+      const discoveredUrls = Array.isArray(surface.discovered_urls) ? surface.discovered_urls : [];
+      const apiEndpoints = Array.isArray(surface.api_endpoints) ? surface.api_endpoints : [];
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Scope Asset Map</h2>
+            <div className="text-xs text-slate-500">Scope / breadcrumbs / surface</div>
+          </div>
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Scope</div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {scopeList.length ? scopeList.map((item, idx) => (
+                  <span key={idx} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">{item}</span>
+                )) : <span className="text-sm text-slate-500">No scope entries</span>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Breadcrumbs</div>
+              <div className="mt-2 max-h-48 space-y-1 overflow-auto rounded-xl bg-slate-50 p-2 text-xs">
+                {breadcrumbs.length ? breadcrumbs.map((b, idx) => (
+                  <div key={idx} className="flex gap-2">
+                    <span className="w-16 shrink-0 text-slate-500">{b.type}</span>
+                    <span className="break-all text-slate-700">{b.data}</span>
+                  </div>
+                )) : <div className="text-slate-500">No breadcrumbs</div>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Surface</div>
+              <div className="mt-2 text-xs text-slate-700 space-y-1">
+                <div>Discovered URLs: <span className="font-semibold">{discoveredUrls.length}</span></div>
+                <div>API Endpoints: <span className="font-semibold">{apiEndpoints.length}</span></div>
+                <div className="mt-2 max-h-40 overflow-auto rounded-xl bg-slate-50 p-2">
+                  {discoveredUrls.slice(0, 12).map((u, idx) => <div key={idx} className="truncate">{u}</div>)}
+                  {discoveredUrls.length > 12 ? <div className="text-slate-500">... {discoveredUrls.length - 12} more</div> : null}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function VulnerabilityCard({ item }) {
+      const severity = String(item?.severity || "medium").toLowerCase();
+      const steps = Array.isArray(item?.reproduction_steps) ? item.reproduction_steps : [];
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-sm text-slate-500">Finding #{item.index}</div>
+              <h3 className="mt-1 text-lg font-semibold">{item.name}</h3>
+            </div>
+            <span className={"rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider " + (severityBadge[severity] || severityBadge.medium)}>
+              {severity}
+            </span>
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Evidence</div>
+              <pre className="mt-2 max-h-56 overflow-auto rounded-xl bg-slate-900 p-3 text-xs leading-relaxed text-slate-100 whitespace-pre-wrap">
+{String(item.evidence || "No evidence provided.")}
+              </pre>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <div className="text-xs uppercase tracking-wider text-slate-500">Reproduction Steps</div>
+                <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-700">
+                  {steps.length ? steps.map((s, idx) => <li key={idx}>{s}</li>) : <li>No steps provided.</li>}
+                </ol>
+              </div>
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Fix Guidance</div>
+                <p className="mt-1 text-sm text-emerald-900 leading-relaxed">
+                  {item.recommendation || "No remediation recommendation provided."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const summary = auditReport.summary || {};
+      const meta = auditReport.meta || {};
+      const scopePayload = auditReport.scope || {};
+      const findings = Array.isArray(auditReport.findings) ? auditReport.findings : [];
+      const vulnFindings = findings
+        .filter((f) => String(f.type || "").toLowerCase() === "vuln")
+        .sort((a, b) => severityRank.indexOf(String(a.severity || "info")) - severityRank.indexOf(String(b.severity || "info")));
+      const severityCounts = summary.severity_counts || {};
+      const highCritical = Number(severityCounts.critical || 0) + Number(severityCounts.high || 0);
+
+      return (
+        <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
+          <div className="glass rounded-3xl p-6">
+            <div className="flex flex-wrap items-start justify-between gap-5">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-slate-500">AutoSecAudit Agent</div>
+                <h1 className="mt-2 text-2xl font-semibold md:text-3xl">Visual Audit Report</h1>
+                <div className="mt-2 break-all text-sm text-slate-700">{meta.target || agentState.target || "Unknown target"}</div>
+                <div className="mt-1 text-sm text-slate-500">{meta.decision_summary || "No decision summary available."}</div>
+              </div>
+              <div className="rounded-2xl bg-slate-900 px-5 py-4 text-white">
+                <div className="text-xs uppercase tracking-wider text-slate-300">Audit Score</div>
+                <div className="mt-1 text-3xl font-semibold tabular-nums">{summary.audit_score ?? 0}</div>
+                <div className="text-xs text-slate-300">{summary.score_label || "N/A"}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <MetricCard label="Findings" value={summary.total_findings ?? 0} sub={"Vulns: " + (summary.vulnerability_findings ?? 0)} />
+            <MetricCard label="High/Critical" value={highCritical} sub={"Critical " + (severityCounts.critical || 0) + " / High " + (severityCounts.high || 0)} />
+            <MetricCard label="Budget Remaining" value={summary.budget_remaining ?? 0} sub={"Iterations " + (summary.iteration_count ?? 0)} />
+            <MetricCard label="Executed Actions" value={summary.history_count ?? 0} sub={meta.resumed ? ("Resumed: " + (meta.resumed_from || "state")) : "Fresh run"} />
+          </div>
+
+          <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="glass rounded-2xl p-5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">Action Budget Consumption</h2>
+                <div className="text-xs text-slate-500">Cumulative cost line chart</div>
+              </div>
+              <div className="mt-4">
+                <BudgetLineChart trace={auditReport.budget_trace || []} />
+              </div>
+            </div>
+            <div className="glass rounded-2xl p-5">
+              <h2 className="text-lg font-semibold">Severity Distribution</h2>
+              <div className="mt-4 space-y-3">
+                {severityRank.map((sev) => {
+                  const value = Number(severityCounts[sev] || 0);
+                  const all = severityRank.map((k) => Number(severityCounts[k] || 0));
+                  const max = Math.max(1, ...all);
+                  const pct = value ? Math.max(5, Math.round((value / max) * 100)) : 0;
+                  return (
+                    <div key={sev}>
+                      <div className="mb-1 flex justify-between text-sm">
+                        <span className="capitalize">{sev}</span>
+                        <span className="tabular-nums text-slate-600">{value}</span>
+                      </div>
+                      <div className="h-2 rounded-full bg-slate-100">
+                        <div className="h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" style={{ width: pct + "%" }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <ScopeMap scopePayload={scopePayload} />
+          </div>
+
+          <div className="mt-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Vulnerability Cards</h2>
+              <div className="text-xs text-slate-500">Evidence + remediation suggestions</div>
+            </div>
+            <div className="space-y-4">
+              {vulnFindings.length ? vulnFindings.map((item) => (
+                <VulnerabilityCard key={String(item.index) + "-" + String(item.name)} item={item} />
+              )) : (
+                <div className="glass rounded-2xl p-6 text-sm text-slate-500">No vulnerability findings available.</div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

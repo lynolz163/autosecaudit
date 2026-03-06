@@ -1,0 +1,109 @@
+{
+  "action": {
+    "action_id": "A15",
+    "tool_name": "ssl_expiry_check",
+    "target": "https://lynolz.com:8443/",
+    "options": {},
+    "priority": 6,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "f5287bc7bbe832150e0e5b713b091c961c27240918d8535be710b38ed5e7199a",
+    "reason": "Check TLS certificate expiry dates on HTTPS origins.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "https_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1326,
+  "attempts": 1,
+  "result": {
+    "host": "lynolz.com",
+    "port": 8443,
+    "days_left": 84,
+    "expires_at": "2026-05-29T09:58:44+00:00",
+    "tls_version": "TLSv1.3",
+    "subject_alt_name": [
+      [
+        "DNS",
+        "lynolz.com"
+      ],
+      [
+        "DNS",
+        "*.lynolz.com"
+      ]
+    ]
+  },
+  "metadata": {
+    "skill_name": "ssl_expiry_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "ssl_expiry_check",
+    "target": "https://lynolz.com:8443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "host": "lynolz.com",
+        "port": 8443,
+        "days_left": 84,
+        "expires_at": "2026-05-29T09:58:44+00:00",
+        "tls_version": "TLSv1.3",
+        "subject_alt_name": [
+          [
+            "DNS",
+            "lynolz.com"
+          ],
+          [
+            "DNS",
+            "*.lynolz.com"
+          ]
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "TLS Certificate Expiry Healthy",
+          "severity": "info",
+          "evidence": "{\"host\": \"lynolz.com\", \"port\": 8443, \"days_left\": 84, \"expires_at\": \"2026-05-29T09:58:44+00:00\", \"tls_version\": \"TLSv1.3\", \"subject_alt_name\": [[\"DNS\", \"lynolz.com\"], [\"DNS\", \"*.lynolz.com\"]]}",
+          "reproduction_steps": [
+            "Open TLS connection to lynolz.com:8443.",
+            "Observe certificate validity and remaining lifetime."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "tls_metadata": {
+          "host": "lynolz.com",
+          "port": 8443,
+          "days_left": 84,
+          "expires_at": "2026-05-29T09:58:44+00:00",
+          "tls_version": "TLSv1.3",
+          "subject_alt_name": [
+            [
+              "DNS",
+              "lynolz.com"
+            ],
+            [
+              "DNS",
+              "*.lynolz.com"
+            ]
+          ]
+        }
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1326
+  }
+}

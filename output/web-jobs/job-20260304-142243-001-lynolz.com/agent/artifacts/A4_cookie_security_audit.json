@@ -1,0 +1,113 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "cookie_security_audit",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "priority": 24,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "99f45e51a7637ad8d78c21e85ee1e2324f17cbf67890ec95612416d9a4ddcc5a",
+    "reason": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 720,
+  "attempts": 1,
+  "result": {
+    "url": "https://lynolz.com:443",
+    "cookie_count": 2
+  },
+  "metadata": {
+    "url": "https://lynolz.com:443",
+    "cookie_count": 2,
+    "skill_name": "cookie_security_audit",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "cookie_security_audit",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "cookie_security_audit:lynolz_blog_session:secure",
+          "tool": "cookie_security_audit",
+          "severity": "medium",
+          "category": "misconfig",
+          "title": "Cookie Missing Secure Attribute",
+          "description": "Cookie lynolz_blog_session is set over HTTPS without the Secure attribute.",
+          "evidence": {
+            "cookie": {
+              "name": "lynolz_blog_session",
+              "secure": false,
+              "httponly": true,
+              "samesite": true
+            },
+            "status_code": 200
+          },
+          "remediation": "Mark sensitive cookies as Secure on HTTPS origins.",
+          "cwe_id": null,
+          "cvss_score": null
+        },
+        {
+          "id": "cookie_security_audit:_gorilla_csrf:secure",
+          "tool": "cookie_security_audit",
+          "severity": "medium",
+          "category": "misconfig",
+          "title": "Cookie Missing Secure Attribute",
+          "description": "Cookie _gorilla_csrf is set over HTTPS without the Secure attribute.",
+          "evidence": {
+            "cookie": {
+              "name": "_gorilla_csrf",
+              "secure": false,
+              "httponly": true,
+              "samesite": true
+            },
+            "status_code": 200
+          },
+          "remediation": "Mark sensitive cookies as Secure on HTTPS origins.",
+          "cwe_id": null,
+          "cvss_score": null
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "cookies": [
+          {
+            "name": "lynolz_blog_session",
+            "secure": false,
+            "httponly": true,
+            "samesite": true
+          },
+          {
+            "name": "_gorilla_csrf",
+            "secure": false,
+            "httponly": true,
+            "samesite": true
+          }
+        ]
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://lynolz.com:443",
+        "cookie_count": 2
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 720
+  }
+}

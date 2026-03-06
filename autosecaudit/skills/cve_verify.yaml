@@ -1,0 +1,46 @@
+{
+  "skill": {
+    "name": "cve_verify",
+    "version": "1.0",
+    "tool": "cve_verify",
+    "category": "validation",
+    "description": "Verify selected CVE candidates with nuclei CVE templates."
+  },
+  "triggers": {
+    "phase": ["verification"],
+    "when": [
+      {"condition": "has_cve_candidates"},
+      {"condition": "authorization_confirmed"},
+      {"condition": "not_already_done"}
+    ],
+    "target_source": "surface.cve_candidates",
+    "target_type": "cve_candidate"
+  },
+  "parameters": {
+    "defaults": {
+      "cve_ids": "$cve_ids",
+      "component": "$component",
+      "version": "$version",
+      "service": "$service",
+      "rag_intel_hits": "$rag_intel_hits",
+      "rag_recommended_tools": "$rag_recommended_tools",
+      "safe_only": "$safe_only",
+      "authorization_confirmed": "$authorization_confirmed",
+      "allow_high_risk": "$allow_high_risk",
+      "timeout_seconds": 180,
+      "safety_grade": "$safety_grade"
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.cve_verification", "condition": "non_empty", "meaning": "verification finished for requested CVE IDs"}
+    ],
+    "output_extraction": {},
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {},
+  "risk": {"level": "high", "cost": 25, "priority": 45, "retry": {"max_retries": 1, "backoff_seconds": 1.5}},
+  "dependencies": {"runtime": "nuclei", "tools": ["cve_lookup"]}
+}

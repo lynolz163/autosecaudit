@@ -1,0 +1,78 @@
+{
+  "decision_summary": "Proposed 3 safe action(s), total estimated cost 25, remaining budget after plan 5.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "passive_config_audit",
+      "target": "https://lynolz.com:443",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "efbb8a4100c2295cd5ed66a9e2aa26f89be041957aa749a256d9f3a0138bbdeb",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "dynamic_crawl",
+      "target": "https://lynolz.com:443/",
+      "options": {
+        "allow_domain": [
+          "lynolz.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 20,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "5c0b27e93337f278ab7354c9dca3b484d409aed839f567f76c026717e6fc566b",
+      "reason": "Expand in-scope surface and discover hidden endpoints/forms.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "dirsearch_scan",
+      "target": "https://lynolz.com:443",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 25,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "a00b6438b07c644a77aa905172d75122013ae598f28155ad9f106bb9529c8b3f",
+      "reason": "Use conservative content discovery to enumerate hidden files/directories on the confirmed HTTP origin.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

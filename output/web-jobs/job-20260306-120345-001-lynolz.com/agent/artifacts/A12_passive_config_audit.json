@@ -1,0 +1,88 @@
+{
+  "action": {
+    "action_id": "A12",
+    "tool_name": "passive_config_audit",
+    "target": "http://lynolz.com:80",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "priority": 0,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "5154aee24ef2aeec1b16831c4246d1bd1634bb7bc712f77e29df9bda53d6e626",
+    "reason": "Check common sensitive config paths using read-only requests.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 17181,
+  "attempts": 1,
+  "result": {
+    "origin": "http://lynolz.com:80",
+    "checked_paths": [
+      ".env",
+      ".env.prod",
+      ".env.local",
+      ".env.backup",
+      ".git/config",
+      "wp-config.php.bak",
+      "database.yml",
+      ".htpasswd",
+      "api/swagger.json",
+      "swagger.json"
+    ],
+    "request_timeout_seconds": 3.0,
+    "max_total_seconds": 18.0,
+    "exposures": []
+  },
+  "metadata": {
+    "skill_name": "passive_config_audit",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "passive_config_audit",
+    "target": "http://lynolz.com:80",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "http://lynolz.com:80",
+        "checked_paths": [
+          ".env",
+          ".env.prod",
+          ".env.local",
+          ".env.backup",
+          ".git/config",
+          "wp-config.php.bak",
+          "database.yml",
+          ".htpasswd",
+          "api/swagger.json",
+          "swagger.json"
+        ],
+        "request_timeout_seconds": 3.0,
+        "max_total_seconds": 18.0,
+        "exposures": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "config_exposures": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 17181
+  }
+}

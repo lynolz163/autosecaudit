@@ -1,0 +1,80 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "xss_protection_audit",
+    "target": "http://localhost:8080/api/audit/events",
+    "options": {
+      "method": "GET",
+      "params": {
+        "limit": "50"
+      }
+    },
+    "priority": 28,
+    "cost": 8,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "9675f3281383cb74a2cb79f0d9fd18cd73b701ca0b4eb49b984bdac6446255ec",
+    "reason": "Crawler-confirmed parameterized API endpoint; validate output encoding and reflection handling.",
+    "preconditions": [
+      "target_in_scope",
+      "params_available",
+      "not_already_done",
+      "crawler_signal_present"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 2,
+  "result": {
+    "target_url": "http://localhost:8080/api/audit/events",
+    "canary": "XSSA_CANARY_5d41f9d4d73caa5b",
+    "tested_parameters": [
+      "limit"
+    ],
+    "reflection_points": [],
+    "is_reflected": false,
+    "browser_verification": null,
+    "notes": [
+      "No raw canary reflection detected in tested responses."
+    ],
+    "errors": [
+      "Probe failed for parameter `limit`: HTTP error 401"
+    ]
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "xss_protection_audit",
+    "target": "http://localhost:8080/api/audit/events",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "target_url": "http://localhost:8080/api/audit/events",
+        "canary": "XSSA_CANARY_5d41f9d4d73caa5b",
+        "tested_parameters": [
+          "limit"
+        ],
+        "reflection_points": [],
+        "is_reflected": false,
+        "browser_verification": null,
+        "notes": [
+          "No raw canary reflection detected in tested responses."
+        ],
+        "errors": [
+          "Probe failed for parameter `limit`: HTTP error 401"
+        ]
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 2
+  }
+}

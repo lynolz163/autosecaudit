@@ -1,0 +1,4 @@
+{"timestamp": "2026-02-18T17:34:39.641201+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=0, max_iterations=3, timeout=300.0s, resumed=True"}
+{"timestamp": "2026-02-18T17:34:39.642374+00:00", "plugin_id": "agent", "action": "run_resume", "status": "info", "detail": "Resuming from C:\\Users\\Administrator\\Desktop\\agent\\output_agent_smoke\\agent\\agent_state.json; start_iteration=2, budget=0"}
+{"timestamp": "2026-02-18T17:34:39.643437+00:00", "plugin_id": "agent", "action": "run_stop", "status": "warning", "detail": "Budget exhausted."}
+{"timestamp": "2026-02-18T17:34:39.652886+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=1, findings=0"}

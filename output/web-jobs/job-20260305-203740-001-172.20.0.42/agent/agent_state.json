@@ -1,0 +1,37 @@
+{
+  "scope": [
+    "172.20.0.42"
+  ],
+  "breadcrumbs": [
+    {
+      "type": "service",
+      "data": "172.20.0.42"
+    }
+  ],
+  "history": [],
+  "surface": {
+    "cve_candidates": [],
+    "authorization_confirmed": false,
+    "safe_only": true,
+    "allow_high_risk": false,
+    "approval_granted": false
+  },
+  "budget_remaining": 50,
+  "total_budget": 50,
+  "target": "172.20.0.42",
+  "safety_grade": "balanced",
+  "iteration_count": 1,
+  "resumed": false,
+  "resumed_from": null,
+  "current_phase": "passive_recon",
+  "phase_budget_spent": {},
+  "phase_history": [],
+  "feedback": {},
+  "findings_count": 0,
+  "circuit_breaker": {},
+  "cve_candidates": [],
+  "authorization_confirmed": false,
+  "cve_safe_only": true,
+  "cve_allow_high_risk": false,
+  "approval_granted": false
+}

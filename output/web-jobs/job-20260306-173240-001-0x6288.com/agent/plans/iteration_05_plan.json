@@ -1,0 +1,357 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 11 safe action(s), total estimated cost 72, remaining budget after plan 1. Blocked actions: 1. Executable actions after environment checks: 10.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "api_schema_discovery",
+      "target": "http://0x6288.com:8888/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c322edacd27ac051d90ac437be04df9142e6436f8b2b631857458f537661bcb1",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "api_schema_discovery",
+      "target": "http://0x6288.com:3128/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "98524cc196a709c0c69d536ecd2f15fedc5bf9b26615876789a6f3047d3f398c",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A10",
+      "tool_name": "api_schema_discovery",
+      "target": "http://0x6288.com:5800/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c5e53c46fdde4637991a1dc1e02dc3aa0d0945763baa9742c578af886272bcfa",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 26,
+        "read_bytes": 512,
+        "service": "rsftp",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "133ca89d5032a7fea5f606ca79082d2c6fb087a5e18fa6fe6c0335855294af81",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered rsftp service port 26.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "rsftp",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: rsftp"
+        ]
+      }
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 37,
+        "read_bytes": 512,
+        "service": "time",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "eb896ec428b8e50d70f07ee40c507a5d4899d217155badabf9cb66ff54de59f3",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered time service port 37.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "time",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: time"
+        ]
+      }
+    },
+    {
+      "action_id": "A11",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 53,
+        "read_bytes": 512,
+        "service": "domain",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "98268645d8f608df41f898ba0322a56171293fe24db741037fc0db51479167e4",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered domain service port 53.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "domain",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: domain"
+        ]
+      }
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "page_vision_analyzer",
+      "target": "http://0x6288.com:8888/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 24,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "66c5a38bdfe54b332cb31af0742ee35720cdf0cd58ed13dfc9ae19b290708ccd",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A9",
+      "tool_name": "page_vision_analyzer",
+      "target": "http://0x6288.com:3128/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 24,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "5d7c7478e23d251cbf495c5d3e47a218109c72312060b46bcd10895b18b0839b",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "dynamic_crawl",
+      "target": "http://0x6288.com:8000/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 25,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "f054c6f6d802bd9a4c142564d55e3ef5ebd27fda92928e24b3cd8f10d9e70fee",
+      "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "active_web_crawler",
+      "target": "http://0x6288.com:8000/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "priority": 26,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "0189578bb6d0a0ee6d879ac277998e40c62bb05d4e28481c1efa35071e304755",
+      "reason": "Run bounded active crawling with explicit page and depth limits.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ],
+  "ranking_overview": [
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "rsftp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: rsftp"
+      ]
+    },
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "time",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: time"
+      ]
+    },
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "domain",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: domain"
+      ]
+    }
+  ]
+}

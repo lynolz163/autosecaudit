@@ -1,0 +1,23 @@
+{
+  "skill": {
+    "name": "param_fuzzer",
+    "version": "1.0",
+    "tool": "param_fuzzer",
+    "category": "testing",
+    "description": "Run bounded benign parameter probes against parameterized endpoints."
+  },
+  "triggers": {
+    "phase": ["deep_testing"],
+    "when": [{"condition": "has_parameterized_endpoints"}, {"condition": "crawler_signal_present"}, {"condition": "not_already_done"}],
+    "target_source": "surface.endpoint_params",
+    "target_type": "parameterized_endpoint"
+  },
+  "parameters": {
+    "defaults": {"method": "GET", "mode": "lightweight", "max_probes": 6, "params": "$params"},
+    "constraints": {}
+  },
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {},
+  "risk": {"level": "medium", "cost": 6, "priority": 32, "retry": {}},
+  "dependencies": {"runtime": null, "tools": ["dynamic_crawl"]}
+}

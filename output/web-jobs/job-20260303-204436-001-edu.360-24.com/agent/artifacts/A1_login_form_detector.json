@@ -1,0 +1,47 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "login_form_detector",
+    "target": "http://edu.360-24.com:8888/",
+    "options": {},
+    "priority": 4,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "b18d61e8a82b62b31be2e956c6d7fb9d90b48c7f2c1abe9f1a53cc83cab68f55",
+    "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "Remote end closed connection without response",
+  "duration_ms": 5010,
+  "result": {
+    "error": "Remote end closed connection without response"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "login_form_detector",
+    "target": "http://edu.360-24.com:8888/",
+    "data": {
+      "status": "error",
+      "payload": {
+        "error": "Remote end closed connection without response"
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": "Remote end closed connection without response",
+    "raw_output": null,
+    "duration_ms": 5010
+  }
+}

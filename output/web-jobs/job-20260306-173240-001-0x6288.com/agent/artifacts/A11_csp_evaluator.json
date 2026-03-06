@@ -1,0 +1,33 @@
+{
+  "action": {
+    "action_id": "A11",
+    "tool_name": "csp_evaluator",
+    "target": "http://0x6288.com:5800/",
+    "options": {},
+    "priority": 19,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "7c0a5a4038cb1a1529da664f4973d4a6653d679b064ad4f0838a3687f0027032",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "circuit_open:csp_evaluator:failures=4",
+  "duration_ms": 2,
+  "attempts": 0,
+  "result": {
+    "error": "circuit_open:csp_evaluator:failures=4"
+  },
+  "metadata": {},
+  "tool_result": null
+}

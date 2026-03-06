@@ -1,0 +1,125 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "priority": 1,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "2e99061a5621936e46301117784a3760bca420a024c157d2851af815fd894b8e",
+    "reason": "Passively fingerprint exposed technologies from headers and page content.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 756,
+  "attempts": 1,
+  "result": {
+    "url": "https://lynolz.com:443",
+    "status_code": 200,
+    "headers": {
+      "date": "Wed, 04 Mar 2026 05:32:52 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=OqpLCdDn7e6Xx4gSXj5aulZgYSRf69EBZWJt16W5gJ7fgN3YDaIdIPF9h59J6WkMwhuJApfDtVcUaiTlgbl3%2BKvWIBcwXAzVUuiyeB1IGva7ZQQ61fI%3D\"}]}",
+      "set-cookie": "_gorilla_csrf=MTc3MjYwMjM3MnxJaXRzYkVwV1JYZEJlVEYxWkdZM04zUnNNbmhFTDNSMFVtRjZTR1ZEUVZOd1N6UXdRWEJzV2pnMVNEZzlJZ289fFUrMQeqYlyKhht7WK_5r6NiZEz1lfd9xD-iB58bTuhn; Path=/; Expires=Wed, 04 Mar 2026 17:32:52 GMT; Max-Age=43200; HttpOnly; SameSite=Lax",
+      "vary": "Accept-Encoding",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=5,cfOrigin;dur=3",
+      "cf-ray": "9d6e80be0c0fe6d4-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "tech_stack": []
+  },
+  "metadata": {
+    "url": "https://lynolz.com:443",
+    "status_code": 200,
+    "headers": {
+      "date": "Wed, 04 Mar 2026 05:32:52 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=OqpLCdDn7e6Xx4gSXj5aulZgYSRf69EBZWJt16W5gJ7fgN3YDaIdIPF9h59J6WkMwhuJApfDtVcUaiTlgbl3%2BKvWIBcwXAzVUuiyeB1IGva7ZQQ61fI%3D\"}]}",
+      "set-cookie": "_gorilla_csrf=MTc3MjYwMjM3MnxJaXRzYkVwV1JYZEJlVEYxWkdZM04zUnNNbmhFTDNSMFVtRjZTR1ZEUVZOd1N6UXdRWEJzV2pnMVNEZzlJZ289fFUrMQeqYlyKhht7WK_5r6NiZEz1lfd9xD-iB58bTuhn; Path=/; Expires=Wed, 04 Mar 2026 17:32:52 GMT; Max-Age=43200; HttpOnly; SameSite=Lax",
+      "vary": "Accept-Encoding",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=5,cfOrigin;dur=3",
+      "cf-ray": "9d6e80be0c0fe6d4-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "tech_stack": [],
+    "skill_name": "tech_stack_fingerprint",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "tech_stack_fingerprint:fingerprint",
+          "tool": "tech_stack_fingerprint",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "Passive Technology Fingerprint",
+          "description": "Passive fingerprinting identified stack indicators from headers or page content.",
+          "evidence": {
+            "url": "https://lynolz.com:443",
+            "status_code": 200,
+            "tech_stack": [],
+            "server": "cloudflare"
+          },
+          "remediation": "Review exposed technology markers and minimize unnecessary fingerprinting signals where practical.",
+          "cwe_id": null,
+          "cvss_score": null
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "tech_stack": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://lynolz.com:443",
+        "status_code": 200,
+        "headers": {
+          "date": "Wed, 04 Mar 2026 05:32:52 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "server": "cloudflare",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=OqpLCdDn7e6Xx4gSXj5aulZgYSRf69EBZWJt16W5gJ7fgN3YDaIdIPF9h59J6WkMwhuJApfDtVcUaiTlgbl3%2BKvWIBcwXAzVUuiyeB1IGva7ZQQ61fI%3D\"}]}",
+          "set-cookie": "_gorilla_csrf=MTc3MjYwMjM3MnxJaXRzYkVwV1JYZEJlVEYxWkdZM04zUnNNbmhFTDNSMFVtRjZTR1ZEUVZOd1N6UXdRWEJzV2pnMVNEZzlJZ289fFUrMQeqYlyKhht7WK_5r6NiZEz1lfd9xD-iB58bTuhn; Path=/; Expires=Wed, 04 Mar 2026 17:32:52 GMT; Max-Age=43200; HttpOnly; SameSite=Lax",
+          "vary": "Accept-Encoding",
+          "cf-cache-status": "DYNAMIC",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "server-timing": "cfEdge;dur=5,cfOrigin;dur=3",
+          "cf-ray": "9d6e80be0c0fe6d4-LAX",
+          "alt-svc": "h3=\":443\"; ma=86400"
+        },
+        "tech_stack": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 756
+  }
+}

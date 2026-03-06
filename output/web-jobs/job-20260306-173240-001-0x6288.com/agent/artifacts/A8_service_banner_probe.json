@@ -1,0 +1,146 @@
+{
+  "action": {
+    "action_id": "A8",
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 37,
+      "read_bytes": 512,
+      "service": "time",
+      "timeout_seconds": 4
+    },
+    "priority": 15,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "eb896ec428b8e50d70f07ee40c507a5d4899d217155badabf9cb66ff54de59f3",
+    "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered time service port 37.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ],
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "time",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: time"
+      ]
+    }
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4008,
+  "attempts": 1,
+  "result": {
+    "host": "0x6288.com",
+    "port": 37,
+    "service": "time",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0
+  },
+  "metadata": {
+    "host": "0x6288.com",
+    "port": 37,
+    "service": "time",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0,
+    "skill_name": "service_banner_probe",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "graph_assets": [
+        {
+          "kind": "service",
+          "id": "service:tcp:0x6288.com:37:time",
+          "parent_id": null,
+          "attributes": {
+            "host": "0x6288.com",
+            "port": 37,
+            "proto": "tcp",
+            "service": "time",
+            "banner": "",
+            "tls": false,
+            "auth_required": null,
+            "scheme": ""
+          },
+          "evidence": {
+            "banner": "",
+            "probe_command": ""
+          },
+          "source_tool": "service_banner_probe",
+          "host": "0x6288.com",
+          "port": 37,
+          "proto": "tcp",
+          "service": "time",
+          "banner": "",
+          "tls": false,
+          "auth_required": null
+        }
+      ],
+      "surface_updates": {
+        "service_banners": [
+          {
+            "host": "0x6288.com",
+            "port": 37,
+            "service": "time",
+            "banner": "",
+            "probe_command": "",
+            "status": "no_banner"
+          }
+        ]
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "host": "0x6288.com",
+        "port": 37,
+        "service": "time",
+        "timeout_seconds": 4.0,
+        "read_bytes": 512,
+        "probe_command": "",
+        "banner_length": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4008
+  },
+  "ranking_explanation": {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "component": null,
+    "service": "time",
+    "version": null,
+    "selected_candidate": null,
+    "candidate_order": [],
+    "selected_templates": [],
+    "protocol_tags": [],
+    "rag_recommended_tools": [],
+    "reasons": [
+      "Service match: time"
+    ]
+  }
+}

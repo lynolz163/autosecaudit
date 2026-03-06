@@ -1,0 +1,146 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 26,
+      "read_bytes": 512,
+      "service": "rsftp",
+      "timeout_seconds": 4
+    },
+    "priority": 15,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "133ca89d5032a7fea5f606ca79082d2c6fb087a5e18fa6fe6c0335855294af81",
+    "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered rsftp service port 26.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ],
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "rsftp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: rsftp"
+      ]
+    }
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4010,
+  "attempts": 1,
+  "result": {
+    "host": "0x6288.com",
+    "port": 26,
+    "service": "rsftp",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0
+  },
+  "metadata": {
+    "host": "0x6288.com",
+    "port": 26,
+    "service": "rsftp",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0,
+    "skill_name": "service_banner_probe",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "graph_assets": [
+        {
+          "kind": "service",
+          "id": "service:tcp:0x6288.com:26:rsftp",
+          "parent_id": null,
+          "attributes": {
+            "host": "0x6288.com",
+            "port": 26,
+            "proto": "tcp",
+            "service": "rsftp",
+            "banner": "",
+            "tls": false,
+            "auth_required": null,
+            "scheme": ""
+          },
+          "evidence": {
+            "banner": "",
+            "probe_command": ""
+          },
+          "source_tool": "service_banner_probe",
+          "host": "0x6288.com",
+          "port": 26,
+          "proto": "tcp",
+          "service": "rsftp",
+          "banner": "",
+          "tls": false,
+          "auth_required": null
+        }
+      ],
+      "surface_updates": {
+        "service_banners": [
+          {
+            "host": "0x6288.com",
+            "port": 26,
+            "service": "rsftp",
+            "banner": "",
+            "probe_command": "",
+            "status": "no_banner"
+          }
+        ]
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "host": "0x6288.com",
+        "port": 26,
+        "service": "rsftp",
+        "timeout_seconds": 4.0,
+        "read_bytes": 512,
+        "probe_command": "",
+        "banner_length": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4010
+  },
+  "ranking_explanation": {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "component": null,
+    "service": "rsftp",
+    "version": null,
+    "selected_candidate": null,
+    "candidate_order": [],
+    "selected_templates": [],
+    "protocol_tags": [],
+    "rag_recommended_tools": [],
+    "reasons": [
+      "Service match: rsftp"
+    ]
+  }
+}

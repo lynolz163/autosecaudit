@@ -1,0 +1,130 @@
+{
+  "action": {
+    "action_id": "A13",
+    "tool_name": "tech_stack_fingerprint",
+    "target": "http://172.20.0.42:80/",
+    "options": {},
+    "priority": 1,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "1bd1d416a636890d73ab178e0e45ff443d18814c0dc05ca70392478d0d421ca0",
+    "reason": "Passively fingerprint exposed technologies from headers and page content.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 40,
+  "attempts": 1,
+  "result": {
+    "url": "http://172.20.0.42:80",
+    "status_code": 200,
+    "headers": {
+      "content-length": "3429",
+      "accept-ranges": "bytes",
+      "connection": "keep-alive",
+      "content-type": "text/html",
+      "date": "Fri, 06 Mar 2026 02:21:16 GMT",
+      "etag": "\"60c1d6af-d65\"",
+      "keep-alive": "timeout=60",
+      "last-modified": "Thu, 10 Jun 2021 09:09:03 GMT",
+      "proxy-connection": "keep-alive",
+      "server": "nginx/1.14.1"
+    },
+    "tech_stack": [
+      "nginx"
+    ]
+  },
+  "metadata": {
+    "url": "http://172.20.0.42:80",
+    "status_code": 200,
+    "headers": {
+      "content-length": "3429",
+      "accept-ranges": "bytes",
+      "connection": "keep-alive",
+      "content-type": "text/html",
+      "date": "Fri, 06 Mar 2026 02:21:16 GMT",
+      "etag": "\"60c1d6af-d65\"",
+      "keep-alive": "timeout=60",
+      "last-modified": "Thu, 10 Jun 2021 09:09:03 GMT",
+      "proxy-connection": "keep-alive",
+      "server": "nginx/1.14.1"
+    },
+    "tech_stack": [
+      "nginx"
+    ],
+    "skill_name": "tech_stack_fingerprint",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "tech_stack_fingerprint",
+    "target": "http://172.20.0.42:80/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "tech_stack_fingerprint:fingerprint",
+          "tool": "tech_stack_fingerprint",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "Passive Technology Fingerprint",
+          "description": "Passive fingerprinting identified stack indicators from headers or page content.",
+          "evidence": {
+            "url": "http://172.20.0.42:80",
+            "status_code": 200,
+            "tech_stack": [
+              "nginx"
+            ],
+            "server": "nginx/1.14.1"
+          },
+          "remediation": "Review exposed technology markers and minimize unnecessary fingerprinting signals where practical.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "tech_stack": [
+          "nginx"
+        ]
+      },
+      "follow_up_hints": [
+        "nuclei_exploit_check"
+      ],
+      "metadata": {
+        "url": "http://172.20.0.42:80",
+        "status_code": 200,
+        "headers": {
+          "content-length": "3429",
+          "accept-ranges": "bytes",
+          "connection": "keep-alive",
+          "content-type": "text/html",
+          "date": "Fri, 06 Mar 2026 02:21:16 GMT",
+          "etag": "\"60c1d6af-d65\"",
+          "keep-alive": "timeout=60",
+          "last-modified": "Thu, 10 Jun 2021 09:09:03 GMT",
+          "proxy-connection": "keep-alive",
+          "server": "nginx/1.14.1"
+        },
+        "tech_stack": [
+          "nginx"
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 40
+  }
+}

@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoSecAudit Visual Report - example.com</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(14,165,233,0.10), transparent 34%),
+        radial-gradient(circle at 88% 12%, rgba(16,185,129,0.10), transparent 38%),
+        linear-gradient(180deg, #f8fafc, #eef2ff 46%, #f8fafc);
+    }
+    .glass {
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(148,163,184,0.22);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900">
+  <script id="audit-report-data" type="application/json">{"meta": {"generated_at": "2026-03-06T11:47:02.854094+00:00", "target": "example.com", "decision_summary": "[phase:passive_recon] Proposed 1 safe action(s), total estimated cost 3, remaining budget after plan 3. Blocked actions: 1. Executable actions after environment checks: 0.", "report_lang": "zh-CN", "resumed": false, "resumed_from": "None", "current_phase": "passive_recon"}, "summary": {"audit_score": 99, "score_label": "Excellent", "total_findings": 2, "vulnerability_findings": 1, "severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 1}, "history_count": 2, "iteration_count": 2, "budget_remaining": 41, "budget_start_inferred": 50, "unique_tools_executed": 2, "service_origins_observed": 6, "api_endpoint_count": 0, "blocked_actions_count": 2, "failed_actions_count": 0, "safety_grade": "balanced"}, "history": [{"index": 1, "tool": "subdomain_enum_passive", "target": "example.com", "phase": "passive_recon", "status": "completed", "started_at": "2026-03-06T11:47:00.368632+00:00", "ended_at": "2026-03-06T11:47:02.504714+00:00", "action_cost": 5, "budget_before": 50, "budget_after": 41, "error": null, "metadata_summary": {}, "ranking_explanation": {"tool": "subdomain_enum_passive", "target": "example.com", "component": null, "service": null, "version": null, "selected_candidate": null, "candidate_order": [], "selected_templates": [], "protocol_tags": [], "rag_recommended_tools": [], "reasons": ["Enumerate likely subdomains through passive certificate transparency sources.", "Scheduled in phase: passive_recon", "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"]}}, {"index": 2, "tool": "dns_zone_audit", "target": "example.com", "phase": "passive_recon", "status": "completed", "started_at": "2026-03-06T11:47:02.516179+00:00", "ended_at": "2026-03-06T11:47:02.524037+00:00", "action_cost": 4, "budget_before": 41, "budget_after": 41, "error": null, "metadata_summary": {}, "ranking_explanation": {"tool": "dns_zone_audit", "target": "example.com", "component": null, "service": null, "version": null, "selected_candidate": null, "candidate_order": [], "selected_templates": [], "protocol_tags": [], "rag_recommended_tools": [], "reasons": ["Resolve NS/MX/TXT/SOA records and test whether AXFR is exposed.", "Scheduled in phase: passive_recon", "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"]}}], "budget_trace": [{"step": 0, "label": "Start", "tool": "", "cost": 0, "budget_before": 50, "budget_after": 50, "cumulative_spent": 0}, {"step": 1, "label": "1. subdomain_enum_passive", "tool": "subdomain_enum_passive", "cost": 5, "budget_before": 50, "budget_after": 41, "cumulative_spent": 5}, {"step": 2, "label": "2. dns_zone_audit", "tool": "dns_zone_audit", "cost": 4, "budget_before": 41, "budget_after": 41, "cumulative_spent": 9}], "coverage": {"tool_stats": [{"tool": "dns_zone_audit", "total": 1, "completed": 1, "failed": 0, "error": 0}, {"tool": "subdomain_enum_passive", "total": 1, "completed": 1, "failed": 0, "error": 0}], "unique_tools_executed": 2, "service_origins_observed": 6, "service_origins": ["https://dev.example.com", "https://example.com", "https://m.example.com", "https://products.example.com", "https://support.example.com", "https://www.example.com"], "api_endpoint_count": 0, "discovered_url_count": 0, "parameter_count": 0, "tech_stack": [], "config_exposure_count": 0, "completed_actions": 2, "failed_actions": 0, "error_actions": 0, "highlights": ["Observed 6 HTTP(S) service origin(s)."]}, "recon": {"target_info": {"target": "example.com", "scope": ["example.com"], "service_origins": ["https://dev.example.com", "https://example.com", "https://m.example.com", "https://products.example.com", "https://support.example.com", "https://www.example.com"]}, "subdomains": ["dev.example.com", "example.com", "m.example.com", "products.example.com", "support.example.com", "www.example.com"], "dns_records": {"example.com": {"A": ["104.18.26.120", "104.18.27.120"]}}, "ports_services": {"ports": [], "services": []}, "asset_inventory": [{"id": "domain:example.com", "kind": "domain", "source_tool": "dns_zone_audit", "attributes": {"domain": "example.com", "has_zone_transfer": false}}], "tls_certificate": {}, "http_headers": {}, "tech_stack": [], "waf_cdn": [], "security_policies": {"security_txt": {}, "csp_evaluation": {}, "cookies": []}, "login_forms": [], "api_schemas": [], "config_exposures": [], "git_exposures": [], "source_maps": [], "discovered_urls": [], "api_endpoints": [], "url_parameters": {}, "error_page_markers": [], "tools_executed": [{"tool": "subdomain_enum_passive", "target": "example.com", "status": "completed", "duration_ms": null}, {"tool": "dns_zone_audit", "target": "example.com", "status": "completed", "duration_ms": null}]}, "execution": {"blocked_actions": [{"action": {"action_id": "A3", "tool_name": "reverse_dns_probe", "target": "example.com", "options": {"max_addresses": 6, "timeout_seconds": 4}, "priority": 16, "cost": 2, "capabilities": ["network_read"], "idempotency_key": "de529b0d1636d22390ea44d48ac57602b07fc8bc63f54c03c39a0d656643e397", "reason": "Resolve reverse-DNS names for scoped IPs and discovered host addresses.", "preconditions": ["target_in_scope", "not_already_done"], "stop_conditions": ["budget_exhausted", "scope_violation_detected"]}, "reason": "dependency_unsatisfied:nmap_scan"}, {"action": {"action_id": "A1", "tool_name": "passive_config_audit", "target": "https://dev.example.com:443", "options": {"max_paths": 10, "max_total_seconds": 18, "request_timeout_seconds": 3}, "priority": 0, "cost": 3, "capabilities": ["network_read"], "idempotency_key": "7abade1650acf886f098f737e47da81ab464a1e0b8a220a551641b21fad4c5fb", "reason": "Check common sensitive config paths using read-only requests.", "preconditions": ["target_in_scope", "not_already_done", "http_service_confirmed"], "stop_conditions": ["budget_exhausted", "scope_violation_detected"]}, "reason": "scope_fail_closed_resolution_failed"}], "failed_actions": [], "current_phase": "passive_recon", "phase_history": [], "runtime": {"safety_grade": "balanced", "iteration_count": 2, "total_budget": 50, "budget_remaining": 41, "resumed": false, "resumed_from": "None"}}, "scope": {"scope": ["example.com"], "breadcrumbs": [{"type": "service", "data": "example.com"}, {"type": "service", "data": "https://dev.example.com"}, {"type": "service", "data": "https://example.com"}, {"type": "service", "data": "https://m.example.com"}, {"type": "service", "data": "https://products.example.com"}, {"type": "service", "data": "https://support.example.com"}, {"type": "service", "data": "https://www.example.com"}], "assets": [{"kind": "domain", "id": "domain:example.com", "parent_id": null, "attributes": {"domain": "example.com", "has_zone_transfer": false}, "evidence": {"dns_records": {"A": ["104.18.26.120", "104.18.27.120"]}, "zone_transfer": {"attempted": false, "success": false, "server": null, "subdomains": []}}, "source_tool": "dns_zone_audit"}], "surface": {"mission_intent": "recon", "mission_depth": "standard", "mission_message": "对edu.360-24.com进行全方位的信息收集", "autonomy_mode": "adaptive", "authorization_confirmed": false, "disabled_tools": ["active_web_crawler", "dynamic_crawl", "page_vision_analyzer"], "focus_ports": [], "preferred_origins": [], "assets": [{"kind": "domain", "id": "domain:example.com", "parent_id": null, "attributes": {"domain": "example.com", "has_zone_transfer": false}, "evidence": {"dns_records": {"A": ["104.18.26.120", "104.18.27.120"]}, "zone_transfer": {"attempted": false, "success": false, "server": null, "subdomains": []}}, "source_tool": "dns_zone_audit"}], "cve_candidates": [], "safe_only": true, "allow_high_risk": false, "approval_granted": false, "report_lang": "zh-CN", "discovered_subdomains": ["dev.example.com", "example.com", "m.example.com", "products.example.com", "support.example.com", "www.example.com"], "dns_records": {"example.com": {"A": ["104.18.26.120", "104.18.27.120"]}}, "dns_zone_audit": [{"domain": "example.com", "records": {"A": ["104.18.26.120", "104.18.27.120"]}, "zone_transfer": {"attempted": false, "success": false, "server": null, "subdomains": []}}], "dns_follow_up_signals": ["authoritative_records"]}}, "findings": [{"index": 1, "type": "info", "name": "Passive Subdomain Enumeration Results", "severity": "info", "evidence": "{\"domain\": \"example.com\", \"count\": 6, \"subdomains\": [\"dev.example.com\", \"example.com\", \"m.example.com\", \"products.example.com\", \"support.example.com\", \"www.example.com\"]}", "reproduction_steps": ["Query crt.sh for %.example.com and review returned SAN/CN values."], "related_asset_ids": [], "recommendation": "Review evidence, confirm impact, and apply least-privilege plus secure configuration controls.", "cve_id": null, "cvss_score": null, "cve_verified": false}, {"index": 2, "type": "vuln", "name": "Observed DNS authority metadata for example.com", "severity": "info", "evidence": "{\"domain\": \"example.com\", \"records\": {\"A\": [\"104.18.26.120\", \"104.18.27.120\"]}, \"zone_transfer\": {\"attempted\": false, \"server\": null, \"subdomains\": [], \"success\": false}}", "reproduction_steps": ["Query NS/MX/TXT/SOA records for example.com.", "Attempt a bounded AXFR request against a limited set of authoritative nameservers."], "related_asset_ids": ["domain:example.com"], "recommendation": "Restrict AXFR to trusted DNS management hosts and review externally visible DNS metadata.", "cve_id": "None", "cvss_score": null, "cve_verified": false}], "visual_analysis": {"verification_ranking": [], "asset_phase_trends": [{"phase": "passive_recon", "executed_actions": 2, "unique_tools": 2, "tool_names": ["subdomain_enum_passive", "dns_zone_audit"], "asset_count": 1, "service_assets": 0, "linked_findings": 2, "finding_count": 2, "delta_assets": 1, "reason": null, "is_current": true}], "asset_batch_trends": [{"job_id": "job-20260306-194659-001-example.com", "ended_at": "2026-03-06T11:47:02.854094+00:00", "updated_at": "2026-03-06T11:47:02.854094+00:00", "status": "completed", "finding_total": 2, "total_assets": 1, "service_assets": 0, "linked_findings": 1, "is_current": true, "delta_assets": 1, "delta_findings": 2}], "batch_diff": {"baseline_job_id": null, "new_count": 0, "resolved_count": 0, "persistent_count": 0, "new_findings": [], "resolved_findings": [], "new_assets_count": 0, "resolved_assets_count": 0, "persistent_assets_count": 0, "new_assets": [], "resolved_assets": [], "new_services_count": 0, "resolved_services_count": 0, "persistent_services_count": 0, "new_services": [], "resolved_services": [], "new_asset_severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}, "resolved_asset_severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}, "persistent_asset_severity_counts": {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}, "new_service_protocol_counts": [], "resolved_service_protocol_counts": [], "persistent_service_protocol_counts": []}}}</script>
+  <script id="agent-state-data" type="application/json">{"scope": ["example.com"], "breadcrumbs": [{"type": "service", "data": "example.com"}, {"type": "service", "data": "https://dev.example.com"}, {"type": "service", "data": "https://example.com"}, {"type": "service", "data": "https://m.example.com"}, {"type": "service", "data": "https://products.example.com"}, {"type": "service", "data": "https://support.example.com"}, {"type": "service", "data": "https://www.example.com"}], "assets": [{"kind": "domain", "id": "domain:example.com", "parent_id": null, "attributes": {"domain": "example.com", "has_zone_transfer": false}, "evidence": {"dns_records": {"A": ["104.18.26.120", "104.18.27.120"]}, "zone_transfer": {"attempted": false, "success": false, "server": null, "subdomains": []}}, "source_tool": "dns_zone_audit"}], "history": [{"tool": "subdomain_enum_passive", "target": "example.com", "options": {"max_results": 100}, "idempotency_key": "c915664a00a1d9914cdd702c02cfd5f3af1552946fa36ff5c6f6b4d37e9aba01", "reason": "Enumerate likely subdomains through passive certificate transparency sources.", "preconditions": ["target_in_scope", "not_already_done", "domain_scope_declared"], "status": "completed", "started_at": "2026-03-06T11:47:00.368632+00:00", "ended_at": "2026-03-06T11:47:02.504714+00:00", "retry_attempts": 1, "artifacts": ["/workspace/output/web-jobs/job-20260306-194659-001-example.com/agent/artifacts/A1_subdomain_enum_passive.json"], "phase": "passive_recon", "ranking_explanation": {"tool": "subdomain_enum_passive", "target": "example.com", "component": null, "service": null, "version": null, "selected_candidate": null, "candidate_order": [], "selected_templates": [], "protocol_tags": [], "rag_recommended_tools": [], "reasons": ["Enumerate likely subdomains through passive certificate transparency sources.", "Scheduled in phase: passive_recon", "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"]}, "action_cost": 5, "budget_before": 50, "budget_after": 41}, {"tool": "dns_zone_audit", "target": "example.com", "options": {"max_nameservers": 3, "timeout_seconds": 5}, "idempotency_key": "e1974329da120eba15ca9e81382a5c9488e23fda15076427dc71ce67a64bdc7b", "reason": "Resolve NS/MX/TXT/SOA records and test whether AXFR is exposed.", "preconditions": ["target_in_scope", "not_already_done", "domain_scope_declared"], "status": "completed", "started_at": "2026-03-06T11:47:02.516179+00:00", "ended_at": "2026-03-06T11:47:02.524037+00:00", "retry_attempts": 1, "artifacts": ["/workspace/output/web-jobs/job-20260306-194659-001-example.com/agent/artifacts/A2_dns_zone_audit.json"], "phase": "passive_recon", "ranking_explanation": {"tool": "dns_zone_audit", "target": "example.com", "component": null, "service": null, "version": null, "selected_candidate": null, "candidate_order": [], "selected_templates": [], "protocol_tags": [], "rag_recommended_tools": [], "reasons": ["Resolve NS/MX/TXT/SOA records and test whether AXFR is exposed.", "Scheduled in phase: passive_recon", "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"]}, "action_cost": 4, "budget_before": 41, "budget_after": 41}], "surface": {"mission_intent": "recon", "mission_depth": "standard", "mission_message": "对edu.360-24.com进行全方位的信息收集", "autonomy_mode": "adaptive", "authorization_confirmed": false, "disabled_tools": ["active_web_crawler", "dynamic_crawl", "page_vision_analyzer"], "focus_ports": [], "preferred_origins": [], "assets": [{"kind": "domain", "id": "domain:example.com", "parent_id": null, "attributes": {"domain": "example.com", "has_zone_transfer": false}, "evidence": {"dns_records": {"A": ["104.18.26.120", "104.18.27.120"]}, "zone_transfer": {"attempted": false, "success": false, "server": null, "subdomains": []}}, "source_tool": "dns_zone_audit"}], "cve_candidates": [], "safe_only": true, "allow_high_risk": false, "approval_granted": false, "report_lang": "zh-CN", "discovered_subdomains": ["dev.example.com", "example.com", "m.example.com", "products.example.com", "support.example.com", "www.example.com"], "dns_records": {"example.com": {"A": ["104.18.26.120", "104.18.27.120"]}}, "dns_zone_audit": [{"domain": "example.com", "records": {"A": ["104.18.26.120", "104.18.27.120"]}, "zone_transfer": {"attempted": false, "success": false, "server": null, "subdomains": []}}], "dns_follow_up_signals": ["authoritative_records"]}, "budget_remaining": 41, "total_budget": 50, "target": "example.com", "safety_grade": "balanced", "autonomy_mode": "adaptive", "report_lang": "zh-CN", "iteration_count": 2, "resumed": false, "resumed_from": null, "current_phase": "passive_recon", "phase_budget_spent": {"passive_recon": 9}, "phase_history": [], "feedback": {"follow_up_tools": ["passive_config_audit", "source_map_detector", "csp_evaluator", "cve_verify", "dns_zone_audit", "api_schema_discovery", "subdomain_enum_passive", "reverse_dns_probe"], "priority_overrides": {"passive_config_audit": -4, "source_map_detector": -4, "csp_evaluator": -4, "cve_verify": -4, "dns_zone_audit": -4, "api_schema_discovery": -4, "reverse_dns_probe": -5}, "risk_signal": "none"}, "findings_count": 2, "circuit_breaker": {}, "cve_candidates": [], "authorization_confirmed": false, "cve_safe_only": true, "cve_allow_high_risk": false, "approval_granted": false, "disabled_tools": ["active_web_crawler", "dynamic_crawl", "page_vision_analyzer"], "focus_ports": [], "preferred_origins": [], "memory_context": {"compression_applied": true, "target": "example.com", "phase": "passive_recon", "budget_remaining": 41, "iteration_count": 2, "history_total": 2, "breadcrumbs_total": 7, "surface_keys": ["allow_high_risk", "approval_granted", "assets", "authorization_confirmed", "autonomy_mode", "cve_candidates", "disabled_tools", "discovered_subdomains", "dns_follow_up_signals", "dns_records", "dns_zone_audit", "focus_ports", "mission_depth", "mission_intent", "mission_message", "preferred_origins", "report_lang", "safe_only"], "summary": "Recon origins=6, services=0, tech_stack=none, exploit_signals=2, rag_hits=5.", "persisted_summary": "Recon origins=6, services=0, tech_stack=none, exploit_signals=2, rag_hits=5.", "persisted_run_count": 1, "recon_memory": {"ttl_seconds": 2592000, "origins": [{"value": "https://products.example.com", "weight": 1.62, "hit_count": 2, "hit_score": 2.916, "freshness_score": 1.0, "expires_at": "2026-04-05T11:47:02.811538+00:00"}, {"value": "https://example.com", "weight": 1.62, "hit_count": 2, "hit_score": 2.916, "freshness_score": 1.0, "expires_at": "2026-04-05T11:47:02.811538+00:00"}, {"value": "https://m.example.com", "weight": 1.62, "hit_count": 2, "hit_score": 2.916, "freshness_score": 1.0, "expires_at": "2026-04-05T11:47:02.811538+00:00"}, {"value": "https://dev.example.com", "weight": 1.62, "hit_count": 2, "hit_score": 2.916, "freshness_score": 1.0, "expires_at": "2026-04-05T11:47:02.811538+00:00"}, {"value": "https://www.example.com", "weight": 1.62, "hit_count": 2, "hit_score": 2.916, "freshness_score": 1.0, "expires_at": "2026-04-05T11:47:02.811538+00:00"}, {"value": "https://support.example.com", "weight": 1.62, "hit_count": 2, "hit_score": 2.916, "freshness_score": 1.0, "expires_at": "2026-04-05T11:47:02.811538+00:00"}], "services": [], "tech_stack": []}, "exploit_memory": {"ttl_seconds": 1209600, "follow_up_tools": [{"value": "passive_config_audit", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "dns_zone_audit", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "source_map_detector", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "api_schema_discovery", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "csp_evaluator", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "reverse_dns_probe", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "subdomain_enum_passive", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": "cve_verify", "weight": 1.755, "hit_count": 2, "hit_score": 3.159, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}], "recent_findings": [{"value": {"title": "Observed DNS authority metadata for example.com", "severity": "info", "tool": "dns_zone_audit", "cve_id": "NONE"}, "weight": 1.485, "hit_count": 2, "hit_score": 2.673, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": {"title": "Passive Subdomain Enumeration Results", "severity": "info", "tool": "", "cve_id": ""}, "weight": 1.485, "hit_count": 2, "hit_score": 2.673, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}], "cve_candidates": [], "rag_intel_hits": [{"value": {"doc_id": "grafana-auth-hardening", "title": "Grafana Auth and Plugin Exposure Checks", "summary": "Grafana deployments often expose login endpoints and plugin metadata that influence exploitability.", "snippet": "Validate auth hardening, plugin list exposure, and known CVE coverage for detected Grafana versions.", "source": "file", "recommended_tools": ["login_form_detector", "cve_lookup", "nuclei_exploit_check"], "severity_hint": "medium", "score": 3.0}, "weight": 2.3625, "hit_count": 2, "hit_score": 4.2525, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": {"doc_id": "legacy-tls-handshake-hardening", "title": "Legacy TLS Handshake and HTTPS Validation", "summary": "Legacy TLS protocol support should escalate into targeted HTTPS validation and hardening review.", "snippet": "When TLSv1/TLSv1.1 or weak transport traits are observed, feed the origin back into template-based HTTPS validation and passive hardening checks.", "source": "builtin", "recommended_tools": ["nuclei_exploit_check", "passive_config_audit"], "severity_hint": "medium", "score": 2.0}, "weight": 2.025, "hit_count": 2, "hit_score": 3.645, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": {"doc_id": "jenkins-unauth-endpoint-hardening", "title": "Jenkins Endpoint Exposure and Legacy CVEs", "summary": "Jenkins often exposes metadata endpoints; verify auth and known CVE coverage.", "snippet": "Audit login flow, crumbs API, and plugin version signals before exploit validation.", "source": "builtin", "recommended_tools": ["login_form_detector", "cve_lookup", "nuclei_exploit_check"], "severity_hint": "high", "score": 2.0}, "weight": 2.025, "hit_count": 2, "hit_score": 3.645, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": {"doc_id": "nginx-alias-traversal-patterns", "title": "Nginx Alias Traversal Misconfiguration", "summary": "Look for location/alias path traversal style weaknesses and leaked static roots.", "snippet": "Fingerprint static file roots, test normalized and encoded traversal payloads safely.", "source": "builtin", "recommended_tools": ["dirsearch_scan", "passive_config_audit", "nuclei_exploit_check"], "severity_hint": "high", "score": 2.0}, "weight": 2.025, "hit_count": 2, "hit_score": 3.645, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}, {"value": {"doc_id": "memcached-public-stats-exposure", "title": "Memcached Public Exposure and Stats Leakage", "summary": "Public memcached responses often indicate broad unauthenticated exposure and version-bearing metadata.", "snippet": "Use bounded version and stats probes, then drive CVE lookup and safe sandbox validation from the discovered version.", "source": "builtin", "recommended_tools": ["cve_lookup", "poc_sandbox_exec"], "severity_hint": "high", "score": 2.0}, "weight": 2.025, "hit_count": 2, "hit_score": 3.645, "freshness_score": 1.0, "expires_at": "2026-03-20T11:47:02.811538+00:00"}]}, "report_memory": {"ttl_seconds": 1814400, "run_summaries": [{"value": {"phase": "passive_recon", "budget_remaining": 41, "iteration_count": 2, "findings_count": 2, "summary": "phase=passive_recon budget=41 findings=2"}, "weight": 1.35, "hit_count": 2, "hit_score": 2.43, "freshness_score": 1.0, "expires_at": "2026-03-27T11:47:02.811538+00:00"}], "report_preferences": [{"value": {"report_lang": "zh-cn", "safety_grade": "balanced"}, "weight": 1.215, "hit_count": 2, "hit_score": 2.187, "freshness_score": 1.0, "expires_at": "2026-03-27T11:47:02.811538+00:00"}]}, "planning_hints": {"tech_stack": [], "follow_up_tools": ["passive_config_audit", "dns_zone_audit", "source_map_detector", "api_schema_discovery", "csp_evaluator", "reverse_dns_probe", "subdomain_enum_passive", "cve_verify", "login_form_detector", "cve_lookup", "nuclei_exploit_check", "dirsearch_scan"], "rag_recommended_tools": ["login_form_detector", "cve_lookup", "nuclei_exploit_check", "passive_config_audit", "dirsearch_scan", "poc_sandbox_exec"], "rag_intel_hits": [{"doc_id": "grafana-auth-hardening", "title": "Grafana Auth and Plugin Exposure Checks", "severity_hint": "medium", "score": 3.0, "recommended_tools": ["login_form_detector", "cve_lookup", "nuclei_exploit_check"]}, {"doc_id": "legacy-tls-handshake-hardening", "title": "Legacy TLS Handshake and HTTPS Validation", "severity_hint": "medium", "score": 2.0, "recommended_tools": ["nuclei_exploit_check", "passive_config_audit"]}, {"doc_id": "jenkins-unauth-endpoint-hardening", "title": "Jenkins Endpoint Exposure and Legacy CVEs", "severity_hint": "high", "score": 2.0, "recommended_tools": ["login_form_detector", "cve_lookup", "nuclei_exploit_check"]}, {"doc_id": "nginx-alias-traversal-patterns", "title": "Nginx Alias Traversal Misconfiguration", "severity_hint": "high", "score": 2.0, "recommended_tools": ["dirsearch_scan", "passive_config_audit", "nuclei_exploit_check"]}, {"doc_id": "memcached-public-stats-exposure", "title": "Memcached Public Exposure and Stats Leakage", "severity_hint": "high", "score": 2.0, "recommended_tools": ["cve_lookup", "poc_sandbox_exec"]}]}, "known_origins": ["https://products.example.com", "https://example.com", "https://m.example.com", "https://dev.example.com", "https://www.example.com", "https://support.example.com"], "known_services": [], "tech_stack": [], "recent_actions": [{"tool": "subdomain_enum_passive", "target": "example.com", "status": "completed"}, {"tool": "dns_zone_audit", "target": "example.com", "status": "completed"}], "recent_findings": [{"title": "Observed DNS authority metadata for example.com", "severity": "info", "tool": "dns_zone_audit", "cve_id": "NONE"}, {"title": "Passive Subdomain Enumeration Results", "severity": "info", "tool": "", "cve_id": ""}], "follow_up_tools": ["passive_config_audit", "dns_zone_audit", "source_map_detector", "api_schema_discovery", "csp_evaluator", "reverse_dns_probe", "subdomain_enum_passive", "cve_verify", "login_form_detector", "cve_lookup", "nuclei_exploit_check", "dirsearch_scan"], "compression_notice": {"history_total": 2, "breadcrumbs_total": 7, "mode": "segmented_memory_context_v2"}}}</script>
+  <div id="root"></div>
+  <script type="text/babel">
+    const auditReport = JSON.parse(document.getElementById("audit-report-data").textContent || "{}");
+    const agentState = JSON.parse(document.getElementById("agent-state-data").textContent || "{}");
+    const reportMeta = auditReport.meta || {};
+    const langTag = String(reportMeta.report_lang || agentState.report_lang || navigator.language || document.documentElement.lang || "").toLowerCase();
+    const isZh = langTag.startsWith("zh");
+    const tt = (en, zh) => isZh ? zh : en;
+    const scoreLabelMap = {
+      "Excellent": "优秀",
+      "Good": "良好",
+      "Needs Attention": "需要关注",
+      "High Risk": "高风险",
+      "Critical Risk": "严重风险",
+    };
+    const renderScoreLabel = (value) => {
+      const text = String(value || "N/A");
+      return isZh ? (scoreLabelMap[text] || text) : text;
+    };
+
+    const severityRank = ["critical", "high", "medium", "low", "info"];
+    const severityBadge = {
+      critical: "bg-rose-600 text-white",
+      high: "bg-orange-500 text-white",
+      medium: "bg-amber-300 text-slate-900",
+      low: "bg-emerald-300 text-slate-900",
+      info: "bg-sky-200 text-slate-900"
+    };
+
+    function MetricCard({ label, value, sub }) {
+      return (
+        <div className="glass rounded-2xl p-4">
+          <div className="text-xs uppercase tracking-[0.14em] text-slate-500">{label}</div>
+          <div className="mt-2 text-2xl font-semibold tabular-nums">{value}</div>
+          {sub ? <div className="mt-1 text-sm text-slate-500">{sub}</div> : null}
+        </div>
+      );
+    }
+
+    function BudgetLineChart({ trace }) {
+      const points = Array.isArray(trace) ? trace.filter((p) => typeof p.cumulative_spent === "number") : [];
+      if (!points.length) {
+        return <div className="text-sm text-slate-500">{tt("No budget trace available.", "暂无预算消耗轨迹。")}</div>;
+      }
+      const width = 760;
+      const height = 220;
+      const pad = 26;
+      const maxY = Math.max(1, ...points.map((p) => p.cumulative_spent || 0));
+      const maxX = Math.max(1, points.length - 1);
+      const coords = points.map((p, i) => {
+        const x = pad + ((width - pad * 2) * (points.length === 1 ? 0 : i / maxX));
+        const y = height - pad - ((height - pad * 2) * ((p.cumulative_spent || 0) / maxY));
+        return { ...p, x, y };
+      });
+      const linePath = coords.map((p, idx) => (idx === 0 ? "M" : "L") + p.x + "," + p.y).join(" ");
+      const areaPath = linePath + " L" + coords[coords.length - 1].x + "," + (height - pad) + " L" + coords[0].x + "," + (height - pad) + " Z";
+      return (
+        <div>
+          <div className="w-full overflow-x-auto">
+            <svg viewBox={"0 0 " + width + " " + height} className="w-full min-w-[520px]">
+              <defs>
+                <linearGradient id="budgetFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.26" />
+                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.03" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width={width} height={height} rx="16" fill="#ffffff" opacity="0.75" />
+              {[0, 0.25, 0.5, 0.75, 1].map((r, idx) => {
+                const y = pad + (height - pad * 2) * r;
+                return <line key={idx} x1={pad} y1={y} x2={width - pad} y2={y} stroke="#e2e8f0" strokeWidth="1" />;
+              })}
+              {coords.length > 1 ? <path d={areaPath} fill="url(#budgetFill)" /> : null}
+              <path d={linePath} fill="none" stroke="#0284c7" strokeWidth="3" strokeLinecap="round" />
+              {coords.map((p) => (
+                <g key={p.step}>
+                  <circle cx={p.x} cy={p.y} r="4" fill="#0284c7" />
+                  <text x={p.x} y={height - 7} textAnchor="middle" fontSize="10" fill="#475569">{p.step}</text>
+                </g>
+              ))}
+            </svg>
+          </div>
+          <div className="mt-3 space-y-1 text-xs text-slate-600">
+            {points.slice(-10).map((p) => (
+              <div key={"legend-" + p.step} className="flex justify-between gap-3">
+                <span className="break-all">{p.label}</span>
+                <span className="tabular-nums">+{p.cost || 0} ({tt("total", "累计")} {p.cumulative_spent || 0})</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function ScopeMap({ scopePayload }) {
+      const scopeList = Array.isArray(scopePayload?.scope) ? scopePayload.scope : [];
+      const breadcrumbs = Array.isArray(scopePayload?.breadcrumbs) ? scopePayload.breadcrumbs : [];
+      const surface = scopePayload?.surface && typeof scopePayload.surface === "object" ? scopePayload.surface : {};
+      const discoveredUrls = Array.isArray(surface.discovered_urls) ? surface.discovered_urls : [];
+      const apiEndpoints = Array.isArray(surface.api_endpoints) ? surface.api_endpoints : [];
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">{tt("Scope Asset Map", "范围资产地图")}</h2>
+            <div className="text-xs text-slate-500">{tt("Scope / breadcrumbs / surface", "范围 / 面包屑 / 资产面")}</div>
+          </div>
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Scope", "范围")}</div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {scopeList.length ? scopeList.map((item, idx) => (
+                  <span key={idx} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">{item}</span>
+                )) : <span className="text-sm text-slate-500">{tt("No scope entries", "无范围条目")}</span>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Breadcrumbs", "面包屑")}</div>
+              <div className="mt-2 max-h-48 space-y-1 overflow-auto rounded-xl bg-slate-50 p-2 text-xs">
+                {breadcrumbs.length ? breadcrumbs.map((b, idx) => (
+                  <div key={idx} className="flex gap-2">
+                    <span className="w-16 shrink-0 text-slate-500">{b.type}</span>
+                    <span className="break-all text-slate-700">{b.data}</span>
+                  </div>
+                )) : <div className="text-slate-500">{tt("No breadcrumbs", "无面包屑记录")}</div>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Surface", "资产面")}</div>
+              <div className="mt-2 text-xs text-slate-700 space-y-1">
+                <div>{tt("Discovered URLs", "已发现 URL")}: <span className="font-semibold">{discoveredUrls.length}</span></div>
+                <div>{tt("API Endpoints", "API 端点")}: <span className="font-semibold">{apiEndpoints.length}</span></div>
+                <div className="mt-2 max-h-40 overflow-auto rounded-xl bg-slate-50 p-2">
+                  {discoveredUrls.slice(0, 12).map((u, idx) => <div key={idx} className="break-all">{u}</div>)}
+                  {discoveredUrls.length > 12 ? <div className="text-slate-500">... {discoveredUrls.length - 12} {tt("more", "条")}</div> : null}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function AssetTopologyPanel({ scopePayload, findings }) {
+      const assets = Array.isArray(scopePayload?.assets) ? scopePayload.assets : [];
+      const surface = scopePayload?.surface && typeof scopePayload.surface === "object" ? scopePayload.surface : {};
+      const pocProtocolEvidence = Array.isArray(surface?.poc_protocol_evidence) ? surface.poc_protocol_evidence : [];
+      const safeFindings = Array.isArray(findings) ? findings : [];
+      if (!assets.length) return null;
+
+      const assetCounts = assets.reduce((acc, item) => {
+        const kind = String(item?.kind || "asset").toLowerCase();
+        acc[kind] = Number(acc[kind] || 0) + 1;
+        return acc;
+      }, {});
+      const linkedFindingsByAsset = new Map();
+      safeFindings.forEach((item) => {
+        const relatedIds = Array.isArray(item?.related_asset_ids) ? item.related_asset_ids : [];
+        relatedIds.forEach((assetId) => {
+          const key = String(assetId || "").trim();
+          if (!key) return;
+          if (!linkedFindingsByAsset.has(key)) {
+            linkedFindingsByAsset.set(key, []);
+          }
+          linkedFindingsByAsset.get(key).push(item);
+        });
+      });
+
+      const serviceAssets = assets.filter((item) => String(item?.kind || "").toLowerCase() === "service");
+      const otherAssets = assets.filter((item) => String(item?.kind || "").toLowerCase() !== "service");
+      const linkedFindingCount = Array.from(linkedFindingsByAsset.values()).reduce((total, rows) => total + rows.length, 0);
+
+      const assetDisplayName = (asset) => {
+        const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
+        if (String(asset?.kind || "").toLowerCase() === "service") {
+          const host = String(attrs.host || "-");
+          const port = String(attrs.port || "-");
+          const service = String(attrs.service || "service");
+          return host + ":" + port + " / " + service;
+        }
+        return String(asset?.id || tt("Unknown asset", "\u672a\u77e5\u8d44\u4ea7"));
+      };
+
+      const boolLabel = (value) => {
+        if (value === true) return tt("Yes", "\u662f");
+        if (value === false) return tt("No", "\u5426");
+        return "-";
+      };
+      const formatTitleCase = (value) => String(value || "")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, (match) => match.toUpperCase());
+      const evidenceFieldLabels = {
+        ping_response: tt("PING Response", "PING \u54cd\u5e94"),
+        redis_version: tt("Redis Version", "Redis \u7248\u672c"),
+        unauthenticated: tt("Unauthenticated Access", "\u672a\u8ba4\u8bc1\u8bbf\u95ee"),
+        stats_preview: tt("Stats Preview", "\u7edf\u8ba1\u9884\u89c8"),
+        reported_version: tt("Reported Version", "\u56de\u62a5\u7248\u672c"),
+        banner: tt("Banner", "Banner"),
+        tls_version: tt("TLS Version", "TLS \u7248\u672c"),
+        cipher: tt("Cipher Suite", "\u5bc6\u7801\u5957\u4ef6"),
+        weak_tls: tt("Weak TLS", "\u5f31 TLS"),
+        tls_supported: tt("TLS Supported", "\u652f\u6301 TLS"),
+      };
+      const renderEvidenceFieldLabel = (key) => {
+        const normalized = String(key || "").trim().toLowerCase();
+        if (!normalized) return "-";
+        return evidenceFieldLabels[normalized] || formatTitleCase(normalized);
+      };
+
+      const normalizeLower = (value) => String(value || "").trim().toLowerCase();
+      const displayServiceName = (value) => {
+        const normalized = normalizeLower(value);
+        if (["tls", "ssl", "https"].includes(normalized)) return "TLS/HTTPS";
+        if (["ssh", "openssh"].includes(normalized)) return "SSH";
+        if (["postgres", "postgresql"].includes(normalized)) return "PostgreSQL";
+        if (["mysql", "mariadb"].includes(normalized)) return "MySQL";
+        if (!normalized) return tt("Unknown service", "\u672a\u77e5\u670d\u52a1");
+        return formatTitleCase(normalized);
+      };
+      const serviceAliases = (value) => {
+        const normalized = normalizeLower(value);
+        if (!normalized) return [];
+        if (["tls", "ssl", "https"].includes(normalized)) return ["tls", "ssl", "https"];
+        if (["ssh", "openssh"].includes(normalized)) return ["ssh", "openssh"];
+        if (["postgres", "postgresql"].includes(normalized)) return ["postgres", "postgresql"];
+        if (["mysql", "mariadb"].includes(normalized)) return ["mysql", "mariadb"];
+        return [normalized];
+      };
+      const parseTargetMeta = (value) => {
+        const text = String(value || "").trim();
+        if (!text) return { host: "", port: 0 };
+        try {
+          if (text.includes("://")) {
+            const parsed = new URL(text);
+            const fallbackPort = parsed.protocol === "https:" ? 443 : (parsed.protocol === "http:" ? 80 : 0);
+            return {
+              host: normalizeLower(parsed.hostname),
+              port: Number(parsed.port || fallbackPort || 0),
+            };
+          }
+        } catch (error) {
+          void error;
+        }
+        return { host: normalizeLower(text), port: 0 };
+      };
+      const renderEvidenceValue = (value) => {
+        if (value === true || value === false) return boolLabel(value);
+        if (Array.isArray(value)) return value.map((item) => renderEvidenceValue(item)).join(", ");
+        if (value && typeof value === "object") return JSON.stringify(value);
+        return String(value ?? "-");
+      };
+      const structuredEvidenceForAsset = (asset) => {
+        const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
+        const assetHost = normalizeLower(attrs.host);
+        const assetPort = Number(attrs.port || 0);
+        const assetServiceAliases = serviceAliases(attrs.service || asset.kind);
+        return pocProtocolEvidence.filter((item) => {
+          if (!item || typeof item !== "object") return false;
+          const targetMeta = parseTargetMeta(item.target);
+          const itemHost = normalizeLower(item.host || targetMeta.host);
+          const itemPort = Number(item.port || targetMeta.port || 0);
+          const itemServiceAliases = serviceAliases(item.service || item.protocol || item.component);
+          const sameHost = assetHost && itemHost && assetHost === itemHost;
+          const samePort = !assetPort || !itemPort || assetPort === itemPort;
+          const sameService = !assetServiceAliases.length || !itemServiceAliases.length || assetServiceAliases.some((value) => itemServiceAliases.includes(value));
+          return sameHost && samePort && sameService;
+        });
+      };
+      const serviceTrendRows = Object.values(serviceAssets.reduce((acc, asset) => {
+        const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
+        const serviceKey = normalizeLower(attrs.service || asset.kind || "service") || "service";
+        const structuredEvidence = structuredEvidenceForAsset(asset);
+        const relatedFindings = Array.isArray(linkedFindingsByAsset.get(asset.id)) ? linkedFindingsByAsset.get(asset.id) : [];
+        const highestSeverity = relatedFindings.reduce((current, item) => {
+          const severity = String(item?.severity || "info").toLowerCase();
+          return severityRank.indexOf(severity) < severityRank.indexOf(current) ? severity : current;
+        }, "info");
+        if (!acc[serviceKey]) {
+          acc[serviceKey] = {
+            key: serviceKey,
+            label: displayServiceName(serviceKey),
+            assetCount: 0,
+            findingCount: 0,
+            validationCount: 0,
+            highestSeverity: "info",
+          };
+        }
+        acc[serviceKey].assetCount += 1;
+        acc[serviceKey].findingCount += relatedFindings.length;
+        acc[serviceKey].validationCount += structuredEvidence.length;
+        if (severityRank.indexOf(highestSeverity) < severityRank.indexOf(acc[serviceKey].highestSeverity)) {
+          acc[serviceKey].highestSeverity = highestSeverity;
+        }
+        return acc;
+      }, {})).sort((a, b) => {
+        if (b.findingCount !== a.findingCount) return b.findingCount - a.findingCount;
+        if (b.validationCount !== a.validationCount) return b.validationCount - a.validationCount;
+        return String(a.label).localeCompare(String(b.label));
+      });
+      const maxTrendValue = Math.max(1, ...serviceTrendRows.map((item) => Math.max(item.assetCount, item.findingCount, item.validationCount)));
+
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Asset View", "\u8d44\u4ea7\u89c6\u56fe")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Asset Topology", "\u8d44\u4ea7\u62d3\u6251")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">{tt("Assets, services, and linked findings in the exported report", "\u5bfc\u51fa\u62a5\u544a\u4e2d\u7684\u8d44\u4ea7\u3001\u670d\u52a1\u4e0e\u5173\u8054\u53d1\u73b0")}</div>
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <MetricCard label={tt("Assets", "\u8d44\u4ea7")} value={assets.length} sub={tt("Kinds", "\u7c7b\u578b") + ": " + Object.keys(assetCounts).length} />
+            <MetricCard label={tt("Services", "\u670d\u52a1")} value={serviceAssets.length} sub={tt("Other Assets", "\u5176\u4ed6\u8d44\u4ea7") + ": " + otherAssets.length} />
+            <MetricCard label={tt("Linked Findings", "\u5173\u8054\u53d1\u73b0")} value={linkedFindingCount} sub={tt("Mapped Assets", "\u5df2\u5173\u8054\u8d44\u4ea7") + ": " + linkedFindingsByAsset.size} />
+            <MetricCard label={tt("Kinds", "\u7c7b\u578b")} value={Object.keys(assetCounts).length} sub={tt("Services with findings", "\u6709\u53d1\u73b0\u7684\u670d\u52a1") + ": " + linkedFindingsByAsset.size} />
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {Object.entries(assetCounts).sort((a, b) => String(a[0]).localeCompare(String(b[0]))).map(([kind, count]) => (
+              <span key={kind} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
+                {kind} x{count}
+              </span>
+            ))}
+          </div>
+
+          {serviceTrendRows.length ? (
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Asset Trends", "\u8d44\u4ea7\u8d70\u52bf")}</div>
+                  <h3 className="mt-1 text-base font-semibold">{tt("Service-Level Trend Snapshot", "\u670d\u52a1\u7ea7\u8d70\u52bf\u5feb\u7167")}</h3>
+                </div>
+                <div className="text-xs text-slate-500">{tt("Assets, linked findings, and structured validations per service", "\u6309\u670d\u52a1\u7ef4\u5ea6\u6c47\u603b\u8d44\u4ea7\u6570\u3001\u5173\u8054\u53d1\u73b0\u4e0e\u7ed3\u6784\u5316\u9a8c\u8bc1")}</div>
+              </div>
+              <div className="mt-4 space-y-3">
+                {serviceTrendRows.map((item) => (
+                  <div key={"trend-" + item.key} className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm font-medium">{item.label}</div>
+                      <span className={"rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider " + (severityBadge[item.highestSeverity] || severityBadge.info)}>
+                        {item.highestSeverity}
+                      </span>
+                    </div>
+                    <div className="mt-2 grid gap-2 text-xs text-slate-600 md:grid-cols-3">
+                      <div>{tt("Assets", "\u8d44\u4ea7")}: <span className="font-medium text-slate-900">{item.assetCount}</span></div>
+                      <div>{tt("Findings", "\u53d1\u73b0")}: <span className="font-medium text-slate-900">{item.findingCount}</span></div>
+                      <div>{tt("Structured Validations", "\u7ed3\u6784\u5316\u9a8c\u8bc1")}: <span className="font-medium text-slate-900">{item.validationCount}</span></div>
+                    </div>
+                    <div className="mt-3 space-y-2">
+                      {[
+                        [tt("Assets", "\u8d44\u4ea7"), item.assetCount, "bg-slate-500"],
+                        [tt("Findings", "\u53d1\u73b0"), item.findingCount, "bg-cyan-500"],
+                        [tt("Structured Validations", "\u7ed3\u6784\u5316\u9a8c\u8bc1"), item.validationCount, "bg-emerald-500"],
+                      ].map(([label, value, color]) => (
+                        <div key={item.key + "-" + label} className="space-y-1">
+                          <div className="flex items-center justify-between text-[11px] text-slate-500">
+                            <span>{label}</span>
+                            <span className="font-medium text-slate-700">{value}</span>
+                          </div>
+                          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+                            <div className={String(color) + " h-full rounded-full"} style={{ width: Math.max(6, Math.round((Number(value) / maxTrendValue) * 100)) + "%" }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {serviceAssets.length ? (
+            <div className="mt-5 grid gap-4 xl:grid-cols-2">
+              {serviceAssets.map((asset) => {
+                const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
+                const evidence = asset?.evidence && typeof asset.evidence === "object" ? asset.evidence : {};
+                const structuredEvidence = structuredEvidenceForAsset(asset);
+                const relatedFindings = Array.isArray(linkedFindingsByAsset.get(asset.id)) ? [...linkedFindingsByAsset.get(asset.id)] : [];
+                relatedFindings.sort((a, b) => severityRank.indexOf(String(a?.severity || "info")) - severityRank.indexOf(String(b?.severity || "info")));
+                return (
+                  <article key={asset.id} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="text-sm font-semibold break-all">{assetDisplayName(asset)}</div>
+                        <div className="mt-1 text-xs text-slate-500">{tt("Source", "\u6765\u6e90")}: {asset.source_tool || "-"}</div>
+                      </div>
+                      <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+                        {displayServiceName(attrs.service || asset.kind || "service")}
+                      </span>
+                    </div>
+                    <div className="mt-3 grid gap-2 text-xs text-slate-600 md:grid-cols-2">
+                      <div>{tt("Proto", "\u534f\u8bae")}: <span className="font-medium text-slate-800">{String(attrs.proto || "-")}</span></div>
+                      <div>TLS: <span className="font-medium text-slate-800">{boolLabel(attrs.tls)}</span></div>
+                      <div>{tt("Auth", "\u8ba4\u8bc1")}: <span className="font-medium text-slate-800">{boolLabel(attrs.auth_required)}</span></div>
+                      <div>{tt("Linked Findings", "\u5173\u8054\u53d1\u73b0")}: <span className="font-medium text-slate-800">{relatedFindings.length}</span></div>
+                    </div>
+                    {(attrs.banner || evidence.banner) ? (
+                      <pre className="mt-3 max-h-32 overflow-auto rounded-xl bg-slate-900 p-3 text-xs leading-relaxed text-slate-100 whitespace-pre-wrap">
+{String(attrs.banner || evidence.banner)}
+                      </pre>
+                    ) : null}
+                    {structuredEvidence.length ? (
+                      <div className="mt-3">
+                        <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Structured Validation", "\u7ed3\u6784\u5316\u9a8c\u8bc1")}</div>
+                        <div className="mt-2 space-y-2">
+                          {structuredEvidence.map((item, idx) => {
+                            const detailEntries = Object.entries(item).filter(([key, value]) => {
+                              if (["target", "host", "port", "service", "protocol", "template", "cve_id", "component", "version"].includes(String(key))) {
+                                return false;
+                              }
+                              if (value === null || value === undefined || value === "") return false;
+                              if (Array.isArray(value) && !value.length) return false;
+                              if (typeof value === "object" && !Array.isArray(value) && !Object.keys(value).length) return false;
+                              return true;
+                            });
+                            return (
+                              <div key={asset.id + "-structured-" + idx} className="rounded-xl border border-cyan-200 bg-cyan-50/60 px-3 py-3">
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="text-sm font-medium break-all">
+                                    {displayServiceName(item.protocol || item.service || attrs.service || tt("protocol probe", "\u534f\u8bae\u63a2\u6d4b"))}
+                                  </div>
+                                  <span className="rounded-full bg-slate-900 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white">
+                                    {String(item.template || tt("probe", "\u63a2\u6d4b"))}
+                                  </span>
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-slate-600">
+                                  {item.cve_id ? <span className="rounded-full bg-white px-2 py-1 font-medium">{String(item.cve_id)}</span> : null}
+                                  {item.component ? <span className="rounded-full bg-white px-2 py-1 font-medium">{String(item.component)}{item.version ? " " + String(item.version) : ""}</span> : null}
+                                  {item.port ? <span className="rounded-full bg-white px-2 py-1 font-medium">{tt("Port", "\u7aef\u53e3")}: {String(item.port)}</span> : null}
+                                </div>
+                                {detailEntries.length ? (
+                                  <div className="mt-2 grid gap-2 md:grid-cols-2">
+                                    {detailEntries.map(([key, value]) => (
+                                      <div key={asset.id + "-structured-detail-" + idx + "-" + key} className="rounded-lg bg-white px-2.5 py-2 text-xs text-slate-700">
+                                        <div className="uppercase tracking-wider text-slate-400">{renderEvidenceFieldLabel(key)}</div>
+                                        <div className="mt-1 break-all font-medium text-slate-900">{renderEvidenceValue(value)}</div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                ) : null}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+                    <div className="mt-3 space-y-2">
+                      {relatedFindings.length ? relatedFindings.map((item, idx) => {
+                        const severity = String(item?.severity || "info").toLowerCase();
+                        return (
+                          <div key={asset.id + "-" + idx} className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="text-sm font-medium break-all">{String(item?.name || item?.title || tt("Unnamed finding", "\u672a\u547d\u540d\u53d1\u73b0"))}</div>
+                              <span className={"rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider " + (severityBadge[severity] || severityBadge.info)}>
+                                {severity}
+                              </span>
+                            </div>
+                            <div className="mt-1 text-xs text-slate-500 break-all">{tt("Tool", "\u5de5\u5177")}: {String(item?.tool || "-")}</div>
+                          </div>
+                        );
+                      }) : (
+                        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                          {tt("No findings linked to this service.", "\u8be5\u670d\u52a1\u6682\u65e0\u5173\u8054\u53d1\u73b0")}
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : null}
+
+          {otherAssets.length ? (
+            <div className="mt-5 space-y-2">
+              {otherAssets.map((asset) => {
+                const relatedFindings = Array.isArray(linkedFindingsByAsset.get(asset.id)) ? linkedFindingsByAsset.get(asset.id) : [];
+                return (
+                  <div key={asset.id} className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 shadow-sm">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="text-sm font-semibold break-all">{assetDisplayName(asset)}</div>
+                        <div className="mt-1 text-xs text-slate-500">{tt("Source", "\u6765\u6e90")}: {asset.source_tool || "-"}</div>
+                      </div>
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">{String(asset.kind || "asset")}</span>
+                    </div>
+                    <div className="mt-2 text-xs text-slate-600">{tt("Linked Findings", "\u5173\u8054\u53d1\u73b0")}: <span className="font-medium text-slate-800">{relatedFindings.length}</span></div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : null}
+        </div>
+      );
+    }
+
+    function VulnerabilityCard({ item }) {
+      const severity = String(item?.severity || "medium").toLowerCase();
+      const steps = Array.isArray(item?.reproduction_steps) ? item.reproduction_steps : [];
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-sm text-slate-500">{tt("Finding", "发现")} #{item.index}</div>
+              <h3 className="mt-1 text-lg font-semibold">{item.name}</h3>
+            </div>
+            <span className={"rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider " + (severityBadge[severity] || severityBadge.medium)}>
+              {severity}
+            </span>
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Evidence", "证据")}</div>
+              <pre className="mt-2 max-h-56 overflow-auto rounded-xl bg-slate-900 p-3 text-xs leading-relaxed text-slate-100 whitespace-pre-wrap">
+{String(item.evidence || tt("No evidence provided.", "未提供证据。"))}
+              </pre>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Reproduction Steps", "复现步骤")}</div>
+                <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-700">
+                  {steps.length ? steps.map((s, idx) => <li key={idx}>{s}</li>) : <li>{tt("No steps provided.", "未提供步骤。")}</li>}
+                </ol>
+              </div>
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">{tt("Fix Guidance", "修复建议")}</div>
+                <p className="mt-1 text-sm text-emerald-900 leading-relaxed">
+                  {item.recommendation || tt("No remediation recommendation provided.", "未提供修复建议。")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function ReconSection({ recon }) {
+      if (!recon) return null;
+      const ti = recon.target_info || {};
+      const tls = recon.tls_certificate || {};
+      const subdomains = Array.isArray(recon.subdomains) ? recon.subdomains : [];
+      const waf = Array.isArray(recon.waf_cdn) ? recon.waf_cdn : [];
+      const tech = Array.isArray(recon.tech_stack) ? recon.tech_stack : [];
+      const policies = recon.security_policies || {};
+      const stxt = policies.security_txt || {};
+      const csp = policies.csp_evaluation || {};
+      const cookies = Array.isArray(policies.cookies) ? policies.cookies : [];
+      const login = Array.isArray(recon.login_forms) ? recon.login_forms : [];
+      const schemas = Array.isArray(recon.api_schemas) ? recon.api_schemas : [];
+      const git = Array.isArray(recon.git_exposures) ? recon.git_exposures : [];
+      const smaps = Array.isArray(recon.source_maps) ? recon.source_maps : [];
+      const ps = recon.ports_services || {};
+      const ports = Array.isArray(ps.ports) ? ps.ports : [];
+      const hdrs = recon.http_headers || {};
+      const markers = Array.isArray(recon.error_page_markers) ? recon.error_page_markers : [];
+      const hasData = Object.keys(tls).length || subdomains.length || waf.length || tech.length || cookies.length || login.length || schemas.length || git.length || smaps.length || ports.length || Object.keys(hdrs).length || markers.length || Object.keys(stxt).length || Object.keys(csp).length;
+      if (!hasData) return null;
+
+      const Chip = ({ label, color }) => (
+        <span className={"inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold mr-1.5 mb-1 " + (color || "bg-slate-100 text-slate-600")}>{label}</span>
+      );
+      const KV = ({ k, v }) => <div className="flex justify-between text-sm"><span className="text-slate-500">{k}</span><span className="font-medium tabular-nums">{v}</span></div>;
+
+      return (
+        <div className="mt-6">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold">{tt("Reconnaissance & Information Gathering", "侦察与信息收集")}</h2>
+            <div className="text-xs text-slate-500">{tt("Data collected from passive and active scanning", "来自被动与主动扫描的数据")}</div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {/* TLS */}
+            {Object.keys(tls).length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("SSL / TLS Certificate", "SSL / TLS 证书")}</div>
+                <div className="space-y-1">
+                  <KV k={tt("Host", "主机")} v={String(tls.host || "-") + ":" + String(tls.port || 443)} />
+                  <KV k={tt("TLS Version", "TLS 版本")} v={tls.tls_version || "-"} />
+                  <KV k={tt("Days Left", "剩余天数")} v={tls.days_left ?? "-"} />
+                  <KV k={tt("Expires", "到期时间")} v={tls.expires_at || "-"} />
+                  {Array.isArray(tls.subject_alt_name) && tls.subject_alt_name.length > 0 && (
+                    <div className="mt-2">
+                      <div className="text-xs text-slate-500 mb-1">SAN</div>
+                      <div className="flex flex-wrap">{tls.subject_alt_name.map((e, i) => <Chip key={i} label={Array.isArray(e) ? e.join("=") : String(e)} />)}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Subdomains */}
+            {subdomains.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Subdomains", "子域名")} ({subdomains.length})</div>
+                <div className="max-h-48 overflow-auto rounded-xl bg-slate-50 p-2 text-xs space-y-0.5">
+                  {subdomains.slice(0, 40).map((s, i) => <div key={i} className="break-all">{s}</div>)}
+                  {subdomains.length > 40 && <div className="text-slate-400">... {subdomains.length - 40} {tt("more", "条")}</div>}
+                </div>
+              </div>
+            )}
+
+            {/* WAF / CDN */}
+            {waf.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("WAF / CDN", "WAF / CDN")}</div>
+                <div className="flex flex-wrap">{waf.map((w, i) => <Chip key={i} label={w} color="bg-amber-100 text-amber-700" />)}</div>
+              </div>
+            )}
+
+            {/* Tech Stack */}
+            {tech.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Technology Stack", "技术栈")}</div>
+                <div className="flex flex-wrap">{tech.map((t, i) => <Chip key={i} label={t} color="bg-cyan-100 text-cyan-700" />)}</div>
+              </div>
+            )}
+
+            {/* Ports */}
+            {ports.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Open Ports", "开放端口")} ({ports.length})</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-0.5">
+                  {ports.slice(0, 20).map((p, i) => (
+                    <div key={i} className="flex justify-between">
+                      <span>{typeof p === "object" ? (p.port + "/" + (p.protocol || "-")) : p}</span>
+                      <span className="text-slate-500">{typeof p === "object" ? (p.service || "-") : ""}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* HTTP Headers */}
+            {Object.keys(hdrs).length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("HTTP Headers", "HTTP 响应头")}</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-0.5">
+                  {Object.entries(hdrs).map(([k, v], i) => (
+                    <div key={i}><span className="font-medium">{k}:</span> <span className="text-slate-600 break-all">{String(v)}</span></div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* CSP */}
+            {Object.keys(csp).length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Content Security Policy", "内容安全策略")}</div>
+                <div className="space-y-1">
+                  <KV k={tt("Present", "是否存在")} v={csp.present ? tt("Yes", "是") : tt("No", "否")} />
+                  {csp.present && <KV k="script-src" v={csp.has_script_src ? tt("Yes", "是") : tt("No", "否")} />}
+                  {csp.present && <KV k="default-src" v={csp.has_default_src ? tt("Yes", "是") : tt("No", "否")} />}
+                  {Array.isArray(csp.risky_tokens) && csp.risky_tokens.length > 0 && (
+                    <div className="mt-2"><div className="flex flex-wrap">{csp.risky_tokens.map((t, i) => <Chip key={i} label={t} color="bg-red-100 text-red-700" />)}</div></div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Cookies */}
+            {cookies.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Cookies", "Cookie")} ({cookies.length})</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-1">
+                  {cookies.map((c, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="font-medium break-all">{c.name || "-"}</span>
+                      <Chip label={c.secure ? "Secure" : tt("Not Secure", "非 Secure")} color={c.secure ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} />
+                      <Chip label={c.httponly ? "HttpOnly" : tt("No HttpOnly", "非 HttpOnly")} color={c.httponly ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} />
+                      <Chip label={c.samesite ? "SameSite" : tt("No SameSite", "无 SameSite")} color={c.samesite ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* security.txt */}
+            {Object.keys(stxt).length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">security.txt</div>
+                <div className="space-y-1">
+                  <KV k={tt("Present", "是否存在")} v={stxt.present ? tt("Yes", "是") : tt("No", "否")} />
+                  {stxt.present && <KV k={tt("Contact", "联系方式")} v={stxt.has_contact ? tt("Yes", "是") : tt("No", "否")} />}
+                  {stxt.present && <KV k={tt("Expires", "过期字段")} v={stxt.has_expires ? tt("Yes", "是") : tt("No", "否")} />}
+                </div>
+              </div>
+            )}
+
+            {/* Login Forms */}
+            {login.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Login Forms", "登录表单")} ({login.length})</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-1">
+                  {login.map((f, i) => (
+                    <div key={i}><span className="font-medium">{f.method || "GET"}</span> <span className="text-slate-600 break-all">{f.action || "-"}</span></div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* API Schemas */}
+            {schemas.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("API Schemas", "API 架构")} ({schemas.length})</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-1">
+                  {schemas.map((s, i) => (
+                    <div key={i}><Chip label={s.kind || "-"} color="bg-blue-100 text-blue-700" /><span className="break-all">{s.url || "-"}</span></div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Git Exposures */}
+            {git.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("VCS Exposures", "版本库泄露")} ({git.length})</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-1">
+                  {git.map((g, i) => (
+                    <div key={i}><Chip label={g.type || "-"} color="bg-red-100 text-red-700" /><span className="break-all">{g.url || "-"}</span></div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Source Maps */}
+            {smaps.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Source Maps", "Source Map")} ({smaps.length})</div>
+                <div className="max-h-48 overflow-auto text-xs space-y-0.5">
+                  {smaps.slice(0, 15).map((s, i) => <div key={i} className="break-all">{s}</div>)}
+                </div>
+              </div>
+            )}
+
+            {/* Error Page Markers */}
+            {markers.length > 0 && (
+              <div className="glass rounded-2xl p-4">
+                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Error Page Markers", "错误页标记")}</div>
+                <div className="flex flex-wrap">{markers.map((m, i) => <Chip key={i} label={m} color="bg-orange-100 text-orange-700" />)}</div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function signedDelta(value) {
+      const numeric = Number(value || 0);
+      return numeric > 0 ? "+" + numeric : String(numeric);
+    }
+
+    function VerificationRankingPanel({ blocks }) {
+      const safeBlocks = Array.isArray(blocks) ? blocks : [];
+      if (!safeBlocks.length) return null;
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Verification Context", "\u9a8c\u8bc1\u4e0a\u4e0b\u6587")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Verification Ranking", "\u9a8c\u8bc1\u6392\u5e8f\u89e3\u91ca")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">{tt("Explain why a CVE or PoC was selected first during verification.", "\u89e3\u91ca\u4e3a\u4f55\u5728\u9a8c\u8bc1\u9636\u6bb5\u5148\u9009\u62e9\u67d0\u4e2a CVE \u6216 PoC\u3002")}</div>
+          </div>
+          <div className="mt-4 space-y-4">
+            {safeBlocks.map((block, blockIndex) => {
+              const items = Array.isArray(block?.items) ? block.items : [];
+              const selectedTemplates = Array.isArray(block?.selected_templates) ? block.selected_templates : [];
+              return (
+                <article key={(block.tool || "tool") + "-" + blockIndex} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="text-sm font-semibold">{block.tool || "-"}</div>
+                      <div className="mt-1 text-xs text-slate-500 break-all">
+                        {tt("Target", "\u76ee\u6807")}: {block.target || "-"} | {tt("Component", "\u7ec4\u4ef6")}: {block.component || "-"} | {tt("Service", "\u670d\u52a1")}: {block.service || "-"} | {tt("Version", "\u7248\u672c")}: {block.version || "-"}
+                      </div>
+                    </div>
+                    <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+                      {block.selected_candidate || "-"}
+                    </span>
+                  </div>
+                  {selectedTemplates.length ? (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {selectedTemplates.slice(0, 8).map((item) => (
+                        <span key={(block.tool || "tool") + "-" + item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="mt-3 space-y-3">
+                    {items.map((item) => {
+                      const reasons = Array.isArray(item?.reasons) ? item.reasons : [];
+                      const protocolTags = Array.isArray(item?.template_capability?.protocol_tags) ? item.template_capability.protocol_tags : [];
+                      return (
+                        <div key={(block.tool || "tool") + "-" + (item.cve_id || "candidate")} className={"rounded-xl border px-3 py-3 " + (item.selected ? "border-cyan-300 bg-cyan-50/60" : "border-slate-200 bg-slate-50/60")}>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="text-sm font-medium">{item.cve_id || "-"}</div>
+                            <div className="text-xs text-slate-600">
+                              {(item.severity || "info").toUpperCase()}
+                              {item.rank ? " #" + item.rank : ""}
+                              {" | CVSS "}
+                              {item.cvss_score ?? "-"}
+                            </div>
+                          </div>
+                          {protocolTags.length ? (
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              {protocolTags.map((tag) => (
+                                <span key={(item.cve_id || "candidate") + "-" + tag} className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          ) : null}
+                          <div className="mt-2 space-y-1 text-xs text-slate-600">
+                            {reasons.length ? reasons.slice(0, 5).map((reason) => (
+                              <div key={(item.cve_id || "candidate") + "-" + reason}>- {reason}</div>
+                            )) : (
+                              <div>{tt("No detailed ranking reason recorded.", "\u672a\u8bb0\u5f55\u66f4\u7ec6\u7684\u6392\u5e8f\u4f9d\u636e\u3002")}</div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    function ExecutionHistoryPanel({ rows }) {
+      const safeRows = Array.isArray(rows) ? rows : [];
+      if (!safeRows.length) return null;
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Execution Context", "\u6267\u884c\u4e0a\u4e0b\u6587")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Executed Actions and Selection Rationale", "\u5df2\u6267\u884c\u52a8\u4f5c\u4e0e\u9009\u62e9\u539f\u56e0")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">{tt("Track why each executed action was selected.", "\u8ffd\u8e2a\u6bcf\u4e2a\u5df2\u6267\u884c\u52a8\u4f5c\u4e3a\u4f55\u88ab\u9009\u4e2d\u3002")}</div>
+          </div>
+          <div className="mt-4 space-y-4">
+            {safeRows.map((row, index) => {
+              const explanation = row && typeof row.ranking_explanation === "object" ? row.ranking_explanation : {};
+              const reasons = Array.isArray(explanation?.reasons) ? explanation.reasons : [];
+              const selectedTemplates = Array.isArray(explanation?.selected_templates) ? explanation.selected_templates : [];
+              const candidateOrder = Array.isArray(explanation?.candidate_order) ? explanation.candidate_order : [];
+              return (
+                <article key={(row?.tool || "tool") + "-" + (row?.target || "target") + "-" + index} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="text-sm font-semibold">{row?.tool || "-"}</div>
+                      <div className="mt-1 text-xs text-slate-500 break-all">
+                        {tt("Target", "\u76ee\u6807")}: {row?.target || "-"} | {tt("Phase", "\u9636\u6bb5")}: {row?.phase || "-"} | {tt("Status", "\u72b6\u6001")}: {row?.status || "-"}
+                      </div>
+                    </div>
+                    {explanation?.selected_candidate ? (
+                      <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+                        {explanation.selected_candidate}
+                      </span>
+                    ) : null}
+                  </div>
+                  {selectedTemplates.length ? (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {selectedTemplates.slice(0, 8).map((item) => (
+                        <span key={(row?.tool || "tool") + "-template-" + item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="mt-3 grid gap-2 text-xs text-slate-600 md:grid-cols-4">
+                    <div>{tt("Cost", "\u6210\u672c")}: <span className="font-medium text-slate-900">{row?.action_cost ?? 0}</span></div>
+                    <div>{tt("Budget Before", "\u6267\u884c\u524d\u9884\u7b97")}: <span className="font-medium text-slate-900">{row?.budget_before ?? "-"}</span></div>
+                    <div>{tt("Budget After", "\u6267\u884c\u540e\u9884\u7b97")}: <span className="font-medium text-slate-900">{row?.budget_after ?? "-"}</span></div>
+                    <div>{tt("Retry Attempts", "\u91cd\u8bd5\u6b21\u6570")}: <span className="font-medium text-slate-900">{row?.retry_attempts ?? "-"}</span></div>
+                  </div>
+                  {candidateOrder.length ? (
+                    <div className="mt-2 text-xs text-slate-500 break-all">
+                      {tt("Candidate Order", "\u5019\u9009\u987a\u5e8f")}: {candidateOrder.join(", ")}
+                    </div>
+                  ) : null}
+                  <div className="mt-2 space-y-1 text-xs text-slate-600">
+                    {reasons.length ? reasons.slice(0, 8).map((reason) => (
+                      <div key={(row?.tool || "tool") + "-reason-" + reason}>- {reason}</div>
+                    )) : (
+                      <div>{tt("No detailed ranking reason recorded.", "\u672a\u8bb0\u5f55\u66f4\u7ec6\u7684\u6392\u5e8f\u4f9d\u636e\u3002")}</div>
+                    )}
+                  </div>
+                  {row?.error ? (
+                    <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50/70 px-3 py-2 text-xs text-rose-700 break-all">
+                      {row.error}
+                    </div>
+                  ) : null}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    function AssetTrendPanels({ phaseRows, batchRows }) {
+      const safePhaseRows = Array.isArray(phaseRows) ? phaseRows : [];
+      const safeBatchRows = Array.isArray(batchRows) ? batchRows : [];
+      if (!safePhaseRows.length && !safeBatchRows.length) return null;
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Asset Trends", "\u8d44\u4ea7\u8d70\u52bf")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("By Phase / By Batch", "\u6309\u9636\u6bb5 / \u6309\u6279\u6b21\u5bf9\u6bd4")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">{tt("Compare the current run by phase and the target history by batch.", "\u540c\u65f6\u5bf9\u6bd4\u5f53\u524d\u8fd0\u884c\u7684\u9636\u6bb5\u63a8\u8fdb\u548c\u540c\u76ee\u6807\u5386\u53f2\u6279\u6b21\u53d8\u5316\u3002")}</div>
+          </div>
+
+          {safePhaseRows.length ? (
+            <div className="mt-4">
+              <div className="mb-3 text-sm font-semibold">{tt("Phase Trends", "\u9636\u6bb5\u8d70\u52bf")}</div>
+              <div className="space-y-3">
+                {safePhaseRows.map((row) => (
+                  <div key={"phase-" + row.phase} className={"rounded-xl border px-3 py-3 " + (row.is_current ? "border-cyan-300 bg-cyan-50/60" : "border-slate-200 bg-slate-50/60")}>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm font-medium">{row.phase || "-"}</div>
+                      <div className="text-xs text-slate-600">{tt("Actions", "\u52a8\u4f5c")}: {row.executed_actions || 0}</div>
+                    </div>
+                    <div className="mt-2 grid gap-2 text-xs text-slate-600 md:grid-cols-5">
+                      <div>{tt("Tools", "\u5de5\u5177")}: <span className="font-medium text-slate-900">{row.unique_tools || 0}</span></div>
+                      <div>{tt("Assets", "\u8d44\u4ea7")}: <span className="font-medium text-slate-900">{row.asset_count || 0}</span></div>
+                      <div>{tt("Services", "\u670d\u52a1")}: <span className="font-medium text-slate-900">{row.service_assets || 0}</span></div>
+                      <div>{tt("Findings", "\u53d1\u73b0")}: <span className="font-medium text-slate-900">{row.finding_count || 0}</span></div>
+                      <div>{tt("Asset Delta", "\u8d44\u4ea7\u589e\u91cf")}: <span className="font-medium text-slate-900">{signedDelta(row.delta_assets)}</span></div>
+                    </div>
+                    {Array.isArray(row.tool_names) && row.tool_names.length ? (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {row.tool_names.slice(0, 8).map((tool) => (
+                          <span key={row.phase + "-" + tool} className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium">{tool}</span>
+                        ))}
+                      </div>
+                    ) : null}
+                    {row.reason ? <div className="mt-2 text-xs text-slate-500">{row.reason}</div> : null}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {safeBatchRows.length ? (
+            <div className="mt-6">
+              <div className="mb-3 text-sm font-semibold">{tt("Run Batch Trends", "\u8fd0\u884c\u6279\u6b21\u8d70\u52bf")}</div>
+              <div className="space-y-3">
+                {safeBatchRows.map((row) => (
+                  <div key={"batch-" + row.job_id} className={"rounded-xl border px-3 py-3 " + (row.is_current ? "border-cyan-300 bg-cyan-50/60" : "border-slate-200 bg-slate-50/60")}>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm font-medium break-all">{row.job_id || "-"}</div>
+                      <div className="text-xs text-slate-500">{row.ended_at || row.updated_at || "-"}</div>
+                    </div>
+                    <div className="mt-2 grid gap-2 text-xs text-slate-600 md:grid-cols-5">
+                      <div>{tt("Assets", "\u8d44\u4ea7")}: <span className="font-medium text-slate-900">{row.total_assets || 0}</span></div>
+                      <div>{tt("Services", "\u670d\u52a1")}: <span className="font-medium text-slate-900">{row.service_assets || 0}</span></div>
+                      <div>{tt("Findings", "\u53d1\u73b0")}: <span className="font-medium text-slate-900">{row.finding_total || 0}</span></div>
+                      <div>{tt("Asset Delta", "\u8d44\u4ea7\u589e\u91cf")}: <span className="font-medium text-slate-900">{signedDelta(row.delta_assets)}</span></div>
+                      <div>{tt("Finding Delta", "\u53d1\u73b0\u589e\u91cf")}: <span className="font-medium text-slate-900">{signedDelta(row.delta_findings)}</span></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      );
+    }
+
+    function BaselineDiffPanel({ diff }) {
+      const safeDiff = diff && typeof diff === "object" ? diff : {};
+      const newFindings = Array.isArray(safeDiff.new_findings) ? safeDiff.new_findings : [];
+      const resolvedFindings = Array.isArray(safeDiff.resolved_findings) ? safeDiff.resolved_findings : [];
+      const newAssets = Array.isArray(safeDiff.new_assets) ? safeDiff.new_assets : [];
+      const resolvedAssets = Array.isArray(safeDiff.resolved_assets) ? safeDiff.resolved_assets : [];
+      const newServices = Array.isArray(safeDiff.new_services) ? safeDiff.new_services : [];
+      const resolvedServices = Array.isArray(safeDiff.resolved_services) ? safeDiff.resolved_services : [];
+      const severityOrder = ["critical", "high", "medium", "low", "info"];
+      const newAssetSeverity = safeDiff.new_asset_severity_counts && typeof safeDiff.new_asset_severity_counts === "object" ? safeDiff.new_asset_severity_counts : {};
+      const resolvedAssetSeverity = safeDiff.resolved_asset_severity_counts && typeof safeDiff.resolved_asset_severity_counts === "object" ? safeDiff.resolved_asset_severity_counts : {};
+      const persistentAssetSeverity = safeDiff.persistent_asset_severity_counts && typeof safeDiff.persistent_asset_severity_counts === "object" ? safeDiff.persistent_asset_severity_counts : {};
+      const newServiceProtocols = Array.isArray(safeDiff.new_service_protocol_counts) ? safeDiff.new_service_protocol_counts : [];
+      const resolvedServiceProtocols = Array.isArray(safeDiff.resolved_service_protocol_counts) ? safeDiff.resolved_service_protocol_counts : [];
+      const persistentServiceProtocols = Array.isArray(safeDiff.persistent_service_protocol_counts) ? safeDiff.persistent_service_protocol_counts : [];
+      const renderAssetEntries = (items, emptyText, tone) => (
+        <div className={"rounded-2xl border p-4 " + tone}>
+          <div className="mt-3 space-y-2">
+            {items.length ? items.map((item, index) => (
+              <div key={(item.id || item.display_name || "item") + "-" + index} className="rounded-xl border border-white/70 bg-white/80 px-3 py-2">
+                <div className="text-sm font-medium break-all">{item.display_name || item.id || "-"}</div>
+                <div className="mt-1 text-xs text-slate-600 break-all">
+                  {(item.kind || "asset").toUpperCase()}
+                  {item.service ? " | " + item.service : ""}
+                  {item.port ? " | " + tt("Port", "\u7aef\u53e3") + " " + item.port : ""}
+                  {item.source_tool ? " | " + tt("Source", "\u6765\u6e90") + " " + item.source_tool : ""}
+                </div>
+              </div>
+            )) : (
+              <div className="text-sm text-slate-500">{emptyText}</div>
+            )}
+          </div>
+        </div>
+      );
+      const renderCountChips = (counts, emptyText) => {
+        const entries = severityOrder
+          .map((level) => [level, Number(counts?.[level] || 0)])
+          .filter(([, value]) => value > 0);
+        if (!entries.length) {
+          return <div className="text-sm text-slate-500">{emptyText}</div>;
+        }
+        return (
+          <div className="flex flex-wrap gap-2">
+            {entries.map(([label, value]) => (
+              <span key={"severity-" + label} className="rounded-full bg-white px-3 py-1 text-xs font-medium">
+                {String(label).toUpperCase()} x{value}
+              </span>
+            ))}
+          </div>
+        );
+      };
+      const renderProtocolChips = (rows, emptyText) => {
+        if (!rows.length) {
+          return <div className="text-sm text-slate-500">{emptyText}</div>;
+        }
+        return (
+          <div className="flex flex-wrap gap-2">
+            {rows.slice(0, 10).map((row, index) => (
+              <span key={"protocol-" + (row.label || "row") + "-" + index} className="rounded-full bg-white px-3 py-1 text-xs font-medium">
+                {row.label || "-"} x{row.count || 0}
+              </span>
+            ))}
+          </div>
+        );
+      };
+      if (!safeDiff.baseline_job_id && !newFindings.length && !resolvedFindings.length && !newAssets.length && !resolvedAssets.length && !newServices.length && !resolvedServices.length) {
+        return null;
+      }
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Baseline Comparison", "\u57fa\u7ebf\u5bf9\u6bd4")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("New / Resolved Since Previous Batch", "\u76f8\u5bf9\u4e0a\u4e00\u6279\u6b21\u7684\u65b0\u589e / \u5df2\u89e3\u51b3")}</h2>
+            </div>
+            <div className="text-xs text-slate-500 break-all">
+              {safeDiff.baseline_job_id
+                ? tt("Baseline", "\u57fa\u7ebf") + ": " + safeDiff.baseline_job_id
+                : tt("No earlier baseline available.", "\u6682\u65e0\u66f4\u65e9\u57fa\u7ebf\u3002")}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
+            <MetricCard label={tt("New Findings", "\u65b0\u589e\u53d1\u73b0")} value={safeDiff.new_count ?? 0} sub={tt("Current batch only", "\u4ec5\u5f53\u524d\u6279\u6b21")} />
+            <MetricCard label={tt("Resolved Findings", "\u5df2\u89e3\u51b3\u53d1\u73b0")} value={safeDiff.resolved_count ?? 0} sub={tt("Missing from current batch", "\u5f53\u524d\u6279\u6b21\u5df2\u4e0d\u518d\u51fa\u73b0")} />
+            <MetricCard label={tt("Persistent Findings", "\u6301\u7eed\u5b58\u5728")} value={safeDiff.persistent_count ?? 0} sub={tt("Still present", "\u4ecd\u7136\u5b58\u5728")} />
+            <MetricCard label={tt("New Assets", "\u65b0\u589e\u8d44\u4ea7")} value={safeDiff.new_assets_count ?? 0} sub={tt("Asset inventory delta", "\u8d44\u4ea7\u5e93\u589e\u91cf")} />
+            <MetricCard label={tt("Resolved Assets", "\u5df2\u79fb\u9664\u8d44\u4ea7")} value={safeDiff.resolved_assets_count ?? 0} sub={tt("Missing from current batch", "\u5f53\u524d\u6279\u6b21\u5df2\u4e0d\u518d\u51fa\u73b0")} />
+            <MetricCard label={tt("Service Delta", "\u670d\u52a1\u589e\u91cf")} value={(safeDiff.new_services_count ?? 0) - (safeDiff.resolved_services_count ?? 0)} sub={tt("Added minus resolved services", "\u65b0\u589e\u670d\u52a1\u51cf\u5df2\u89e3\u51b3\u670d\u52a1")} />
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+              <div className="text-sm font-semibold text-emerald-700">{tt("New Findings", "\u65b0\u589e\u53d1\u73b0")}</div>
+              <div className="mt-3 space-y-2">
+                {newFindings.length ? newFindings.map((item, index) => (
+                  <div key={"new-" + index} className="rounded-xl border border-emerald-200 bg-white/70 px-3 py-2">
+                    <div className="text-sm font-medium">{item.name || "-"}</div>
+                    <div className="mt-1 text-xs text-slate-600">{String(item.severity || "info").toUpperCase()}{item.cve_id ? " | " + item.cve_id : ""}</div>
+                  </div>
+                )) : (
+                  <div className="text-sm text-slate-500">{tt("No new findings relative to the baseline.", "\u76f8\u5bf9\u57fa\u7ebf\u6ca1\u6709\u65b0\u589e\u53d1\u73b0\u3002")}</div>
+                )}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-4">
+              <div className="text-sm font-semibold text-sky-700">{tt("Resolved Findings", "\u5df2\u89e3\u51b3\u53d1\u73b0")}</div>
+              <div className="mt-3 space-y-2">
+                {resolvedFindings.length ? resolvedFindings.map((item, index) => (
+                  <div key={"resolved-" + index} className="rounded-xl border border-sky-200 bg-white/70 px-3 py-2">
+                    <div className="text-sm font-medium">{item.name || "-"}</div>
+                    <div className="mt-1 text-xs text-slate-600">{String(item.severity || "info").toUpperCase()}{item.cve_id ? " | " + item.cve_id : ""}</div>
+                  </div>
+                )) : (
+                  <div className="text-sm text-slate-500">{tt("No resolved findings relative to the baseline.", "\u76f8\u5bf9\u57fa\u7ebf\u6682\u65e0\u5df2\u89e3\u51b3\u9879\u3002")}</div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div className="space-y-4">
+              <div className="text-sm font-semibold text-slate-700">{tt("Asset Inventory Changes", "\u8d44\u4ea7\u5e93\u53d8\u66f4")}</div>
+              {renderAssetEntries(
+                newAssets,
+                tt("No new assets relative to the baseline.", "\u76f8\u5bf9\u57fa\u7ebf\u6ca1\u6709\u65b0\u589e\u8d44\u4ea7\u3002"),
+                "border-violet-200 bg-violet-50/70",
+              )}
+              {renderAssetEntries(
+                resolvedAssets,
+                tt("No resolved assets relative to the baseline.", "\u76f8\u5bf9\u57fa\u7ebf\u6682\u65e0\u5df2\u79fb\u9664\u8d44\u4ea7\u3002"),
+                "border-slate-200 bg-slate-50/70",
+              )}
+            </div>
+            <div className="space-y-4">
+              <div className="text-sm font-semibold text-slate-700">{tt("Service Changes", "\u670d\u52a1\u53d8\u66f4")}</div>
+              {renderAssetEntries(
+                newServices,
+                tt("No new services relative to the baseline.", "\u76f8\u5bf9\u57fa\u7ebf\u6ca1\u6709\u65b0\u589e\u670d\u52a1\u3002"),
+                "border-cyan-200 bg-cyan-50/70",
+              )}
+              {renderAssetEntries(
+                resolvedServices,
+                tt("No resolved services relative to the baseline.", "\u76f8\u5bf9\u57fa\u7ebf\u6682\u65e0\u5df2\u89e3\u51b3\u670d\u52a1\u3002"),
+                "border-sky-200 bg-sky-50/70",
+              )}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+              <div className="text-sm font-semibold text-amber-700">{tt("Asset Severity Breakdown", "\u8d44\u4ea7\u4e25\u91cd\u7ea7\u5206\u5e03")}</div>
+              <div className="mt-3 space-y-3">
+                <div>
+                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("New Assets", "\u65b0\u589e\u8d44\u4ea7")}</div>
+                  {renderCountChips(newAssetSeverity, tt("No new asset severity signal.", "\u6682\u65e0\u65b0\u589e\u8d44\u4ea7\u4e25\u91cd\u7ea7\u4fe1\u53f7\u3002"))}
+                </div>
+                <div>
+                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Resolved Assets", "\u5df2\u79fb\u9664\u8d44\u4ea7")}</div>
+                  {renderCountChips(resolvedAssetSeverity, tt("No resolved asset severity signal.", "\u6682\u65e0\u5df2\u79fb\u9664\u8d44\u4ea7\u4e25\u91cd\u7ea7\u4fe1\u53f7\u3002"))}
+                </div>
+                <div>
+                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Persistent Assets", "\u6301\u7eed\u5b58\u5728\u8d44\u4ea7")}</div>
+                  {renderCountChips(persistentAssetSeverity, tt("No persistent asset severity signal.", "\u6682\u65e0\u6301\u7eed\u8d44\u4ea7\u4e25\u91cd\u7ea7\u4fe1\u53f7\u3002"))}
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4">
+              <div className="text-sm font-semibold text-indigo-700">{tt("Service Protocol Breakdown", "\u670d\u52a1\u534f\u8bae\u5206\u5e03")}</div>
+              <div className="mt-3 space-y-3">
+                <div>
+                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("New Services", "\u65b0\u589e\u670d\u52a1")}</div>
+                  {renderProtocolChips(newServiceProtocols, tt("No new protocol changes.", "\u6682\u65e0\u65b0\u534f\u8bae\u53d8\u5316\u3002"))}
+                </div>
+                <div>
+                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Resolved Services", "\u5df2\u89e3\u51b3\u670d\u52a1")}</div>
+                  {renderProtocolChips(resolvedServiceProtocols, tt("No resolved protocol changes.", "\u6682\u65e0\u5df2\u89e3\u51b3\u7684\u534f\u8bae\u53d8\u5316\u3002"))}
+                </div>
+                <div>
+                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Persistent Services", "\u6301\u7eed\u5b58\u5728\u670d\u52a1")}</div>
+                  {renderProtocolChips(persistentServiceProtocols, tt("No persistent protocol changes.", "\u6682\u65e0\u6301\u7eed\u534f\u8bae\u5206\u5e03\u53d8\u5316\u3002"))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const summary = auditReport.summary || {};
+      const meta = auditReport.meta || {};
+      const scopePayload = auditReport.scope || {};
+      const visualAnalysis = auditReport.visual_analysis || {};
+      const recon = auditReport.recon || {};
+      const findings = Array.isArray(auditReport.findings) ? auditReport.findings : [];
+      const executionHistory = Array.isArray(auditReport.history) ? auditReport.history : [];
+      const verificationRanking = Array.isArray(visualAnalysis.verification_ranking) ? visualAnalysis.verification_ranking : [];
+      const assetPhaseTrends = Array.isArray(visualAnalysis.asset_phase_trends) ? visualAnalysis.asset_phase_trends : [];
+      const assetBatchTrends = Array.isArray(visualAnalysis.asset_batch_trends) ? visualAnalysis.asset_batch_trends : [];
+      const batchDiff = visualAnalysis.batch_diff || {};
+      const vulnFindings = findings
+        .filter((f) => String(f.type || "").toLowerCase() === "vuln")
+        .sort((a, b) => severityRank.indexOf(String(a.severity || "info")) - severityRank.indexOf(String(b.severity || "info")));
+      const severityCounts = summary.severity_counts || {};
+      const highCritical = Number(severityCounts.critical || 0) + Number(severityCounts.high || 0);
+
+      return (
+        <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
+          <div className="glass rounded-3xl p-6">
+            <div className="flex flex-wrap items-start justify-between gap-5">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-slate-500">{tt("AutoSecAudit Agent", "AutoSecAudit \u667a\u80fd\u4f53")}</div>
+                <h1 className="mt-2 text-2xl font-semibold md:text-3xl">{tt("Visual Audit Report", "\u53ef\u89c6\u5316\u5ba1\u8ba1\u62a5\u544a")}</h1>
+                <div className="mt-2 break-all text-sm text-slate-700">{meta.target || agentState.target || tt("Unknown target", "\u672a\u77e5\u76ee\u6807")}</div>
+                <div className="mt-1 text-sm text-slate-500 whitespace-pre-wrap break-all">{meta.decision_summary || tt("No decision summary available.", "\u6682\u65e0\u51b3\u7b56\u6458\u8981\u3002")}</div>
+              </div>
+              <div className="rounded-2xl bg-slate-900 px-5 py-4 text-white">
+                <div className="text-xs uppercase tracking-wider text-slate-300">{tt("Audit Score", "\u5ba1\u8ba1\u8bc4\u5206")}</div>
+                <div className="mt-1 text-3xl font-semibold tabular-nums">{summary.audit_score ?? 0}</div>
+                <div className="text-xs text-slate-300">{renderScoreLabel(summary.score_label || "N/A")}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <MetricCard label={tt("Findings", "\u53d1\u73b0\u603b\u6570")} value={summary.total_findings ?? 0} sub={tt("Vulns", "\u6f0f\u6d1e") + ": " + (summary.vulnerability_findings ?? 0)} />
+            <MetricCard label={tt("High/Critical", "\u9ad8\u5371/\u4e25\u91cd")} value={highCritical} sub={tt("Critical", "\u4e25\u91cd") + " " + (severityCounts.critical || 0) + " / " + tt("High", "\u9ad8\u5371") + " " + (severityCounts.high || 0)} />
+            <MetricCard label={tt("Budget Remaining", "\u5269\u4f59\u9884\u7b97")} value={summary.budget_remaining ?? 0} sub={tt("Iterations", "\u8fed\u4ee3") + " " + (summary.iteration_count ?? 0)} />
+            <MetricCard label={tt("Executed Actions", "\u6267\u884c\u52a8\u4f5c")} value={summary.history_count ?? 0} sub={meta.resumed ? (tt("Resumed", "\u7eed\u8dd1") + ": " + (meta.resumed_from || "state")) : tt("Fresh run", "\u5168\u65b0\u8fd0\u884c")} />
+          </div>
+
+          <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="glass rounded-2xl p-5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">{tt("Action Budget Consumption", "\u9884\u7b97\u6d88\u8017\u8d70\u52bf")}</h2>
+                <div className="text-xs text-slate-500">{tt("Cumulative cost line chart", "\u7d2f\u8ba1\u6210\u672c\u66f2\u7ebf")}</div>
+              </div>
+              <div className="mt-4">
+                <BudgetLineChart trace={auditReport.budget_trace || []} />
+              </div>
+            </div>
+            <div className="glass rounded-2xl p-5">
+              <h2 className="text-lg font-semibold">{tt("Severity Distribution", "\u4e25\u91cd\u6027\u5206\u5e03")}</h2>
+              <div className="mt-4 space-y-3">
+                {severityRank.map((sev) => {
+                  const value = Number(severityCounts[sev] || 0);
+                  const all = severityRank.map((k) => Number(severityCounts[k] || 0));
+                  const max = Math.max(1, ...all);
+                  const pct = value ? Math.max(5, Math.round((value / max) * 100)) : 0;
+                  return (
+                    <div key={sev}>
+                      <div className="mb-1 flex justify-between text-sm">
+                        <span className="capitalize">{sev}</span>
+                        <span className="tabular-nums text-slate-600">{value}</span>
+                      </div>
+                      <div className="h-2 rounded-full bg-slate-100">
+                        <div className="h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" style={{ width: pct + "%" }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <ScopeMap scopePayload={scopePayload} />
+          </div>
+
+          <div className="mt-6">
+            <AssetTopologyPanel scopePayload={scopePayload} findings={findings} />
+          </div>
+
+          <VerificationRankingPanel blocks={verificationRanking} />
+
+          <ExecutionHistoryPanel rows={executionHistory} />
+
+          <AssetTrendPanels phaseRows={assetPhaseTrends} batchRows={assetBatchTrends} />
+
+          <BaselineDiffPanel diff={batchDiff} />
+
+          {/* ---------- Reconnaissance Section ---------- */}
+          <ReconSection recon={recon} />
+
+          <div className="mt-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">{tt("Vulnerability Cards", "\u6f0f\u6d1e\u5361\u7247")}</h2>
+              <div className="text-xs text-slate-500">{tt("Evidence + remediation suggestions", "\u8bc1\u636e\u4e0e\u4fee\u590d\u5efa\u8bae")}</div>
+            </div>
+            <div className="space-y-4">
+              {vulnFindings.length ? vulnFindings.map((item) => (
+                <VulnerabilityCard key={String(item.index) + "-" + String(item.name)} item={item} />
+              )) : (
+                <div className="glass rounded-2xl p-6 text-sm text-slate-500">{tt("No vulnerability findings available.", "\u6682\u65e0\u6f0f\u6d1e\u53d1\u73b0\u3002")}</div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+2026-03-05 01:15:31 [INFO] autosecaudit - LLM router enabled: primary=deepseek-reasoner, fallbacks=['openai/deepseek-chat'], default_provider=openai
+2026-03-05 01:15:31 [INFO] autosecaudit - [agent] run_start | start | budget=999, max_iterations=10, timeout=1800.0s, resumed=False
+2026-03-05 01:15:31 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-05 01:16:27 [INFO] autosecaudit - [subdomain_enum_passive] action_start | start | A1 target=edu.360-24.com
+2026-03-05 01:16:30 [INFO] autosecaudit - [subdomain_enum_passive] action_end | success | A1 status=completed duration_ms=3163
+2026-03-05 01:16:30 [INFO] autosecaudit - [nmap_scan] action_start | start | A2 target=edu.360-24.com
+2026-03-05 01:16:44 [INFO] autosecaudit - [nmap_scan] action_end | success | A2 status=completed duration_ms=13324
+2026-03-05 01:16:44 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://edu.360-24.com:443
+2026-03-05 01:17:05 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=20603
+2026-03-05 01:17:05 [INFO] autosecaudit - [passive_config_audit] action_start | start | A12 target=http://edu.360-24.com:80
+2026-03-05 01:17:24 [INFO] autosecaudit - [passive_config_audit] action_end | success | A12 status=completed duration_ms=19007
+2026-03-05 01:17:24 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-05 01:17:26 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | error | A2 status=error duration_ms=2538
+2026-03-05 01:17:26 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A13 target=http://edu.360-24.com:80/
+2026-03-05 01:17:28 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A13 status=completed duration_ms=2356
+2026-03-05 01:17:28 [INFO] autosecaudit - [git_exposure_check] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-05 01:17:38 [INFO] autosecaudit - [git_exposure_check] action_end | success | A3 status=completed duration_ms=9692
+2026-03-05 01:17:38 [INFO] autosecaudit - [source_map_detector] action_start | start | A4 target=https://edu.360-24.com:443/
+2026-03-05 01:17:41 [INFO] autosecaudit - [source_map_detector] action_end | error | A4 status=error duration_ms=2355
+2026-03-05 01:17:41 [INFO] autosecaudit - [security_txt_check] action_start | start | A5 target=https://edu.360-24.com:443/
+2026-03-05 01:17:43 [INFO] autosecaudit - [security_txt_check] action_end | error | A5 status=error duration_ms=2522
+2026-03-05 01:17:43 [INFO] autosecaudit - [login_form_detector] action_start | start | A6 target=https://edu.360-24.com:443/
+2026-03-05 01:17:45 [INFO] autosecaudit - [login_form_detector] action_end | error | A6 status=error duration_ms=2350
+2026-03-05 01:17:45 [INFO] autosecaudit - [login_form_detector] action_start | start | A14 target=http://edu.360-24.com:80/
+2026-03-05 01:17:48 [INFO] autosecaudit - [login_form_detector] action_end | success | A14 status=completed duration_ms=2358
+2026-03-05 01:17:48 [INFO] autosecaudit - [http_security_headers] action_start | start | A7 target=https://edu.360-24.com:443/
+2026-03-05 01:17:50 [INFO] autosecaudit - [http_security_headers] action_end | error | A7 status=error duration_ms=2368
+2026-03-05 01:17:50 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A8 target=https://edu.360-24.com:443/
+2026-03-05 01:17:53 [INFO] autosecaudit - [ssl_expiry_check] action_end | error | A8 status=error duration_ms=2342
+2026-03-05 01:17:53 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A15 target=https://edu.360-24.com:8443/
+2026-03-05 01:17:58 [INFO] autosecaudit - [ssl_expiry_check] action_end | error | A15 status=error duration_ms=5017
+2026-03-05 01:17:58 [INFO] autosecaudit - [js_endpoint_extractor] action_start | start | A9 target=https://edu.360-24.com:443/
+2026-03-05 01:18:00 [INFO] autosecaudit - [js_endpoint_extractor] action_end | error | A9 status=error duration_ms=2364
+2026-03-05 01:18:00 [INFO] autosecaudit - [error_page_analyzer] action_start | start | A10 target=https://edu.360-24.com:443/
+2026-03-05 01:18:02 [INFO] autosecaudit - [error_page_analyzer] action_end | error | A10 status=error duration_ms=2375
+2026-03-05 01:18:02 [INFO] autosecaudit - [waf_detector] action_start | start | A11 target=https://edu.360-24.com:443/
+2026-03-05 01:18:05 [INFO] autosecaudit - [waf_detector] action_end | error | A11 status=error duration_ms=2369
+2026-03-05 01:18:05 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-05 01:18:05 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://edu.360-24.com:443/
+2026-03-05 01:18:21 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=16553
+2026-03-05 01:18:21 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-05 01:18:27 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=5627
+2026-03-05 01:18:27 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-05 01:18:32 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=5345
+2026-03-05 01:18:32 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=https://edu.360-24.com:443
+2026-03-05 01:18:38 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A4 status=completed duration_ms=5281
+2026-03-05 01:18:38 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://edu.360-24.com:80/
+2026-03-05 01:18:54 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=16518
+2026-03-05 01:18:54 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=http://edu.360-24.com:80/
+2026-03-05 01:18:58 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=3646
+2026-03-05 01:18:58 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=http://edu.360-24.com:80/
+2026-03-05 01:19:02 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=3661
+2026-03-05 01:19:02 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=http://edu.360-24.com:80
+2026-03-05 01:20:32 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A4 status=error duration_ms=90015
+2026-03-05 01:20:32 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://edu.360-24.com:8443/
+2026-03-05 01:21:07 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=35129
+2026-03-05 01:21:07 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=https://edu.360-24.com:8443/
+2026-03-05 01:21:18 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=10752
+2026-03-05 01:21:18 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=https://edu.360-24.com:8443/
+2026-03-05 01:21:28 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=10656
+2026-03-05 01:21:28 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=https://edu.360-24.com:8443
+2026-03-05 01:21:39 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A4 status=completed duration_ms=10514
+2026-03-05 01:21:39 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://edu.360-24.com:8080/
+2026-03-05 01:22:14 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=35056
+2026-03-05 01:22:14 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=http://edu.360-24.com:8080/
+2026-03-05 01:22:20 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=5687
+2026-03-05 01:22:20 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=http://edu.360-24.com:8080/
+2026-03-05 01:22:25 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=5652
+2026-03-05 01:22:25 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=http://edu.360-24.com:8080
+2026-03-05 01:22:36 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A4 status=completed duration_ms=10510
+2026-03-05 01:22:36 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://edu.360-24.com:8000/
+2026-03-05 01:23:11 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=35054
+2026-03-05 01:23:11 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=http://edu.360-24.com:8000/
+2026-03-05 01:23:17 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=5695
+2026-03-05 01:23:17 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=http://edu.360-24.com:8000/
+2026-03-05 01:23:22 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=5666
+2026-03-05 01:23:22 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=http://edu.360-24.com:8000
+2026-03-05 01:23:33 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A4 status=completed duration_ms=10491
+2026-03-05 01:23:33 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://edu.360-24.com:8008/
+2026-03-05 01:24:08 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=35054
+2026-03-05 01:24:08 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=http://edu.360-24.com:8008/
+2026-03-05 01:24:14 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=5689
+2026-03-05 01:24:14 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=http://edu.360-24.com:8008/
+2026-03-05 01:24:19 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=5664
+2026-03-05 01:24:19 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=http://edu.360-24.com:8008
+2026-03-05 01:24:30 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A4 status=completed duration_ms=10528
+2026-03-05 01:24:30 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://edu.360-24.com:8888/
+2026-03-05 01:25:05 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=35055
+2026-03-05 01:25:05 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=http://edu.360-24.com:8888/
+2026-03-05 01:25:11 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=5682
+2026-03-05 01:25:11 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=http://edu.360-24.com:8888/
+2026-03-05 01:25:16 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=5678
+2026-03-05 01:25:16 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=http://edu.360-24.com:8888
+2026-03-05 01:25:27 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A4 status=completed duration_ms=10494
+2026-03-05 01:25:27 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://edu.360-24.com:3128/
+2026-03-05 01:26:02 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=35056
+2026-03-05 01:26:02 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=http://edu.360-24.com:3128/
+2026-03-05 01:26:08 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=5701
+2026-03-05 01:26:08 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=http://edu.360-24.com:3128/
+2026-03-05 01:26:13 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=5671
+2026-03-05 01:26:13 [INFO] autosecaudit - [agent] run_end | success | history=48, findings=3
+2026-03-05 01:26:13 [INFO] autosecaudit - Agent decision summary: [phase:active_discovery] Proposed 3 safe action(s), total estimated cost 28, remaining budget after plan 5.
+2026-03-05 01:26:13 [INFO] autosecaudit - Action plan: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/ActionPlan.json
+2026-03-05 01:26:13 [INFO] autosecaudit - History: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/agent_history.json
+2026-03-05 01:26:13 [INFO] autosecaudit - State: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/agent_state.json
+2026-03-05 01:26:13 [INFO] autosecaudit - Blocked actions: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/blocked_actions.json
+2026-03-05 01:26:13 [INFO] autosecaudit - Artifact index: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifact_index.json
+2026-03-05 01:26:13 [INFO] autosecaudit - Markdown report: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/agent_report.md
+2026-03-05 01:26:13 [INFO] autosecaudit - HTML visual report: /workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/agent_report.html
+2026-03-05 01:26:13 [INFO] autosecaudit - Findings: 3, Budget remaining: 645
+2026-03-05 01:26:13 [INFO] autosecaudit - Resumed: False, Resumed from: None

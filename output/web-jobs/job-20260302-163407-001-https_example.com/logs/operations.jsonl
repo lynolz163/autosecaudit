@@ -1,0 +1,5 @@
+{"timestamp": "2026-03-02T08:34:07.956957+00:00", "plugin_id": "framework", "action": "audit_start", "status": "start", "detail": "Selected plugins: dns_discovery"}
+{"timestamp": "2026-03-02T08:34:07.958073+00:00", "plugin_id": "dns_discovery", "action": "plugin_start", "status": "start", "detail": "Executing plugin: DNS Discovery"}
+{"timestamp": "2026-03-02T08:34:07.959662+00:00", "plugin_id": "dns_discovery", "action": "dns_lookup", "status": "info", "detail": "Resolving host: example.com"}
+{"timestamp": "2026-03-02T08:34:08.187398+00:00", "plugin_id": "dns_discovery", "action": "plugin_end", "status": "success", "detail": "Finished with status=passed, findings=1"}
+{"timestamp": "2026-03-02T08:34:08.188202+00:00", "plugin_id": "framework", "action": "audit_end", "status": "success", "detail": "Summary: total_plugins=1, total_findings=1, status_counts={'passed': 1, 'failed': 0, 'error': 0, 'skipped': 0}, severity_counts={'info': 1, 'low': 0, 'medium': 0, 'high': 0, 'critical': 0}"}

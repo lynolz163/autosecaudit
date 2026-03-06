@@ -1,0 +1,61 @@
+{
+  "action": {
+    "action_id": "A7",
+    "tool_name": "api_schema_discovery",
+    "target": "http://0x6288.com:3128/",
+    "options": {},
+    "priority": 14,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "98524cc196a709c0c69d536ecd2f15fedc5bf9b26615876789a6f3047d3f398c",
+    "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 56264,
+  "attempts": 1,
+  "result": {
+    "origin": "http://0x6288.com:3128",
+    "schema_count": 0
+  },
+  "metadata": {
+    "origin": "http://0x6288.com:3128",
+    "schema_count": 0,
+    "skill_name": "api_schema_discovery",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "api_schema_discovery",
+    "target": "http://0x6288.com:3128/",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "graph_assets": [],
+      "surface_updates": {
+        "api_endpoints": [],
+        "api_schemas": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "http://0x6288.com:3128",
+        "schema_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 56264
+  }
+}

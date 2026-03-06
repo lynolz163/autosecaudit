@@ -1,0 +1,48 @@
+{
+  "skill": {
+    "name": "tech_stack_fingerprint",
+    "version": "1.0",
+    "tool": "tech_stack_fingerprint",
+    "category": "recon",
+    "description": "Passively fingerprint exposed technologies from headers and page content."
+  },
+  "triggers": {
+    "phase": ["passive_recon"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {}, "constraints": {}},
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.tech_stack", "condition": "non_empty", "meaning": "technology indicators identified"}
+    ],
+    "output_extraction": {},
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "wordpress_stack": {
+      "when_surface_contains": {"tech_stack": ["wordpress"]},
+      "trigger": ["nuclei_exploit_check", "dirsearch_scan"],
+      "reason": "WordPress fingerprints should trigger CMS-focused validation."
+    },
+    "python_stack": {
+      "when_surface_contains": {"tech_stack": ["django", "flask"]},
+      "trigger": ["passive_config_audit", "api_schema_discovery"],
+      "reason": "Python web stacks often expose config and API surface."
+    },
+    "frontend_stack": {
+      "when_surface_contains": {"tech_stack": ["react", "vue", "angular"]},
+      "trigger": ["source_map_detector", "api_schema_discovery"],
+      "reason": "Frontend frameworks often expose source maps and API routes."
+    },
+    "server_stack": {
+      "when_surface_contains": {"tech_stack": ["nginx", "apache"]},
+      "trigger": ["http_security_headers", "csp_evaluator"],
+      "reason": "Web server fingerprints should trigger header and CSP review."
+    }
+  },
+  "risk": {"level": "safe", "cost": 2, "priority": 1, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

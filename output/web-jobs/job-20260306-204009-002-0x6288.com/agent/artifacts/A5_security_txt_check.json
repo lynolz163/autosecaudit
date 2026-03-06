@@ -1,0 +1,125 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "security_txt_check",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "priority": 3,
+    "cost": 1,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "768208a0a254b92516ec975742783b83ce0e6e23d05e86ed01dfa99b599c0e1e",
+    "reason": "Check /.well-known/security.txt for presence and baseline completeness.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ],
+    "ranking_explanation": {
+      "tool": "security_txt_check",
+      "target": "https://0x6288.com:443/",
+      "component": null,
+      "service": null,
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Check /.well-known/security.txt for presence and baseline completeness.",
+        "Scheduled in phase: passive_recon",
+        "Preconditions satisfied: target_in_scope, not_already_done, http_service_confirmed"
+      ]
+    }
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 846,
+  "attempts": 1,
+  "result": {
+    "origin": "https://0x6288.com:443",
+    "status_code": 403,
+    "line_count": 91
+  },
+  "metadata": {
+    "origin": "https://0x6288.com:443",
+    "status_code": 403,
+    "line_count": 91,
+    "skill_name": "security_txt_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "security_txt_check",
+    "target": "https://0x6288.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "security_txt_check:missing",
+          "tool": "security_txt_check",
+          "severity": "low",
+          "category": "compliance",
+          "title": "security.txt Missing",
+          "description": "No security.txt file was found under /.well-known/security.txt.",
+          "evidence": {
+            "url": "https://0x6288.com:443/.well-known/security.txt",
+            "status_code": 403
+          },
+          "remediation": "Publish a valid security.txt file with contact and expiry metadata.",
+          "reproduction_steps": [],
+          "related_asset_ids": [],
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "graph_assets": [],
+      "surface_updates": {
+        "security_txt": {
+          "present": false,
+          "status_code": 403,
+          "url": "https://0x6288.com:443/.well-known/security.txt",
+          "has_contact": false,
+          "has_expires": false,
+          "line_count": 91,
+          "content_preview": null
+        }
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "https://0x6288.com:443",
+        "status_code": 403,
+        "line_count": 91
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 846
+  },
+  "ranking_explanation": {
+    "tool": "security_txt_check",
+    "target": "https://0x6288.com:443/",
+    "component": null,
+    "service": null,
+    "version": null,
+    "selected_candidate": null,
+    "candidate_order": [],
+    "selected_templates": [],
+    "protocol_tags": [],
+    "rag_recommended_tools": [],
+    "reasons": [
+      "Check /.well-known/security.txt for presence and baseline completeness.",
+      "Scheduled in phase: passive_recon",
+      "Preconditions satisfied: target_in_scope, not_already_done, http_service_confirmed"
+    ]
+  }
+}

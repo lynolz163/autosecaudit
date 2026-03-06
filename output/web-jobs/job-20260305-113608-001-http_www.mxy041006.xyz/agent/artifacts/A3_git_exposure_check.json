@@ -1,0 +1,59 @@
+{
+  "action": {
+    "action_id": "A3",
+    "tool_name": "git_exposure_check",
+    "target": "http://www.mxy041006.xyz:80/",
+    "options": {},
+    "priority": 2,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "28b0dc23e4efed398e6fd64f5953e889cbbb46084acddec1aaefd5ac51114a1d",
+    "reason": "Detect exposed repository metadata such as .git and .svn files.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 6550,
+  "attempts": 1,
+  "result": {
+    "origin": "http://www.mxy041006.xyz:80",
+    "exposure_count": 0
+  },
+  "metadata": {
+    "origin": "http://www.mxy041006.xyz:80",
+    "exposure_count": 0,
+    "skill_name": "git_exposure_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "git_exposure_check",
+    "target": "http://www.mxy041006.xyz:80/",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {
+        "git_exposures": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "http://www.mxy041006.xyz:80",
+        "exposure_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 6550
+  }
+}

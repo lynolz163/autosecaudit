@@ -1,0 +1,14 @@
+2026-02-19 01:34:31 [INFO] autosecaudit - [agent] run_start | start | budget=3, max_iterations=2, timeout=300.0s, resumed=False
+2026-02-19 01:34:31 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://example.com:443
+2026-02-19 01:34:33 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=2135
+2026-02-19 01:34:33 [INFO] autosecaudit - [agent] run_stop | warning | Budget exhausted.
+2026-02-19 01:34:33 [INFO] autosecaudit - [agent] run_end | success | history=1, findings=0
+2026-02-19 01:34:33 [INFO] autosecaudit - Agent decision summary: Proposed 1 safe action(s), total estimated cost 3, remaining budget after plan 0.
+2026-02-19 01:34:33 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output_agent_smoke\agent\ActionPlan.json
+2026-02-19 01:34:33 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output_agent_smoke\agent\agent_history.json
+2026-02-19 01:34:33 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output_agent_smoke\agent\agent_state.json
+2026-02-19 01:34:33 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output_agent_smoke\agent\blocked_actions.json
+2026-02-19 01:34:33 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output_agent_smoke\agent\artifact_index.json
+2026-02-19 01:34:33 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output_agent_smoke\agent\agent_report.md
+2026-02-19 01:34:33 [INFO] autosecaudit - Findings: 0, Budget remaining: 0
+2026-02-19 01:34:33 [INFO] autosecaudit - Resumed: False, Resumed from: None

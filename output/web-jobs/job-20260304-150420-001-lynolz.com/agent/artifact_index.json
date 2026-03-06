@@ -1,0 +1,14 @@
+[
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-150420-001-lynolz.com/agent/artifacts/A1_subdomain_enum_passive.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-150420-001-lynolz.com/agent/artifacts/A2_nmap_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-150420-001-lynolz.com/agent/artifacts/A1_passive_config_audit.json"
+  }
+]

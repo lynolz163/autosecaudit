@@ -1,0 +1,29 @@
+[
+  {
+    "action": {
+      "action_id": "A3",
+      "tool_name": "reverse_dns_probe",
+      "target": "0x6288.com",
+      "options": {
+        "max_addresses": 6,
+        "timeout_seconds": 4
+      },
+      "priority": 16,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "f69a5e6ba5da600ff9636eb347890335fed3961dfcbe037c86b63fb55c3fb068",
+      "reason": "Resolve reverse-DNS names for scoped IPs and discovered host addresses.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "dependency_unsatisfied:nmap_scan"
+  }
+]

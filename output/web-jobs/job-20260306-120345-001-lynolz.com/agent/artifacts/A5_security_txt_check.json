@@ -1,0 +1,88 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "security_txt_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "priority": 3,
+    "cost": 1,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "eac56c942493a59f6f0e33edf478702ddde46ebc387badc70e3d388c7d236f6d",
+    "reason": "Check /.well-known/security.txt for presence and baseline completeness.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1553,
+  "attempts": 1,
+  "result": {
+    "origin": "https://lynolz.com:443",
+    "status_code": 404,
+    "line_count": 1
+  },
+  "metadata": {
+    "origin": "https://lynolz.com:443",
+    "status_code": 404,
+    "line_count": 1,
+    "skill_name": "security_txt_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "security_txt_check",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "security_txt_check:missing",
+          "tool": "security_txt_check",
+          "severity": "low",
+          "category": "compliance",
+          "title": "security.txt Missing",
+          "description": "No security.txt file was found under /.well-known/security.txt.",
+          "evidence": {
+            "url": "https://lynolz.com:443/.well-known/security.txt",
+            "status_code": 404
+          },
+          "remediation": "Publish a valid security.txt file with contact and expiry metadata.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "security_txt": {
+          "present": false,
+          "status_code": 404,
+          "url": "https://lynolz.com:443/.well-known/security.txt",
+          "has_contact": false,
+          "has_expires": false,
+          "line_count": 1,
+          "content_preview": null
+        }
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "https://lynolz.com:443",
+        "status_code": 404,
+        "line_count": 1
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1553
+  }
+}

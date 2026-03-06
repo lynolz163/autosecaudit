@@ -1,0 +1,14 @@
+2026-03-05 20:55:52 [INFO] autosecaudit - [agent] run_start | start | budget=50, max_iterations=1, timeout=120.0s, resumed=False
+2026-03-05 20:55:53 [INFO] autosecaudit - [nmap_scan] action_start | start | A1 target=172.20.0.42
+2026-03-05 20:56:07 [INFO] autosecaudit - [nmap_scan] action_end | success | A1 status=completed duration_ms=13963
+2026-03-05 20:56:07 [INFO] autosecaudit - [agent] run_end | success | history=1, findings=0
+2026-03-05 20:56:07 [INFO] autosecaudit - Agent decision summary: [phase:passive_recon] Proposed 1 safe action(s), total estimated cost 15, remaining budget after plan 0.
+2026-03-05 20:56:07 [INFO] autosecaudit - Action plan: /workspace/output/tmp_phase_floor_smoke/agent/ActionPlan.json
+2026-03-05 20:56:07 [INFO] autosecaudit - History: /workspace/output/tmp_phase_floor_smoke/agent/agent_history.json
+2026-03-05 20:56:07 [INFO] autosecaudit - State: /workspace/output/tmp_phase_floor_smoke/agent/agent_state.json
+2026-03-05 20:56:07 [INFO] autosecaudit - Blocked actions: /workspace/output/tmp_phase_floor_smoke/agent/blocked_actions.json
+2026-03-05 20:56:07 [INFO] autosecaudit - Artifact index: /workspace/output/tmp_phase_floor_smoke/agent/artifact_index.json
+2026-03-05 20:56:07 [INFO] autosecaudit - Markdown report: /workspace/output/tmp_phase_floor_smoke/agent/agent_report.md
+2026-03-05 20:56:07 [INFO] autosecaudit - HTML visual report: /workspace/output/tmp_phase_floor_smoke/agent/agent_report.html
+2026-03-05 20:56:08 [INFO] autosecaudit - Findings: 0, Budget remaining: 35
+2026-03-05 20:56:08 [INFO] autosecaudit - Resumed: False, Resumed from: None

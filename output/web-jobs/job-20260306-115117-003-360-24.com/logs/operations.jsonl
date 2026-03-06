@@ -1,0 +1,64 @@
+{"timestamp": "2026-03-06T03:51:17.500403+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=999, max_iterations=10, timeout=1800.0s, resumed=False"}
+{"timestamp": "2026-03-06T03:52:02.902206+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=360-24.com"}
+{"timestamp": "2026-03-06T03:52:05.006647+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2095"}
+{"timestamp": "2026-03-06T03:52:05.009507+00:00", "plugin_id": "nmap_scan", "action": "action_start", "status": "start", "detail": "A2 target=360-24.com"}
+{"timestamp": "2026-03-06T03:52:18.353963+00:00", "plugin_id": "nmap_scan", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=13329"}
+{"timestamp": "2026-03-06T03:52:18.454185+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://360-24.com:443"}
+{"timestamp": "2026-03-06T03:52:37.702740+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=19238"}
+{"timestamp": "2026-03-06T03:52:37.705050+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A12 target=http://360-24.com:80"}
+{"timestamp": "2026-03-06T03:52:55.750750+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A12 status=completed duration_ms=18038"}
+{"timestamp": "2026-03-06T03:52:55.752808+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_start", "status": "start", "detail": "A2 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:52:57.780493+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=2018"}
+{"timestamp": "2026-03-06T03:52:57.783102+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_start", "status": "start", "detail": "A13 target=http://360-24.com:80/"}
+{"timestamp": "2026-03-06T03:53:05.805152+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_end", "status": "error", "detail": "A13 status=error duration_ms=8012"}
+{"timestamp": "2026-03-06T03:53:05.807664+00:00", "plugin_id": "git_exposure_check", "action": "action_start", "status": "start", "detail": "A3 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:15.318705+00:00", "plugin_id": "git_exposure_check", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=9502"}
+{"timestamp": "2026-03-06T03:53:15.320738+00:00", "plugin_id": "source_map_detector", "action": "action_start", "status": "start", "detail": "A4 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:28.047685+00:00", "plugin_id": "source_map_detector", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=12718"}
+{"timestamp": "2026-03-06T03:53:28.050293+00:00", "plugin_id": "security_txt_check", "action": "action_start", "status": "start", "detail": "A5 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:29.828921+00:00", "plugin_id": "security_txt_check", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=1770"}
+{"timestamp": "2026-03-06T03:53:29.831404+00:00", "plugin_id": "login_form_detector", "action": "action_start", "status": "start", "detail": "A6 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:31.515006+00:00", "plugin_id": "login_form_detector", "action": "action_end", "status": "success", "detail": "A6 status=completed duration_ms=1673"}
+{"timestamp": "2026-03-06T03:53:31.517687+00:00", "plugin_id": "login_form_detector", "action": "action_start", "status": "start", "detail": "A14 target=http://360-24.com:80/"}
+{"timestamp": "2026-03-06T03:53:35.199678+00:00", "plugin_id": "login_form_detector", "action": "action_end", "status": "success", "detail": "A14 status=completed duration_ms=3673"}
+{"timestamp": "2026-03-06T03:53:35.202080+00:00", "plugin_id": "http_security_headers", "action": "action_start", "status": "start", "detail": "A7 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:36.623733+00:00", "plugin_id": "http_security_headers", "action": "action_end", "status": "success", "detail": "A7 status=completed duration_ms=1411"}
+{"timestamp": "2026-03-06T03:53:36.627216+00:00", "plugin_id": "ssl_expiry_check", "action": "action_start", "status": "start", "detail": "A8 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:38.365795+00:00", "plugin_id": "ssl_expiry_check", "action": "action_end", "status": "success", "detail": "A8 status=completed duration_ms=1730"}
+{"timestamp": "2026-03-06T03:53:38.367758+00:00", "plugin_id": "ssl_expiry_check", "action": "action_start", "status": "start", "detail": "A15 target=https://360-24.com:8443/"}
+{"timestamp": "2026-03-06T03:53:43.393950+00:00", "plugin_id": "ssl_expiry_check", "action": "action_end", "status": "error", "detail": "A15 status=error duration_ms=5015"}
+{"timestamp": "2026-03-06T03:53:43.396297+00:00", "plugin_id": "js_endpoint_extractor", "action": "action_start", "status": "start", "detail": "A9 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:46.707137+00:00", "plugin_id": "js_endpoint_extractor", "action": "action_end", "status": "success", "detail": "A9 status=completed duration_ms=3303"}
+{"timestamp": "2026-03-06T03:53:46.709707+00:00", "plugin_id": "error_page_analyzer", "action": "action_start", "status": "start", "detail": "A10 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:48.330634+00:00", "plugin_id": "error_page_analyzer", "action": "action_end", "status": "success", "detail": "A10 status=completed duration_ms=1613"}
+{"timestamp": "2026-03-06T03:53:48.332718+00:00", "plugin_id": "waf_detector", "action": "action_start", "status": "start", "detail": "A11 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:53:50.274608+00:00", "plugin_id": "waf_detector", "action": "action_end", "status": "success", "detail": "A11 status=completed duration_ms=1932"}
+{"timestamp": "2026-03-06T03:53:50.305506+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=active_discovery reason=advance:passive_recon"}
+{"timestamp": "2026-03-06T03:54:33.283308+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A1 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:54:45.951963+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=12659"}
+{"timestamp": "2026-03-06T03:54:45.975572+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=deep_testing reason=advance:active_discovery"}
+{"timestamp": "2026-03-06T03:54:46.008128+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:54:47.734897+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=1719"}
+{"timestamp": "2026-03-06T03:54:47.737470+00:00", "plugin_id": "cors_misconfiguration", "action": "action_start", "status": "start", "detail": "A2 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:54:52.609682+00:00", "plugin_id": "cors_misconfiguration", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=4862"}
+{"timestamp": "2026-03-06T03:54:52.612282+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A3 target=https://360-24.com:443/"}
+{"timestamp": "2026-03-06T03:54:54.131789+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=1510"}
+{"timestamp": "2026-03-06T03:54:54.156477+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=verification reason=advance:deep_testing"}
+{"timestamp": "2026-03-06T03:54:54.185966+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=http://360-24.com:80/"}
+{"timestamp": "2026-03-06T03:54:57.054199+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2859"}
+{"timestamp": "2026-03-06T03:54:57.057022+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A2 target=http://360-24.com:80/"}
+{"timestamp": "2026-03-06T03:54:59.596839+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=2529"}
+{"timestamp": "2026-03-06T03:54:59.651469+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=https://360-24.com:8443/"}
+{"timestamp": "2026-03-06T03:55:04.677045+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "error", "detail": "A1 status=error duration_ms=5016"}
+{"timestamp": "2026-03-06T03:55:04.679035+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A2 target=https://360-24.com:8443/"}
+{"timestamp": "2026-03-06T03:55:09.705530+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "error", "detail": "A2 status=error duration_ms=5014"}
+{"timestamp": "2026-03-06T03:55:09.766635+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A2 target=http://360-24.com:8080/"}
+{"timestamp": "2026-03-06T03:55:14.780691+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "error", "detail": "A2 status=error duration_ms=5006"}
+{"timestamp": "2026-03-06T03:55:14.782797+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A3 target=http://360-24.com:8080/"}
+{"timestamp": "2026-03-06T03:55:19.798210+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "error", "detail": "A3 status=error duration_ms=5008"}
+{"timestamp": "2026-03-06T03:55:19.848279+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A2 target=http://360-24.com:8000/"}
+{"timestamp": "2026-03-06T03:55:24.863416+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "error", "detail": "A2 status=error duration_ms=5006"}
+{"timestamp": "2026-03-06T03:55:24.865560+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A3 target=http://360-24.com:8000/"}
+{"timestamp": "2026-03-06T03:55:29.882139+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "error", "detail": "A3 status=error duration_ms=5006"}
+{"timestamp": "2026-03-06T03:55:29.950891+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 9: no executable actions after policy/scheduler."}
+{"timestamp": "2026-03-06T03:55:30.006667+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=29, findings=20"}

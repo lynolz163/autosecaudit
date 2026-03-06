@@ -1,0 +1,24 @@
+2026-03-04 20:35:22 [INFO] autosecaudit - Audit started for target: edu.360-24.com
+2026-03-04 20:35:22 [INFO] autosecaudit - [framework] audit_start | start | Selected plugins: cors_misconfiguration, dns_discovery, http_headers_validation, port_service_scan, ssl_expiry_check, tls_certificate_validation
+2026-03-04 20:35:22 [INFO] autosecaudit - [cors_misconfiguration] plugin_start | start | Executing plugin: CORS Misconfiguration Check
+2026-03-04 20:35:22 [INFO] autosecaudit - [cors_misconfiguration] cors_probe | info | Testing CORS headers for: https://edu.360-24.com
+2026-03-04 20:35:25 [INFO] autosecaudit - [cors_misconfiguration] plugin_end | success | Finished with status=passed, findings=1
+2026-03-04 20:35:25 [INFO] autosecaudit - [dns_discovery] plugin_start | start | Executing plugin: DNS Discovery
+2026-03-04 20:35:25 [INFO] autosecaudit - [dns_discovery] dns_lookup | info | Resolving host: edu.360-24.com
+2026-03-04 20:35:25 [INFO] autosecaudit - [dns_discovery] plugin_end | success | Finished with status=passed, findings=1
+2026-03-04 20:35:25 [INFO] autosecaudit - [http_headers_validation] plugin_start | start | Executing plugin: HTTP Header Validation
+2026-03-04 20:35:25 [INFO] autosecaudit - [http_headers_validation] http_request | info | Fetching headers from: https://edu.360-24.com
+2026-03-04 20:35:27 [INFO] autosecaudit - [http_headers_validation] plugin_end | warning | Finished with status=failed, findings=6
+2026-03-04 20:35:27 [INFO] autosecaudit - [port_service_scan] plugin_start | start | Executing plugin: Port Service Scan
+2026-03-04 20:35:27 [INFO] autosecaudit - [port_service_scan] nmap_service_scan | info | Scanning common service ports on: edu.360-24.com
+2026-03-04 20:35:41 [INFO] autosecaudit - [port_service_scan] plugin_end | error | Finished with status=error, findings=0
+2026-03-04 20:35:41 [INFO] autosecaudit - [ssl_expiry_check] plugin_start | start | Executing plugin: SSL Expiry Check
+2026-03-04 20:35:41 [INFO] autosecaudit - [ssl_expiry_check] ssl_expiry_connect | info | Connecting to edu.360-24.com:443 for expiry validation
+2026-03-04 20:35:43 [INFO] autosecaudit - [ssl_expiry_check] plugin_end | warning | Finished with status=failed, findings=1
+2026-03-04 20:35:43 [INFO] autosecaudit - [tls_certificate_validation] plugin_start | start | Executing plugin: TLS Certificate Validation
+2026-03-04 20:35:43 [INFO] autosecaudit - [tls_certificate_validation] tls_connect | info | Connecting to edu.360-24.com:443 for certificate validation
+2026-03-04 20:35:45 [INFO] autosecaudit - [tls_certificate_validation] plugin_end | warning | Finished with status=failed, findings=1
+2026-03-04 20:35:45 [INFO] autosecaudit - [framework] audit_end | success | Summary: total_plugins=6, total_findings=10, status_counts={'passed': 2, 'failed': 3, 'error': 1, 'skipped': 0}, severity_counts={'info': 2, 'low': 4, 'medium': 3, 'high': 1, 'critical': 0}
+2026-03-04 20:35:45 [INFO] autosecaudit - Audit finished for target: edu.360-24.com
+2026-03-04 20:35:45 [INFO] autosecaudit - Audit report generated: /workspace/output/web-jobs/job-20260304-203522-001-edu.360-24.com/audit_report.json
+2026-03-04 20:35:45 [INFO] autosecaudit - Audit report generated: /workspace/output/web-jobs/job-20260304-203522-001-edu.360-24.com/audit_report.md

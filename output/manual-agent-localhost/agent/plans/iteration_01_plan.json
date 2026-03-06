@@ -1,0 +1,55 @@
+{
+  "decision_summary": "Proposed 2 safe action(s), total estimated cost 20, remaining budget after plan 80.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "subdomain_enum_passive",
+      "target": "localhost",
+      "options": {
+        "max_results": 100
+      },
+      "priority": 9,
+      "cost": 5,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "3e69bed9ccfb0d3ada404be137af2905a024c0f6147577c835ea8f2736959054",
+      "reason": "Passively enumerate likely in-scope subdomains from certificate transparency.",
+      "preconditions": [
+        "target_in_scope",
+        "domain_scope_declared",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "nmap_scan",
+      "target": "localhost",
+      "options": {
+        "ports": "top-100",
+        "scan_profile": "conservative_service_discovery",
+        "timeout_seconds": 90,
+        "version_detection": false
+      },
+      "priority": 14,
+      "cost": 15,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "a7d6d652c870f9ce324871f05e798791e9e232845047cf5078a1229e1cdf2b2d",
+      "reason": "Initial conservative discovery to identify reachable services.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

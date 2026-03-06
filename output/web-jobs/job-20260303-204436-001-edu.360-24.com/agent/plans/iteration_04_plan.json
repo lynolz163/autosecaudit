@@ -1,0 +1,181 @@
+{
+  "decision_summary": "Proposed 8 safe action(s), total estimated cost 22, remaining budget after plan 17.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "https://edu.360-24.com:443/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "49bcce90653c98c3eb25ce48988081c20de282be9b3aba0962805fc103ce659b",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "https://edu.360-24.com:8443/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "94c07c5cd8e27da28546b022558f8278a882a1b43c5faf9a8dbc9acfcb2bc93c",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "login_form_detector",
+      "target": "http://edu.360-24.com:3128/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "41dba13ab54e080afa0298d366fc72e0e13e6843b651f057a419588b8639779c",
+      "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "login_form_detector",
+      "target": "http://edu.360-24.com:5800/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "8f8f9e52144abfe40b1e9cb85e2670a37d4fa85f7b9e850b0d0ff508ad6f279b",
+      "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "login_form_detector",
+      "target": "http://edu.360-24.com:80/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "6cdfa624c8648fd0a785acf16ea7114c0caa9ad5eb742e6e60c063772c49299b",
+      "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A6",
+      "tool_name": "login_form_detector",
+      "target": "http://edu.360-24.com:8000/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "954fe20b3054d25eb435e4d92cac7057f4fe598b64685316f41137a2e7aa49f5",
+      "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "login_form_detector",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "7bced14fcc261d68384841396f9e1da751e4f9145c91051eb63e5313d0be86e4",
+      "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "login_form_detector",
+      "target": "http://edu.360-24.com:8080/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "ffa6b6cae0f5a35f7179d27d5c563b8fd284ba4830f994cd8acc0dd8d7409ed2",
+      "reason": "Detect authentication forms and extract low-risk login endpoint metadata.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

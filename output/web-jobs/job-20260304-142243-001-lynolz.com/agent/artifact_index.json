@@ -1,0 +1,122 @@
+[
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_subdomain_enum_passive.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A2_nmap_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+  },
+  {
+    "action_id": "A7",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A7_csp_evaluator.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A2_cors_misconfiguration.json"
+  },
+  {
+    "action_id": "A8",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A8_cors_misconfiguration.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A4_sql_sanitization_audit.json"
+  },
+  {
+    "action_id": "A5",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A5_cookie_security_audit.json"
+  },
+  {
+    "action_id": "A6",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A6_param_fuzzer.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+  },
+  {
+    "action_id": "A5",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A5_csp_evaluator.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A2_xss_protection_audit.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A3_sql_sanitization_audit.json"
+  },
+  {
+    "action_id": "A6",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A6_xss_protection_audit.json"
+  },
+  {
+    "action_id": "A7",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A7_sql_sanitization_audit.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A4_cookie_security_audit.json"
+  },
+  {
+    "action_id": "A8",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A8_cookie_security_audit.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A2_cookie_security_audit.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A2_cookie_security_audit.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A1_cookie_security_audit.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A2_xss_protection_audit.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260304-142243-001-lynolz.com/agent/artifacts/A3_sql_sanitization_audit.json"
+  }
+]

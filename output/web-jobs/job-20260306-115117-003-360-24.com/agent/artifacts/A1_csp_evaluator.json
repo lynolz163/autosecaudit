@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "csp_evaluator",
+    "target": "https://360-24.com:8443/",
+    "options": {},
+    "priority": 18,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "93453d29329ac4bea7029491b5cb15c2e52041b596a96d90ba493de35ae0fef7",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+  "duration_ms": 5016,
+  "attempts": 1,
+  "result": {
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>"
+  },
+  "metadata": {
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+    "skill_name": "csp_evaluator",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "csp_evaluator",
+    "target": "https://360-24.com:8443/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>"
+      }
+    },
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+    "raw_output": null,
+    "duration_ms": 5016
+  }
+}

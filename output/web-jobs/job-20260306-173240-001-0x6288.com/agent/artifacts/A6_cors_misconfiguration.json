@@ -1,0 +1,106 @@
+{
+  "action": {
+    "action_id": "A6",
+    "tool_name": "cors_misconfiguration",
+    "target": "http://0x6288.com:8888/",
+    "options": {},
+    "priority": 22,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "52dae539e71b53423b8b43d48b6151cd31f15865f8316521b6eadf20a0f76342",
+    "reason": "Probe origins for arbitrary Origin reflection and credentialed wildcard CORS behavior.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 24038,
+  "attempts": 1,
+  "result": {
+    "origin": "http://0x6288.com:8888",
+    "probes": [
+      {
+        "origin": "https://evil.example.com",
+        "error": "timed out"
+      },
+      {
+        "origin": "null",
+        "error": "timed out"
+      },
+      {
+        "origin": "https://0x6288.com.evil.invalid",
+        "error": "timed out"
+      }
+    ]
+  },
+  "metadata": {
+    "skill_name": "cors_misconfiguration",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "cors_misconfiguration",
+    "target": "http://0x6288.com:8888/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "http://0x6288.com:8888",
+        "probes": [
+          {
+            "origin": "https://evil.example.com",
+            "error": "timed out"
+          },
+          {
+            "origin": "null",
+            "error": "timed out"
+          },
+          {
+            "origin": "https://0x6288.com.evil.invalid",
+            "error": "timed out"
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "No Obvious CORS Misconfiguration",
+          "severity": "info",
+          "evidence": "[{\"origin\": \"https://evil.example.com\", \"error\": \"timed out\"}, {\"origin\": \"null\", \"error\": \"timed out\"}, {\"origin\": \"https://0x6288.com.evil.invalid\", \"error\": \"timed out\"}]",
+          "reproduction_steps": [
+            "Probe http://0x6288.com:8888 with untrusted Origin headers and inspect response."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "cors_probes": [
+          {
+            "origin": "https://evil.example.com",
+            "error": "timed out"
+          },
+          {
+            "origin": "null",
+            "error": "timed out"
+          },
+          {
+            "origin": "https://0x6288.com.evil.invalid",
+            "error": "timed out"
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 24038
+  }
+}

@@ -1,0 +1,20 @@
+﻿{
+  "primary_model": "local_primary/test-model",
+  "fallback_models": ["local_backup/test-model"],
+  "default_provider": "local_primary",
+  "request": {"temperature": 0, "max_output_tokens": 800},
+  "providers": {
+    "local_primary": {
+      "type": "openai_compatible",
+      "base_url": "http://127.0.0.1:1/v1",
+      "api_key_env": "DUMMY_KEY",
+      "timeout_seconds": 1
+    },
+    "local_backup": {
+      "type": "openai_compatible",
+      "base_url": "http://127.0.0.1:2/v1",
+      "api_key_env": "DUMMY_KEY",
+      "timeout_seconds": 1
+    }
+  }
+}

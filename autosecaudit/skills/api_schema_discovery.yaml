@@ -1,0 +1,33 @@
+{
+  "skill": {
+    "name": "api_schema_discovery",
+    "version": "1.0",
+    "tool": "api_schema_discovery",
+    "category": "discovery",
+    "description": "Discover OpenAPI, Swagger, and GraphQL schema endpoints."
+  },
+  "triggers": {
+    "phase": ["active_discovery"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {}, "constraints": {}},
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.api_schema", "condition": "non_empty", "meaning": "API schema endpoint discovered"}
+    ],
+    "output_extraction": {},
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_api_schema_found": {
+      "condition": "api_schema_found",
+      "trigger": ["param_fuzzer", "cookie_security_audit"],
+      "reason": "Public API schemas should trigger parameter and session review."
+    }
+  },
+  "risk": {"level": "safe", "cost": 4, "priority": 18, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

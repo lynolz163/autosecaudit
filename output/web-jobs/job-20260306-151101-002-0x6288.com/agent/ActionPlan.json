@@ -1,0 +1,4 @@
+{
+  "decision_summary": "[phase:active_discovery] No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.",
+  "actions": []
+}

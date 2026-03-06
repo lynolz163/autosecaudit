@@ -1,0 +1,59 @@
+{
+  "action": {
+    "action_id": "A8",
+    "tool_name": "source_map_detector",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "priority": 7,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "48883893786d017afe17d1ab9184e1f5a462fea95b03b09e53ab96caff894368",
+    "reason": "Detect exposed JavaScript source maps that may reveal source code or routes.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 7383,
+  "attempts": 1,
+  "result": {
+    "origin": "https://0x6288.com:443",
+    "source_map_count": 0
+  },
+  "metadata": {
+    "origin": "https://0x6288.com:443",
+    "source_map_count": 0,
+    "skill_name": "source_map_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "source_map_detector",
+    "target": "https://0x6288.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {
+        "source_maps": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "https://0x6288.com:443",
+        "source_map_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 7383
+  }
+}

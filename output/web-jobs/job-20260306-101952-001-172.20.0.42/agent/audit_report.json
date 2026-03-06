@@ -1,0 +1,1109 @@
+{
+  "meta": {
+    "generated_at": "2026-03-06T02:28:33.993164+00:00",
+    "target": "172.20.0.42",
+    "decision_summary": "[phase:active_discovery] Proposed 2 safe action(s), total estimated cost 24, remaining budget after plan 191. Blocked actions: 2. Executable actions after environment checks: 0.",
+    "resumed": false,
+    "resumed_from": "None"
+  },
+  "summary": {
+    "audit_score": 97,
+    "score_label": "Excellent",
+    "total_findings": 3,
+    "vulnerability_findings": 3,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 3
+    },
+    "history_count": 28,
+    "iteration_count": 7,
+    "budget_remaining": 859,
+    "budget_start_inferred": 999,
+    "unique_tools_executed": 15,
+    "service_origins_observed": 4,
+    "api_endpoint_count": 0
+  },
+  "history": [
+    {
+      "index": 1,
+      "tool": "nmap_scan",
+      "target": "172.20.0.42",
+      "status": "completed",
+      "started_at": "2026-03-06T02:20:36.105757+00:00",
+      "ended_at": "2026-03-06T02:20:49.844296+00:00",
+      "action_cost": 15,
+      "budget_before": 999,
+      "budget_after": 984,
+      "error": null
+    },
+    {
+      "index": 2,
+      "tool": "passive_config_audit",
+      "target": "https://172.20.0.42:443",
+      "status": "completed",
+      "started_at": "2026-03-06T02:20:49.887382+00:00",
+      "ended_at": "2026-03-06T02:21:07.970318+00:00",
+      "action_cost": 3,
+      "budget_before": 984,
+      "budget_after": 943,
+      "error": null
+    },
+    {
+      "index": 3,
+      "tool": "passive_config_audit",
+      "target": "http://172.20.0.42:80",
+      "status": "completed",
+      "started_at": "2026-03-06T02:21:07.980670+00:00",
+      "ended_at": "2026-03-06T02:21:08.617228+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": null
+    },
+    {
+      "index": 4,
+      "tool": "tech_stack_fingerprint",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:21:08.625755+00:00",
+      "ended_at": "2026-03-06T02:21:16.644602+00:00",
+      "action_cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 5,
+      "tool": "tech_stack_fingerprint",
+      "target": "http://172.20.0.42:80/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:21:16.653235+00:00",
+      "ended_at": "2026-03-06T02:21:16.696063+00:00",
+      "action_cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": null
+    },
+    {
+      "index": 6,
+      "tool": "git_exposure_check",
+      "target": "https://172.20.0.42:443/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:21:16.705371+00:00",
+      "ended_at": "2026-03-06T02:21:40.766824+00:00",
+      "action_cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": null
+    },
+    {
+      "index": 7,
+      "tool": "security_txt_check",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:21:40.775949+00:00",
+      "ended_at": "2026-03-06T02:21:48.794607+00:00",
+      "action_cost": 1,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 8,
+      "tool": "login_form_detector",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:21:48.810692+00:00",
+      "ended_at": "2026-03-06T02:21:56.839412+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 9,
+      "tool": "login_form_detector",
+      "target": "http://172.20.0.42:80/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:21:56.859420+00:00",
+      "ended_at": "2026-03-06T02:21:56.925621+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": null
+    },
+    {
+      "index": 10,
+      "tool": "http_security_headers",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:21:56.949551+00:00",
+      "ended_at": "2026-03-06T02:22:04.989739+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 11,
+      "tool": "ssl_expiry_check",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:22:05.006236+00:00",
+      "ended_at": "2026-03-06T02:22:13.034159+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "_ssl.c:999: The handshake operation timed out"
+    },
+    {
+      "index": 12,
+      "tool": "source_map_detector",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:22:13.056651+00:00",
+      "ended_at": "2026-03-06T02:22:21.085488+00:00",
+      "action_cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 13,
+      "tool": "js_endpoint_extractor",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:22:21.101193+00:00",
+      "ended_at": "2026-03-06T02:22:29.128489+00:00",
+      "action_cost": 4,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 14,
+      "tool": "js_endpoint_extractor",
+      "target": "http://172.20.0.42:80/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:22:29.143711+00:00",
+      "ended_at": "2026-03-06T02:22:29.178770+00:00",
+      "action_cost": 4,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": null
+    },
+    {
+      "index": 15,
+      "tool": "error_page_analyzer",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:22:29.199432+00:00",
+      "ended_at": "2026-03-06T02:22:37.230317+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 16,
+      "tool": "waf_detector",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:22:37.246190+00:00",
+      "ended_at": "2026-03-06T02:22:45.272021+00:00",
+      "action_cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+    },
+    {
+      "index": 17,
+      "tool": "api_schema_discovery",
+      "target": "https://172.20.0.42:443/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:22:45.350856+00:00",
+      "ended_at": "2026-03-06T02:23:41.509613+00:00",
+      "action_cost": 4,
+      "budget_before": 943,
+      "budget_after": 922,
+      "error": null
+    },
+    {
+      "index": 18,
+      "tool": "page_vision_analyzer",
+      "target": "https://172.20.0.42:443/",
+      "status": "error",
+      "started_at": "2026-03-06T02:23:41.528827+00:00",
+      "ended_at": "2026-03-06T02:23:42.809596+00:00",
+      "action_cost": 7,
+      "budget_before": 922,
+      "budget_after": 922,
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CBVzTs --remote-debugging-pipe --no-startup-window\n<launched> pid=27\n[pid=27][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CBVzTs --remote-debugging-pipe --no-startup-window\n  - <launched> pid=27\n  - [pid=27][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=27] <gracefully close start>\n  - [pid=27] <kill>\n  - [pid=27] <will force kill>\n  - [pid=27] exception while trying to kill process: Error: kill ESRCH\n  - [pid=27] <process did exit: exitCode=127, signal=null>\n  - [pid=27] starting temporary directories cleanup\n  - [pid=27] finished temporary directories cleanup\n  - [pid=27] <gracefully close end>"
+    },
+    {
+      "index": 19,
+      "tool": "dirsearch_scan",
+      "target": "https://172.20.0.42:443",
+      "status": "completed",
+      "started_at": "2026-03-06T02:23:42.828902+00:00",
+      "ended_at": "2026-03-06T02:23:59.191465+00:00",
+      "action_cost": 10,
+      "budget_before": 922,
+      "budget_after": 922,
+      "error": null
+    },
+    {
+      "index": 20,
+      "tool": "api_schema_discovery",
+      "target": "http://172.20.0.42:80/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:23:59.338978+00:00",
+      "ended_at": "2026-03-06T02:23:59.730959+00:00",
+      "action_cost": 4,
+      "budget_before": 922,
+      "budget_after": 901,
+      "error": null
+    },
+    {
+      "index": 21,
+      "tool": "page_vision_analyzer",
+      "target": "http://172.20.0.42:80/",
+      "status": "error",
+      "started_at": "2026-03-06T02:23:59.751618+00:00",
+      "ended_at": "2026-03-06T02:24:01.417085+00:00",
+      "action_cost": 7,
+      "budget_before": 901,
+      "budget_after": 901,
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-A6titN --remote-debugging-pipe --no-startup-window\n<launched> pid=43\n[pid=43][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-A6titN --remote-debugging-pipe --no-startup-window\n  - <launched> pid=43\n  - [pid=43][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=43] <gracefully close start>\n  - [pid=43] <kill>\n  - [pid=43] <will force kill>\n  - [pid=43] exception while trying to kill process: Error: kill ESRCH\n  - [pid=43] <process did exit: exitCode=127, signal=null>\n  - [pid=43] starting temporary directories cleanup\n  - [pid=43] finished temporary directories cleanup\n  - [pid=43] <gracefully close end>"
+    },
+    {
+      "index": 22,
+      "tool": "dirsearch_scan",
+      "target": "http://172.20.0.42:80",
+      "status": "error",
+      "started_at": "2026-03-06T02:24:01.436769+00:00",
+      "ended_at": "2026-03-06T02:25:31.460261+00:00",
+      "action_cost": 10,
+      "budget_before": 901,
+      "budget_after": 901,
+      "error": "dirsearch scan timed out after 90.0s"
+    },
+    {
+      "index": 23,
+      "tool": "api_schema_discovery",
+      "target": "http://172.20.0.42:8080/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:25:31.510322+00:00",
+      "ended_at": "2026-03-06T02:25:31.828777+00:00",
+      "action_cost": 4,
+      "budget_before": 901,
+      "budget_after": 880,
+      "error": null
+    },
+    {
+      "index": 24,
+      "tool": "page_vision_analyzer",
+      "target": "http://172.20.0.42:8080/",
+      "status": "error",
+      "started_at": "2026-03-06T02:25:31.838011+00:00",
+      "ended_at": "2026-03-06T02:25:32.419856+00:00",
+      "action_cost": 7,
+      "budget_before": 880,
+      "budget_after": 880,
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-WYSuyB --remote-debugging-pipe --no-startup-window\n<launched> pid=2399\n[pid=2399][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-WYSuyB --remote-debugging-pipe --no-startup-window\n  - <launched> pid=2399\n  - [pid=2399][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=2399] <gracefully close start>\n  - [pid=2399] <kill>\n  - [pid=2399] <will force kill>\n  - [pid=2399] exception while trying to kill process: Error: kill ESRCH\n  - [pid=2399] <process did exit: exitCode=127, signal=null>\n  - [pid=2399] starting temporary directories cleanup\n  - [pid=2399] finished temporary directories cleanup\n  - [pid=2399] <gracefully close end>"
+    },
+    {
+      "index": 25,
+      "tool": "dirsearch_scan",
+      "target": "http://172.20.0.42:8080",
+      "status": "error",
+      "started_at": "2026-03-06T02:25:32.430210+00:00",
+      "ended_at": "2026-03-06T02:27:02.463247+00:00",
+      "action_cost": 10,
+      "budget_before": 880,
+      "budget_after": 880,
+      "error": "dirsearch scan timed out after 90.0s"
+    },
+    {
+      "index": 26,
+      "tool": "api_schema_discovery",
+      "target": "http://172.20.0.42:8000/",
+      "status": "completed",
+      "started_at": "2026-03-06T02:27:02.553752+00:00",
+      "ended_at": "2026-03-06T02:27:02.802712+00:00",
+      "action_cost": 4,
+      "budget_before": 880,
+      "budget_after": 859,
+      "error": null
+    },
+    {
+      "index": 27,
+      "tool": "page_vision_analyzer",
+      "target": "http://172.20.0.42:8000/",
+      "status": "error",
+      "started_at": "2026-03-06T02:27:02.819241+00:00",
+      "ended_at": "2026-03-06T02:27:03.853360+00:00",
+      "action_cost": 7,
+      "budget_before": 859,
+      "budget_after": 859,
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-wGy4MU --remote-debugging-pipe --no-startup-window\n<launched> pid=13116\n[pid=13116][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-wGy4MU --remote-debugging-pipe --no-startup-window\n  - <launched> pid=13116\n  - [pid=13116][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=13116] <gracefully close start>\n  - [pid=13116] <kill>\n  - [pid=13116] <will force kill>\n  - [pid=13116] exception while trying to kill process: Error: kill ESRCH\n  - [pid=13116] <process did exit: exitCode=127, signal=null>\n  - [pid=13116] starting temporary directories cleanup\n  - [pid=13116] finished temporary directories cleanup\n  - [pid=13116] <gracefully close end>"
+    },
+    {
+      "index": 28,
+      "tool": "dirsearch_scan",
+      "target": "http://172.20.0.42:8000",
+      "status": "error",
+      "started_at": "2026-03-06T02:27:03.866504+00:00",
+      "ended_at": "2026-03-06T02:28:33.894227+00:00",
+      "action_cost": 10,
+      "budget_before": 859,
+      "budget_after": 859,
+      "error": "dirsearch scan timed out after 90.0s"
+    }
+  ],
+  "budget_trace": [
+    {
+      "step": 0,
+      "label": "Start",
+      "tool": "",
+      "cost": 0,
+      "budget_before": 999,
+      "budget_after": 999,
+      "cumulative_spent": 0
+    },
+    {
+      "step": 1,
+      "label": "1. nmap_scan",
+      "tool": "nmap_scan",
+      "cost": 15,
+      "budget_before": 999,
+      "budget_after": 984,
+      "cumulative_spent": 15
+    },
+    {
+      "step": 2,
+      "label": "2. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 984,
+      "budget_after": 943,
+      "cumulative_spent": 18
+    },
+    {
+      "step": 3,
+      "label": "3. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 21
+    },
+    {
+      "step": 4,
+      "label": "4. tech_stack_fingerprint",
+      "tool": "tech_stack_fingerprint",
+      "cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 23
+    },
+    {
+      "step": 5,
+      "label": "5. tech_stack_fingerprint",
+      "tool": "tech_stack_fingerprint",
+      "cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 25
+    },
+    {
+      "step": 6,
+      "label": "6. git_exposure_check",
+      "tool": "git_exposure_check",
+      "cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 27
+    },
+    {
+      "step": 7,
+      "label": "7. security_txt_check",
+      "tool": "security_txt_check",
+      "cost": 1,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 28
+    },
+    {
+      "step": 8,
+      "label": "8. login_form_detector",
+      "tool": "login_form_detector",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 31
+    },
+    {
+      "step": 9,
+      "label": "9. login_form_detector",
+      "tool": "login_form_detector",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 34
+    },
+    {
+      "step": 10,
+      "label": "10. http_security_headers",
+      "tool": "http_security_headers",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 37
+    },
+    {
+      "step": 11,
+      "label": "11. ssl_expiry_check",
+      "tool": "ssl_expiry_check",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 40
+    },
+    {
+      "step": 12,
+      "label": "12. source_map_detector",
+      "tool": "source_map_detector",
+      "cost": 2,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 42
+    },
+    {
+      "step": 13,
+      "label": "13. js_endpoint_extractor",
+      "tool": "js_endpoint_extractor",
+      "cost": 4,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 46
+    },
+    {
+      "step": 14,
+      "label": "14. js_endpoint_extractor",
+      "tool": "js_endpoint_extractor",
+      "cost": 4,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 50
+    },
+    {
+      "step": 15,
+      "label": "15. error_page_analyzer",
+      "tool": "error_page_analyzer",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 53
+    },
+    {
+      "step": 16,
+      "label": "16. waf_detector",
+      "tool": "waf_detector",
+      "cost": 3,
+      "budget_before": 943,
+      "budget_after": 943,
+      "cumulative_spent": 56
+    },
+    {
+      "step": 17,
+      "label": "17. api_schema_discovery",
+      "tool": "api_schema_discovery",
+      "cost": 4,
+      "budget_before": 943,
+      "budget_after": 922,
+      "cumulative_spent": 60
+    },
+    {
+      "step": 18,
+      "label": "18. page_vision_analyzer",
+      "tool": "page_vision_analyzer",
+      "cost": 7,
+      "budget_before": 922,
+      "budget_after": 922,
+      "cumulative_spent": 67
+    },
+    {
+      "step": 19,
+      "label": "19. dirsearch_scan",
+      "tool": "dirsearch_scan",
+      "cost": 10,
+      "budget_before": 922,
+      "budget_after": 922,
+      "cumulative_spent": 77
+    },
+    {
+      "step": 20,
+      "label": "20. api_schema_discovery",
+      "tool": "api_schema_discovery",
+      "cost": 4,
+      "budget_before": 922,
+      "budget_after": 901,
+      "cumulative_spent": 81
+    },
+    {
+      "step": 21,
+      "label": "21. page_vision_analyzer",
+      "tool": "page_vision_analyzer",
+      "cost": 7,
+      "budget_before": 901,
+      "budget_after": 901,
+      "cumulative_spent": 88
+    },
+    {
+      "step": 22,
+      "label": "22. dirsearch_scan",
+      "tool": "dirsearch_scan",
+      "cost": 10,
+      "budget_before": 901,
+      "budget_after": 901,
+      "cumulative_spent": 98
+    },
+    {
+      "step": 23,
+      "label": "23. api_schema_discovery",
+      "tool": "api_schema_discovery",
+      "cost": 4,
+      "budget_before": 901,
+      "budget_after": 880,
+      "cumulative_spent": 102
+    },
+    {
+      "step": 24,
+      "label": "24. page_vision_analyzer",
+      "tool": "page_vision_analyzer",
+      "cost": 7,
+      "budget_before": 880,
+      "budget_after": 880,
+      "cumulative_spent": 109
+    },
+    {
+      "step": 25,
+      "label": "25. dirsearch_scan",
+      "tool": "dirsearch_scan",
+      "cost": 10,
+      "budget_before": 880,
+      "budget_after": 880,
+      "cumulative_spent": 119
+    },
+    {
+      "step": 26,
+      "label": "26. api_schema_discovery",
+      "tool": "api_schema_discovery",
+      "cost": 4,
+      "budget_before": 880,
+      "budget_after": 859,
+      "cumulative_spent": 123
+    },
+    {
+      "step": 27,
+      "label": "27. page_vision_analyzer",
+      "tool": "page_vision_analyzer",
+      "cost": 7,
+      "budget_before": 859,
+      "budget_after": 859,
+      "cumulative_spent": 130
+    },
+    {
+      "step": 28,
+      "label": "28. dirsearch_scan",
+      "tool": "dirsearch_scan",
+      "cost": 10,
+      "budget_before": 859,
+      "budget_after": 859,
+      "cumulative_spent": 140
+    }
+  ],
+  "coverage": {
+    "tool_stats": [
+      {
+        "tool": "api_schema_discovery",
+        "total": 4,
+        "completed": 4,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "passive_config_audit",
+        "total": 2,
+        "completed": 2,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "dirsearch_scan",
+        "total": 4,
+        "completed": 1,
+        "failed": 0,
+        "error": 3
+      },
+      {
+        "tool": "js_endpoint_extractor",
+        "total": 2,
+        "completed": 1,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "login_form_detector",
+        "total": 2,
+        "completed": 1,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "tech_stack_fingerprint",
+        "total": 2,
+        "completed": 1,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "git_exposure_check",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "nmap_scan",
+        "total": 1,
+        "completed": 1,
+        "failed": 0,
+        "error": 0
+      },
+      {
+        "tool": "page_vision_analyzer",
+        "total": 4,
+        "completed": 0,
+        "failed": 0,
+        "error": 4
+      },
+      {
+        "tool": "error_page_analyzer",
+        "total": 1,
+        "completed": 0,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "http_security_headers",
+        "total": 1,
+        "completed": 0,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "security_txt_check",
+        "total": 1,
+        "completed": 0,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "source_map_detector",
+        "total": 1,
+        "completed": 0,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "ssl_expiry_check",
+        "total": 1,
+        "completed": 0,
+        "failed": 0,
+        "error": 1
+      },
+      {
+        "tool": "waf_detector",
+        "total": 1,
+        "completed": 0,
+        "failed": 0,
+        "error": 1
+      }
+    ],
+    "unique_tools_executed": 15,
+    "service_origins_observed": 4,
+    "service_origins": [
+      "http://172.20.0.42:80",
+      "http://172.20.0.42:8000",
+      "http://172.20.0.42:8080",
+      "https://172.20.0.42:443"
+    ],
+    "api_endpoint_count": 0,
+    "discovered_url_count": 0,
+    "parameter_count": 0,
+    "tech_stack": [
+      "nginx"
+    ],
+    "config_exposure_count": 0,
+    "completed_actions": 12,
+    "failed_actions": 0,
+    "error_actions": 16,
+    "highlights": [
+      "Observed 4 HTTP(S) service origin(s).",
+      "Detected technology hints: nginx."
+    ]
+  },
+  "recon": {
+    "target_info": {
+      "target": "172.20.0.42",
+      "scope": [
+        "172.20.0.42"
+      ],
+      "service_origins": [
+        "http://172.20.0.42:80",
+        "http://172.20.0.42:8000",
+        "http://172.20.0.42:8080",
+        "https://172.20.0.42:443"
+      ]
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ports_services": {
+      "ports": [],
+      "services": []
+    },
+    "tls_certificate": {},
+    "http_headers": {},
+    "tech_stack": [
+      "nginx"
+    ],
+    "waf_cdn": [],
+    "security_policies": {
+      "security_txt": {},
+      "csp_evaluation": {},
+      "cookies": []
+    },
+    "login_forms": [],
+    "api_schemas": [],
+    "config_exposures": [],
+    "git_exposures": [],
+    "source_maps": [],
+    "discovered_urls": [],
+    "api_endpoints": [],
+    "url_parameters": {},
+    "error_page_markers": [],
+    "tools_executed": [
+      {
+        "tool": "nmap_scan",
+        "target": "172.20.0.42",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "passive_config_audit",
+        "target": "https://172.20.0.42:443",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "passive_config_audit",
+        "target": "http://172.20.0.42:80",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "tech_stack_fingerprint",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "tech_stack_fingerprint",
+        "target": "http://172.20.0.42:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "git_exposure_check",
+        "target": "https://172.20.0.42:443/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "security_txt_check",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "login_form_detector",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "login_form_detector",
+        "target": "http://172.20.0.42:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "http_security_headers",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "ssl_expiry_check",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "source_map_detector",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "js_endpoint_extractor",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "js_endpoint_extractor",
+        "target": "http://172.20.0.42:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "error_page_analyzer",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "waf_detector",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "api_schema_discovery",
+        "target": "https://172.20.0.42:443/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "page_vision_analyzer",
+        "target": "https://172.20.0.42:443/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "dirsearch_scan",
+        "target": "https://172.20.0.42:443",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "api_schema_discovery",
+        "target": "http://172.20.0.42:80/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "page_vision_analyzer",
+        "target": "http://172.20.0.42:80/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "dirsearch_scan",
+        "target": "http://172.20.0.42:80",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "api_schema_discovery",
+        "target": "http://172.20.0.42:8080/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "page_vision_analyzer",
+        "target": "http://172.20.0.42:8080/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "dirsearch_scan",
+        "target": "http://172.20.0.42:8080",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "api_schema_discovery",
+        "target": "http://172.20.0.42:8000/",
+        "status": "completed",
+        "duration_ms": null
+      },
+      {
+        "tool": "page_vision_analyzer",
+        "target": "http://172.20.0.42:8000/",
+        "status": "error",
+        "duration_ms": null
+      },
+      {
+        "tool": "dirsearch_scan",
+        "target": "http://172.20.0.42:8000",
+        "status": "error",
+        "duration_ms": null
+      }
+    ]
+  },
+  "scope": {
+    "scope": [
+      "172.20.0.42"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "172.20.0.42"
+      },
+      {
+        "type": "service",
+        "data": "http://172.20.0.42:80"
+      },
+      {
+        "type": "service",
+        "data": "https://172.20.0.42:443"
+      },
+      {
+        "type": "service",
+        "data": "http://172.20.0.42:8000"
+      },
+      {
+        "type": "service",
+        "data": "http://172.20.0.42:8080"
+      }
+    ],
+    "surface": {
+      "cve_candidates": [],
+      "authorization_confirmed": false,
+      "safe_only": true,
+      "allow_high_risk": false,
+      "approval_granted": false,
+      "nmap_hosts": [
+        {
+          "state": "up",
+          "addresses": [
+            {
+              "addr": "172.20.0.42",
+              "addrtype": "ipv4"
+            }
+          ],
+          "hostnames": [],
+          "open_ports": [
+            {
+              "port": 22,
+              "protocol": "tcp",
+              "service": "ssh",
+              "version": ""
+            },
+            {
+              "port": 25,
+              "protocol": "tcp",
+              "service": "smtp",
+              "version": ""
+            },
+            {
+              "port": 80,
+              "protocol": "tcp",
+              "service": "http",
+              "version": ""
+            },
+            {
+              "port": 110,
+              "protocol": "tcp",
+              "service": "pop3",
+              "version": ""
+            },
+            {
+              "port": 143,
+              "protocol": "tcp",
+              "service": "imap",
+              "version": ""
+            },
+            {
+              "port": 443,
+              "protocol": "tcp",
+              "service": "https",
+              "version": ""
+            },
+            {
+              "port": 8000,
+              "protocol": "tcp",
+              "service": "http-alt",
+              "version": ""
+            },
+            {
+              "port": 8080,
+              "protocol": "tcp",
+              "service": "http-proxy",
+              "version": ""
+            }
+          ]
+        }
+      ],
+      "config_exposures": [],
+      "tech_stack": [
+        "nginx"
+      ],
+      "git_exposures": [],
+      "login_forms": [],
+      "api_endpoints": [],
+      "url_parameters": {},
+      "parameter_origins": {},
+      "discovered_urls": [],
+      "api_schemas": [],
+      "dirsearch_results": [],
+      "dirsearch_entry_count": 0
+    }
+  },
+  "findings": [
+    {
+      "index": 1,
+      "type": "vuln",
+      "name": "Passive Technology Fingerprint",
+      "severity": "info",
+      "evidence": "{\"server\": \"nginx/1.14.1\", \"status_code\": 200, \"tech_stack\": [\"nginx\"], \"url\": \"http://172.20.0.42:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Review exposed technology markers and minimize unnecessary fingerprinting signals where practical."
+    },
+    {
+      "index": 2,
+      "type": "vuln",
+      "name": "Login Form Detection",
+      "severity": "info",
+      "evidence": "{\"forms\": [], \"status_code\": 200, \"url\": \"http://172.20.0.42:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Use the discovered auth surface to drive low-risk validation of cookie and session controls."
+    },
+    {
+      "index": 3,
+      "type": "vuln",
+      "name": "JavaScript Endpoint Extraction",
+      "severity": "info",
+      "evidence": "{\"count\": 0, \"scripts\": [], \"url\": \"http://172.20.0.42:80\"}",
+      "reproduction_steps": [],
+      "recommendation": "Review exposed client-side endpoints and ensure undocumented APIs are properly scoped and protected."
+    }
+  ]
+}

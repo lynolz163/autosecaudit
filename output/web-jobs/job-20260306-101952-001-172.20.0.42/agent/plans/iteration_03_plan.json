@@ -1,0 +1,82 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 5 safe action(s), total estimated cost 45, remaining budget after plan 254. Blocked actions: 2. Executable actions after environment checks: 3.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "api_schema_discovery",
+      "target": "https://172.20.0.42:443/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "eb7773223420e37538d348c61876c532954291d20384248a819d228b59c4a527",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "page_vision_analyzer",
+      "target": "https://172.20.0.42:443/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 19,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "3bd3b64f4bf1bc8736a2eb1ffa198e62f51a639cd1c3b9f375aa11e6caa8322c",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "dirsearch_scan",
+      "target": "https://172.20.0.42:443",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 25,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2f27f66436377dd252614ee9e10cdbfc179698b3dbce008593ac932c7d8fbe13",
+      "reason": "Use dirsearch for conservative directory and file discovery.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

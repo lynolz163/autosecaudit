@@ -1,0 +1,133 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "cors_misconfiguration",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "priority": 22,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "3e125f39c57fc7bcdbaee99bffd7754deaf9088f7c960a28d5f490d82bfed83d",
+    "reason": "Probe origins for arbitrary Origin reflection and credentialed wildcard CORS behavior.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 11461,
+  "attempts": 1,
+  "result": {
+    "origin": "https://dogs.lynolz.com:443",
+    "probes": [
+      {
+        "origin": "https://evil.example.com",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null
+      },
+      {
+        "origin": "null",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null
+      },
+      {
+        "origin": "https://dogs.lynolz.com.evil.invalid",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null
+      }
+    ]
+  },
+  "metadata": {
+    "skill_name": "cors_misconfiguration",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "cors_misconfiguration",
+    "target": "https://dogs.lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "https://dogs.lynolz.com:443",
+        "probes": [
+          {
+            "origin": "https://evil.example.com",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "null",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "https://dogs.lynolz.com.evil.invalid",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "No Obvious CORS Misconfiguration",
+          "severity": "info",
+          "evidence": "[{\"origin\": \"https://evil.example.com\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}, {\"origin\": \"null\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}, {\"origin\": \"https://dogs.lynolz.com.evil.invalid\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}]",
+          "reproduction_steps": [
+            "Probe https://dogs.lynolz.com:443 with untrusted Origin headers and inspect response."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "cors_probes": [
+          {
+            "origin": "https://evil.example.com",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "null",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "https://dogs.lynolz.com.evil.invalid",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 11461
+  }
+}

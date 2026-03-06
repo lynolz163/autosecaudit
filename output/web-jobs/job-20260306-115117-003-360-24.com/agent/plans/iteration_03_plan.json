@@ -1,0 +1,27 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 1 safe action(s), total estimated cost 4, remaining budget after plan 295.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "api_schema_discovery",
+      "target": "https://360-24.com:443/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "e7e4122e00ba5d31bb0df1c54a220d79685fd15e468581db7e0db88346ba3ffe",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "skill": {
+    "name": "dirsearch_scan",
+    "version": "1.0",
+    "tool": "dirsearch_scan",
+    "category": "discovery",
+    "description": "Use dirsearch for conservative directory and file discovery."
+  },
+  "triggers": {
+    "phase": ["active_discovery"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {"threads": 4, "max_results": 200}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {},
+  "risk": {"level": "low", "cost": 10, "priority": 25, "retry": {}},
+  "dependencies": {"runtime": "dirsearch", "tools": []}
+}

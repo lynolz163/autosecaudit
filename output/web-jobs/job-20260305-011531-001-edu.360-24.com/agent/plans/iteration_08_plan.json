@@ -1,0 +1,108 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 4 safe action(s), total estimated cost 38, remaining budget after plan 71.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "api_schema_discovery",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "822662139df36de0f7c7f7468867fc77e23f16241a22ab594fd6654b769881f9",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "dynamic_crawl",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {
+        "allow_domain": [
+          "edu.360-24.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 20,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "9bbb13bcaafae3f8102cfc7eee6bbccff20ede9d6dfcee3f393641c782e75bb7",
+      "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "active_web_crawler",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {
+        "allow_domain": [
+          "edu.360-24.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "priority": 21,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "b722a349a83963bfa9fcb03256554b33665d05a0500c1b817566fcf739034dcd",
+      "reason": "Run bounded active crawling with explicit page and depth limits.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "dirsearch_scan",
+      "target": "http://edu.360-24.com:8008",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 30,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "4673743afc5e4480ded8900230396d97cec34f81ed4b398b6905d533572f530c",
+      "reason": "Use dirsearch for conservative directory and file discovery.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

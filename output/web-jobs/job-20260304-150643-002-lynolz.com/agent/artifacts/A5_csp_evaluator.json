@@ -1,0 +1,75 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "csp_evaluator",
+    "target": "http://lynolz.com:80/",
+    "options": {},
+    "priority": 19,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "48758ab0ffa560e959bf2f764296561cc554519ee3e6490310e8dd67bd948dd5",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1476,
+  "attempts": 1,
+  "result": {
+    "url": "https://lynolz.com/",
+    "csp_present": false
+  },
+  "metadata": {
+    "url": "https://lynolz.com/",
+    "csp_present": false,
+    "skill_name": "csp_evaluator",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "csp_evaluator",
+    "target": "http://lynolz.com:80/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "csp_evaluator:missing",
+          "tool": "csp_evaluator",
+          "severity": "medium",
+          "category": "misconfig",
+          "title": "Content-Security-Policy Missing",
+          "description": "No CSP header was observed on the target origin.",
+          "evidence": {
+            "url": "https://lynolz.com/",
+            "status_code": 200
+          },
+          "remediation": "Deploy a restrictive Content-Security-Policy tailored to the application.",
+          "cwe_id": null,
+          "cvss_score": null
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [
+        "http_security_headers"
+      ],
+      "metadata": {
+        "url": "https://lynolz.com/",
+        "csp_present": false
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1476
+  }
+}

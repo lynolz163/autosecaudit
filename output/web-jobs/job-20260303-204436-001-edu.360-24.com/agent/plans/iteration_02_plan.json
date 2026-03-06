@@ -1,0 +1,173 @@
+{
+  "decision_summary": "Proposed 8 safe action(s), total estimated cost 24, remaining budget after plan 56.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:3128",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2ce4f60202066ee1ed3777841fa370c492044e9107d82fec05ea67275af3bdc4",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:5800",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "515c077eb8f4b8f6d335ec2a0cc14dc7fd87234b232231fa0720ce445bc63efb",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:80",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "5f2c5e075f8c2b1baaf5887c6c9b4bf493829fa9de455ad74147fb5e7eeb66a0",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:8000",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "19cefc17c5a916377d3cfbd614a92160649a84112aa15ba6f775bee3ea74412a",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:8008",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2bc18c6685e2ea8c170f2db1d15b3355366aaed4ce55f129e02914eea7fcc8f5",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A6",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:8080",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "537306f9920eb7c0d6065926842f58a0a2c3e599b89f58eb6004192048539546",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "passive_config_audit",
+      "target": "http://edu.360-24.com:8888",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2b2a4746572f67296b6f2066bf45d0313bdbaf277a4d1a8382fe80bc850d25b6",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "passive_config_audit",
+      "target": "https://edu.360-24.com:443",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "7ad3ee83c26cb9a68a1a1f9d5c52b757c3df908d5e7ad21a25affd79b6273ecd",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

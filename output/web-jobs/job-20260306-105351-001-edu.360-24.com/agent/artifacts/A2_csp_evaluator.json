@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "csp_evaluator",
+    "target": "http://edu.360-24.com:8000/",
+    "options": {},
+    "priority": 28,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "d15fc775b7cff595fba4a2aa552839a041baae0ae49747b65efc89215183712e",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "Remote end closed connection without response",
+  "duration_ms": 5007,
+  "attempts": 1,
+  "result": {
+    "error": "Remote end closed connection without response"
+  },
+  "metadata": {
+    "error": "Remote end closed connection without response",
+    "skill_name": "csp_evaluator",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "csp_evaluator",
+    "target": "http://edu.360-24.com:8000/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "Remote end closed connection without response"
+      }
+    },
+    "error": "Remote end closed connection without response",
+    "raw_output": null,
+    "duration_ms": 5007
+  }
+}

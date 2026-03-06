@@ -1,0 +1,117 @@
+{
+  "decision_summary": "Proposed 4 safe action(s), total estimated cost 34, remaining budget after plan 2.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "dirsearch_scan",
+      "target": "http://localhost:8080",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 25,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "1f9b158b023a5c059d4d66727709d1b5cde9164be9085612008688e6eb47a681",
+      "reason": "Use conservative content discovery to enumerate hidden files/directories on the confirmed HTTP origin.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "sql_sanitization_audit",
+      "target": "http://localhost:8080/api/audit/events",
+      "options": {
+        "method": "GET",
+        "params": {
+          "limit": "50"
+        }
+      },
+      "priority": 28,
+      "cost": 8,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "7bec22b636cc05b46195b8c2f1d74ef3c76253a88f7d546e748c3676120979bf",
+      "reason": "Crawler-confirmed parameterized API endpoint; run low-risk SQL sanitization verification.",
+      "preconditions": [
+        "target_in_scope",
+        "params_available",
+        "not_already_done",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "sql_sanitization_audit",
+      "target": "http://localhost:8080/assets/index-DJOZ8zFL.js",
+      "options": {
+        "method": "GET",
+        "params": {
+          "limit": "50"
+        }
+      },
+      "priority": 28,
+      "cost": 8,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "aaaec47cd216f625c4b3c000b252ee4d85b648eea3a2ce0972f9afcae6407ed6",
+      "reason": "Crawler-confirmed parameterized API endpoint; run low-risk SQL sanitization verification.",
+      "preconditions": [
+        "target_in_scope",
+        "params_available",
+        "not_already_done",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "xss_protection_audit",
+      "target": "http://localhost:8080/api/audit/events",
+      "options": {
+        "method": "GET",
+        "params": {
+          "limit": "50"
+        }
+      },
+      "priority": 28,
+      "cost": 8,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "9675f3281383cb74a2cb79f0d9fd18cd73b701ca0b4eb49b984bdac6446255ec",
+      "reason": "Crawler-confirmed parameterized API endpoint; validate output encoding and reflection handling.",
+      "preconditions": [
+        "target_in_scope",
+        "params_available",
+        "not_already_done",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    }
+  ]
+}

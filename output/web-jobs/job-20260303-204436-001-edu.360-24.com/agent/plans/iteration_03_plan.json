@@ -1,0 +1,180 @@
+{
+  "decision_summary": "Proposed 8 safe action(s), total estimated cost 17, remaining budget after plan 39.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "passive_config_audit",
+      "target": "https://edu.360-24.com:8443",
+      "options": {},
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "93dc8a2086cc37b262e1c26f3e359b53eb7fe7cc944ed35f28daf688406d8719",
+      "reason": "Low-cost high-value check for exposed configuration artifacts.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:3128/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "44a875cb977feeee72d6333ee0e1c2e48d5e3da3775fba551602a769b820a41a",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:5800/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "9eb69994a76a31bb21935e6f7ab72918bd75ce3e4f42f25ef929e5e06d1ddbca",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:80/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "b8f3febaca40d371311588b1672c2d0ff0b484a0555ae4b4cae3c38ac37f1248",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:8000/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "cf01215c3809da0e6433d94a51f8737952ec39786645151fb915e321166eaa09",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A6",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:8008/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "155915710115428d3e1efad73adaa037b6ce8e2943a228b6ded4faca1fa70230",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:8080/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "36eacb23db0ff55934cf6e994aac4d47ca5eff17f88bb755270e42cbc617a1dd",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://edu.360-24.com:8888/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "71928c46dd94f050db3a565ba7c00ed4bd93e9a720815cdcfa39d22ba9e62ca4",
+      "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+      "preconditions": [
+        "target_in_scope",
+        "http_service_confirmed",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

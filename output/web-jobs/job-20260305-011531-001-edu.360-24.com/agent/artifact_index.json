@@ -1,0 +1,194 @@
+[
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_subdomain_enum_passive.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_nmap_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_passive_config_audit.json"
+  },
+  {
+    "action_id": "A12",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A12_passive_config_audit.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A13",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A13_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_git_exposure_check.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_source_map_detector.json"
+  },
+  {
+    "action_id": "A5",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A5_security_txt_check.json"
+  },
+  {
+    "action_id": "A6",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A6_login_form_detector.json"
+  },
+  {
+    "action_id": "A14",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A14_login_form_detector.json"
+  },
+  {
+    "action_id": "A7",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A7_http_security_headers.json"
+  },
+  {
+    "action_id": "A8",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A8_ssl_expiry_check.json"
+  },
+  {
+    "action_id": "A15",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A15_ssl_expiry_check.json"
+  },
+  {
+    "action_id": "A9",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A9_js_endpoint_extractor.json"
+  },
+  {
+    "action_id": "A10",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A10_error_page_analyzer.json"
+  },
+  {
+    "action_id": "A11",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A11_waf_detector.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260305-011531-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+  }
+]

@@ -1,0 +1,519 @@
+[
+  {
+    "tool": "nmap_scan",
+    "target": "172.20.0.42",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "idempotency_key": "d2a7c85511bdadc2938704d1aa6413a105f68d42320821f6807457f5c2d83cf0",
+    "status": "completed",
+    "started_at": "2026-03-06T02:20:36.105757+00:00",
+    "ended_at": "2026-03-06T02:20:49.844296+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A1_nmap_scan.json"
+    ],
+    "action_cost": 15,
+    "budget_before": 999,
+    "budget_after": 984
+  },
+  {
+    "tool": "passive_config_audit",
+    "target": "https://172.20.0.42:443",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "idempotency_key": "c39ba37c8a8f0eb697f5d2c13f9a0ff108c61080dba04c43a6fc3c7731f3a556",
+    "status": "completed",
+    "started_at": "2026-03-06T02:20:49.887382+00:00",
+    "ended_at": "2026-03-06T02:21:07.970318+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A1_passive_config_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 984,
+    "budget_after": 943
+  },
+  {
+    "tool": "passive_config_audit",
+    "target": "http://172.20.0.42:80",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "idempotency_key": "bf22431fd24b89150a8be471d05f90d7121b52a6f3ce1880d270a364539fa9be",
+    "status": "completed",
+    "started_at": "2026-03-06T02:21:07.980670+00:00",
+    "ended_at": "2026-03-06T02:21:08.617228+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A12_passive_config_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "tech_stack_fingerprint",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "0def75d9d7d47847ca1bac28f516b62b4536bf605216b0ac0e8060f1d8d7a2e9",
+    "status": "error",
+    "started_at": "2026-03-06T02:21:08.625755+00:00",
+    "ended_at": "2026-03-06T02:21:16.644602+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A2_tech_stack_fingerprint.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 2,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "tech_stack_fingerprint",
+    "target": "http://172.20.0.42:80/",
+    "options": {},
+    "idempotency_key": "1bd1d416a636890d73ab178e0e45ff443d18814c0dc05ca70392478d0d421ca0",
+    "status": "completed",
+    "started_at": "2026-03-06T02:21:16.653235+00:00",
+    "ended_at": "2026-03-06T02:21:16.696063+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A13_tech_stack_fingerprint.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "git_exposure_check",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "2b0754eaf3f1ba25c6f8e7a397e3230c39c1c2e64f66da0a709665d4b5e30658",
+    "status": "completed",
+    "started_at": "2026-03-06T02:21:16.705371+00:00",
+    "ended_at": "2026-03-06T02:21:40.766824+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A3_git_exposure_check.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "security_txt_check",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "4bad39884185b2c6fc77bb4eec5f0163ccc99ab319b52ac8c4913e05c303f3e2",
+    "status": "error",
+    "started_at": "2026-03-06T02:21:40.775949+00:00",
+    "ended_at": "2026-03-06T02:21:48.794607+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A4_security_txt_check.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 1,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "login_form_detector",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "abb20be99857a0836a894823e071bcfdc5c94277ceabe0939557490a9cc4f1a1",
+    "status": "error",
+    "started_at": "2026-03-06T02:21:48.810692+00:00",
+    "ended_at": "2026-03-06T02:21:56.839412+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A5_login_form_detector.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "login_form_detector",
+    "target": "http://172.20.0.42:80/",
+    "options": {},
+    "idempotency_key": "5ae68c4d3083aaf639c49af6f37854dff455d5d91da6f8f873a27bd4cd4f0929",
+    "status": "completed",
+    "started_at": "2026-03-06T02:21:56.859420+00:00",
+    "ended_at": "2026-03-06T02:21:56.925621+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A14_login_form_detector.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "http_security_headers",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "e6526fae17d4e7a9d52ad91eccd470e17186b5fdef78b48dc5fb59c5cea91a80",
+    "status": "error",
+    "started_at": "2026-03-06T02:21:56.949551+00:00",
+    "ended_at": "2026-03-06T02:22:04.989739+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A6_http_security_headers.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "ssl_expiry_check",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "944a7d672cc0e55297a3c79500dd89c01b6bcb7688f7e55854875711286110d8",
+    "status": "error",
+    "started_at": "2026-03-06T02:22:05.006236+00:00",
+    "ended_at": "2026-03-06T02:22:13.034159+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A7_ssl_expiry_check.json"
+    ],
+    "error": "_ssl.c:999: The handshake operation timed out",
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "source_map_detector",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "736e3d2cf6d4748c5804939d09c236b80845c27ddd56028ec568445f7edef935",
+    "status": "error",
+    "started_at": "2026-03-06T02:22:13.056651+00:00",
+    "ended_at": "2026-03-06T02:22:21.085488+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A8_source_map_detector.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 2,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "js_endpoint_extractor",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "7164c1f73a58f5652e918d0e549dab8b2d088a51b537136770390f9ec6e17f3f",
+    "status": "error",
+    "started_at": "2026-03-06T02:22:21.101193+00:00",
+    "ended_at": "2026-03-06T02:22:29.128489+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A9_js_endpoint_extractor.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 4,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "js_endpoint_extractor",
+    "target": "http://172.20.0.42:80/",
+    "options": {},
+    "idempotency_key": "cf9c91e7153e4b88a5d53909299f0452c60e3e21616603d7847670c91067232c",
+    "status": "completed",
+    "started_at": "2026-03-06T02:22:29.143711+00:00",
+    "ended_at": "2026-03-06T02:22:29.178770+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A15_js_endpoint_extractor.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "error_page_analyzer",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "59949e6333ddaccf6fee7bd49adee47304dc6bc8a600b44515fa7169c9f4a6eb",
+    "status": "error",
+    "started_at": "2026-03-06T02:22:29.199432+00:00",
+    "ended_at": "2026-03-06T02:22:37.230317+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A10_error_page_analyzer.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "waf_detector",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "c926b01ec28e386948616e356c52d4951bf2532d84793fb0500d669e945e703a",
+    "status": "error",
+    "started_at": "2026-03-06T02:22:37.246190+00:00",
+    "ended_at": "2026-03-06T02:22:45.272021+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A11_waf_detector.json"
+    ],
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "action_cost": 3,
+    "budget_before": 943,
+    "budget_after": 943
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "idempotency_key": "eb7773223420e37538d348c61876c532954291d20384248a819d228b59c4a527",
+    "status": "completed",
+    "started_at": "2026-03-06T02:22:45.350856+00:00",
+    "ended_at": "2026-03-06T02:23:41.509613+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 943,
+    "budget_after": 922
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "https://172.20.0.42:443/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "3bd3b64f4bf1bc8736a2eb1ffa198e62f51a639cd1c3b9f375aa11e6caa8322c",
+    "status": "error",
+    "started_at": "2026-03-06T02:23:41.528827+00:00",
+    "ended_at": "2026-03-06T02:23:42.809596+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A2_page_vision_analyzer.json"
+    ],
+    "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CBVzTs --remote-debugging-pipe --no-startup-window\n<launched> pid=27\n[pid=27][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-CBVzTs --remote-debugging-pipe --no-startup-window\n  - <launched> pid=27\n  - [pid=27][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=27] <gracefully close start>\n  - [pid=27] <kill>\n  - [pid=27] <will force kill>\n  - [pid=27] exception while trying to kill process: Error: kill ESRCH\n  - [pid=27] <process did exit: exitCode=127, signal=null>\n  - [pid=27] starting temporary directories cleanup\n  - [pid=27] finished temporary directories cleanup\n  - [pid=27] <gracefully close end>\n",
+    "action_cost": 7,
+    "budget_before": 922,
+    "budget_after": 922
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://172.20.0.42:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "2f27f66436377dd252614ee9e10cdbfc179698b3dbce008593ac932c7d8fbe13",
+    "status": "completed",
+    "started_at": "2026-03-06T02:23:42.828902+00:00",
+    "ended_at": "2026-03-06T02:23:59.191465+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A5_dirsearch_scan.json"
+    ],
+    "action_cost": 10,
+    "budget_before": 922,
+    "budget_after": 922
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://172.20.0.42:80/",
+    "options": {},
+    "idempotency_key": "2a6760b00653869ebbae81c4175ea632dc4426545f52e896c68518922f353b7e",
+    "status": "completed",
+    "started_at": "2026-03-06T02:23:59.338978+00:00",
+    "ended_at": "2026-03-06T02:23:59.730959+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 922,
+    "budget_after": 901
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://172.20.0.42:80/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "f64e50e1138bdaf59589819249efbbee48e619396a485c02a7dc7578bca8c41b",
+    "status": "error",
+    "started_at": "2026-03-06T02:23:59.751618+00:00",
+    "ended_at": "2026-03-06T02:24:01.417085+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A4_page_vision_analyzer.json"
+    ],
+    "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-A6titN --remote-debugging-pipe --no-startup-window\n<launched> pid=43\n[pid=43][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-A6titN --remote-debugging-pipe --no-startup-window\n  - <launched> pid=43\n  - [pid=43][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=43] <gracefully close start>\n  - [pid=43] <kill>\n  - [pid=43] <will force kill>\n  - [pid=43] exception while trying to kill process: Error: kill ESRCH\n  - [pid=43] <process did exit: exitCode=127, signal=null>\n  - [pid=43] starting temporary directories cleanup\n  - [pid=43] finished temporary directories cleanup\n  - [pid=43] <gracefully close end>\n",
+    "action_cost": 7,
+    "budget_before": 901,
+    "budget_after": 901
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "http://172.20.0.42:80",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "c2f454ca71067f120d0b38cfdcdf48f807b86f0b555aba9c7f69abcf4143b9ff",
+    "status": "error",
+    "started_at": "2026-03-06T02:24:01.436769+00:00",
+    "ended_at": "2026-03-06T02:25:31.460261+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A5_dirsearch_scan.json"
+    ],
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 901,
+    "budget_after": 901
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://172.20.0.42:8080/",
+    "options": {},
+    "idempotency_key": "38af13ccdcd4cc104a388154c5f9f0367565749e9fd2b6618148bfbf75f63b30",
+    "status": "completed",
+    "started_at": "2026-03-06T02:25:31.510322+00:00",
+    "ended_at": "2026-03-06T02:25:31.828777+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 901,
+    "budget_after": 880
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://172.20.0.42:8080/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "3669286dc7af8c168ac24f18056f9e54572829424dd5ce1926672a609a8fc7aa",
+    "status": "error",
+    "started_at": "2026-03-06T02:25:31.838011+00:00",
+    "ended_at": "2026-03-06T02:25:32.419856+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A4_page_vision_analyzer.json"
+    ],
+    "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-WYSuyB --remote-debugging-pipe --no-startup-window\n<launched> pid=2399\n[pid=2399][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-WYSuyB --remote-debugging-pipe --no-startup-window\n  - <launched> pid=2399\n  - [pid=2399][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=2399] <gracefully close start>\n  - [pid=2399] <kill>\n  - [pid=2399] <will force kill>\n  - [pid=2399] exception while trying to kill process: Error: kill ESRCH\n  - [pid=2399] <process did exit: exitCode=127, signal=null>\n  - [pid=2399] starting temporary directories cleanup\n  - [pid=2399] finished temporary directories cleanup\n  - [pid=2399] <gracefully close end>\n",
+    "action_cost": 7,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "http://172.20.0.42:8080",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "83b23b1a064378b0c41a88c06aebd7a102cd23e6b727e100e41ede854960c311",
+    "status": "error",
+    "started_at": "2026-03-06T02:25:32.430210+00:00",
+    "ended_at": "2026-03-06T02:27:02.463247+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A5_dirsearch_scan.json"
+    ],
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://172.20.0.42:8000/",
+    "options": {},
+    "idempotency_key": "cdd09be840fcb25988f424fe182c02bf7b9f652340a62b6d56e8c072a49f90ad",
+    "status": "completed",
+    "started_at": "2026-03-06T02:27:02.553752+00:00",
+    "ended_at": "2026-03-06T02:27:02.802712+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 880,
+    "budget_after": 859
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://172.20.0.42:8000/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "5436a8a2a75bba2e0783992ab9e5d3b28868af213eb37ae8ea43f7ea93306091",
+    "status": "error",
+    "started_at": "2026-03-06T02:27:02.819241+00:00",
+    "ended_at": "2026-03-06T02:27:03.853360+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A4_page_vision_analyzer.json"
+    ],
+    "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-wGy4MU --remote-debugging-pipe --no-startup-window\n<launched> pid=13116\n[pid=13116][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-wGy4MU --remote-debugging-pipe --no-startup-window\n  - <launched> pid=13116\n  - [pid=13116][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=13116] <gracefully close start>\n  - [pid=13116] <kill>\n  - [pid=13116] <will force kill>\n  - [pid=13116] exception while trying to kill process: Error: kill ESRCH\n  - [pid=13116] <process did exit: exitCode=127, signal=null>\n  - [pid=13116] starting temporary directories cleanup\n  - [pid=13116] finished temporary directories cleanup\n  - [pid=13116] <gracefully close end>\n",
+    "action_cost": 7,
+    "budget_before": 859,
+    "budget_after": 859
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "http://172.20.0.42:8000",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "52ecdf1261a23c675bdbf599b3826b8a85e28cde6d653aea21d7f809bfc916c6",
+    "status": "error",
+    "started_at": "2026-03-06T02:27:03.866504+00:00",
+    "ended_at": "2026-03-06T02:28:33.894227+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifacts/A5_dirsearch_scan.json"
+    ],
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 859,
+    "budget_after": 859
+  }
+]

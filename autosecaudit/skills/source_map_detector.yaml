@@ -1,0 +1,26 @@
+{
+  "skill": {
+    "name": "source_map_detector",
+    "version": "1.0",
+    "tool": "source_map_detector",
+    "category": "recon",
+    "description": "Detect exposed JavaScript source maps that may reveal source code or routes."
+  },
+  "triggers": {
+    "phase": ["passive_recon"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {
+    "on_source_map_found": {
+      "condition": "findings_present",
+      "trigger": ["passive_config_audit", "api_schema_discovery"],
+      "reason": "Source maps often reveal additional config files and API paths."
+    }
+  },
+  "risk": {"level": "safe", "cost": 2, "priority": 7, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

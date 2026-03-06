@@ -1,0 +1,152 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 13,
+      "read_bytes": 512,
+      "service": "daytime",
+      "timeout_seconds": 4
+    },
+    "priority": 15,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "d36bfb04f9a700f45548c764bb34d316d1971987ea15b262ddde00ef21c06117",
+    "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered daytime service port 13.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ],
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "daytime",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered daytime service port 13.",
+        "Scheduled in phase: active_discovery",
+        "Preconditions satisfied: target_in_scope, not_already_done",
+        "Service match: daytime"
+      ]
+    }
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4010,
+  "attempts": 1,
+  "result": {
+    "host": "0x6288.com",
+    "port": 13,
+    "service": "daytime",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0
+  },
+  "metadata": {
+    "host": "0x6288.com",
+    "port": 13,
+    "service": "daytime",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0,
+    "skill_name": "service_banner_probe",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "graph_assets": [
+        {
+          "kind": "service",
+          "id": "service:tcp:0x6288.com:13:daytime",
+          "parent_id": null,
+          "attributes": {
+            "host": "0x6288.com",
+            "port": 13,
+            "proto": "tcp",
+            "service": "daytime",
+            "banner": "",
+            "tls": false,
+            "auth_required": null,
+            "scheme": ""
+          },
+          "evidence": {
+            "banner": "",
+            "probe_command": ""
+          },
+          "source_tool": "service_banner_probe",
+          "host": "0x6288.com",
+          "port": 13,
+          "proto": "tcp",
+          "service": "daytime",
+          "banner": "",
+          "tls": false,
+          "auth_required": null
+        }
+      ],
+      "surface_updates": {
+        "service_banners": [
+          {
+            "host": "0x6288.com",
+            "port": 13,
+            "service": "daytime",
+            "banner": "",
+            "probe_command": "",
+            "status": "no_banner"
+          }
+        ]
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "host": "0x6288.com",
+        "port": 13,
+        "service": "daytime",
+        "timeout_seconds": 4.0,
+        "read_bytes": 512,
+        "probe_command": "",
+        "banner_length": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4010
+  },
+  "ranking_explanation": {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "component": null,
+    "service": "daytime",
+    "version": null,
+    "selected_candidate": null,
+    "candidate_order": [],
+    "selected_templates": [],
+    "protocol_tags": [],
+    "rag_recommended_tools": [],
+    "reasons": [
+      "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered daytime service port 13.",
+      "Scheduled in phase: active_discovery",
+      "Preconditions satisfied: target_in_scope, not_already_done",
+      "Service match: daytime"
+    ]
+  }
+}

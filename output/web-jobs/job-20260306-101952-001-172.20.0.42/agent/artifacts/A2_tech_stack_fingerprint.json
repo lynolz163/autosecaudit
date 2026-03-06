@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "priority": 1,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "0def75d9d7d47847ca1bac28f516b62b4536bf605216b0ac0e8060f1d8d7a2e9",
+    "reason": "Passively fingerprint exposed technologies from headers and page content.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+  "duration_ms": 8016,
+  "attempts": 1,
+  "result": {
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+  },
+  "metadata": {
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "skill_name": "tech_stack_fingerprint",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://172.20.0.42:443/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+      }
+    },
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "raw_output": null,
+    "duration_ms": 8016
+  }
+}

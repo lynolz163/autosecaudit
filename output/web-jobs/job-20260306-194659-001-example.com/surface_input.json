@@ -1,0 +1,14 @@
+{
+  "mission_intent": "recon",
+  "mission_depth": "standard",
+  "mission_message": "对edu.360-24.com进行全方位的信息收集",
+  "autonomy_mode": "adaptive",
+  "authorization_confirmed": false,
+  "disabled_tools": [
+    "active_web_crawler",
+    "dynamic_crawl",
+    "page_vision_analyzer"
+  ],
+  "focus_ports": [],
+  "preferred_origins": []
+}

@@ -1,0 +1,126 @@
+{
+  "action": {
+    "action_id": "A6",
+    "tool_name": "login_form_detector",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "priority": 4,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "8e846c1de8a6b63adc0f2399317684aa2a271df3fdf984f020522510468609a6",
+    "reason": "Detect login and authentication forms from passive page inspection.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1991,
+  "attempts": 1,
+  "result": {
+    "url": "https://0x6288.com:443",
+    "status_code": 402,
+    "forms": [],
+    "headers": {
+      "date": "Fri, 06 Mar 2026 09:33:33 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=4,cfOrigin;dur=75",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=CwoUkswliH4asR2TyNJlEG4j7dU2JkKjXdSDSZHD848dQBGaQJIPNYKhQrjErJttjFvycX8yUDmkheWktOO%2F2dAxfzcENGctlQ%2B%2FFpWFrmjtOguZN5Q%3D\"}]}",
+      "cf-ray": "9d805c0efa8522b3-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    }
+  },
+  "metadata": {
+    "url": "https://0x6288.com:443",
+    "status_code": 402,
+    "forms": [],
+    "headers": {
+      "date": "Fri, 06 Mar 2026 09:33:33 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=4,cfOrigin;dur=75",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=CwoUkswliH4asR2TyNJlEG4j7dU2JkKjXdSDSZHD848dQBGaQJIPNYKhQrjErJttjFvycX8yUDmkheWktOO%2F2dAxfzcENGctlQ%2B%2FFpWFrmjtOguZN5Q%3D\"}]}",
+      "cf-ray": "9d805c0efa8522b3-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "skill_name": "login_form_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "login_form_detector",
+    "target": "https://0x6288.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "login_form_detector:forms",
+          "tool": "login_form_detector",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "Login Form Detection",
+          "description": "Password-bearing forms were identified on the target origin.",
+          "evidence": {
+            "status_code": 402,
+            "forms": [],
+            "url": "https://0x6288.com:443"
+          },
+          "remediation": "Use the discovered auth surface to drive low-risk validation of cookie and session controls.",
+          "reproduction_steps": [],
+          "related_asset_ids": [],
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "graph_assets": [],
+      "surface_updates": {
+        "login_forms": [],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {}
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://0x6288.com:443",
+        "status_code": 402,
+        "forms": [],
+        "headers": {
+          "date": "Fri, 06 Mar 2026 09:33:33 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "server": "cloudflare",
+          "cf-cache-status": "DYNAMIC",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "server-timing": "cfEdge;dur=4,cfOrigin;dur=75",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=CwoUkswliH4asR2TyNJlEG4j7dU2JkKjXdSDSZHD848dQBGaQJIPNYKhQrjErJttjFvycX8yUDmkheWktOO%2F2dAxfzcENGctlQ%2B%2FFpWFrmjtOguZN5Q%3D\"}]}",
+          "cf-ray": "9d805c0efa8522b3-LAX",
+          "alt-svc": "h3=\":443\"; ma=86400"
+        }
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1991
+  }
+}

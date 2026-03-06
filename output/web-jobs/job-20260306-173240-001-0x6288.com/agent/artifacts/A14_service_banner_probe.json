@@ -1,0 +1,146 @@
+{
+  "action": {
+    "action_id": "A14",
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 25,
+      "read_bytes": 512,
+      "service": "smtp",
+      "timeout_seconds": 4
+    },
+    "priority": 15,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "90ff9b53ce2c597d4a9d258a93e8e1eabd0460515933bd287585d045a600de42",
+    "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered smtp service port 25.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ],
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "smtp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: smtp"
+      ]
+    }
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4010,
+  "attempts": 1,
+  "result": {
+    "host": "0x6288.com",
+    "port": 25,
+    "service": "smtp",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0
+  },
+  "metadata": {
+    "host": "0x6288.com",
+    "port": 25,
+    "service": "smtp",
+    "timeout_seconds": 4.0,
+    "read_bytes": 512,
+    "probe_command": "",
+    "banner_length": 0,
+    "skill_name": "service_banner_probe",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "service_banner_probe",
+    "target": "0x6288.com",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "graph_assets": [
+        {
+          "kind": "service",
+          "id": "service:tcp:0x6288.com:25:smtp",
+          "parent_id": null,
+          "attributes": {
+            "host": "0x6288.com",
+            "port": 25,
+            "proto": "tcp",
+            "service": "smtp",
+            "banner": "",
+            "tls": false,
+            "auth_required": null,
+            "scheme": ""
+          },
+          "evidence": {
+            "banner": "",
+            "probe_command": ""
+          },
+          "source_tool": "service_banner_probe",
+          "host": "0x6288.com",
+          "port": 25,
+          "proto": "tcp",
+          "service": "smtp",
+          "banner": "",
+          "tls": false,
+          "auth_required": null
+        }
+      ],
+      "surface_updates": {
+        "service_banners": [
+          {
+            "host": "0x6288.com",
+            "port": 25,
+            "service": "smtp",
+            "banner": "",
+            "probe_command": "",
+            "status": "no_banner"
+          }
+        ]
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "host": "0x6288.com",
+        "port": 25,
+        "service": "smtp",
+        "timeout_seconds": 4.0,
+        "read_bytes": 512,
+        "probe_command": "",
+        "banner_length": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4010
+  },
+  "ranking_explanation": {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "component": null,
+    "service": "smtp",
+    "version": null,
+    "selected_candidate": null,
+    "candidate_order": [],
+    "selected_templates": [],
+    "protocol_tags": [],
+    "rag_recommended_tools": [],
+    "reasons": [
+      "Service match: smtp"
+    ]
+  }
+}

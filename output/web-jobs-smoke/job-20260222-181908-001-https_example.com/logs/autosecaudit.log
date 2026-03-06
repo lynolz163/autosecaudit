@@ -1,0 +1,11 @@
+2026-02-22 18:19:09 [INFO] autosecaudit - [agent] plan_only | success | Plan generated without execution.
+2026-02-22 18:19:09 [INFO] autosecaudit - Agent decision summary: Proposed 1 safe action(s), total estimated cost 3, remaining budget after plan 7.
+2026-02-22 18:19:09 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\ActionPlan.json
+2026-02-22 18:19:09 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\agent_history.json
+2026-02-22 18:19:09 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\agent_state.json
+2026-02-22 18:19:09 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\blocked_actions.json
+2026-02-22 18:19:09 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\artifact_index.json
+2026-02-22 18:19:09 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\agent_report.md
+2026-02-22 18:19:09 [INFO] autosecaudit - HTML visual report: C:\Users\Administrator\Desktop\agent\output\web-jobs-smoke\job-20260222-181908-001-https_example.com\agent\agent_report.html
+2026-02-22 18:19:09 [INFO] autosecaudit - Findings: 0, Budget remaining: 10
+2026-02-22 18:19:09 [INFO] autosecaudit - Resumed: False, Resumed from: None

@@ -1,0 +1,39 @@
+{
+  "scope": [
+    "*.360-24.com"
+  ],
+  "breadcrumbs": [
+    {
+      "type": "service",
+      "data": "360-24.com"
+    }
+  ],
+  "history": [],
+  "surface": {
+    "cve_candidates": [],
+    "authorization_confirmed": false,
+    "safe_only": true,
+    "allow_high_risk": false,
+    "approval_granted": false,
+    "report_lang": "en"
+  },
+  "budget_remaining": 999,
+  "total_budget": 999,
+  "target": "360-24.com",
+  "safety_grade": "aggressive",
+  "report_lang": "en",
+  "iteration_count": 1,
+  "resumed": false,
+  "resumed_from": null,
+  "current_phase": "passive_recon",
+  "phase_budget_spent": {},
+  "phase_history": [],
+  "feedback": {},
+  "findings_count": 0,
+  "circuit_breaker": {},
+  "cve_candidates": [],
+  "authorization_confirmed": false,
+  "cve_safe_only": true,
+  "cve_allow_high_risk": false,
+  "approval_granted": false
+}

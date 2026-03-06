@@ -1,0 +1,37 @@
+{
+  "skill": {
+    "name": "git_exposure_check",
+    "version": "1.0",
+    "tool": "git_exposure_check",
+    "category": "recon",
+    "description": "Detect exposed repository metadata such as .git and .svn files."
+  },
+  "triggers": {
+    "phase": ["passive_recon"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {}, "constraints": {}},
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "findings", "condition": "non_empty", "meaning": "repository metadata exposed"}
+    ],
+    "output_extraction": {},
+    "severity_mapping": {
+      "git_head": "high",
+      "git_config": "critical",
+      "svn_entries": "high"
+    },
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_exposure_found": {
+      "condition": "findings_present",
+      "trigger": ["source_map_detector", "passive_config_audit"],
+      "reason": "VCS exposure often correlates with broader information leakage."
+    }
+  },
+  "risk": {"level": "safe", "cost": 2, "priority": 2, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

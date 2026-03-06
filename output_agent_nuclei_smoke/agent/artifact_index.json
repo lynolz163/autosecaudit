@@ -1,0 +1,14 @@
+[
+  {
+    "action_id": "A1",
+    "path": "C:\\Users\\Administrator\\Desktop\\agent\\output_agent_nuclei_smoke\\agent\\artifacts\\A1_passive_config_audit.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "C:\\Users\\Administrator\\Desktop\\agent\\output_agent_nuclei_smoke\\agent\\artifacts\\A2_dynamic_crawl.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "C:\\Users\\Administrator\\Desktop\\agent\\output_agent_nuclei_smoke\\agent\\artifacts\\A3_nuclei_exploit_check.json"
+  }
+]

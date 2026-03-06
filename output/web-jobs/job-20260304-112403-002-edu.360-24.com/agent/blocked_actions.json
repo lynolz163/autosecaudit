@@ -1,0 +1,32 @@
+[
+  {
+    "action": {
+      "action_id": "A2",
+      "tool_name": "dynamic_crawl",
+      "target": "https://edu.360-24.com:443/",
+      "options": {
+        "allow_domain": [
+          "edu.360-24.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 20,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "0ca62361a922421f1f1fd265bf654ef997b81aa1e0ef40c8bff91306d4e8017a",
+      "reason": "Playwright-based in-scope dynamic crawling.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "dependency_unsatisfied:tech_stack_fingerprint"
+  }
+]

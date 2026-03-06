@@ -1,0 +1,65 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "subdomain_enum_passive",
+    "target": "edu.360-24.com",
+    "options": {
+      "max_results": 100
+    },
+    "priority": 9,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "10e21621592842adadd5250d7f4280912e5a885a6a8a6b7739ace32d3de9b6d2",
+    "reason": "Enumerate likely subdomains via crt.sh JSON feed.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "domain_scope_declared"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 2437,
+  "attempts": 1,
+  "result": {
+    "domain": "edu.360-24.com",
+    "subdomains": []
+  },
+  "metadata": {},
+  "tool_result": {
+    "ok": true,
+    "tool_name": "subdomain_enum_passive",
+    "target": "edu.360-24.com",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "domain": "edu.360-24.com",
+        "subdomains": []
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "Passive Subdomain Enumeration Results",
+          "severity": "info",
+          "evidence": "{\"domain\": \"edu.360-24.com\", \"count\": 0, \"subdomains\": []}",
+          "reproduction_steps": [
+            "Query crt.sh for %.edu.360-24.com and review returned SAN/CN values."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "discovered_subdomains": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 2437
+  }
+}

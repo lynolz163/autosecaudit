@@ -1,0 +1,87 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "dirsearch_scan",
+    "target": "https://edu.360-24.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "priority": 25,
+    "cost": 10,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "1294a49e3e692e77472f8efd858541054cd9ccf912cd73051beed4a429fa021b",
+    "reason": "Use dirsearch for conservative directory and file discovery.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "failed",
+  "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+  "duration_ms": 83,
+  "attempts": 1,
+  "result": {
+    "command": [
+      "/usr/local/bin/python",
+      "/opt/dirsearch/dirsearch.py",
+      "-u",
+      "https://edu.360-24.com:443/",
+      "--format=json",
+      "--json-report=/tmp/autosecaudit-dirsearch-e1mcyiri/dirsearch_report.json",
+      "-t",
+      "4"
+    ],
+    "return_code": 2,
+    "stdout_preview": "",
+    "stderr_preview": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+    "parse_errors": 1,
+    "entry_count": 0
+  },
+  "metadata": {
+    "skill_name": "dirsearch_scan",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "dirsearch_scan",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "failed",
+      "payload": {
+        "command": [
+          "/usr/local/bin/python",
+          "/opt/dirsearch/dirsearch.py",
+          "-u",
+          "https://edu.360-24.com:443/",
+          "--format=json",
+          "--json-report=/tmp/autosecaudit-dirsearch-e1mcyiri/dirsearch_report.json",
+          "-t",
+          "4"
+        ],
+        "return_code": 2,
+        "stdout_preview": "",
+        "stderr_preview": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+        "parse_errors": 1,
+        "entry_count": 0
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "dirsearch_results": [],
+        "discovered_urls": [],
+        "dirsearch_entry_count": 0
+      }
+    },
+    "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+    "raw_output": null,
+    "duration_ms": 83
+  }
+}

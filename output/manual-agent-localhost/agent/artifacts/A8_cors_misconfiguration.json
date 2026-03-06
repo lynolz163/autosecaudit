@@ -1,0 +1,127 @@
+{
+  "action": {
+    "action_id": "A8",
+    "tool_name": "cors_misconfiguration",
+    "target": "http://localhost:8080/",
+    "options": {},
+    "priority": 22,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "8a3ce00edd851be3bac3ad8e89ad34610b7a5939e158fc4b7b4dd6403647d9b2",
+    "reason": "Probe for overly permissive CORS behavior on the confirmed origin.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 6,
+  "result": {
+    "origin": "http://localhost:8080",
+    "probes": [
+      {
+        "origin": "https://evil.example.com",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null
+      },
+      {
+        "origin": "null",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null
+      },
+      {
+        "origin": "https://localhost.evil.invalid",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null
+      }
+    ]
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "cors_misconfiguration",
+    "target": "http://localhost:8080/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "http://localhost:8080",
+        "probes": [
+          {
+            "origin": "https://evil.example.com",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "null",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "https://localhost.evil.invalid",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "No Obvious CORS Misconfiguration",
+          "severity": "info",
+          "evidence": "[{\"origin\": \"https://evil.example.com\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}, {\"origin\": \"null\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}, {\"origin\": \"https://localhost.evil.invalid\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}]",
+          "reproduction_steps": [
+            "Probe http://localhost:8080 with untrusted Origin headers and inspect response."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "cors_probes": [
+          {
+            "origin": "https://evil.example.com",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "null",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          },
+          {
+            "origin": "https://localhost.evil.invalid",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "allow_origin": null,
+            "allow_credentials": null
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 6
+  }
+}

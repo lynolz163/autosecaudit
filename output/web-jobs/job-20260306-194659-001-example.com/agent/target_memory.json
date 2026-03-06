@@ -1,0 +1,549 @@
+{
+  "version": 2,
+  "target": "example.com",
+  "target_key": "a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947",
+  "updated_at": "2026-03-06T11:47:02.802682+00:00",
+  "run_count": 1,
+  "recon_memory": {
+    "ttl_seconds": 2592000,
+    "items": {
+      "origins": [
+        {
+          "key": "56820eafb4e872415aa946d5b6f119c7a0f191839475c4a84e7b55a09ae8e951",
+          "value": "https://products.example.com",
+          "source": "runtime.recon",
+          "weight": 1.2,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-04-05T11:47:02.802682+00:00",
+          "ttl_seconds": 2592000,
+          "freshness_score": 1.0,
+          "hit_score": 1.98
+        },
+        {
+          "key": "5775c078c67ebad469f37e1d888f3084804a19ce7511c28c74c54e8232a51bdb",
+          "value": "https://example.com",
+          "source": "runtime.recon",
+          "weight": 1.2,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-04-05T11:47:02.802682+00:00",
+          "ttl_seconds": 2592000,
+          "freshness_score": 1.0,
+          "hit_score": 1.98
+        },
+        {
+          "key": "5e0dead25678b46926e0da27a8c31c70e4649fcbe1bbb1c1eb867375387fc594",
+          "value": "https://m.example.com",
+          "source": "runtime.recon",
+          "weight": 1.2,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-04-05T11:47:02.802682+00:00",
+          "ttl_seconds": 2592000,
+          "freshness_score": 1.0,
+          "hit_score": 1.98
+        },
+        {
+          "key": "891ca697fbedaa9f09be9fbcea6c9f0acfe4eac5e294f2c99721821363668292",
+          "value": "https://dev.example.com",
+          "source": "runtime.recon",
+          "weight": 1.2,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-04-05T11:47:02.802682+00:00",
+          "ttl_seconds": 2592000,
+          "freshness_score": 1.0,
+          "hit_score": 1.98
+        },
+        {
+          "key": "9c616a1f452b696ffd43b8769cf398b7f6d6a68cc7811baa609a32f7c862127d",
+          "value": "https://www.example.com",
+          "source": "runtime.recon",
+          "weight": 1.2,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-04-05T11:47:02.802682+00:00",
+          "ttl_seconds": 2592000,
+          "freshness_score": 1.0,
+          "hit_score": 1.98
+        },
+        {
+          "key": "df7d5a0dda1bf9ac071fca884a4826c4f242e1dcc9c2ec10b50941398605423b",
+          "value": "https://support.example.com",
+          "source": "runtime.recon",
+          "weight": 1.2,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-04-05T11:47:02.802682+00:00",
+          "ttl_seconds": 2592000,
+          "freshness_score": 1.0,
+          "hit_score": 1.98
+        }
+      ],
+      "services": [],
+      "tech_stack": []
+    }
+  },
+  "exploit_memory": {
+    "ttl_seconds": 1209600,
+    "items": {
+      "follow_up_tools": [
+        {
+          "key": "318309690fce009e781c7e49835fed361df5fe32977b8be7ceb2da3ab7e85232",
+          "value": "passive_config_audit",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "46884c46cd4f8c05a42b9ecf17df07f4b29c3f8dcdd32a13b7c21a0fe8d5675b",
+          "value": "dns_zone_audit",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "6dc533b4fc68604c5213124e86e7e201c2734b79f041284bdb00902e945f48a5",
+          "value": "source_map_detector",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "d8542914b319b72ddb3995b4c99af395937e1f76aa1119f2d807aae96abfeb98",
+          "value": "api_schema_discovery",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "dbb643209713fd84ad0639d426b7067455afc4d36bc1b4a4c19cb5e6006e1433",
+          "value": "csp_evaluator",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "e9996330444ba0dd2a2647c9ac733137cd3554a7ffa8f27c30d6fae11e8691ec",
+          "value": "reverse_dns_probe",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "edd655974cffa095bc2404403d7d906caaa0c54867ee4b38e1c2e2dc37a67593",
+          "value": "subdomain_enum_passive",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        },
+        {
+          "key": "eea4ee48ec0ff12c1a65eea6607248114244afc76377ac2db8a8b9153b408000",
+          "value": "cve_verify",
+          "source": "runtime.feedback",
+          "weight": 1.3,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.145
+        }
+      ],
+      "findings": [
+        {
+          "key": "742d2eec3e48e3db2fd33c7d10f016f853a4e1c483ed05529918f5017c5a8234",
+          "value": {
+            "title": "Observed DNS authority metadata for example.com",
+            "severity": "info",
+            "tool": "dns_zone_audit",
+            "cve_id": "NONE"
+          },
+          "source": "runtime.findings",
+          "weight": 1.1,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 1.815
+        },
+        {
+          "key": "d3803ccb79ae55a904e1d4506d1fbd60a8e233a29145b6f147c91e210b7c09af",
+          "value": {
+            "title": "Passive Subdomain Enumeration Results",
+            "severity": "info",
+            "tool": "",
+            "cve_id": ""
+          },
+          "source": "runtime.findings",
+          "weight": 1.1,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 1.815
+        }
+      ],
+      "cve_candidates": [],
+      "rag_intel_hits": [
+        {
+          "key": "2de0db4cc3f9d4f30d412a3868e7b705d56030e5c1ad27ed9a075a1f9a5806ac",
+          "value": {
+            "doc_id": "grafana-auth-hardening",
+            "title": "Grafana Auth and Plugin Exposure Checks",
+            "summary": "Grafana deployments often expose login endpoints and plugin metadata that influence exploitability.",
+            "snippet": "Validate auth hardening, plugin list exposure, and known CVE coverage for detected Grafana versions.",
+            "source": "file",
+            "recommended_tools": [
+              "login_form_detector",
+              "cve_lookup",
+              "nuclei_exploit_check"
+            ],
+            "severity_hint": "medium",
+            "score": 3.0
+          },
+          "source": "rag",
+          "weight": 1.75,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.8875
+        },
+        {
+          "key": "2b3a6fca38e3eec0455294216c0d16c831cd14e106db00aa4afdc819bd051fa7",
+          "value": {
+            "doc_id": "legacy-tls-handshake-hardening",
+            "title": "Legacy TLS Handshake and HTTPS Validation",
+            "summary": "Legacy TLS protocol support should escalate into targeted HTTPS validation and hardening review.",
+            "snippet": "When TLSv1/TLSv1.1 or weak transport traits are observed, feed the origin back into template-based HTTPS validation and passive hardening checks.",
+            "source": "builtin",
+            "recommended_tools": [
+              "nuclei_exploit_check",
+              "passive_config_audit"
+            ],
+            "severity_hint": "medium",
+            "score": 2.0
+          },
+          "source": "rag",
+          "weight": 1.5,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.475
+        },
+        {
+          "key": "815232e26cb782f5f89f413127bb906540ac9966b52ddd9d55db1348326629f9",
+          "value": {
+            "doc_id": "jenkins-unauth-endpoint-hardening",
+            "title": "Jenkins Endpoint Exposure and Legacy CVEs",
+            "summary": "Jenkins often exposes metadata endpoints; verify auth and known CVE coverage.",
+            "snippet": "Audit login flow, crumbs API, and plugin version signals before exploit validation.",
+            "source": "builtin",
+            "recommended_tools": [
+              "login_form_detector",
+              "cve_lookup",
+              "nuclei_exploit_check"
+            ],
+            "severity_hint": "high",
+            "score": 2.0
+          },
+          "source": "rag",
+          "weight": 1.5,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.475
+        },
+        {
+          "key": "bce6c1cc574be0447a4dadf20c89a1ee34a97593ca5ad655358598aeccd956ff",
+          "value": {
+            "doc_id": "nginx-alias-traversal-patterns",
+            "title": "Nginx Alias Traversal Misconfiguration",
+            "summary": "Look for location/alias path traversal style weaknesses and leaked static roots.",
+            "snippet": "Fingerprint static file roots, test normalized and encoded traversal payloads safely.",
+            "source": "builtin",
+            "recommended_tools": [
+              "dirsearch_scan",
+              "passive_config_audit",
+              "nuclei_exploit_check"
+            ],
+            "severity_hint": "high",
+            "score": 2.0
+          },
+          "source": "rag",
+          "weight": 1.5,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.475
+        },
+        {
+          "key": "c15199f648fc01cb4a3c2f4452dbac1bb00b4250d637019bf44bf87ea19f443d",
+          "value": {
+            "doc_id": "memcached-public-stats-exposure",
+            "title": "Memcached Public Exposure and Stats Leakage",
+            "summary": "Public memcached responses often indicate broad unauthenticated exposure and version-bearing metadata.",
+            "snippet": "Use bounded version and stats probes, then drive CVE lookup and safe sandbox validation from the discovered version.",
+            "source": "builtin",
+            "recommended_tools": [
+              "cve_lookup",
+              "poc_sandbox_exec"
+            ],
+            "severity_hint": "high",
+            "score": 2.0
+          },
+          "source": "rag",
+          "weight": 1.5,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-20T11:47:02.802682+00:00",
+          "ttl_seconds": 1209600,
+          "freshness_score": 1.0,
+          "hit_score": 2.475
+        }
+      ]
+    }
+  },
+  "report_memory": {
+    "ttl_seconds": 1814400,
+    "items": {
+      "run_summaries": [
+        {
+          "key": "3195f7f379093b923fb4f5653d7941890d1efbdae777870cc980878b7eef7051",
+          "value": {
+            "phase": "passive_recon",
+            "budget_remaining": 41,
+            "iteration_count": 2,
+            "findings_count": 2,
+            "summary": "phase=passive_recon budget=41 findings=2"
+          },
+          "source": "runtime.report",
+          "weight": 1.0,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-27T11:47:02.802682+00:00",
+          "ttl_seconds": 1814400,
+          "freshness_score": 1.0,
+          "hit_score": 1.65
+        }
+      ],
+      "report_preferences": [
+        {
+          "key": "4723738c6db4df8822902181ccf5300cdd49fe0bcfd7540785fc4ee73bc19f9a",
+          "value": {
+            "report_lang": "zh-cn",
+            "safety_grade": "balanced"
+          },
+          "source": "runtime.report",
+          "weight": 0.9,
+          "hit_count": 1,
+          "first_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "last_seen_at": "2026-03-06T11:47:02.802682+00:00",
+          "expires_at": "2026-03-27T11:47:02.802682+00:00",
+          "ttl_seconds": 1814400,
+          "freshness_score": 1.0,
+          "hit_score": 1.485
+        }
+      ]
+    }
+  },
+  "planning_hints": {
+    "tech_stack": [],
+    "follow_up_tools": [
+      "passive_config_audit",
+      "dns_zone_audit",
+      "source_map_detector",
+      "api_schema_discovery",
+      "csp_evaluator",
+      "reverse_dns_probe",
+      "subdomain_enum_passive",
+      "cve_verify",
+      "login_form_detector",
+      "cve_lookup",
+      "nuclei_exploit_check",
+      "dirsearch_scan"
+    ],
+    "rag_recommended_tools": [
+      "login_form_detector",
+      "cve_lookup",
+      "nuclei_exploit_check",
+      "passive_config_audit",
+      "dirsearch_scan",
+      "poc_sandbox_exec"
+    ],
+    "rag_intel_hits": [
+      {
+        "doc_id": "grafana-auth-hardening",
+        "title": "Grafana Auth and Plugin Exposure Checks",
+        "severity_hint": "medium",
+        "score": 3.0,
+        "recommended_tools": [
+          "login_form_detector",
+          "cve_lookup",
+          "nuclei_exploit_check"
+        ]
+      },
+      {
+        "doc_id": "legacy-tls-handshake-hardening",
+        "title": "Legacy TLS Handshake and HTTPS Validation",
+        "severity_hint": "medium",
+        "score": 2.0,
+        "recommended_tools": [
+          "nuclei_exploit_check",
+          "passive_config_audit"
+        ]
+      },
+      {
+        "doc_id": "jenkins-unauth-endpoint-hardening",
+        "title": "Jenkins Endpoint Exposure and Legacy CVEs",
+        "severity_hint": "high",
+        "score": 2.0,
+        "recommended_tools": [
+          "login_form_detector",
+          "cve_lookup",
+          "nuclei_exploit_check"
+        ]
+      },
+      {
+        "doc_id": "nginx-alias-traversal-patterns",
+        "title": "Nginx Alias Traversal Misconfiguration",
+        "severity_hint": "high",
+        "score": 2.0,
+        "recommended_tools": [
+          "dirsearch_scan",
+          "passive_config_audit",
+          "nuclei_exploit_check"
+        ]
+      },
+      {
+        "doc_id": "memcached-public-stats-exposure",
+        "title": "Memcached Public Exposure and Stats Leakage",
+        "severity_hint": "high",
+        "score": 2.0,
+        "recommended_tools": [
+          "cve_lookup",
+          "poc_sandbox_exec"
+        ]
+      }
+    ]
+  },
+  "summary": "Recon origins=6, services=0, tech_stack=none, exploit_signals=2, rag_hits=5.",
+  "known_origins": [
+    "https://products.example.com",
+    "https://example.com",
+    "https://m.example.com",
+    "https://dev.example.com",
+    "https://www.example.com",
+    "https://support.example.com"
+  ],
+  "known_services": [],
+  "tech_stack": [],
+  "follow_up_tools": [
+    "passive_config_audit",
+    "dns_zone_audit",
+    "source_map_detector",
+    "api_schema_discovery",
+    "csp_evaluator",
+    "reverse_dns_probe",
+    "subdomain_enum_passive",
+    "cve_verify",
+    "login_form_detector",
+    "cve_lookup",
+    "nuclei_exploit_check",
+    "dirsearch_scan"
+  ],
+  "recent_findings": [
+    {
+      "title": "Observed DNS authority metadata for example.com",
+      "severity": "info",
+      "tool": "dns_zone_audit",
+      "cve_id": "NONE"
+    },
+    {
+      "title": "Passive Subdomain Enumeration Results",
+      "severity": "info",
+      "tool": "",
+      "cve_id": ""
+    }
+  ],
+  "recent_actions": [
+    {
+      "tool": "subdomain_enum_passive",
+      "target": "example.com",
+      "status": "completed"
+    },
+    {
+      "tool": "dns_zone_audit",
+      "target": "example.com",
+      "status": "completed"
+    }
+  ]
+}

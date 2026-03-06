@@ -1,0 +1,46 @@
+{
+  "skill": {
+    "name": "reverse_dns_probe",
+    "version": "1.0",
+    "tool": "reverse_dns_probe",
+    "category": "recon",
+    "description": "Resolve reverse-DNS names for scoped IPs and discovered host addresses."
+  },
+  "triggers": {
+    "phase": ["passive_recon", "verification"],
+    "when": [
+      {"condition": "has_scope_target"},
+      {"condition": "not_already_done"}
+    ],
+    "target_source": "scope",
+    "target_type": "scope_host"
+  },
+  "parameters": {
+    "defaults": {
+      "timeout_seconds": 4,
+      "max_addresses": 6
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.reverse_dns_records", "condition": "non_empty", "meaning": "Reverse DNS lookup attempted"}
+    ],
+    "output_extraction": {
+      "surface_updates": [
+        {"field": "reverse_dns_records", "source": "surface_delta.reverse_dns_records"}
+      ]
+    },
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_ptr_records": {
+      "trigger": ["dns_zone_audit"],
+      "when_result": "findings_present",
+      "reason": "Resolved PTR hostnames can be audited for authoritative DNS exposure."
+    }
+  },
+  "risk": {"level": "safe", "cost": 2, "priority": 16, "retry": {"max_retries": 1, "backoff_seconds": 0.5}},
+  "dependencies": {"tools": ["nmap_scan"]}
+}

@@ -1,0 +1,67 @@
+{"timestamp": "2026-03-04T05:32:40.379149+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=120, max_iterations=6, timeout=900.0s, resumed=False"}
+{"timestamp": "2026-03-04T05:32:40.615537+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://lynolz.com:443"}
+{"timestamp": "2026-03-04T05:32:53.224140+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=12599"}
+{"timestamp": "2026-03-04T05:32:53.226405+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_start", "status": "start", "detail": "A2 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:32:53.992965+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=756"}
+{"timestamp": "2026-03-04T05:32:53.995703+00:00", "plugin_id": "git_exposure_check", "action": "action_start", "status": "start", "detail": "A3 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:32:58.791287+00:00", "plugin_id": "git_exposure_check", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=4784"}
+{"timestamp": "2026-03-04T05:32:58.793561+00:00", "plugin_id": "security_txt_check", "action": "action_start", "status": "start", "detail": "A4 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:32:59.512709+00:00", "plugin_id": "security_txt_check", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=707"}
+{"timestamp": "2026-03-04T05:32:59.515066+00:00", "plugin_id": "login_form_detector", "action": "action_start", "status": "start", "detail": "A5 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:33:01.053062+00:00", "plugin_id": "login_form_detector", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=1529"}
+{"timestamp": "2026-03-04T05:33:01.055588+00:00", "plugin_id": "http_security_headers", "action": "action_start", "status": "start", "detail": "A6 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:33:02.642352+00:00", "plugin_id": "http_security_headers", "action": "action_end", "status": "success", "detail": "A6 status=completed duration_ms=1577"}
+{"timestamp": "2026-03-04T05:33:02.645320+00:00", "plugin_id": "ssl_expiry_check", "action": "action_start", "status": "start", "detail": "A7 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:33:03.187543+00:00", "plugin_id": "ssl_expiry_check", "action": "action_end", "status": "success", "detail": "A7 status=completed duration_ms=533"}
+{"timestamp": "2026-03-04T05:33:03.190403+00:00", "plugin_id": "source_map_detector", "action": "action_start", "status": "start", "detail": "A8 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:33:15.862443+00:00", "plugin_id": "source_map_detector", "action": "action_end", "status": "success", "detail": "A8 status=completed duration_ms=12661"}
+{"timestamp": "2026-03-04T05:33:15.891324+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=active_discovery reason=advance:passive_recon"}
+{"timestamp": "2026-03-04T05:33:15.921551+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A1 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:33:21.627077+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=5694"}
+{"timestamp": "2026-03-04T05:33:21.629728+00:00", "plugin_id": "dynamic_crawl", "action": "action_start", "status": "start", "detail": "A2 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:35:48.165462+00:00", "plugin_id": "dynamic_crawl", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=146525"}
+{"timestamp": "2026-03-04T05:35:48.168145+00:00", "plugin_id": "active_web_crawler", "action": "action_start", "status": "start", "detail": "A3 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:26.423289+00:00", "plugin_id": "active_web_crawler", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=98246"}
+{"timestamp": "2026-03-04T05:37:26.427443+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A4 target=https://lynolz.com:443"}
+{"timestamp": "2026-03-04T05:37:26.520655+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "warning", "detail": "A4 status=failed duration_ms=78"}
+{"timestamp": "2026-03-04T05:37:26.553344+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=deep_testing reason=advance:active_discovery"}
+{"timestamp": "2026-03-04T05:37:26.760583+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=63, max_iterations=4, timeout=420.0s, resumed=True"}
+{"timestamp": "2026-03-04T05:37:26.763150+00:00", "plugin_id": "agent", "action": "run_resume", "status": "info", "detail": "Resuming from /workspace/output/lynolz_agent_check/agent/agent_state.json; start_iteration=3, budget=63"}
+{"timestamp": "2026-03-04T05:37:26.767103+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=deep_testing reason=advance:active_discovery"}
+{"timestamp": "2026-03-04T05:37:26.801289+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:27.007080+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:28.269011+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=1250"}
+{"timestamp": "2026-03-04T05:37:28.272764+00:00", "plugin_id": "cors_misconfiguration", "action": "action_start", "status": "start", "detail": "A2 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:28.593015+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=1772"}
+{"timestamp": "2026-03-04T05:37:28.601125+00:00", "plugin_id": "cors_misconfiguration", "action": "action_start", "status": "start", "detail": "A2 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:31.137656+00:00", "plugin_id": "cors_misconfiguration", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=2528"}
+{"timestamp": "2026-03-04T05:37:31.140583+00:00", "plugin_id": "xss_protection_audit", "action": "action_start", "status": "start", "detail": "A3 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:32.170622+00:00", "plugin_id": "cors_misconfiguration", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=3887"}
+{"timestamp": "2026-03-04T05:37:32.173822+00:00", "plugin_id": "xss_protection_audit", "action": "action_start", "status": "start", "detail": "A3 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:32.404931+00:00", "plugin_id": "xss_protection_audit", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=1252"}
+{"timestamp": "2026-03-04T05:37:32.408509+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_start", "status": "start", "detail": "A4 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:33.066986+00:00", "plugin_id": "xss_protection_audit", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=882"}
+{"timestamp": "2026-03-04T05:37:33.070030+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_start", "status": "start", "detail": "A4 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:39.426629+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=7006"}
+{"timestamp": "2026-03-04T05:37:39.429161+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A5 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:39.972507+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=6892"}
+{"timestamp": "2026-03-04T05:37:39.975522+00:00", "plugin_id": "cookie_security_audit", "action": "action_start", "status": "start", "detail": "A5 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:40.154868+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=715"}
+{"timestamp": "2026-03-04T05:37:40.157296+00:00", "plugin_id": "param_fuzzer", "action": "action_start", "status": "start", "detail": "A6 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:41.042651+00:00", "plugin_id": "cookie_security_audit", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=1056"}
+{"timestamp": "2026-03-04T05:37:41.045967+00:00", "plugin_id": "param_fuzzer", "action": "action_start", "status": "start", "detail": "A6 target=https://dogs.lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:41.971724+00:00", "plugin_id": "param_fuzzer", "action": "action_end", "status": "success", "detail": "A6 status=completed duration_ms=1803"}
+{"timestamp": "2026-03-04T05:37:42.000430+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=verification reason=advance:deep_testing"}
+{"timestamp": "2026-03-04T05:37:42.285939+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:43.382442+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=1086"}
+{"timestamp": "2026-03-04T05:37:43.385960+00:00", "plugin_id": "xss_protection_audit", "action": "action_start", "status": "start", "detail": "A2 target=https://dogs.lynolz.com:443/100"}
+{"timestamp": "2026-03-04T05:37:43.629746+00:00", "plugin_id": "param_fuzzer", "action": "action_end", "status": "success", "detail": "A6 status=completed duration_ms=2571"}
+{"timestamp": "2026-03-04T05:37:43.665584+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=verification reason=advance:deep_testing"}
+{"timestamp": "2026-03-04T05:37:43.780791+00:00", "plugin_id": "csp_evaluator", "action": "action_start", "status": "start", "detail": "A1 target=https://lynolz.com:443/"}
+{"timestamp": "2026-03-04T05:37:44.883552+00:00", "plugin_id": "csp_evaluator", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=1094"}
+{"timestamp": "2026-03-04T05:37:44.886273+00:00", "plugin_id": "xss_protection_audit", "action": "action_start", "status": "start", "detail": "A2 target=https://dogs.lynolz.com:443/100"}
+{"timestamp": "2026-03-04T05:37:44.975101+00:00", "plugin_id": "xss_protection_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=1580"}
+{"timestamp": "2026-03-04T05:37:45.003390+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 5: phase budget exhausted for verification."}
+{"timestamp": "2026-03-04T05:37:45.070681+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=20, findings=15"}
+{"timestamp": "2026-03-04T05:37:46.001382+00:00", "plugin_id": "xss_protection_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=1105"}
+{"timestamp": "2026-03-04T05:37:46.089429+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=20, findings=5"}

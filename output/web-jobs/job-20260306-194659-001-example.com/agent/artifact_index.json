@@ -1,0 +1,10 @@
+[
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260306-194659-001-example.com/agent/artifacts/A1_subdomain_enum_passive.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260306-194659-001-example.com/agent/artifacts/A2_dns_zone_audit.json"
+  }
+]

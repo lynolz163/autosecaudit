@@ -1,0 +1,74 @@
+{
+  "scope": [
+    "example.com"
+  ],
+  "breadcrumbs": [
+    {
+      "type": "service",
+      "data": "https://example.com"
+    },
+    {
+      "type": "endpoint",
+      "data": "https://example.com/wp-admin"
+    }
+  ],
+  "history": [
+    {
+      "tool": "passive_config_audit",
+      "target": "https://example.com:443",
+      "options": {},
+      "idempotency_key": "c3873b9c396f9dd533488d1172e3fb0a4d3ed2743a080d2e55cd89b045cc2dad",
+      "status": "completed",
+      "started_at": "2026-02-18T17:35:09.073948+00:00",
+      "ended_at": "2026-02-18T17:35:11.331183+00:00",
+      "artifacts": [
+        "C:\\Users\\Administrator\\Desktop\\agent\\output_agent_nuclei_smoke\\agent\\artifacts\\A1_passive_config_audit.json"
+      ]
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "https://example.com:443/",
+      "options": {
+        "allow_domain": [
+          "example.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "e505337cb48ee6f6fe9321fa3aa4e49997851b87225817201461c0f3c250210c",
+      "status": "error",
+      "started_at": "2026-02-18T17:35:11.333360+00:00",
+      "ended_at": "2026-02-18T17:35:11.337066+00:00",
+      "artifacts": [
+        "C:\\Users\\Administrator\\Desktop\\agent\\output_agent_nuclei_smoke\\agent\\artifacts\\A2_dynamic_crawl.json"
+      ],
+      "error": "playwright is required. Install with `pip install playwright` and run `playwright install`."
+    },
+    {
+      "tool": "nuclei_exploit_check",
+      "target": "https://example.com:443/",
+      "options": {
+        "severity": [
+          "medium",
+          "high",
+          "critical"
+        ]
+      },
+      "idempotency_key": "4b0f0bfb9fdf6d7c44dbbd67dc079200152bed5b4419f975312e1acb4fddff91",
+      "status": "error",
+      "started_at": "2026-02-18T17:35:11.339007+00:00",
+      "ended_at": "2026-02-18T17:35:11.348608+00:00",
+      "artifacts": [
+        "C:\\Users\\Administrator\\Desktop\\agent\\output_agent_nuclei_smoke\\agent\\artifacts\\A3_nuclei_exploit_check.json"
+      ],
+      "error": "nuclei binary not found in PATH"
+    }
+  ],
+  "surface": {
+    "config_exposures": []
+  },
+  "budget_remaining": 15,
+  "target": "https://example.com/wp-admin",
+  "iteration_count": 1,
+  "resumed": false,
+  "resumed_from": null
+}

@@ -1,0 +1,4 @@
+{"timestamp": "2026-03-05T12:55:52.948143+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=50, max_iterations=1, timeout=120.0s, resumed=False"}
+{"timestamp": "2026-03-05T12:55:53.060358+00:00", "plugin_id": "nmap_scan", "action": "action_start", "status": "start", "detail": "A1 target=172.20.0.42"}
+{"timestamp": "2026-03-05T12:56:07.107933+00:00", "plugin_id": "nmap_scan", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=13963"}
+{"timestamp": "2026-03-05T12:56:07.947696+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=1, findings=0"}

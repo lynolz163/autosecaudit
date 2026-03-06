@@ -1,0 +1,146 @@
+{
+  "action": {
+    "action_id": "A6",
+    "tool_name": "param_fuzzer",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "max_probes": 6,
+      "method": "GET",
+      "mode": "lightweight",
+      "params": {
+        "_rsc": "zc2jl"
+      }
+    },
+    "priority": 25,
+    "cost": 6,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "8575dc63d514f484742c7787f74a8dbf983d3c7cc83085dc0d9b4a65c2abd618",
+    "reason": "Run bounded benign parameter probes against parameterized endpoints. on crawler-confirmed parameterized endpoint.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "params_available",
+      "crawler_signal_present"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 2600,
+  "attempts": 1,
+  "result": {
+    "baseline_status_code": 200,
+    "baseline_headers": {
+      "date": "Wed, 04 Mar 2026 05:54:26 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+      "x-nextjs-cache": "HIT",
+      "cache-control": "s-maxage=31536000, stale-while-revalidate",
+      "server-timing": "cfEdge;dur=12,cfOrigin;dur=10",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=KekfNcp42GeeV7LZAdeovyP9b0OPGfO8OHpfdyb2VVdANltCnZhHoMTEEL8t%2FJ3bdu2HE8xkY2az6keniCovgJO76fRQb%2BMLaCZiHVCBnLOKBZTtA0UvpGXsGQ%3D%3D\"}]}",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "cf-ray": "9d6ea050ae5d08da-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "baseline_url": "https://dogs.lynolz.com:443/?_rsc=zc2jl",
+    "probes": [
+      {
+        "param": "_rsc",
+        "original_value": "zc2jl",
+        "probe_value": "'",
+        "status_code": 200,
+        "baseline_status_code": 200,
+        "content_length_delta": 0,
+        "reflected": true,
+        "url": "https://dogs.lynolz.com:443/?_rsc=%27",
+        "server": "cloudflare"
+      }
+    ]
+  },
+  "metadata": {
+    "skill_name": "param_fuzzer",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "param_fuzzer",
+    "target": "https://dogs.lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "baseline_status_code": 200,
+        "baseline_headers": {
+          "date": "Wed, 04 Mar 2026 05:54:26 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "server": "cloudflare",
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "x-nextjs-cache": "HIT",
+          "cache-control": "s-maxage=31536000, stale-while-revalidate",
+          "server-timing": "cfEdge;dur=12,cfOrigin;dur=10",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=KekfNcp42GeeV7LZAdeovyP9b0OPGfO8OHpfdyb2VVdANltCnZhHoMTEEL8t%2FJ3bdu2HE8xkY2az6keniCovgJO76fRQb%2BMLaCZiHVCBnLOKBZTtA0UvpGXsGQ%3D%3D\"}]}",
+          "cf-cache-status": "DYNAMIC",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "cf-ray": "9d6ea050ae5d08da-LAX",
+          "alt-svc": "h3=\":443\"; ma=86400"
+        },
+        "baseline_url": "https://dogs.lynolz.com:443/?_rsc=zc2jl",
+        "probes": [
+          {
+            "param": "_rsc",
+            "original_value": "zc2jl",
+            "probe_value": "'",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": true,
+            "url": "https://dogs.lynolz.com:443/?_rsc=%27",
+            "server": "cloudflare"
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "Parameter Fuzzing Observed Notable Response Change",
+          "severity": "info",
+          "evidence": "{\"param\": \"_rsc\", \"original_value\": \"zc2jl\", \"probe_value\": \"'\", \"status_code\": 200, \"baseline_status_code\": 200, \"content_length_delta\": 0, \"reflected\": true, \"url\": \"https://dogs.lynolz.com:443/?_rsc=%27\", \"server\": \"cloudflare\"}",
+          "reproduction_steps": [
+            "Request https://dogs.lynolz.com:443/?_rsc=zc2jl as baseline.",
+            "Mutate `_rsc` with `'` and compare response behavior."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "fuzz_probes": [
+          {
+            "param": "_rsc",
+            "original_value": "zc2jl",
+            "probe_value": "'",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": true,
+            "url": "https://dogs.lynolz.com:443/?_rsc=%27",
+            "server": "cloudflare"
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 2600
+  }
+}

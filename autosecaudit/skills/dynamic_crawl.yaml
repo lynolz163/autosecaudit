@@ -1,0 +1,20 @@
+{
+  "skill": {
+    "name": "dynamic_crawl",
+    "version": "1.0",
+    "tool": "dynamic_crawl",
+    "category": "discovery",
+    "description": "Use Playwright-based crawling to map in-scope pages and forms."
+  },
+  "triggers": {
+    "phase": ["active_discovery"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {"max_depth": 2, "allow_domain": ["$target_host"]}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {},
+  "risk": {"level": "low", "cost": 12, "priority": 20, "retry": {}},
+  "dependencies": {"runtime": "playwright", "tools": ["tech_stack_fingerprint"]}
+}

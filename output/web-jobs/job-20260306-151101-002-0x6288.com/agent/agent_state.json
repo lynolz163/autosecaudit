@@ -1,0 +1,1784 @@
+{
+  "scope": [
+    "0x6288.com"
+  ],
+  "breadcrumbs": [
+    {
+      "type": "service",
+      "data": "0x6288.com"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:80"
+    },
+    {
+      "type": "service",
+      "data": "https://0x6288.com:443"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:3128"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:5800"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:8000"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:8008"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:8080"
+    },
+    {
+      "type": "service",
+      "data": "https://0x6288.com:8443"
+    },
+    {
+      "type": "service",
+      "data": "http://0x6288.com:8888"
+    }
+  ],
+  "history": [
+    {
+      "tool": "subdomain_enum_passive",
+      "target": "0x6288.com",
+      "options": {
+        "max_results": 100
+      },
+      "idempotency_key": "b11313468a93cbfefe6385f33be2628e549215c5cb253adac61a3db50447d845",
+      "status": "error",
+      "started_at": "2026-03-06T07:11:59.319387+00:00",
+      "ended_at": "2026-03-06T07:12:02.355344+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_subdomain_enum_passive.json"
+      ],
+      "error": "HTTP Error 404: Not Found",
+      "action_cost": 5,
+      "budget_before": 999,
+      "budget_after": 979
+    },
+    {
+      "tool": "nmap_scan",
+      "target": "0x6288.com",
+      "options": {
+        "ports": "top-100",
+        "scan_profile": "conservative_service_discovery",
+        "timeout_seconds": 90,
+        "version_detection": false
+      },
+      "idempotency_key": "fcb16787db943ae3cb12a414167f51781bc89558a422a23c56685d28f3461c84",
+      "status": "completed",
+      "started_at": "2026-03-06T07:12:02.372622+00:00",
+      "ended_at": "2026-03-06T07:12:14.615948+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_nmap_scan.json"
+      ],
+      "action_cost": 15,
+      "budget_before": 979,
+      "budget_after": 979
+    },
+    {
+      "tool": "passive_config_audit",
+      "target": "https://0x6288.com:443",
+      "options": {
+        "max_paths": 10,
+        "max_total_seconds": 18,
+        "request_timeout_seconds": 3
+      },
+      "idempotency_key": "c502fa3d8c2a2c2f2b212b1a374d58c6205fd6c1b202bf8e6b4fb236c38162e3",
+      "status": "completed",
+      "started_at": "2026-03-06T07:12:14.760859+00:00",
+      "ended_at": "2026-03-06T07:12:32.236989+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_passive_config_audit.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 979,
+      "budget_after": 939
+    },
+    {
+      "tool": "passive_config_audit",
+      "target": "http://0x6288.com:80",
+      "options": {
+        "max_paths": 10,
+        "max_total_seconds": 18,
+        "request_timeout_seconds": 3
+      },
+      "idempotency_key": "f918886f13f08a2ca83e2682888084ce77af5cdab46ba454364bdd0ce90db238",
+      "status": "completed",
+      "started_at": "2026-03-06T07:12:32.249737+00:00",
+      "ended_at": "2026-03-06T07:12:51.474152+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A12_passive_config_audit.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "tech_stack_fingerprint",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "2f43108972a0e45629d7de9595bea55c7b8d839d4920b0e3b6d3e9e3bba197f2",
+      "status": "completed",
+      "started_at": "2026-03-06T07:12:51.484309+00:00",
+      "ended_at": "2026-03-06T07:12:52.733384+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_tech_stack_fingerprint.json"
+      ],
+      "action_cost": 2,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "tech_stack_fingerprint",
+      "target": "http://0x6288.com:80/",
+      "options": {},
+      "idempotency_key": "17775b175554ec0b9d61d451b624b56c64b55a1b6183768baa3f7dcc59046315",
+      "status": "completed",
+      "started_at": "2026-03-06T07:12:52.743446+00:00",
+      "ended_at": "2026-03-06T07:13:00.265906+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A13_tech_stack_fingerprint.json"
+      ],
+      "action_cost": 2,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "git_exposure_check",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "404812ef43b9f7ee565b3668f08f60583d7e5ae7901d51a318fd59676b661dc3",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:00.274307+00:00",
+      "ended_at": "2026-03-06T07:13:17.971605+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_git_exposure_check.json"
+      ],
+      "action_cost": 2,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "security_txt_check",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "768208a0a254b92516ec975742783b83ce0e6e23d05e86ed01dfa99b599c0e1e",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:17.979960+00:00",
+      "ended_at": "2026-03-06T07:13:20.264835+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_security_txt_check.json"
+      ],
+      "action_cost": 1,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "login_form_detector",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "8e846c1de8a6b63adc0f2399317684aa2a271df3fdf984f020522510468609a6",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:20.274741+00:00",
+      "ended_at": "2026-03-06T07:13:22.209078+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A5_login_form_detector.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "login_form_detector",
+      "target": "http://0x6288.com:80/",
+      "options": {},
+      "idempotency_key": "f89ad90b7816fd1107a508dd8327f7bfaa74986c50d64d72cc577b9285e19a47",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:22.219767+00:00",
+      "ended_at": "2026-03-06T07:13:26.489403+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A14_login_form_detector.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "http_security_headers",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "1f8548b73067ef7a3afcb7993b29f24d4adedcc0993da1d10cf94d4e418bb57f",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:26.499369+00:00",
+      "ended_at": "2026-03-06T07:13:27.398236+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A6_http_security_headers.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "ssl_expiry_check",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "e4985847e43713e53f37bfdc579ca707606f00ed220c79bbab8416d9d4ce0413",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:27.408465+00:00",
+      "ended_at": "2026-03-06T07:13:28.673085+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A7_ssl_expiry_check.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "ssl_expiry_check",
+      "target": "https://0x6288.com:8443/",
+      "options": {},
+      "idempotency_key": "502043852c6ec313045df0420723b611ec1255f8d2d817b6b23cd0afaf238730",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:28.681373+00:00",
+      "ended_at": "2026-03-06T07:13:30.176427+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A15_ssl_expiry_check.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "source_map_detector",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "48883893786d017afe17d1ab9184e1f5a462fea95b03b09e53ab96caff894368",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:30.185705+00:00",
+      "ended_at": "2026-03-06T07:13:37.571143+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A8_source_map_detector.json"
+      ],
+      "action_cost": 2,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "js_endpoint_extractor",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "5a881a097d0e7bfcfc95fa0c005a420eb859d0d7789afb018c2f63917111a9af",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:37.580681+00:00",
+      "ended_at": "2026-03-06T07:13:41.700300+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A9_js_endpoint_extractor.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "error_page_analyzer",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "ecae3a1f82919e8e2a4790baeba368b0a0410f424dceb4f3c0086be919cb8b6e",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:41.709169+00:00",
+      "ended_at": "2026-03-06T07:13:44.277752+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A10_error_page_analyzer.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "waf_detector",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "3622f79ed25d49d02c5b85a69b6ff33d1c7040ac57dffa0a82f0e2fe464700d8",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:44.286424+00:00",
+      "ended_at": "2026-03-06T07:13:48.349420+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A11_waf_detector.json"
+      ],
+      "action_cost": 3,
+      "budget_before": 939,
+      "budget_after": 939
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "https://0x6288.com:443/",
+      "options": {},
+      "idempotency_key": "afe63c567c94dbb215587ba87e6597327018207de9503ce95a0445477236c10c",
+      "status": "completed",
+      "started_at": "2026-03-06T07:13:48.431483+00:00",
+      "ended_at": "2026-03-06T07:13:57.407990+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 939,
+      "budget_after": 894
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "https://0x6288.com:443/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "99428d0751ea7c712341287fc23beca368bdc140361cfc99506e8862213d8e36",
+      "status": "error",
+      "started_at": "2026-03-06T07:13:57.420282+00:00",
+      "ended_at": "2026-03-06T07:13:58.699398+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-axzUq6 --remote-debugging-pipe --no-startup-window\n<launched> pid=6117\n[pid=6117][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-axzUq6 --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6117\n  - [pid=6117][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6117] <gracefully close start>\n  - [pid=6117] <kill>\n  - [pid=6117] <will force kill>\n  - [pid=6117] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6117] <process did exit: exitCode=127, signal=null>\n  - [pid=6117] starting temporary directories cleanup\n  - [pid=6117] finished temporary directories cleanup\n  - [pid=6117] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 894,
+      "budget_after": 894
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "https://0x6288.com:443/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "1d74deacf3f6c60b3cf83c3a7331e7562ae119e175e59f9d0b803c53fe536dc4",
+      "status": "error",
+      "started_at": "2026-03-06T07:13:58.709680+00:00",
+      "ended_at": "2026-03-06T07:13:59.328141+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-lTimfo --remote-debugging-pipe --no-startup-window\n<launched> pid=6130\n[pid=6130][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-lTimfo --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6130\n  - [pid=6130][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6130] <gracefully close start>\n  - [pid=6130] <kill>\n  - [pid=6130] <will force kill>\n  - [pid=6130] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6130] <process did exit: exitCode=127, signal=null>\n  - [pid=6130] starting temporary directories cleanup\n  - [pid=6130] finished temporary directories cleanup\n  - [pid=6130] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 894,
+      "budget_after": 894
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "https://0x6288.com:443/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "5e1fbd69e38839fb0820dd7d291a0a1dfff4b60d8a16f3e6ae4e52d42262caba",
+      "status": "error",
+      "started_at": "2026-03-06T07:13:59.338569+00:00",
+      "ended_at": "2026-03-06T07:13:59.927943+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-rWypAy --remote-debugging-pipe --no-startup-window\n<launched> pid=6143\n[pid=6143][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-rWypAy --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6143\n  - [pid=6143][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6143] <gracefully close start>\n  - [pid=6143] <kill>\n  - [pid=6143] <will force kill>\n  - [pid=6143] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6143] <process did exit: exitCode=127, signal=null>\n  - [pid=6143] starting temporary directories cleanup\n  - [pid=6143] finished temporary directories cleanup\n  - [pid=6143] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 894,
+      "budget_after": 894
+    },
+    {
+      "tool": "dirsearch_scan",
+      "target": "https://0x6288.com:443",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "idempotency_key": "5c033ff3b0d8f07a2aa97e482c3cb1cbbb1fee030c54560d296fdfb0e4e6569b",
+      "status": "error",
+      "started_at": "2026-03-06T07:13:59.936912+00:00",
+      "ended_at": "2026-03-06T07:15:29.958437+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A5_dirsearch_scan.json"
+      ],
+      "error": "dirsearch scan timed out after 90.0s",
+      "action_cost": 10,
+      "budget_before": 894,
+      "budget_after": 894
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "http://0x6288.com:80/",
+      "options": {},
+      "idempotency_key": "febbb91e0234d12d5b34ac11be16d6c317e17e063c06aaa486ca0e56aed55dc9",
+      "status": "completed",
+      "started_at": "2026-03-06T07:15:30.043079+00:00",
+      "ended_at": "2026-03-06T07:16:06.734351+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 894,
+      "budget_after": 849
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "http://0x6288.com:80/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "0eee4b34cada45d8cfb391a092d69572eaa891c68cdb14d4da425b4a3b60b4c7",
+      "status": "error",
+      "started_at": "2026-03-06T07:16:06.743561+00:00",
+      "ended_at": "2026-03-06T07:16:07.352402+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-kdCHry --remote-debugging-pipe --no-startup-window\n<launched> pid=6706\n[pid=6706][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-kdCHry --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6706\n  - [pid=6706][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6706] <gracefully close start>\n  - [pid=6706] <kill>\n  - [pid=6706] <will force kill>\n  - [pid=6706] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6706] <process did exit: exitCode=127, signal=null>\n  - [pid=6706] starting temporary directories cleanup\n  - [pid=6706] finished temporary directories cleanup\n  - [pid=6706] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 849,
+      "budget_after": 849
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "http://0x6288.com:80/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "999badc4a1ac29fd77c91f065a2acd4a272c5051f03f599197a632b335a0a1fe",
+      "status": "error",
+      "started_at": "2026-03-06T07:16:07.362237+00:00",
+      "ended_at": "2026-03-06T07:16:08.009164+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-wj9Gdm --remote-debugging-pipe --no-startup-window\n<launched> pid=6719\n[pid=6719][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-wj9Gdm --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6719\n  - [pid=6719][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6719] <gracefully close start>\n  - [pid=6719] <kill>\n  - [pid=6719] <will force kill>\n  - [pid=6719] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6719] <process did exit: exitCode=127, signal=null>\n  - [pid=6719] starting temporary directories cleanup\n  - [pid=6719] finished temporary directories cleanup\n  - [pid=6719] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 849,
+      "budget_after": 849
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "http://0x6288.com:80/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "c6ec5685dff11e8663be9bfe94b864fab6b3e0050c5e0bee983a6c2d97eb7446",
+      "status": "error",
+      "started_at": "2026-03-06T07:16:08.028213+00:00",
+      "ended_at": "2026-03-06T07:16:08.646206+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-VeoiE3 --remote-debugging-pipe --no-startup-window\n<launched> pid=6732\n[pid=6732][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-VeoiE3 --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6732\n  - [pid=6732][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6732] <gracefully close start>\n  - [pid=6732] <kill>\n  - [pid=6732] <will force kill>\n  - [pid=6732] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6732] <process did exit: exitCode=127, signal=null>\n  - [pid=6732] starting temporary directories cleanup\n  - [pid=6732] finished temporary directories cleanup\n  - [pid=6732] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 849,
+      "budget_after": 849
+    },
+    {
+      "tool": "dirsearch_scan",
+      "target": "http://0x6288.com:80",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "idempotency_key": "b73ce60bbae2ccd3493cdae4eb21b02a9945793ad1ae201ac13aa6dc05a22e00",
+      "status": "error",
+      "started_at": "2026-03-06T07:16:08.654930+00:00",
+      "ended_at": "2026-03-06T07:17:38.665926+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A5_dirsearch_scan.json"
+      ],
+      "error": "dirsearch scan timed out after 90.0s",
+      "action_cost": 10,
+      "budget_before": 849,
+      "budget_after": 849
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "https://0x6288.com:8443/",
+      "options": {},
+      "idempotency_key": "5a4131f910d332abf86bb9170467a32911686f8eca3aa8818ca140d7982acb41",
+      "status": "completed",
+      "started_at": "2026-03-06T07:17:38.985932+00:00",
+      "ended_at": "2026-03-06T07:17:52.200509+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 849,
+      "budget_after": 804
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "https://0x6288.com:8443/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "b7f7b3aed8359293f062b08083e5cdc5f493479d880e471dde2a8ee4abf557fb",
+      "status": "error",
+      "started_at": "2026-03-06T07:17:52.209371+00:00",
+      "ended_at": "2026-03-06T07:17:52.751405+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-JN02Kr --remote-debugging-pipe --no-startup-window\n<launched> pid=6962\n[pid=6962][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-JN02Kr --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6962\n  - [pid=6962][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6962] <gracefully close start>\n  - [pid=6962] <kill>\n  - [pid=6962] <will force kill>\n  - [pid=6962] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6962] <process did exit: exitCode=127, signal=null>\n  - [pid=6962] starting temporary directories cleanup\n  - [pid=6962] finished temporary directories cleanup\n  - [pid=6962] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 804,
+      "budget_after": 804
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "https://0x6288.com:8443/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "52de4e552470d092960285b597af58b96a89617adf74339621992f8ddba43bb6",
+      "status": "error",
+      "started_at": "2026-03-06T07:17:52.761708+00:00",
+      "ended_at": "2026-03-06T07:17:53.251783+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-zpYbRV --remote-debugging-pipe --no-startup-window\n<launched> pid=6975\n[pid=6975][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-zpYbRV --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6975\n  - [pid=6975][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6975] <gracefully close start>\n  - [pid=6975] <kill>\n  - [pid=6975] <will force kill>\n  - [pid=6975] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6975] <process did exit: exitCode=127, signal=null>\n  - [pid=6975] starting temporary directories cleanup\n  - [pid=6975] finished temporary directories cleanup\n  - [pid=6975] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 804,
+      "budget_after": 804
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "https://0x6288.com:8443/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "48d70c0a0e1442b9e32b6fdd0fbe139684868dfd62e32a2613392a9085d0ce43",
+      "status": "error",
+      "started_at": "2026-03-06T07:17:53.261650+00:00",
+      "ended_at": "2026-03-06T07:17:53.770892+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-XJKKMy --remote-debugging-pipe --no-startup-window\n<launched> pid=6988\n[pid=6988][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-XJKKMy --remote-debugging-pipe --no-startup-window\n  - <launched> pid=6988\n  - [pid=6988][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=6988] <gracefully close start>\n  - [pid=6988] <kill>\n  - [pid=6988] <will force kill>\n  - [pid=6988] exception while trying to kill process: Error: kill ESRCH\n  - [pid=6988] <process did exit: exitCode=127, signal=null>\n  - [pid=6988] starting temporary directories cleanup\n  - [pid=6988] finished temporary directories cleanup\n  - [pid=6988] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 804,
+      "budget_after": 804
+    },
+    {
+      "tool": "dirsearch_scan",
+      "target": "https://0x6288.com:8443",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "idempotency_key": "072ec9644fb9c733fa013b15b32b777038e9fef39ff70f6222ce94f7f768109e",
+      "status": "error",
+      "started_at": "2026-03-06T07:17:53.779899+00:00",
+      "ended_at": "2026-03-06T07:19:23.798298+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A5_dirsearch_scan.json"
+      ],
+      "error": "dirsearch scan timed out after 90.0s",
+      "action_cost": 10,
+      "budget_before": 804,
+      "budget_after": 804
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "http://0x6288.com:8080/",
+      "options": {},
+      "idempotency_key": "dd3af9382b5f2ecf74f922284a09f62ecc0d6d7e0882bc7f774c7f8dcbbc2ec9",
+      "status": "completed",
+      "started_at": "2026-03-06T07:19:24.135600+00:00",
+      "ended_at": "2026-03-06T07:19:33.348899+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 804,
+      "budget_after": 769
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "http://0x6288.com:8080/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "3d503339e05c9d9691a0e9d69880075113cdadc844f0a3c2fa51c80f8cb34240",
+      "status": "error",
+      "started_at": "2026-03-06T07:19:33.364337+00:00",
+      "ended_at": "2026-03-06T07:19:34.533278+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-3V1Liz --remote-debugging-pipe --no-startup-window\n<launched> pid=7528\n[pid=7528][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-3V1Liz --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7528\n  - [pid=7528][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7528] <gracefully close start>\n  - [pid=7528] <kill>\n  - [pid=7528] <will force kill>\n  - [pid=7528] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7528] <process did exit: exitCode=127, signal=null>\n  - [pid=7528] starting temporary directories cleanup\n  - [pid=7528] finished temporary directories cleanup\n  - [pid=7528] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 769,
+      "budget_after": 769
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "http://0x6288.com:8080/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "6a2215f411723a81a0e93d0b94b28cd92ee36f0469b06dd68fff7b8565a894c6",
+      "status": "error",
+      "started_at": "2026-03-06T07:19:34.548972+00:00",
+      "ended_at": "2026-03-06T07:19:35.631967+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-yFPOFS --remote-debugging-pipe --no-startup-window\n<launched> pid=7541\n[pid=7541][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-yFPOFS --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7541\n  - [pid=7541][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7541] <gracefully close start>\n  - [pid=7541] <kill>\n  - [pid=7541] <will force kill>\n  - [pid=7541] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7541] <process did exit: exitCode=127, signal=null>\n  - [pid=7541] starting temporary directories cleanup\n  - [pid=7541] finished temporary directories cleanup\n  - [pid=7541] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 769,
+      "budget_after": 769
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "http://0x6288.com:8080/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "e8a4582c5d0a6aa64b444431893b80797f2f4691de4e9670d0958eddf5a6b49e",
+      "status": "error",
+      "started_at": "2026-03-06T07:19:35.648317+00:00",
+      "ended_at": "2026-03-06T07:19:36.711373+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-V63A0y --remote-debugging-pipe --no-startup-window\n<launched> pid=7554\n[pid=7554][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-V63A0y --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7554\n  - [pid=7554][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7554] <gracefully close start>\n  - [pid=7554] <kill>\n  - [pid=7554] <will force kill>\n  - [pid=7554] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7554] <process did exit: exitCode=127, signal=null>\n  - [pid=7554] starting temporary directories cleanup\n  - [pid=7554] finished temporary directories cleanup\n  - [pid=7554] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 769,
+      "budget_after": 769
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "http://0x6288.com:8000/",
+      "options": {},
+      "idempotency_key": "85d1454de05648ead37ef2517c34dbf8694865407275ec0ce24222299b2874b2",
+      "status": "completed",
+      "started_at": "2026-03-06T07:19:36.846727+00:00",
+      "ended_at": "2026-03-06T07:20:32.954573+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 769,
+      "budget_after": 734
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "http://0x6288.com:8000/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "59308dca4c49d43be29085cea101bf56df8c0705c9ea8a03d6a0c87cb752b9f7",
+      "status": "error",
+      "started_at": "2026-03-06T07:20:32.966589+00:00",
+      "ended_at": "2026-03-06T07:20:33.644791+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-MUvAP9 --remote-debugging-pipe --no-startup-window\n<launched> pid=7567\n[pid=7567][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-MUvAP9 --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7567\n  - [pid=7567][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7567] <gracefully close start>\n  - [pid=7567] <kill>\n  - [pid=7567] <will force kill>\n  - [pid=7567] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7567] <process did exit: exitCode=127, signal=null>\n  - [pid=7567] starting temporary directories cleanup\n  - [pid=7567] finished temporary directories cleanup\n  - [pid=7567] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 734,
+      "budget_after": 734
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "http://0x6288.com:8000/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "f054c6f6d802bd9a4c142564d55e3ef5ebd27fda92928e24b3cd8f10d9e70fee",
+      "status": "error",
+      "started_at": "2026-03-06T07:20:33.655112+00:00",
+      "ended_at": "2026-03-06T07:20:34.310760+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-Nj0Sqj --remote-debugging-pipe --no-startup-window\n<launched> pid=7580\n[pid=7580][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-Nj0Sqj --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7580\n  - [pid=7580][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7580] <gracefully close start>\n  - [pid=7580] <kill>\n  - [pid=7580] <will force kill>\n  - [pid=7580] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7580] <process did exit: exitCode=127, signal=null>\n  - [pid=7580] starting temporary directories cleanup\n  - [pid=7580] finished temporary directories cleanup\n  - [pid=7580] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 734,
+      "budget_after": 734
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "http://0x6288.com:8000/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "0189578bb6d0a0ee6d879ac277998e40c62bb05d4e28481c1efa35071e304755",
+      "status": "error",
+      "started_at": "2026-03-06T07:20:34.322491+00:00",
+      "ended_at": "2026-03-06T07:20:34.986502+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-GE1e2f --remote-debugging-pipe --no-startup-window\n<launched> pid=7593\n[pid=7593][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-GE1e2f --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7593\n  - [pid=7593][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7593] <gracefully close start>\n  - [pid=7593] <kill>\n  - [pid=7593] <will force kill>\n  - [pid=7593] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7593] <process did exit: exitCode=127, signal=null>\n  - [pid=7593] starting temporary directories cleanup\n  - [pid=7593] finished temporary directories cleanup\n  - [pid=7593] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 734,
+      "budget_after": 734
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "http://0x6288.com:8008/",
+      "options": {},
+      "idempotency_key": "222f2c09ebd71df1b42b04f578df1d23933a6a9f911621d3b75f3f0cfa51f9c4",
+      "status": "completed",
+      "started_at": "2026-03-06T07:20:35.133881+00:00",
+      "ended_at": "2026-03-06T07:21:31.240559+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 734,
+      "budget_after": 689
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "http://0x6288.com:8008/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "266c2eead25f9f8fab85d3e1e8d89464b7afb56f353251292969514fed7c9ccd",
+      "status": "error",
+      "started_at": "2026-03-06T07:21:31.251710+00:00",
+      "ended_at": "2026-03-06T07:21:31.878604+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-fPTEQ9 --remote-debugging-pipe --no-startup-window\n<launched> pid=7606\n[pid=7606][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-fPTEQ9 --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7606\n  - [pid=7606][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7606] <gracefully close start>\n  - [pid=7606] <kill>\n  - [pid=7606] <will force kill>\n  - [pid=7606] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7606] <process did exit: exitCode=127, signal=null>\n  - [pid=7606] starting temporary directories cleanup\n  - [pid=7606] finished temporary directories cleanup\n  - [pid=7606] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 689,
+      "budget_after": 689
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "http://0x6288.com:8008/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "ab65bcb272853fc509be0eec0c79365941e3ed840a134a90bf7dd71ba05652b2",
+      "status": "error",
+      "started_at": "2026-03-06T07:21:31.889610+00:00",
+      "ended_at": "2026-03-06T07:21:32.474715+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-zZK1lz --remote-debugging-pipe --no-startup-window\n<launched> pid=7619\n[pid=7619][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-zZK1lz --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7619\n  - [pid=7619][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7619] <gracefully close start>\n  - [pid=7619] <kill>\n  - [pid=7619] <will force kill>\n  - [pid=7619] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7619] <process did exit: exitCode=127, signal=null>\n  - [pid=7619] starting temporary directories cleanup\n  - [pid=7619] finished temporary directories cleanup\n  - [pid=7619] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 689,
+      "budget_after": 689
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "http://0x6288.com:8008/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "bc53779d939e5ec3aae72ca54e90f4cf67a1f9629fa3ff50b5d76e3df85aab9c",
+      "status": "error",
+      "started_at": "2026-03-06T07:21:32.485489+00:00",
+      "ended_at": "2026-03-06T07:21:33.078552+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-r4Fdgk --remote-debugging-pipe --no-startup-window\n<launched> pid=7632\n[pid=7632][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-r4Fdgk --remote-debugging-pipe --no-startup-window\n  - <launched> pid=7632\n  - [pid=7632][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=7632] <gracefully close start>\n  - [pid=7632] <kill>\n  - [pid=7632] <will force kill>\n  - [pid=7632] exception while trying to kill process: Error: kill ESRCH\n  - [pid=7632] <process did exit: exitCode=127, signal=null>\n  - [pid=7632] starting temporary directories cleanup\n  - [pid=7632] finished temporary directories cleanup\n  - [pid=7632] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 689,
+      "budget_after": 689
+    },
+    {
+      "tool": "dirsearch_scan",
+      "target": "http://0x6288.com:8080",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "idempotency_key": "c0e8652a8027c68c6f501af109f732b1c84271aac7b44773814d9e2af151dfd7",
+      "status": "error",
+      "started_at": "2026-03-06T07:21:33.086375+00:00",
+      "ended_at": "2026-03-06T07:23:03.106877+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A5_dirsearch_scan.json"
+      ],
+      "error": "dirsearch scan timed out after 90.0s",
+      "action_cost": 10,
+      "budget_before": 689,
+      "budget_after": 689
+    },
+    {
+      "tool": "api_schema_discovery",
+      "target": "http://0x6288.com:8888/",
+      "options": {},
+      "idempotency_key": "c322edacd27ac051d90ac437be04df9142e6436f8b2b631857458f537661bcb1",
+      "status": "completed",
+      "started_at": "2026-03-06T07:23:03.273068+00:00",
+      "ended_at": "2026-03-06T07:23:59.405032+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+      ],
+      "action_cost": 4,
+      "budget_before": 689,
+      "budget_after": 644
+    },
+    {
+      "tool": "page_vision_analyzer",
+      "target": "http://0x6288.com:8888/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "idempotency_key": "66c5a38bdfe54b332cb31af0742ee35720cdf0cd58ed13dfc9ae19b290708ccd",
+      "status": "error",
+      "started_at": "2026-03-06T07:23:59.424314+00:00",
+      "ended_at": "2026-03-06T07:24:01.012863+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-hRfz5Q --remote-debugging-pipe --no-startup-window\n<launched> pid=8086\n[pid=8086][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-hRfz5Q --remote-debugging-pipe --no-startup-window\n  - <launched> pid=8086\n  - [pid=8086][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=8086] <gracefully close start>\n  - [pid=8086] <kill>\n  - [pid=8086] <will force kill>\n  - [pid=8086] exception while trying to kill process: Error: kill ESRCH\n  - [pid=8086] <process did exit: exitCode=127, signal=null>\n  - [pid=8086] starting temporary directories cleanup\n  - [pid=8086] finished temporary directories cleanup\n  - [pid=8086] <gracefully close end>\n",
+      "action_cost": 7,
+      "budget_before": 644,
+      "budget_after": 644
+    },
+    {
+      "tool": "dynamic_crawl",
+      "target": "http://0x6288.com:8888/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "max_depth": 2
+      },
+      "idempotency_key": "aa13abee7230f75a05af50c730ad829df1df88bcac0b2e956722b66f5ec0d5b9",
+      "status": "error",
+      "started_at": "2026-03-06T07:24:01.036815+00:00",
+      "ended_at": "2026-03-06T07:24:02.493093+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A3_dynamic_crawl.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-KIThrY --remote-debugging-pipe --no-startup-window\n<launched> pid=8099\n[pid=8099][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-KIThrY --remote-debugging-pipe --no-startup-window\n  - <launched> pid=8099\n  - [pid=8099][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=8099] <gracefully close start>\n  - [pid=8099] <kill>\n  - [pid=8099] <will force kill>\n  - [pid=8099] exception while trying to kill process: Error: kill ESRCH\n  - [pid=8099] <process did exit: exitCode=127, signal=null>\n  - [pid=8099] starting temporary directories cleanup\n  - [pid=8099] finished temporary directories cleanup\n  - [pid=8099] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 644,
+      "budget_after": 644
+    },
+    {
+      "tool": "active_web_crawler",
+      "target": "http://0x6288.com:8888/",
+      "options": {
+        "allow_domain": [
+          "0x6288.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "idempotency_key": "5dca144a4335db61784f57bafcd59832d7ba7bdc9cdaf09b6f9f18fc6716f498",
+      "status": "error",
+      "started_at": "2026-03-06T07:24:02.516194+00:00",
+      "ended_at": "2026-03-06T07:24:03.867470+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A4_active_web_crawler.json"
+      ],
+      "error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-xgA8Q4 --remote-debugging-pipe --no-startup-window\n<launched> pid=8112\n[pid=8112][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-xgA8Q4 --remote-debugging-pipe --no-startup-window\n  - <launched> pid=8112\n  - [pid=8112][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=8112] <gracefully close start>\n  - [pid=8112] <kill>\n  - [pid=8112] <will force kill>\n  - [pid=8112] exception while trying to kill process: Error: kill ESRCH\n  - [pid=8112] <process did exit: exitCode=127, signal=null>\n  - [pid=8112] starting temporary directories cleanup\n  - [pid=8112] finished temporary directories cleanup\n  - [pid=8112] <gracefully close end>\n",
+      "action_cost": 12,
+      "budget_before": 644,
+      "budget_after": 644
+    },
+    {
+      "tool": "dirsearch_scan",
+      "target": "http://0x6288.com:8000",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "idempotency_key": "f0439659173c1f26a8cbb1718fa96c419263fc6d45eef0b7040ab3159e98b95a",
+      "status": "completed",
+      "started_at": "2026-03-06T07:24:03.884330+00:00",
+      "ended_at": "2026-03-06T07:24:20.126354+00:00",
+      "retry_attempts": 1,
+      "artifacts": [
+        "/workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifacts/A5_dirsearch_scan.json"
+      ],
+      "action_cost": 10,
+      "budget_before": 644,
+      "budget_after": 644
+    }
+  ],
+  "surface": {
+    "cve_candidates": [],
+    "authorization_confirmed": false,
+    "safe_only": true,
+    "allow_high_risk": false,
+    "approval_granted": false,
+    "report_lang": "zh-CN",
+    "nmap_hosts": [
+      {
+        "state": "up",
+        "addresses": [
+          {
+            "addr": "104.21.76.210",
+            "addrtype": "ipv4"
+          }
+        ],
+        "hostnames": [
+          "0x6288.com"
+        ],
+        "open_ports": [
+          {
+            "port": 7,
+            "protocol": "tcp",
+            "service": "echo",
+            "version": ""
+          },
+          {
+            "port": 9,
+            "protocol": "tcp",
+            "service": "discard",
+            "version": ""
+          },
+          {
+            "port": 13,
+            "protocol": "tcp",
+            "service": "daytime",
+            "version": ""
+          },
+          {
+            "port": 21,
+            "protocol": "tcp",
+            "service": "ftp",
+            "version": ""
+          },
+          {
+            "port": 22,
+            "protocol": "tcp",
+            "service": "ssh",
+            "version": ""
+          },
+          {
+            "port": 23,
+            "protocol": "tcp",
+            "service": "telnet",
+            "version": ""
+          },
+          {
+            "port": 25,
+            "protocol": "tcp",
+            "service": "smtp",
+            "version": ""
+          },
+          {
+            "port": 26,
+            "protocol": "tcp",
+            "service": "rsftp",
+            "version": ""
+          },
+          {
+            "port": 37,
+            "protocol": "tcp",
+            "service": "time",
+            "version": ""
+          },
+          {
+            "port": 53,
+            "protocol": "tcp",
+            "service": "domain",
+            "version": ""
+          },
+          {
+            "port": 79,
+            "protocol": "tcp",
+            "service": "finger",
+            "version": ""
+          },
+          {
+            "port": 80,
+            "protocol": "tcp",
+            "service": "http",
+            "version": ""
+          },
+          {
+            "port": 81,
+            "protocol": "tcp",
+            "service": "hosts2-ns",
+            "version": ""
+          },
+          {
+            "port": 88,
+            "protocol": "tcp",
+            "service": "kerberos-sec",
+            "version": ""
+          },
+          {
+            "port": 106,
+            "protocol": "tcp",
+            "service": "pop3pw",
+            "version": ""
+          },
+          {
+            "port": 110,
+            "protocol": "tcp",
+            "service": "pop3",
+            "version": ""
+          },
+          {
+            "port": 111,
+            "protocol": "tcp",
+            "service": "rpcbind",
+            "version": ""
+          },
+          {
+            "port": 113,
+            "protocol": "tcp",
+            "service": "ident",
+            "version": ""
+          },
+          {
+            "port": 119,
+            "protocol": "tcp",
+            "service": "nntp",
+            "version": ""
+          },
+          {
+            "port": 135,
+            "protocol": "tcp",
+            "service": "msrpc",
+            "version": ""
+          },
+          {
+            "port": 139,
+            "protocol": "tcp",
+            "service": "netbios-ssn",
+            "version": ""
+          },
+          {
+            "port": 143,
+            "protocol": "tcp",
+            "service": "imap",
+            "version": ""
+          },
+          {
+            "port": 144,
+            "protocol": "tcp",
+            "service": "news",
+            "version": ""
+          },
+          {
+            "port": 179,
+            "protocol": "tcp",
+            "service": "bgp",
+            "version": ""
+          },
+          {
+            "port": 199,
+            "protocol": "tcp",
+            "service": "smux",
+            "version": ""
+          },
+          {
+            "port": 389,
+            "protocol": "tcp",
+            "service": "ldap",
+            "version": ""
+          },
+          {
+            "port": 427,
+            "protocol": "tcp",
+            "service": "svrloc",
+            "version": ""
+          },
+          {
+            "port": 443,
+            "protocol": "tcp",
+            "service": "https",
+            "version": ""
+          },
+          {
+            "port": 444,
+            "protocol": "tcp",
+            "service": "snpp",
+            "version": ""
+          },
+          {
+            "port": 445,
+            "protocol": "tcp",
+            "service": "microsoft-ds",
+            "version": ""
+          },
+          {
+            "port": 465,
+            "protocol": "tcp",
+            "service": "smtps",
+            "version": ""
+          },
+          {
+            "port": 513,
+            "protocol": "tcp",
+            "service": "login",
+            "version": ""
+          },
+          {
+            "port": 514,
+            "protocol": "tcp",
+            "service": "shell",
+            "version": ""
+          },
+          {
+            "port": 515,
+            "protocol": "tcp",
+            "service": "printer",
+            "version": ""
+          },
+          {
+            "port": 543,
+            "protocol": "tcp",
+            "service": "klogin",
+            "version": ""
+          },
+          {
+            "port": 544,
+            "protocol": "tcp",
+            "service": "kshell",
+            "version": ""
+          },
+          {
+            "port": 548,
+            "protocol": "tcp",
+            "service": "afp",
+            "version": ""
+          },
+          {
+            "port": 554,
+            "protocol": "tcp",
+            "service": "rtsp",
+            "version": ""
+          },
+          {
+            "port": 587,
+            "protocol": "tcp",
+            "service": "submission",
+            "version": ""
+          },
+          {
+            "port": 631,
+            "protocol": "tcp",
+            "service": "ipp",
+            "version": ""
+          },
+          {
+            "port": 646,
+            "protocol": "tcp",
+            "service": "ldp",
+            "version": ""
+          },
+          {
+            "port": 873,
+            "protocol": "tcp",
+            "service": "rsync",
+            "version": ""
+          },
+          {
+            "port": 990,
+            "protocol": "tcp",
+            "service": "ftps",
+            "version": ""
+          },
+          {
+            "port": 993,
+            "protocol": "tcp",
+            "service": "imaps",
+            "version": ""
+          },
+          {
+            "port": 995,
+            "protocol": "tcp",
+            "service": "pop3s",
+            "version": ""
+          },
+          {
+            "port": 1025,
+            "protocol": "tcp",
+            "service": "NFS-or-IIS",
+            "version": ""
+          },
+          {
+            "port": 1026,
+            "protocol": "tcp",
+            "service": "LSA-or-nterm",
+            "version": ""
+          },
+          {
+            "port": 1027,
+            "protocol": "tcp",
+            "service": "IIS",
+            "version": ""
+          },
+          {
+            "port": 1028,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 1029,
+            "protocol": "tcp",
+            "service": "ms-lsa",
+            "version": ""
+          },
+          {
+            "port": 1110,
+            "protocol": "tcp",
+            "service": "nfsd-status",
+            "version": ""
+          },
+          {
+            "port": 1433,
+            "protocol": "tcp",
+            "service": "ms-sql-s",
+            "version": ""
+          },
+          {
+            "port": 1720,
+            "protocol": "tcp",
+            "service": "h323q931",
+            "version": ""
+          },
+          {
+            "port": 1723,
+            "protocol": "tcp",
+            "service": "pptp",
+            "version": ""
+          },
+          {
+            "port": 1755,
+            "protocol": "tcp",
+            "service": "wms",
+            "version": ""
+          },
+          {
+            "port": 1900,
+            "protocol": "tcp",
+            "service": "upnp",
+            "version": ""
+          },
+          {
+            "port": 2000,
+            "protocol": "tcp",
+            "service": "cisco-sccp",
+            "version": ""
+          },
+          {
+            "port": 2001,
+            "protocol": "tcp",
+            "service": "dc",
+            "version": ""
+          },
+          {
+            "port": 2049,
+            "protocol": "tcp",
+            "service": "nfs",
+            "version": ""
+          },
+          {
+            "port": 2121,
+            "protocol": "tcp",
+            "service": "ccproxy-ftp",
+            "version": ""
+          },
+          {
+            "port": 2717,
+            "protocol": "tcp",
+            "service": "pn-requester",
+            "version": ""
+          },
+          {
+            "port": 3000,
+            "protocol": "tcp",
+            "service": "ppp",
+            "version": ""
+          },
+          {
+            "port": 3128,
+            "protocol": "tcp",
+            "service": "squid-http",
+            "version": ""
+          },
+          {
+            "port": 3306,
+            "protocol": "tcp",
+            "service": "mysql",
+            "version": ""
+          },
+          {
+            "port": 3389,
+            "protocol": "tcp",
+            "service": "ms-wbt-server",
+            "version": ""
+          },
+          {
+            "port": 3986,
+            "protocol": "tcp",
+            "service": "mapper-ws_ethd",
+            "version": ""
+          },
+          {
+            "port": 4899,
+            "protocol": "tcp",
+            "service": "radmin",
+            "version": ""
+          },
+          {
+            "port": 5000,
+            "protocol": "tcp",
+            "service": "upnp",
+            "version": ""
+          },
+          {
+            "port": 5009,
+            "protocol": "tcp",
+            "service": "airport-admin",
+            "version": ""
+          },
+          {
+            "port": 5051,
+            "protocol": "tcp",
+            "service": "ida-agent",
+            "version": ""
+          },
+          {
+            "port": 5060,
+            "protocol": "tcp",
+            "service": "sip",
+            "version": ""
+          },
+          {
+            "port": 5101,
+            "protocol": "tcp",
+            "service": "admdog",
+            "version": ""
+          },
+          {
+            "port": 5190,
+            "protocol": "tcp",
+            "service": "aol",
+            "version": ""
+          },
+          {
+            "port": 5357,
+            "protocol": "tcp",
+            "service": "wsdapi",
+            "version": ""
+          },
+          {
+            "port": 5432,
+            "protocol": "tcp",
+            "service": "postgresql",
+            "version": ""
+          },
+          {
+            "port": 5631,
+            "protocol": "tcp",
+            "service": "pcanywheredata",
+            "version": ""
+          },
+          {
+            "port": 5666,
+            "protocol": "tcp",
+            "service": "nrpe",
+            "version": ""
+          },
+          {
+            "port": 5800,
+            "protocol": "tcp",
+            "service": "vnc-http",
+            "version": ""
+          },
+          {
+            "port": 5900,
+            "protocol": "tcp",
+            "service": "vnc",
+            "version": ""
+          },
+          {
+            "port": 6000,
+            "protocol": "tcp",
+            "service": "X11",
+            "version": ""
+          },
+          {
+            "port": 6001,
+            "protocol": "tcp",
+            "service": "X11:1",
+            "version": ""
+          },
+          {
+            "port": 6646,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 7070,
+            "protocol": "tcp",
+            "service": "realserver",
+            "version": ""
+          },
+          {
+            "port": 8000,
+            "protocol": "tcp",
+            "service": "http-alt",
+            "version": ""
+          },
+          {
+            "port": 8008,
+            "protocol": "tcp",
+            "service": "http",
+            "version": ""
+          },
+          {
+            "port": 8009,
+            "protocol": "tcp",
+            "service": "ajp13",
+            "version": ""
+          },
+          {
+            "port": 8080,
+            "protocol": "tcp",
+            "service": "http-proxy",
+            "version": ""
+          },
+          {
+            "port": 8081,
+            "protocol": "tcp",
+            "service": "blackice-icecap",
+            "version": ""
+          },
+          {
+            "port": 8443,
+            "protocol": "tcp",
+            "service": "https-alt",
+            "version": ""
+          },
+          {
+            "port": 8888,
+            "protocol": "tcp",
+            "service": "sun-answerbook",
+            "version": ""
+          },
+          {
+            "port": 9100,
+            "protocol": "tcp",
+            "service": "jetdirect",
+            "version": ""
+          },
+          {
+            "port": 9999,
+            "protocol": "tcp",
+            "service": "abyss",
+            "version": ""
+          },
+          {
+            "port": 10000,
+            "protocol": "tcp",
+            "service": "snet-sensor-mgmt",
+            "version": ""
+          },
+          {
+            "port": 32768,
+            "protocol": "tcp",
+            "service": "filenet-tms",
+            "version": ""
+          },
+          {
+            "port": 49152,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 49153,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 49154,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 49155,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 49156,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          },
+          {
+            "port": 49157,
+            "protocol": "tcp",
+            "service": "unknown",
+            "version": ""
+          }
+        ]
+      }
+    ],
+    "config_exposures": [],
+    "tech_stack": [],
+    "git_exposures": [],
+    "security_txt": {
+      "present": false,
+      "status_code": 403,
+      "url": "https://0x6288.com:443/.well-known/security.txt",
+      "has_contact": false,
+      "has_expires": false,
+      "line_count": 91,
+      "content_preview": null
+    },
+    "login_forms": [],
+    "api_endpoints": [],
+    "url_parameters": {},
+    "parameter_origins": {},
+    "http_security_headers": {
+      "date": "Fri, 06 Mar 2026 07:13:26 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=7,cfOrigin;dur=91",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=2oNUSh6igRS5s0DFvUgd2Azz3q9JrF1iuMK93qVk6%2FKACRJ%2BJZ4u6eG3%2BbiHiPXthgMzFwMHc0pnn8hiQF7Cgc2Ax%2FWk%2Bi9K5J0XW%2Fme9dj8uzHlgjU%3D\"}]}",
+      "cf-ray": "9d7f8ece5e836a2b-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "tls_metadata": {
+      "host": "0x6288.com",
+      "port": 8443,
+      "days_left": 51,
+      "expires_at": "2026-04-26T11:51:55+00:00",
+      "tls_version": "TLSv1.3",
+      "subject_alt_name": [
+        [
+          "DNS",
+          "0x6288.com"
+        ],
+        [
+          "DNS",
+          "*.0x6288.com"
+        ]
+      ]
+    },
+    "source_maps": [],
+    "discovered_urls": [],
+    "error_page_markers": [],
+    "waf_vendors": [
+      "cloudflare"
+    ],
+    "api_schemas": [],
+    "dirsearch_results": [],
+    "dirsearch_entry_count": 0
+  },
+  "budget_remaining": 644,
+  "total_budget": 999,
+  "target": "0x6288.com",
+  "safety_grade": "aggressive",
+  "report_lang": "zh-CN",
+  "iteration_count": 10,
+  "resumed": false,
+  "resumed_from": null,
+  "current_phase": "active_discovery",
+  "phase_budget_spent": {
+    "passive_recon": 60,
+    "active_discovery": 295
+  },
+  "phase_history": [
+    {
+      "phase": "active_discovery",
+      "reason": "advance:passive_recon"
+    }
+  ],
+  "feedback": {
+    "follow_up_tools": [
+      "xss_protection_audit",
+      "tech_stack_fingerprint",
+      "passive_config_audit",
+      "http_security_headers",
+      "ssl_expiry_check",
+      "source_map_detector",
+      "csp_evaluator",
+      "cve_verify",
+      "api_schema_discovery"
+    ],
+    "priority_overrides": {
+      "xss_protection_audit": -4,
+      "subdomain_enum_passive": 5,
+      "passive_config_audit": -4,
+      "source_map_detector": -4,
+      "csp_evaluator": -4,
+      "cve_verify": -4,
+      "api_schema_discovery": -4,
+      "page_vision_analyzer": 5,
+      "dynamic_crawl": 5,
+      "active_web_crawler": 5,
+      "dirsearch_scan": 5
+    },
+    "risk_signal": "none"
+  },
+  "findings_count": 14,
+  "circuit_breaker": {
+    "subdomain_enum_passive": {
+      "failures": 1,
+      "opened_at": null,
+      "last_error": "HTTP Error 404: Not Found"
+    },
+    "page_vision_analyzer": {
+      "failures": 1,
+      "opened_at": null,
+      "last_error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-hRfz5Q --remote-debugging-pipe --no-startup-window\n<launched> pid=8086\n[pid=8086][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-hRfz5Q --remote-debugging-pipe --no-startup-window\n  - <launched> pid=8086\n  - [pid=8086][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=8086] <gracefully close start>\n  - [pid=8086] <kill>\n  - [pid=8086] <will force kill>\n  - [pid=8086] exception while trying to kill process: Error: kill ESRCH\n  - [pid=8086] <process did exit: exitCode=127, signal=null>\n  - [pid=8086] starting temporary directories cleanup\n  - [pid=8086] finished temporary directories cleanup\n  - [pid=8086] <gracefully close end>\n"
+    },
+    "dynamic_crawl": {
+      "failures": 1,
+      "opened_at": null,
+      "last_error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-KIThrY --remote-debugging-pipe --no-startup-window\n<launched> pid=8099\n[pid=8099][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-KIThrY --remote-debugging-pipe --no-startup-window\n  - <launched> pid=8099\n  - [pid=8099][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=8099] <gracefully close start>\n  - [pid=8099] <kill>\n  - [pid=8099] <will force kill>\n  - [pid=8099] exception while trying to kill process: Error: kill ESRCH\n  - [pid=8099] <process did exit: exitCode=127, signal=null>\n  - [pid=8099] starting temporary directories cleanup\n  - [pid=8099] finished temporary directories cleanup\n  - [pid=8099] <gracefully close end>\n"
+    },
+    "active_web_crawler": {
+      "failures": 1,
+      "opened_at": null,
+      "last_error": "BrowserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-xgA8Q4 --remote-debugging-pipe --no-startup-window\n<launched> pid=8112\n[pid=8112][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\nCall log:\n  - <launching> /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-xgA8Q4 --remote-debugging-pipe --no-startup-window\n  - <launched> pid=8112\n  - [pid=8112][err] /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell: error while loading shared libraries: libglib-2.0.so.0: cannot open shared object file: No such file or directory\n  - [pid=8112] <gracefully close start>\n  - [pid=8112] <kill>\n  - [pid=8112] <will force kill>\n  - [pid=8112] exception while trying to kill process: Error: kill ESRCH\n  - [pid=8112] <process did exit: exitCode=127, signal=null>\n  - [pid=8112] starting temporary directories cleanup\n  - [pid=8112] finished temporary directories cleanup\n  - [pid=8112] <gracefully close end>\n"
+    }
+  },
+  "cve_candidates": [],
+  "authorization_confirmed": false,
+  "cve_safe_only": true,
+  "cve_allow_high_risk": false,
+  "approval_granted": false
+}

@@ -1,0 +1,109 @@
+{
+  "action": {
+    "action_id": "A6",
+    "tool_name": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/101",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "priority": 23,
+    "cost": 8,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "588f2efc6f0eea2355750846d65bd2b56d9a490cb03403070e501e1fd5432aac",
+    "reason": "Probe parameterized endpoints for reflection and output-encoding weaknesses. on crawler-confirmed parameterized endpoint.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "params_available",
+      "crawler_signal_present"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1322,
+  "attempts": 1,
+  "result": {
+    "target_url": "https://dogs.lynolz.com:443/101",
+    "canary": "XSSA_CANARY_eded2b5282043c45",
+    "tested_parameters": [
+      "_rsc"
+    ],
+    "reflection_points": [
+      {
+        "parameter": "_rsc",
+        "context": "javascript",
+        "position": 5298,
+        "snippet": "\\\":\\\"YZdbAzr_rZ1dYCDF1txS9\\\",\\\"assetPrefix\\\":\\\"\\\",\\\"urlParts\\\":[\\\"\\\",\\\"101?_rsc=XSSA_CANARY_eded2b5282043c45\\\"],\\\"initialTree\\\":[\\\"\\\",{\\\"children\\\":[[\\\"code\\\",\\\"101\\\",\\\"d\\\"],{\\\"children\\\":",
+        "request_url": "https://dogs.lynolz.com:443/101?_rsc=XSSA_CANARY_eded2b5282043c45"
+      }
+    ],
+    "is_reflected": true,
+    "browser_verification": null,
+    "notes": [
+      "Raw canary reflection detected. Output encoding should be reviewed per context."
+    ],
+    "errors": []
+  },
+  "metadata": {
+    "skill_name": "xss_protection_audit",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/101",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "target_url": "https://dogs.lynolz.com:443/101",
+        "canary": "XSSA_CANARY_eded2b5282043c45",
+        "tested_parameters": [
+          "_rsc"
+        ],
+        "reflection_points": [
+          {
+            "parameter": "_rsc",
+            "context": "javascript",
+            "position": 5298,
+            "snippet": "\\\":\\\"YZdbAzr_rZ1dYCDF1txS9\\\",\\\"assetPrefix\\\":\\\"\\\",\\\"urlParts\\\":[\\\"\\\",\\\"101?_rsc=XSSA_CANARY_eded2b5282043c45\\\"],\\\"initialTree\\\":[\\\"\\\",{\\\"children\\\":[[\\\"code\\\",\\\"101\\\",\\\"d\\\"],{\\\"children\\\":",
+            "request_url": "https://dogs.lynolz.com:443/101?_rsc=XSSA_CANARY_eded2b5282043c45"
+          }
+        ],
+        "is_reflected": true,
+        "browser_verification": null,
+        "notes": [
+          "Raw canary reflection detected. Output encoding should be reviewed per context."
+        ],
+        "errors": []
+      },
+      "findings": [
+        {
+          "type": "vuln",
+          "name": "Potential XSS Reflection / Encoding Weakness",
+          "severity": "high",
+          "evidence": "context=javascript; snippet=\\\":\\\"YZdbAzr_rZ1dYCDF1txS9\\\",\\\"assetPrefix\\\":\\\"\\\",\\\"urlParts\\\":[\\\"\\\",\\\"101?_rsc=XSSA_CANARY_eded2b5282043c45\\\"],\\\"initialTree\\\":[\\\"\\\",{\\\"children\\\":[[\\\"code\\\",\\\"101\\\",\\\"d\\\"],{\\\"children\\\":",
+          "reproduction_steps": [
+            "Request endpoint with canary input: https://dogs.lynolz.com:443/101",
+            "Observe raw reflection at position 5298 in javascript context.",
+            "Verify output encoding for this context."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1322
+  }
+}

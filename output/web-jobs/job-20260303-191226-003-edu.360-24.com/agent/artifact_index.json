@@ -1,0 +1,10 @@
+[
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260303-191226-003-edu.360-24.com/agent/artifacts/A1_nmap_scan.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260303-191226-003-edu.360-24.com/agent/artifacts/A2_subdomain_enum_passive.json"
+  }
+]

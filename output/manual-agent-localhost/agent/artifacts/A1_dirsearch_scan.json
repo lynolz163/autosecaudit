@@ -1,0 +1,82 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "dirsearch_scan",
+    "target": "http://localhost:8080",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "priority": 25,
+    "cost": 10,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "1f9b158b023a5c059d4d66727709d1b5cde9164be9085612008688e6eb47a681",
+    "reason": "Use conservative content discovery to enumerate hidden files/directories on the confirmed HTTP origin.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "failed",
+  "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+  "duration_ms": 79,
+  "result": {
+    "command": [
+      "/usr/local/bin/python",
+      "/opt/dirsearch/dirsearch.py",
+      "-u",
+      "http://localhost:8080/",
+      "--format=json",
+      "--json-report=/tmp/autosecaudit-dirsearch-90rh6vl8/dirsearch_report.json",
+      "-t",
+      "4"
+    ],
+    "return_code": 2,
+    "stdout_preview": "",
+    "stderr_preview": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+    "parse_errors": 1,
+    "entry_count": 0
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "dirsearch_scan",
+    "target": "http://localhost:8080/",
+    "data": {
+      "status": "failed",
+      "payload": {
+        "command": [
+          "/usr/local/bin/python",
+          "/opt/dirsearch/dirsearch.py",
+          "-u",
+          "http://localhost:8080/",
+          "--format=json",
+          "--json-report=/tmp/autosecaudit-dirsearch-90rh6vl8/dirsearch_report.json",
+          "-t",
+          "4"
+        ],
+        "return_code": 2,
+        "stdout_preview": "",
+        "stderr_preview": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+        "parse_errors": 1,
+        "entry_count": 0
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "dirsearch_results": [],
+        "discovered_urls": [],
+        "dirsearch_entry_count": 0
+      }
+    },
+    "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+    "raw_output": null,
+    "duration_ms": 79
+  }
+}

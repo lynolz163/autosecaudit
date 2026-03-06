@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A10",
+    "tool_name": "error_page_analyzer",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "priority": 11,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "59949e6333ddaccf6fee7bd49adee47304dc6bc8a600b44515fa7169c9f4a6eb",
+    "reason": "Inspect verbose error pages for stack traces, framework markers, and debug data.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+  "duration_ms": 8024,
+  "attempts": 1,
+  "result": {
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+  },
+  "metadata": {
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "skill_name": "error_page_analyzer",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "error_page_analyzer",
+    "target": "https://172.20.0.42:443/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+      }
+    },
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "raw_output": null,
+    "duration_ms": 8024
+  }
+}

@@ -1,0 +1,117 @@
+2026-03-06 15:11:01 [INFO] autosecaudit - LLM router enabled: primary=deepseek-reasoner, fallbacks=['openai/deepseek-chat'], default_provider=openai
+2026-03-06 15:11:01 [INFO] autosecaudit - [agent] run_start | start | budget=999, max_iterations=10, timeout=1800.0s, resumed=False
+2026-03-06 15:11:01 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-06 15:11:59 [INFO] autosecaudit - [subdomain_enum_passive] action_start | start | A1 target=0x6288.com
+2026-03-06 15:12:02 [INFO] autosecaudit - [subdomain_enum_passive] action_end | error | A1 status=error duration_ms=3032
+2026-03-06 15:12:02 [INFO] autosecaudit - [nmap_scan] action_start | start | A2 target=0x6288.com
+2026-03-06 15:12:14 [INFO] autosecaudit - [nmap_scan] action_end | success | A2 status=completed duration_ms=12238
+2026-03-06 15:12:14 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://0x6288.com:443
+2026-03-06 15:12:32 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=17475
+2026-03-06 15:12:32 [INFO] autosecaudit - [passive_config_audit] action_start | start | A12 target=http://0x6288.com:80
+2026-03-06 15:12:51 [INFO] autosecaudit - [passive_config_audit] action_end | success | A12 status=completed duration_ms=19222
+2026-03-06 15:12:51 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=https://0x6288.com:443/
+2026-03-06 15:12:52 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A2 status=completed duration_ms=1246
+2026-03-06 15:12:52 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A13 target=http://0x6288.com:80/
+2026-03-06 15:13:00 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A13 status=completed duration_ms=7520
+2026-03-06 15:13:00 [INFO] autosecaudit - [git_exposure_check] action_start | start | A3 target=https://0x6288.com:443/
+2026-03-06 15:13:17 [INFO] autosecaudit - [git_exposure_check] action_end | success | A3 status=completed duration_ms=17695
+2026-03-06 15:13:17 [INFO] autosecaudit - [security_txt_check] action_start | start | A4 target=https://0x6288.com:443/
+2026-03-06 15:13:20 [INFO] autosecaudit - [security_txt_check] action_end | success | A4 status=completed duration_ms=2282
+2026-03-06 15:13:20 [INFO] autosecaudit - [login_form_detector] action_start | start | A5 target=https://0x6288.com:443/
+2026-03-06 15:13:22 [INFO] autosecaudit - [login_form_detector] action_end | success | A5 status=completed duration_ms=1932
+2026-03-06 15:13:22 [INFO] autosecaudit - [login_form_detector] action_start | start | A14 target=http://0x6288.com:80/
+2026-03-06 15:13:26 [INFO] autosecaudit - [login_form_detector] action_end | success | A14 status=completed duration_ms=4267
+2026-03-06 15:13:26 [INFO] autosecaudit - [http_security_headers] action_start | start | A6 target=https://0x6288.com:443/
+2026-03-06 15:13:27 [INFO] autosecaudit - [http_security_headers] action_end | success | A6 status=completed duration_ms=896
+2026-03-06 15:13:27 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A7 target=https://0x6288.com:443/
+2026-03-06 15:13:28 [INFO] autosecaudit - [ssl_expiry_check] action_end | success | A7 status=completed duration_ms=1262
+2026-03-06 15:13:28 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A15 target=https://0x6288.com:8443/
+2026-03-06 15:13:30 [INFO] autosecaudit - [ssl_expiry_check] action_end | success | A15 status=completed duration_ms=1492
+2026-03-06 15:13:30 [INFO] autosecaudit - [source_map_detector] action_start | start | A8 target=https://0x6288.com:443/
+2026-03-06 15:13:37 [INFO] autosecaudit - [source_map_detector] action_end | success | A8 status=completed duration_ms=7383
+2026-03-06 15:13:37 [INFO] autosecaudit - [js_endpoint_extractor] action_start | start | A9 target=https://0x6288.com:443/
+2026-03-06 15:13:41 [INFO] autosecaudit - [js_endpoint_extractor] action_end | success | A9 status=completed duration_ms=4117
+2026-03-06 15:13:41 [INFO] autosecaudit - [error_page_analyzer] action_start | start | A10 target=https://0x6288.com:443/
+2026-03-06 15:13:44 [INFO] autosecaudit - [error_page_analyzer] action_end | success | A10 status=completed duration_ms=2566
+2026-03-06 15:13:44 [INFO] autosecaudit - [waf_detector] action_start | start | A11 target=https://0x6288.com:443/
+2026-03-06 15:13:48 [INFO] autosecaudit - [waf_detector] action_end | success | A11 status=completed duration_ms=4062
+2026-03-06 15:13:48 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-06 15:13:48 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://0x6288.com:443/
+2026-03-06 15:13:57 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=8973
+2026-03-06 15:13:57 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=https://0x6288.com:443/
+2026-03-06 15:13:58 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=1275
+2026-03-06 15:13:58 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=https://0x6288.com:443/
+2026-03-06 15:13:59 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=616
+2026-03-06 15:13:59 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=https://0x6288.com:443/
+2026-03-06 15:13:59 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=586
+2026-03-06 15:13:59 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=https://0x6288.com:443
+2026-03-06 15:15:29 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90023
+2026-03-06 15:15:30 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://0x6288.com:80/
+2026-03-06 15:16:06 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=36690
+2026-03-06 15:16:06 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=http://0x6288.com:80/
+2026-03-06 15:16:07 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=606
+2026-03-06 15:16:07 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=http://0x6288.com:80/
+2026-03-06 15:16:08 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=643
+2026-03-06 15:16:08 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=http://0x6288.com:80/
+2026-03-06 15:16:08 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=613
+2026-03-06 15:16:08 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=http://0x6288.com:80
+2026-03-06 15:17:38 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90012
+2026-03-06 15:17:38 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://0x6288.com:8443/
+2026-03-06 15:17:52 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=13214
+2026-03-06 15:17:52 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=https://0x6288.com:8443/
+2026-03-06 15:17:52 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=539
+2026-03-06 15:17:52 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=https://0x6288.com:8443/
+2026-03-06 15:17:53 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=487
+2026-03-06 15:17:53 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=https://0x6288.com:8443/
+2026-03-06 15:17:53 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=506
+2026-03-06 15:17:53 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=https://0x6288.com:8443
+2026-03-06 15:19:23 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90020
+2026-03-06 15:19:24 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://0x6288.com:8080/
+2026-03-06 15:19:33 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=9209
+2026-03-06 15:19:33 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=http://0x6288.com:8080/
+2026-03-06 15:19:34 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=1165
+2026-03-06 15:19:34 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=http://0x6288.com:8080/
+2026-03-06 15:19:35 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=1078
+2026-03-06 15:19:35 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=http://0x6288.com:8080/
+2026-03-06 15:19:36 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=1058
+2026-03-06 15:19:36 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://0x6288.com:8000/
+2026-03-06 15:20:32 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=56106
+2026-03-06 15:20:32 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=http://0x6288.com:8000/
+2026-03-06 15:20:33 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=674
+2026-03-06 15:20:33 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=http://0x6288.com:8000/
+2026-03-06 15:20:34 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=652
+2026-03-06 15:20:34 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=http://0x6288.com:8000/
+2026-03-06 15:20:34 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=660
+2026-03-06 15:20:35 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://0x6288.com:8008/
+2026-03-06 15:21:31 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=56102
+2026-03-06 15:21:31 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=http://0x6288.com:8008/
+2026-03-06 15:21:31 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=623
+2026-03-06 15:21:31 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=http://0x6288.com:8008/
+2026-03-06 15:21:32 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=582
+2026-03-06 15:21:32 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=http://0x6288.com:8008/
+2026-03-06 15:21:33 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=590
+2026-03-06 15:21:33 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=http://0x6288.com:8080
+2026-03-06 15:23:03 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90021
+2026-03-06 15:23:03 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://0x6288.com:8888/
+2026-03-06 15:23:59 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=56132
+2026-03-06 15:23:59 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=http://0x6288.com:8888/
+2026-03-06 15:24:01 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=1583
+2026-03-06 15:24:01 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A3 target=http://0x6288.com:8888/
+2026-03-06 15:24:02 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A3 status=error duration_ms=1449
+2026-03-06 15:24:02 [INFO] autosecaudit - [active_web_crawler] action_start | start | A4 target=http://0x6288.com:8888/
+2026-03-06 15:24:03 [INFO] autosecaudit - [active_web_crawler] action_end | error | A4 status=error duration_ms=1346
+2026-03-06 15:24:03 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=http://0x6288.com:8000
+2026-03-06 15:24:20 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A5 status=completed duration_ms=16238
+2026-03-06 15:24:20 [INFO] autosecaudit - [agent] iteration_stop | warning | Iteration 10: no executable actions after policy/scheduler.
+2026-03-06 15:24:20 [INFO] autosecaudit - [agent] report_snapshot | info | markdown=agent_report_0x6288-com_20260306T072420Z.md, html=agent_report_0x6288-com_20260306T072420Z.html, json=audit_report_0x6288-com_20260306T072420Z.json
+2026-03-06 15:24:20 [INFO] autosecaudit - [agent] run_end | success | history=50, findings=14
+2026-03-06 15:24:20 [INFO] autosecaudit - Agent decision summary: [phase:active_discovery] No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.
+2026-03-06 15:24:20 [INFO] autosecaudit - Action plan: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/ActionPlan.json
+2026-03-06 15:24:20 [INFO] autosecaudit - History: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/agent_history.json
+2026-03-06 15:24:20 [INFO] autosecaudit - State: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/agent_state.json
+2026-03-06 15:24:20 [INFO] autosecaudit - Blocked actions: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/blocked_actions.json
+2026-03-06 15:24:20 [INFO] autosecaudit - Artifact index: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/artifact_index.json
+2026-03-06 15:24:20 [INFO] autosecaudit - Markdown report: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/agent_report_0x6288-com_20260306T072420Z.md
+2026-03-06 15:24:20 [INFO] autosecaudit - HTML visual report: /workspace/output/web-jobs/job-20260306-151101-002-0x6288.com/agent/agent_report_0x6288-com_20260306T072420Z.html
+2026-03-06 15:24:20 [INFO] autosecaudit - Findings: 14, Budget remaining: 644
+2026-03-06 15:24:20 [INFO] autosecaudit - Resumed: False, Resumed from: None

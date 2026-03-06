@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "subdomain_enum_passive",
+    "target": "0x6288.com",
+    "options": {
+      "max_results": 100
+    },
+    "priority": 9,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "b11313468a93cbfefe6385f33be2628e549215c5cb253adac61a3db50447d845",
+    "reason": "Enumerate likely subdomains through passive certificate transparency sources.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "domain_scope_declared"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "HTTP Error 404: Not Found",
+  "duration_ms": 3032,
+  "attempts": 1,
+  "result": {
+    "error": "HTTP Error 404: Not Found"
+  },
+  "metadata": {
+    "skill_name": "subdomain_enum_passive",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "subdomain_enum_passive",
+    "target": "0x6288.com",
+    "data": {
+      "status": "error",
+      "payload": {
+        "error": "HTTP Error 404: Not Found"
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": "HTTP Error 404: Not Found",
+    "raw_output": null,
+    "duration_ms": 3032
+  }
+}

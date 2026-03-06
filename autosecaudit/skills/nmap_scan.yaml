@@ -1,0 +1,61 @@
+{
+  "skill": {
+    "name": "nmap_scan",
+    "version": "1.0",
+    "tool": "nmap_scan",
+    "category": "recon",
+    "description": "Use nmap for conservative service discovery on in-scope hosts."
+  },
+  "triggers": {
+    "phase": ["passive_recon"],
+    "when": [{"condition": "has_scope_target"}, {"condition": "not_already_done"}],
+    "target_source": "scope",
+    "target_type": "host_seed"
+  },
+  "parameters": {
+    "defaults": {
+      "scan_profile": "conservative_service_discovery",
+      "ports": "top-100",
+      "version_detection": false,
+      "timeout_seconds": 90
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "payload.data.hosts", "condition": "non_empty", "meaning": "host and service data discovered"}
+    ],
+    "output_extraction": {
+      "breadcrumbs": [
+        {"source": "payload.data.hosts", "type": "service", "extractor": "nmap_http_services", "rule": "Generate HTTP and HTTPS service breadcrumbs from discovered ports."}
+      ],
+      "surface_updates": [
+        {"field": "nmap_hosts", "source": "payload.data.hosts"}
+      ]
+    },
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_http_found": {
+      "when_result": "http_service_found",
+      "trigger": ["tech_stack_fingerprint", "passive_config_audit", "http_security_headers"],
+      "reason": "Discovered HTTP services should be fingerprinted and checked for baseline hardening."
+    },
+    "on_https_found": {
+      "when_result": "https_service_found",
+      "trigger": ["ssl_expiry_check", "tech_stack_fingerprint"],
+      "reason": "Discovered HTTPS services should receive certificate and stack validation."
+    }
+  },
+  "risk": {
+    "level": "low",
+    "cost": 15,
+    "priority": 10,
+    "retry": {"max_retries": 1, "backoff_seconds": 1.0}
+  },
+  "dependencies": {
+    "runtime": "nmap",
+    "tools": []
+  }
+}

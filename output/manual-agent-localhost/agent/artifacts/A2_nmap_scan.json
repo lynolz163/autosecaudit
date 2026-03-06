@@ -1,0 +1,154 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "nmap_scan",
+    "target": "localhost",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "priority": 14,
+    "cost": 15,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "a7d6d652c870f9ce324871f05e798791e9e232845047cf5078a1229e1cdf2b2d",
+    "reason": "Initial conservative discovery to identify reachable services.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 103,
+  "result": {
+    "ok": true,
+    "tool_name": "nmap_tool",
+    "target": "localhost",
+    "data": {
+      "scanner": "nmap",
+      "format": "xml",
+      "hosts": [
+        {
+          "state": "up",
+          "addresses": [
+            {
+              "addr": "127.0.0.1",
+              "addrtype": "ipv4"
+            }
+          ],
+          "hostnames": [
+            "localhost",
+            "localhost"
+          ],
+          "open_ports": [
+            {
+              "port": 8080,
+              "protocol": "tcp",
+              "service": "http-proxy",
+              "version": ""
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "host_count": 1,
+        "up_hosts": 1,
+        "open_port_count": 1
+      }
+    },
+    "error": null,
+    "raw_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///usr/bin/../share/nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.95 scan initiated Tue Mar  3 20:06:04 2026 as: nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - localhost -->\n<nmaprun scanner=\"nmap\" args=\"nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - localhost\" start=\"1772539564\" startstr=\"Tue Mar  3 20:06:04 2026\" version=\"7.95\" xmloutputversion=\"1.05\">\n<scaninfo type=\"syn\" protocol=\"tcp\" numservices=\"100\" services=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1772539565\" endtime=\"1772539565\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n<hostname name=\"localhost\" type=\"user\"/>\n<hostname name=\"localhost\" type=\"PTR\"/>\n</hostnames>\n<ports><extraports state=\"closed\" count=\"99\">\n<extrareasons reason=\"reset\" count=\"99\" proto=\"tcp\" ports=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n</extraports>\n<port protocol=\"tcp\" portid=\"8080\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"64\"/><service name=\"http-proxy\" method=\"table\" conf=\"3\"/></port>\n</ports>\n<times srtt=\"10\" rttvar=\"0\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1772539565\" timestr=\"Tue Mar  3 20:06:05 2026\" summary=\"Nmap done at Tue Mar  3 20:06:05 2026; 1 IP address (1 host up) scanned in 0.08 seconds\" elapsed=\"0.08\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>",
+    "duration_ms": 103
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "nmap_scan",
+    "target": "localhost",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "ok": true,
+        "tool_name": "nmap_tool",
+        "target": "localhost",
+        "data": {
+          "scanner": "nmap",
+          "format": "xml",
+          "hosts": [
+            {
+              "state": "up",
+              "addresses": [
+                {
+                  "addr": "127.0.0.1",
+                  "addrtype": "ipv4"
+                }
+              ],
+              "hostnames": [
+                "localhost",
+                "localhost"
+              ],
+              "open_ports": [
+                {
+                  "port": 8080,
+                  "protocol": "tcp",
+                  "service": "http-proxy",
+                  "version": ""
+                }
+              ]
+            }
+          ],
+          "summary": {
+            "host_count": 1,
+            "up_hosts": 1,
+            "open_port_count": 1
+          }
+        },
+        "error": null,
+        "raw_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///usr/bin/../share/nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.95 scan initiated Tue Mar  3 20:06:04 2026 as: nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - localhost -->\n<nmaprun scanner=\"nmap\" args=\"nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - localhost\" start=\"1772539564\" startstr=\"Tue Mar  3 20:06:04 2026\" version=\"7.95\" xmloutputversion=\"1.05\">\n<scaninfo type=\"syn\" protocol=\"tcp\" numservices=\"100\" services=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1772539565\" endtime=\"1772539565\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n<hostname name=\"localhost\" type=\"user\"/>\n<hostname name=\"localhost\" type=\"PTR\"/>\n</hostnames>\n<ports><extraports state=\"closed\" count=\"99\">\n<extrareasons reason=\"reset\" count=\"99\" proto=\"tcp\" ports=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n</extraports>\n<port protocol=\"tcp\" portid=\"8080\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"64\"/><service name=\"http-proxy\" method=\"table\" conf=\"3\"/></port>\n</ports>\n<times srtt=\"10\" rttvar=\"0\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1772539565\" timestr=\"Tue Mar  3 20:06:05 2026\" summary=\"Nmap done at Tue Mar  3 20:06:05 2026; 1 IP address (1 host up) scanned in 0.08 seconds\" elapsed=\"0.08\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>",
+        "duration_ms": 103
+      },
+      "findings": [],
+      "breadcrumbs_delta": [
+        {
+          "type": "service",
+          "data": "http://localhost:8080"
+        }
+      ],
+      "surface_delta": {
+        "nmap_hosts": [
+          {
+            "state": "up",
+            "addresses": [
+              {
+                "addr": "127.0.0.1",
+                "addrtype": "ipv4"
+              }
+            ],
+            "hostnames": [
+              "localhost",
+              "localhost"
+            ],
+            "open_ports": [
+              {
+                "port": 8080,
+                "protocol": "tcp",
+                "service": "http-proxy",
+                "version": ""
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///usr/bin/../share/nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.95 scan initiated Tue Mar  3 20:06:04 2026 as: nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - localhost -->\n<nmaprun scanner=\"nmap\" args=\"nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - localhost\" start=\"1772539564\" startstr=\"Tue Mar  3 20:06:04 2026\" version=\"7.95\" xmloutputversion=\"1.05\">\n<scaninfo type=\"syn\" protocol=\"tcp\" numservices=\"100\" services=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1772539565\" endtime=\"1772539565\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"127.0.0.1\" addrtype=\"ipv4\"/>\n<hostnames>\n<hostname name=\"localhost\" type=\"user\"/>\n<hostname name=\"localhost\" type=\"PTR\"/>\n</hostnames>\n<ports><extraports state=\"closed\" count=\"99\">\n<extrareasons reason=\"reset\" count=\"99\" proto=\"tcp\" ports=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n</extraports>\n<port protocol=\"tcp\" portid=\"8080\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"64\"/><service name=\"http-proxy\" method=\"table\" conf=\"3\"/></port>\n</ports>\n<times srtt=\"10\" rttvar=\"0\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1772539565\" timestr=\"Tue Mar  3 20:06:05 2026\" summary=\"Nmap done at Tue Mar  3 20:06:05 2026; 1 IP address (1 host up) scanned in 0.08 seconds\" elapsed=\"0.08\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>",
+    "duration_ms": 103
+  }
+}

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoSecAudit Visual Report - localhost</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(14,165,233,0.10), transparent 34%),
+        radial-gradient(circle at 88% 12%, rgba(16,185,129,0.10), transparent 38%),
+        linear-gradient(180deg, #f8fafc, #eef2ff 46%, #f8fafc);
+    }
+    .glass {
+      background: rgba(255,255,255,0.80);
+      border: 1px solid rgba(148,163,184,0.22);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900">
+  <script id="audit-report-data" type="application/json">{"meta": {"generated_at": "2026-03-03T12:06:15.772040+00:00", "target": "localhost", "decision_summary": "Proposed 4 safe action(s), total estimated cost 34, remaining budget after plan 2.", "resumed": false, "resumed_from": "None"}, "summary": {"audit_score": 75, "score_label": "Good", "total_findings": 9, "vulnerability_findings": 5, "severity_counts": {"critical": 0, "high": 0, "medium": 2, "low": 3, "info": 0}, "history_count": 14, "iteration_count": 3, "budget_remaining": 2, "budget_start_inferred": 100}, "history": [{"index": 1, "tool": "subdomain_enum_passive", "target": "localhost", "status": "error", "started_at": "2026-03-03T12:05:51.299403+00:00", "ended_at": "2026-03-03T12:06:04.939568+00:00", "action_cost": 5, "budget_before": 100, "budget_after": 80, "error": "The read operation timed out"}, {"index": 2, "tool": "nmap_scan", "target": "localhost", "status": "completed", "started_at": "2026-03-03T12:06:04.950352+00:00", "ended_at": "2026-03-03T12:06:05.056985+00:00", "action_cost": 15, "budget_before": 80, "budget_after": 80, "error": null}, {"index": 3, "tool": "passive_config_audit", "target": "http://localhost:8080", "status": "completed", "started_at": "2026-03-03T12:06:05.110018+00:00", "ended_at": "2026-03-03T12:06:05.171679+00:00", "action_cost": 3, "budget_before": 80, "budget_after": 36, "error": null}, {"index": 4, "tool": "tech_stack_fingerprint", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:05.181133+00:00", "ended_at": "2026-03-03T12:06:05.188128+00:00", "action_cost": 2, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 5, "tool": "login_form_detector", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:05.196286+00:00", "ended_at": "2026-03-03T12:06:05.202125+00:00", "action_cost": 3, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 6, "tool": "http_security_headers", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:05.211016+00:00", "ended_at": "2026-03-03T12:06:05.217549+00:00", "action_cost": 3, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 7, "tool": "js_endpoint_extractor", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:05.225057+00:00", "ended_at": "2026-03-03T12:06:05.238518+00:00", "action_cost": 4, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 8, "tool": "dynamic_crawl", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:05.248866+00:00", "ended_at": "2026-03-03T12:06:10.640627+00:00", "action_cost": 12, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 9, "tool": "active_web_crawler", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:10.650567+00:00", "ended_at": "2026-03-03T12:06:15.395008+00:00", "action_cost": 12, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 10, "tool": "cors_misconfiguration", "target": "http://localhost:8080/", "status": "completed", "started_at": "2026-03-03T12:06:15.404267+00:00", "ended_at": "2026-03-03T12:06:15.413808+00:00", "action_cost": 5, "budget_before": 36, "budget_after": 36, "error": null}, {"index": 11, "tool": "dirsearch_scan", "target": "http://localhost:8080", "status": "failed", "started_at": "2026-03-03T12:06:15.462392+00:00", "ended_at": "2026-03-03T12:06:15.545180+00:00", "action_cost": 10, "budget_before": 36, "budget_after": 2, "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format"}, {"index": 12, "tool": "sql_sanitization_audit", "target": "http://localhost:8080/api/audit/events", "status": "completed", "started_at": "2026-03-03T12:06:15.555457+00:00", "ended_at": "2026-03-03T12:06:15.577774+00:00", "action_cost": 8, "budget_before": 2, "budget_after": 2, "error": null}, {"index": 13, "tool": "sql_sanitization_audit", "target": "http://localhost:8080/assets/index-DJOZ8zFL.js", "status": "completed", "started_at": "2026-03-03T12:06:15.586745+00:00", "ended_at": "2026-03-03T12:06:15.699295+00:00", "action_cost": 8, "budget_before": 2, "budget_after": 2, "error": null}, {"index": 14, "tool": "xss_protection_audit", "target": "http://localhost:8080/api/audit/events", "status": "completed", "started_at": "2026-03-03T12:06:15.710205+00:00", "ended_at": "2026-03-03T12:06:15.716609+00:00", "action_cost": 8, "budget_before": 2, "budget_after": 2, "error": null}], "budget_trace": [{"step": 0, "label": "Start", "tool": "", "cost": 0, "budget_before": 100, "budget_after": 100, "cumulative_spent": 0}, {"step": 1, "label": "1. subdomain_enum_passive", "tool": "subdomain_enum_passive", "cost": 5, "budget_before": 100, "budget_after": 80, "cumulative_spent": 5}, {"step": 2, "label": "2. nmap_scan", "tool": "nmap_scan", "cost": 15, "budget_before": 80, "budget_after": 80, "cumulative_spent": 20}, {"step": 3, "label": "3. passive_config_audit", "tool": "passive_config_audit", "cost": 3, "budget_before": 80, "budget_after": 36, "cumulative_spent": 23}, {"step": 4, "label": "4. tech_stack_fingerprint", "tool": "tech_stack_fingerprint", "cost": 2, "budget_before": 36, "budget_after": 36, "cumulative_spent": 25}, {"step": 5, "label": "5. login_form_detector", "tool": "login_form_detector", "cost": 3, "budget_before": 36, "budget_after": 36, "cumulative_spent": 28}, {"step": 6, "label": "6. http_security_headers", "tool": "http_security_headers", "cost": 3, "budget_before": 36, "budget_after": 36, "cumulative_spent": 31}, {"step": 7, "label": "7. js_endpoint_extractor", "tool": "js_endpoint_extractor", "cost": 4, "budget_before": 36, "budget_after": 36, "cumulative_spent": 35}, {"step": 8, "label": "8. dynamic_crawl", "tool": "dynamic_crawl", "cost": 12, "budget_before": 36, "budget_after": 36, "cumulative_spent": 47}, {"step": 9, "label": "9. active_web_crawler", "tool": "active_web_crawler", "cost": 12, "budget_before": 36, "budget_after": 36, "cumulative_spent": 59}, {"step": 10, "label": "10. cors_misconfiguration", "tool": "cors_misconfiguration", "cost": 5, "budget_before": 36, "budget_after": 36, "cumulative_spent": 64}, {"step": 11, "label": "11. dirsearch_scan", "tool": "dirsearch_scan", "cost": 10, "budget_before": 36, "budget_after": 2, "cumulative_spent": 74}, {"step": 12, "label": "12. sql_sanitization_audit", "tool": "sql_sanitization_audit", "cost": 8, "budget_before": 2, "budget_after": 2, "cumulative_spent": 82}, {"step": 13, "label": "13. sql_sanitization_audit", "tool": "sql_sanitization_audit", "cost": 8, "budget_before": 2, "budget_after": 2, "cumulative_spent": 90}, {"step": 14, "label": "14. xss_protection_audit", "tool": "xss_protection_audit", "cost": 8, "budget_before": 2, "budget_after": 2, "cumulative_spent": 98}], "scope": {"scope": ["localhost"], "breadcrumbs": [{"type": "service", "data": "localhost"}, {"type": "service", "data": "http://localhost:8080"}, {"type": "endpoint", "data": "http://localhost:8080/api/assets"}, {"type": "endpoint", "data": "http://localhost:8080/api/audit/events?limit=50"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/bootstrap"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/login"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/me"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/refresh"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/status"}, {"type": "endpoint", "data": "http://localhost:8080/api/dashboard/summary"}, {"type": "endpoint", "data": "http://localhost:8080/api/jobs"}, {"type": "endpoint", "data": "http://localhost:8080/api/llm/codex/config"}, {"type": "endpoint", "data": "http://localhost:8080/api/plugins"}, {"type": "endpoint", "data": "http://localhost:8080/api/plugins/reload"}, {"type": "endpoint", "data": "http://localhost:8080/api/plugins/settings"}, {"type": "endpoint", "data": "http://localhost:8080/api/reports"}, {"type": "endpoint", "data": "http://localhost:8080/api/schedules"}, {"type": "endpoint", "data": "http://localhost:8080/api/settings/llm"}, {"type": "endpoint", "data": "http://localhost:8080/api/settings/llm/test"}, {"type": "endpoint", "data": "http://localhost:8080/api/settings/notifications"}, {"type": "endpoint", "data": "http://localhost:8080/api/users"}, {"type": "endpoint", "data": "http://localhost:8080/"}, {"type": "endpoint", "data": "http://localhost:8080/assets/index-CM3LHc1m.css"}, {"type": "endpoint", "data": "http://localhost:8080/assets/index-DJOZ8zFL.js"}], "surface": {"nmap_hosts": [{"state": "up", "addresses": [{"addr": "127.0.0.1", "addrtype": "ipv4"}], "hostnames": ["localhost", "localhost"], "open_ports": [{"port": 8080, "protocol": "tcp", "service": "http-proxy", "version": ""}]}], "config_exposures": [], "tech_stack": [], "login_forms": [], "api_endpoints": [{"url": "http://localhost:8080/api/auth/status", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/me", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/refresh", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/dashboard/summary", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/jobs", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/reports", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/assets", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/schedules", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/settings/notifications", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/audit/events?limit=50", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/llm/codex/config", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/settings/llm", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/settings/llm/test", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/users", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/plugins", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/login", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/bootstrap", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/plugins/settings", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/plugins/reload", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/status", "method": "GET", "source": "fetch"}], "url_parameters": {"limit": ["50"]}, "parameter_origins": {"limit": ["http://localhost:8080/assets/index-DJOZ8zFL.js"]}, "http_security_headers": {"date": "Tue, 03 Mar 2026 12:06:05 GMT", "server": "uvicorn", "content-type": "text/html; charset=utf-8", "accept-ranges": "bytes", "content-length": "405", "last-modified": "Tue, 03 Mar 2026 11:55:13 GMT", "etag": "\"fe6ab2ca4f11046f204c3cfaf71d0808\"", "connection": "close"}, "discovered_urls": ["http://localhost:8080/api/assets", "http://localhost:8080/api/audit/events?limit=50", "http://localhost:8080/api/auth/bootstrap", "http://localhost:8080/api/auth/login", "http://localhost:8080/api/auth/me", "http://localhost:8080/api/auth/refresh", "http://localhost:8080/api/auth/status", "http://localhost:8080/api/dashboard/summary", "http://localhost:8080/api/jobs", "http://localhost:8080/api/llm/codex/config", "http://localhost:8080/api/plugins", "http://localhost:8080/api/plugins/reload", "http://localhost:8080/api/plugins/settings", "http://localhost:8080/api/reports", "http://localhost:8080/api/schedules", "http://localhost:8080/api/settings/llm", "http://localhost:8080/api/settings/llm/test", "http://localhost:8080/api/settings/notifications", "http://localhost:8080/api/users", "http://localhost:8080/", "http://localhost:8080/assets/index-CM3LHc1m.css", "http://localhost:8080/assets/index-DJOZ8zFL.js"], "cors_probes": [{"origin": "https://evil.example.com", "status_code": 405, "probe_method": "OPTIONS", "allow_origin": null, "allow_credentials": null}, {"origin": "null", "status_code": 405, "probe_method": "OPTIONS", "allow_origin": null, "allow_credentials": null}, {"origin": "https://localhost.evil.invalid", "status_code": 405, "probe_method": "OPTIONS", "allow_origin": null, "allow_credentials": null}], "dirsearch_results": [], "dirsearch_entry_count": 0}}, "findings": [{"index": 1, "type": "info", "name": "Passive Technology Fingerprint", "severity": "info", "evidence": "{\"url\": \"http://localhost:8080\", \"status_code\": 200, \"tech_stack\": [], \"server\": \"uvicorn\"}", "reproduction_steps": ["Send GET request to http://localhost:8080 and inspect response headers/body signatures."], "recommendation": "Review evidence, confirm impact, and apply least-privilege plus secure configuration controls."}, {"index": 2, "type": "info", "name": "Login Form Detection", "severity": "info", "evidence": "{\"status_code\": 200, \"forms\": []}", "reproduction_steps": ["Fetch http://localhost:8080, inspect forms, and identify those containing password inputs."], "recommendation": "Review evidence, confirm impact, and apply least-privilege plus secure configuration controls."}, {"index": 3, "type": "vuln", "name": "HSTS Missing", "severity": "medium", "evidence": "status=200; missing_header=strict-transport-security", "reproduction_steps": ["Send GET request to http://localhost:8080.", "Verify response is missing `strict-transport-security`."], "recommendation": "Add Strict-Transport-Security on HTTPS responses."}, {"index": 4, "type": "vuln", "name": "CSP Missing", "severity": "medium", "evidence": "status=200; missing_header=content-security-policy", "reproduction_steps": ["Send GET request to http://localhost:8080.", "Verify response is missing `content-security-policy`."], "recommendation": "Add a Content-Security-Policy to reduce XSS impact."}, {"index": 5, "type": "vuln", "name": "X-Frame-Options Missing", "severity": "low", "evidence": "status=200; missing_header=x-frame-options", "reproduction_steps": ["Send GET request to http://localhost:8080.", "Verify response is missing `x-frame-options`."], "recommendation": "Set X-Frame-Options or CSP frame-ancestors."}, {"index": 6, "type": "vuln", "name": "X-Content-Type-Options Missing", "severity": "low", "evidence": "status=200; missing_header=x-content-type-options", "reproduction_steps": ["Send GET request to http://localhost:8080.", "Verify response is missing `x-content-type-options`."], "recommendation": "Set X-Content-Type-Options: nosniff."}, {"index": 7, "type": "vuln", "name": "Referrer-Policy Missing", "severity": "low", "evidence": "status=200; missing_header=referrer-policy", "reproduction_steps": ["Send GET request to http://localhost:8080.", "Verify response is missing `referrer-policy`."], "recommendation": "Set Referrer-Policy to reduce cross-origin leakage."}, {"index": 8, "type": "info", "name": "JavaScript Endpoint Extraction", "severity": "info", "evidence": "{\"url\": \"http://localhost:8080\", \"count\": 19, \"scripts\": [\"http://localhost:8080/assets/index-DJOZ8zFL.js\"]}", "reproduction_steps": ["Fetch http://localhost:8080 and referenced same-origin scripts, then search for API-like URL strings."], "recommendation": "Review evidence, confirm impact, and apply least-privilege plus secure configuration controls."}, {"index": 9, "type": "info", "name": "No Obvious CORS Misconfiguration", "severity": "info", "evidence": "[{\"origin\": \"https://evil.example.com\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}, {\"origin\": \"null\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}, {\"origin\": \"https://localhost.evil.invalid\", \"status_code\": 405, \"probe_method\": \"OPTIONS\", \"allow_origin\": null, \"allow_credentials\": null}]", "reproduction_steps": ["Probe http://localhost:8080 with untrusted Origin headers and inspect response."], "recommendation": "Remove public exposure, rotate leaked secrets, and enforce deny-by-default on sensitive files."}]}</script>
+  <script id="agent-state-data" type="application/json">{"scope": ["localhost"], "breadcrumbs": [{"type": "service", "data": "localhost"}, {"type": "service", "data": "http://localhost:8080"}, {"type": "endpoint", "data": "http://localhost:8080/api/assets"}, {"type": "endpoint", "data": "http://localhost:8080/api/audit/events?limit=50"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/bootstrap"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/login"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/me"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/refresh"}, {"type": "endpoint", "data": "http://localhost:8080/api/auth/status"}, {"type": "endpoint", "data": "http://localhost:8080/api/dashboard/summary"}, {"type": "endpoint", "data": "http://localhost:8080/api/jobs"}, {"type": "endpoint", "data": "http://localhost:8080/api/llm/codex/config"}, {"type": "endpoint", "data": "http://localhost:8080/api/plugins"}, {"type": "endpoint", "data": "http://localhost:8080/api/plugins/reload"}, {"type": "endpoint", "data": "http://localhost:8080/api/plugins/settings"}, {"type": "endpoint", "data": "http://localhost:8080/api/reports"}, {"type": "endpoint", "data": "http://localhost:8080/api/schedules"}, {"type": "endpoint", "data": "http://localhost:8080/api/settings/llm"}, {"type": "endpoint", "data": "http://localhost:8080/api/settings/llm/test"}, {"type": "endpoint", "data": "http://localhost:8080/api/settings/notifications"}, {"type": "endpoint", "data": "http://localhost:8080/api/users"}, {"type": "endpoint", "data": "http://localhost:8080/"}, {"type": "endpoint", "data": "http://localhost:8080/assets/index-CM3LHc1m.css"}, {"type": "endpoint", "data": "http://localhost:8080/assets/index-DJOZ8zFL.js"}], "history": [{"tool": "subdomain_enum_passive", "target": "localhost", "options": {"max_results": 100}, "idempotency_key": "3e69bed9ccfb0d3ada404be137af2905a024c0f6147577c835ea8f2736959054", "status": "error", "started_at": "2026-03-03T12:05:51.299403+00:00", "ended_at": "2026-03-03T12:06:04.939568+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A1_subdomain_enum_passive.json"], "error": "The read operation timed out", "action_cost": 5, "budget_before": 100, "budget_after": 80}, {"tool": "nmap_scan", "target": "localhost", "options": {"ports": "top-100", "scan_profile": "conservative_service_discovery", "timeout_seconds": 90, "version_detection": false}, "idempotency_key": "a7d6d652c870f9ce324871f05e798791e9e232845047cf5078a1229e1cdf2b2d", "status": "completed", "started_at": "2026-03-03T12:06:04.950352+00:00", "ended_at": "2026-03-03T12:06:05.056985+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A2_nmap_scan.json"], "action_cost": 15, "budget_before": 80, "budget_after": 80}, {"tool": "passive_config_audit", "target": "http://localhost:8080", "options": {}, "idempotency_key": "9d688913412132e2b9e501c0e7262db986787a3f99b31bb9edf72efa8504c3ee", "status": "completed", "started_at": "2026-03-03T12:06:05.110018+00:00", "ended_at": "2026-03-03T12:06:05.171679+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A1_passive_config_audit.json"], "action_cost": 3, "budget_before": 80, "budget_after": 36}, {"tool": "tech_stack_fingerprint", "target": "http://localhost:8080/", "options": {}, "idempotency_key": "b9e26df51c76232c1e3fe797f5917aaf788b0bb0c7eb687b37697b05d19b1708", "status": "completed", "started_at": "2026-03-03T12:06:05.181133+00:00", "ended_at": "2026-03-03T12:06:05.188128+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A2_tech_stack_fingerprint.json"], "action_cost": 2, "budget_before": 36, "budget_after": 36}, {"tool": "login_form_detector", "target": "http://localhost:8080/", "options": {}, "idempotency_key": "52c2dd85a1f707cc51d1b28f89cc0a31e6cc3c03635691ef1949b5fcd0c280f7", "status": "completed", "started_at": "2026-03-03T12:06:05.196286+00:00", "ended_at": "2026-03-03T12:06:05.202125+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A3_login_form_detector.json"], "action_cost": 3, "budget_before": 36, "budget_after": 36}, {"tool": "http_security_headers", "target": "http://localhost:8080/", "options": {}, "idempotency_key": "7a43590c5fa0d0053411c1556c14c60169fe2b6f68e1fdd5ce19963b0f9611ff", "status": "completed", "started_at": "2026-03-03T12:06:05.211016+00:00", "ended_at": "2026-03-03T12:06:05.217549+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A4_http_security_headers.json"], "action_cost": 3, "budget_before": 36, "budget_after": 36}, {"tool": "js_endpoint_extractor", "target": "http://localhost:8080/", "options": {}, "idempotency_key": "dae71a5f82ecf1c671c54f19b229bf8b3f34c39341550905f34cae36876dbdb2", "status": "completed", "started_at": "2026-03-03T12:06:05.225057+00:00", "ended_at": "2026-03-03T12:06:05.238518+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A5_js_endpoint_extractor.json"], "action_cost": 4, "budget_before": 36, "budget_after": 36}, {"tool": "dynamic_crawl", "target": "http://localhost:8080/", "options": {"allow_domain": ["localhost"], "max_depth": 2}, "idempotency_key": "5bede74373662c0738b2413a5764dd8984d713ced82c1e21ce3aeaf806fd111a", "status": "completed", "started_at": "2026-03-03T12:06:05.248866+00:00", "ended_at": "2026-03-03T12:06:10.640627+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A6_dynamic_crawl.json"], "action_cost": 12, "budget_before": 36, "budget_after": 36}, {"tool": "active_web_crawler", "target": "http://localhost:8080/", "options": {"allow_domain": ["localhost"], "limit": 50, "max_depth": 2}, "idempotency_key": "092512102f2bed31c9615c6da8eb3bd7975b40dd17206e9e9a49955a915d35b1", "status": "completed", "started_at": "2026-03-03T12:06:10.650567+00:00", "ended_at": "2026-03-03T12:06:15.395008+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A7_active_web_crawler.json"], "action_cost": 12, "budget_before": 36, "budget_after": 36}, {"tool": "cors_misconfiguration", "target": "http://localhost:8080/", "options": {}, "idempotency_key": "8a3ce00edd851be3bac3ad8e89ad34610b7a5939e158fc4b7b4dd6403647d9b2", "status": "completed", "started_at": "2026-03-03T12:06:15.404267+00:00", "ended_at": "2026-03-03T12:06:15.413808+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A8_cors_misconfiguration.json"], "action_cost": 5, "budget_before": 36, "budget_after": 36}, {"tool": "dirsearch_scan", "target": "http://localhost:8080", "options": {"max_results": 200, "threads": 4}, "idempotency_key": "1f9b158b023a5c059d4d66727709d1b5cde9164be9085612008688e6eb47a681", "status": "failed", "started_at": "2026-03-03T12:06:15.462392+00:00", "ended_at": "2026-03-03T12:06:15.545180+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A1_dirsearch_scan.json"], "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format", "action_cost": 10, "budget_before": 36, "budget_after": 2}, {"tool": "sql_sanitization_audit", "target": "http://localhost:8080/api/audit/events", "options": {"method": "GET", "params": {"limit": "50"}}, "idempotency_key": "7bec22b636cc05b46195b8c2f1d74ef3c76253a88f7d546e748c3676120979bf", "status": "completed", "started_at": "2026-03-03T12:06:15.555457+00:00", "ended_at": "2026-03-03T12:06:15.577774+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A2_sql_sanitization_audit.json"], "action_cost": 8, "budget_before": 2, "budget_after": 2}, {"tool": "sql_sanitization_audit", "target": "http://localhost:8080/assets/index-DJOZ8zFL.js", "options": {"method": "GET", "params": {"limit": "50"}}, "idempotency_key": "aaaec47cd216f625c4b3c000b252ee4d85b648eea3a2ce0972f9afcae6407ed6", "status": "completed", "started_at": "2026-03-03T12:06:15.586745+00:00", "ended_at": "2026-03-03T12:06:15.699295+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A3_sql_sanitization_audit.json"], "action_cost": 8, "budget_before": 2, "budget_after": 2}, {"tool": "xss_protection_audit", "target": "http://localhost:8080/api/audit/events", "options": {"method": "GET", "params": {"limit": "50"}}, "idempotency_key": "9675f3281383cb74a2cb79f0d9fd18cd73b701ca0b4eb49b984bdac6446255ec", "status": "completed", "started_at": "2026-03-03T12:06:15.710205+00:00", "ended_at": "2026-03-03T12:06:15.716609+00:00", "artifacts": ["/workspace/output/manual-agent-localhost/agent/artifacts/A4_xss_protection_audit.json"], "action_cost": 8, "budget_before": 2, "budget_after": 2}], "surface": {"nmap_hosts": [{"state": "up", "addresses": [{"addr": "127.0.0.1", "addrtype": "ipv4"}], "hostnames": ["localhost", "localhost"], "open_ports": [{"port": 8080, "protocol": "tcp", "service": "http-proxy", "version": ""}]}], "config_exposures": [], "tech_stack": [], "login_forms": [], "api_endpoints": [{"url": "http://localhost:8080/api/auth/status", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/me", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/refresh", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/dashboard/summary", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/jobs", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/reports", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/assets", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/schedules", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/settings/notifications", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/audit/events?limit=50", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/llm/codex/config", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/settings/llm", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/settings/llm/test", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/users", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/plugins", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/login", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/bootstrap", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/plugins/settings", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/plugins/reload", "method": "GET", "source": "http://localhost:8080/assets/index-DJOZ8zFL.js"}, {"url": "http://localhost:8080/api/auth/status", "method": "GET", "source": "fetch"}], "url_parameters": {"limit": ["50"]}, "parameter_origins": {"limit": ["http://localhost:8080/assets/index-DJOZ8zFL.js"]}, "http_security_headers": {"date": "Tue, 03 Mar 2026 12:06:05 GMT", "server": "uvicorn", "content-type": "text/html; charset=utf-8", "accept-ranges": "bytes", "content-length": "405", "last-modified": "Tue, 03 Mar 2026 11:55:13 GMT", "etag": "\"fe6ab2ca4f11046f204c3cfaf71d0808\"", "connection": "close"}, "discovered_urls": ["http://localhost:8080/api/assets", "http://localhost:8080/api/audit/events?limit=50", "http://localhost:8080/api/auth/bootstrap", "http://localhost:8080/api/auth/login", "http://localhost:8080/api/auth/me", "http://localhost:8080/api/auth/refresh", "http://localhost:8080/api/auth/status", "http://localhost:8080/api/dashboard/summary", "http://localhost:8080/api/jobs", "http://localhost:8080/api/llm/codex/config", "http://localhost:8080/api/plugins", "http://localhost:8080/api/plugins/reload", "http://localhost:8080/api/plugins/settings", "http://localhost:8080/api/reports", "http://localhost:8080/api/schedules", "http://localhost:8080/api/settings/llm", "http://localhost:8080/api/settings/llm/test", "http://localhost:8080/api/settings/notifications", "http://localhost:8080/api/users", "http://localhost:8080/", "http://localhost:8080/assets/index-CM3LHc1m.css", "http://localhost:8080/assets/index-DJOZ8zFL.js"], "cors_probes": [{"origin": "https://evil.example.com", "status_code": 405, "probe_method": "OPTIONS", "allow_origin": null, "allow_credentials": null}, {"origin": "null", "status_code": 405, "probe_method": "OPTIONS", "allow_origin": null, "allow_credentials": null}, {"origin": "https://localhost.evil.invalid", "status_code": 405, "probe_method": "OPTIONS", "allow_origin": null, "allow_credentials": null}], "dirsearch_results": [], "dirsearch_entry_count": 0}, "budget_remaining": 2, "target": "localhost", "safety_grade": "aggressive", "iteration_count": 3, "resumed": false, "resumed_from": null}</script>
+  <div id="root"></div>
+  <script type="text/babel">
+    const auditReport = JSON.parse(document.getElementById("audit-report-data").textContent || "{}");
+    const agentState = JSON.parse(document.getElementById("agent-state-data").textContent || "{}");
+
+    const severityRank = ["critical", "high", "medium", "low", "info"];
+    const severityBadge = {
+      critical: "bg-rose-600 text-white",
+      high: "bg-orange-500 text-white",
+      medium: "bg-amber-300 text-slate-900",
+      low: "bg-emerald-300 text-slate-900",
+      info: "bg-sky-200 text-slate-900"
+    };
+
+    function MetricCard({ label, value, sub }) {
+      return (
+        <div className="glass rounded-2xl p-4">
+          <div className="text-xs uppercase tracking-[0.14em] text-slate-500">{label}</div>
+          <div className="mt-2 text-2xl font-semibold tabular-nums">{value}</div>
+          {sub ? <div className="mt-1 text-sm text-slate-500">{sub}</div> : null}
+        </div>
+      );
+    }
+
+    function BudgetLineChart({ trace }) {
+      const points = Array.isArray(trace) ? trace.filter((p) => typeof p.cumulative_spent === "number") : [];
+      if (!points.length) {
+        return <div className="text-sm text-slate-500">No budget trace available.</div>;
+      }
+      const width = 760;
+      const height = 220;
+      const pad = 26;
+      const maxY = Math.max(1, ...points.map((p) => p.cumulative_spent || 0));
+      const maxX = Math.max(1, points.length - 1);
+      const coords = points.map((p, i) => {
+        const x = pad + ((width - pad * 2) * (points.length === 1 ? 0 : i / maxX));
+        const y = height - pad - ((height - pad * 2) * ((p.cumulative_spent || 0) / maxY));
+        return { ...p, x, y };
+      });
+      const linePath = coords.map((p, idx) => (idx === 0 ? "M" : "L") + p.x + "," + p.y).join(" ");
+      const areaPath = linePath + " L" + coords[coords.length - 1].x + "," + (height - pad) + " L" + coords[0].x + "," + (height - pad) + " Z";
+      return (
+        <div>
+          <div className="w-full overflow-x-auto">
+            <svg viewBox={"0 0 " + width + " " + height} className="w-full min-w-[520px]">
+              <defs>
+                <linearGradient id="budgetFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.26" />
+                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.03" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width={width} height={height} rx="16" fill="#ffffff" opacity="0.75" />
+              {[0, 0.25, 0.5, 0.75, 1].map((r, idx) => {
+                const y = pad + (height - pad * 2) * r;
+                return <line key={idx} x1={pad} y1={y} x2={width - pad} y2={y} stroke="#e2e8f0" strokeWidth="1" />;
+              })}
+              {coords.length > 1 ? <path d={areaPath} fill="url(#budgetFill)" /> : null}
+              <path d={linePath} fill="none" stroke="#0284c7" strokeWidth="3" strokeLinecap="round" />
+              {coords.map((p) => (
+                <g key={p.step}>
+                  <circle cx={p.x} cy={p.y} r="4" fill="#0284c7" />
+                  <text x={p.x} y={height - 7} textAnchor="middle" fontSize="10" fill="#475569">{p.step}</text>
+                </g>
+              ))}
+            </svg>
+          </div>
+          <div className="mt-3 space-y-1 text-xs text-slate-600">
+            {points.slice(-10).map((p) => (
+              <div key={"legend-" + p.step} className="flex justify-between gap-3">
+                <span className="truncate">{p.label}</span>
+                <span className="tabular-nums">+{p.cost || 0} (total {p.cumulative_spent || 0})</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function ScopeMap({ scopePayload }) {
+      const scopeList = Array.isArray(scopePayload?.scope) ? scopePayload.scope : [];
+      const breadcrumbs = Array.isArray(scopePayload?.breadcrumbs) ? scopePayload.breadcrumbs : [];
+      const surface = scopePayload?.surface && typeof scopePayload.surface === "object" ? scopePayload.surface : {};
+      const discoveredUrls = Array.isArray(surface.discovered_urls) ? surface.discovered_urls : [];
+      const apiEndpoints = Array.isArray(surface.api_endpoints) ? surface.api_endpoints : [];
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Scope Asset Map</h2>
+            <div className="text-xs text-slate-500">Scope / breadcrumbs / surface</div>
+          </div>
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Scope</div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {scopeList.length ? scopeList.map((item, idx) => (
+                  <span key={idx} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">{item}</span>
+                )) : <span className="text-sm text-slate-500">No scope entries</span>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Breadcrumbs</div>
+              <div className="mt-2 max-h-48 space-y-1 overflow-auto rounded-xl bg-slate-50 p-2 text-xs">
+                {breadcrumbs.length ? breadcrumbs.map((b, idx) => (
+                  <div key={idx} className="flex gap-2">
+                    <span className="w-16 shrink-0 text-slate-500">{b.type}</span>
+                    <span className="break-all text-slate-700">{b.data}</span>
+                  </div>
+                )) : <div className="text-slate-500">No breadcrumbs</div>}
+              </div>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Surface</div>
+              <div className="mt-2 text-xs text-slate-700 space-y-1">
+                <div>Discovered URLs: <span className="font-semibold">{discoveredUrls.length}</span></div>
+                <div>API Endpoints: <span className="font-semibold">{apiEndpoints.length}</span></div>
+                <div className="mt-2 max-h-40 overflow-auto rounded-xl bg-slate-50 p-2">
+                  {discoveredUrls.slice(0, 12).map((u, idx) => <div key={idx} className="truncate">{u}</div>)}
+                  {discoveredUrls.length > 12 ? <div className="text-slate-500">... {discoveredUrls.length - 12} more</div> : null}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function VulnerabilityCard({ item }) {
+      const severity = String(item?.severity || "medium").toLowerCase();
+      const steps = Array.isArray(item?.reproduction_steps) ? item.reproduction_steps : [];
+      return (
+        <div className="glass rounded-2xl p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-sm text-slate-500">Finding #{item.index}</div>
+              <h3 className="mt-1 text-lg font-semibold">{item.name}</h3>
+            </div>
+            <span className={"rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider " + (severityBadge[severity] || severityBadge.medium)}>
+              {severity}
+            </span>
+          </div>
+          <div className="mt-4 grid gap-4 xl:grid-cols-2">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">Evidence</div>
+              <pre className="mt-2 max-h-56 overflow-auto rounded-xl bg-slate-900 p-3 text-xs leading-relaxed text-slate-100 whitespace-pre-wrap">
+{String(item.evidence || "No evidence provided.")}
+              </pre>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <div className="text-xs uppercase tracking-wider text-slate-500">Reproduction Steps</div>
+                <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-700">
+                  {steps.length ? steps.map((s, idx) => <li key={idx}>{s}</li>) : <li>No steps provided.</li>}
+                </ol>
+              </div>
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3">
+                <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Fix Guidance</div>
+                <p className="mt-1 text-sm text-emerald-900 leading-relaxed">
+                  {item.recommendation || "No remediation recommendation provided."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const summary = auditReport.summary || {};
+      const meta = auditReport.meta || {};
+      const scopePayload = auditReport.scope || {};
+      const findings = Array.isArray(auditReport.findings) ? auditReport.findings : [];
+      const vulnFindings = findings
+        .filter((f) => String(f.type || "").toLowerCase() === "vuln")
+        .sort((a, b) => severityRank.indexOf(String(a.severity || "info")) - severityRank.indexOf(String(b.severity || "info")));
+      const severityCounts = summary.severity_counts || {};
+      const highCritical = Number(severityCounts.critical || 0) + Number(severityCounts.high || 0);
+
+      return (
+        <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
+          <div className="glass rounded-3xl p-6">
+            <div className="flex flex-wrap items-start justify-between gap-5">
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-slate-500">AutoSecAudit Agent</div>
+                <h1 className="mt-2 text-2xl font-semibold md:text-3xl">Visual Audit Report</h1>
+                <div className="mt-2 break-all text-sm text-slate-700">{meta.target || agentState.target || "Unknown target"}</div>
+                <div className="mt-1 text-sm text-slate-500">{meta.decision_summary || "No decision summary available."}</div>
+              </div>
+              <div className="rounded-2xl bg-slate-900 px-5 py-4 text-white">
+                <div className="text-xs uppercase tracking-wider text-slate-300">Audit Score</div>
+                <div className="mt-1 text-3xl font-semibold tabular-nums">{summary.audit_score ?? 0}</div>
+                <div className="text-xs text-slate-300">{summary.score_label || "N/A"}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <MetricCard label="Findings" value={summary.total_findings ?? 0} sub={"Vulns: " + (summary.vulnerability_findings ?? 0)} />
+            <MetricCard label="High/Critical" value={highCritical} sub={"Critical " + (severityCounts.critical || 0) + " / High " + (severityCounts.high || 0)} />
+            <MetricCard label="Budget Remaining" value={summary.budget_remaining ?? 0} sub={"Iterations " + (summary.iteration_count ?? 0)} />
+            <MetricCard label="Executed Actions" value={summary.history_count ?? 0} sub={meta.resumed ? ("Resumed: " + (meta.resumed_from || "state")) : "Fresh run"} />
+          </div>
+
+          <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="glass rounded-2xl p-5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">Action Budget Consumption</h2>
+                <div className="text-xs text-slate-500">Cumulative cost line chart</div>
+              </div>
+              <div className="mt-4">
+                <BudgetLineChart trace={auditReport.budget_trace || []} />
+              </div>
+            </div>
+            <div className="glass rounded-2xl p-5">
+              <h2 className="text-lg font-semibold">Severity Distribution</h2>
+              <div className="mt-4 space-y-3">
+                {severityRank.map((sev) => {
+                  const value = Number(severityCounts[sev] || 0);
+                  const all = severityRank.map((k) => Number(severityCounts[k] || 0));
+                  const max = Math.max(1, ...all);
+                  const pct = value ? Math.max(5, Math.round((value / max) * 100)) : 0;
+                  return (
+                    <div key={sev}>
+                      <div className="mb-1 flex justify-between text-sm">
+                        <span className="capitalize">{sev}</span>
+                        <span className="tabular-nums text-slate-600">{value}</span>
+                      </div>
+                      <div className="h-2 rounded-full bg-slate-100">
+                        <div className="h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" style={{ width: pct + "%" }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <ScopeMap scopePayload={scopePayload} />
+          </div>
+
+          <div className="mt-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">Vulnerability Cards</h2>
+              <div className="text-xs text-slate-500">Evidence + remediation suggestions</div>
+            </div>
+            <div className="space-y-4">
+              {vulnFindings.length ? vulnFindings.map((item) => (
+                <VulnerabilityCard key={String(item.index) + "-" + String(item.name)} item={item} />
+              )) : (
+                <div className="glass rounded-2xl p-6 text-sm text-slate-500">No vulnerability findings available.</div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

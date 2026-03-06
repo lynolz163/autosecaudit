@@ -1,0 +1,148 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "subdomain_enum_passive",
+    "target": "example.com",
+    "options": {
+      "max_results": 100
+    },
+    "priority": 9,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "c915664a00a1d9914cdd702c02cfd5f3af1552946fa36ff5c6f6b4d37e9aba01",
+    "reason": "Enumerate likely subdomains through passive certificate transparency sources.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "domain_scope_declared"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ],
+    "ranking_explanation": {
+      "tool": "subdomain_enum_passive",
+      "target": "example.com",
+      "component": null,
+      "service": null,
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Enumerate likely subdomains through passive certificate transparency sources.",
+        "Scheduled in phase: passive_recon",
+        "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"
+      ]
+    }
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 2131,
+  "attempts": 1,
+  "result": {
+    "domain": "example.com",
+    "subdomains": [
+      "dev.example.com",
+      "example.com",
+      "m.example.com",
+      "products.example.com",
+      "support.example.com",
+      "www.example.com"
+    ]
+  },
+  "metadata": {
+    "skill_name": "subdomain_enum_passive",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "subdomain_enum_passive",
+    "target": "example.com",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "domain": "example.com",
+        "subdomains": [
+          "dev.example.com",
+          "example.com",
+          "m.example.com",
+          "products.example.com",
+          "support.example.com",
+          "www.example.com"
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "Passive Subdomain Enumeration Results",
+          "severity": "info",
+          "evidence": "{\"domain\": \"example.com\", \"count\": 6, \"subdomains\": [\"dev.example.com\", \"example.com\", \"m.example.com\", \"products.example.com\", \"support.example.com\", \"www.example.com\"]}",
+          "reproduction_steps": [
+            "Query crt.sh for %.example.com and review returned SAN/CN values."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [
+        {
+          "type": "service",
+          "data": "https://dev.example.com"
+        },
+        {
+          "type": "service",
+          "data": "https://example.com"
+        },
+        {
+          "type": "service",
+          "data": "https://m.example.com"
+        },
+        {
+          "type": "service",
+          "data": "https://products.example.com"
+        },
+        {
+          "type": "service",
+          "data": "https://support.example.com"
+        },
+        {
+          "type": "service",
+          "data": "https://www.example.com"
+        }
+      ],
+      "surface_delta": {
+        "discovered_subdomains": [
+          "dev.example.com",
+          "example.com",
+          "m.example.com",
+          "products.example.com",
+          "support.example.com",
+          "www.example.com"
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 2131
+  },
+  "ranking_explanation": {
+    "tool": "subdomain_enum_passive",
+    "target": "example.com",
+    "component": null,
+    "service": null,
+    "version": null,
+    "selected_candidate": null,
+    "candidate_order": [],
+    "selected_templates": [],
+    "protocol_tags": [],
+    "rag_recommended_tools": [],
+    "reasons": [
+      "Enumerate likely subdomains through passive certificate transparency sources.",
+      "Scheduled in phase: passive_recon",
+      "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"
+    ]
+  }
+}

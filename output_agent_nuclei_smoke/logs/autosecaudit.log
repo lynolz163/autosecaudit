@@ -1,0 +1,17 @@
+2026-02-19 01:35:09 [INFO] autosecaudit - [agent] run_start | start | budget=50, max_iterations=1, timeout=300.0s, resumed=False
+2026-02-19 01:35:09 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://example.com:443
+2026-02-19 01:35:11 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=2256
+2026-02-19 01:35:11 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=https://example.com:443/
+2026-02-19 01:35:11 [INFO] autosecaudit - [dynamic_crawl] action_end | error | A2 status=error duration_ms=1
+2026-02-19 01:35:11 [INFO] autosecaudit - [nuclei_exploit_check] action_start | start | A3 target=https://example.com:443/
+2026-02-19 01:35:11 [INFO] autosecaudit - [nuclei_exploit_check] action_end | error | A3 status=error duration_ms=8
+2026-02-19 01:35:11 [INFO] autosecaudit - [agent] run_end | success | history=3, findings=0
+2026-02-19 01:35:11 [INFO] autosecaudit - Agent decision summary: Proposed 3 safe action(s), total estimated cost 35, remaining budget after plan 15.
+2026-02-19 01:35:11 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output_agent_nuclei_smoke\agent\ActionPlan.json
+2026-02-19 01:35:11 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output_agent_nuclei_smoke\agent\agent_history.json
+2026-02-19 01:35:11 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output_agent_nuclei_smoke\agent\agent_state.json
+2026-02-19 01:35:11 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output_agent_nuclei_smoke\agent\blocked_actions.json
+2026-02-19 01:35:11 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output_agent_nuclei_smoke\agent\artifact_index.json
+2026-02-19 01:35:11 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output_agent_nuclei_smoke\agent\agent_report.md
+2026-02-19 01:35:11 [INFO] autosecaudit - Findings: 0, Budget remaining: 15
+2026-02-19 01:35:11 [INFO] autosecaudit - Resumed: False, Resumed from: None

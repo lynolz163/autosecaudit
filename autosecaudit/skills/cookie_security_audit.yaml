@@ -1,0 +1,26 @@
+{
+  "skill": {
+    "name": "cookie_security_audit",
+    "version": "1.0",
+    "tool": "cookie_security_audit",
+    "category": "testing",
+    "description": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers."
+  },
+  "triggers": {
+    "phase": ["deep_testing", "verification"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {
+    "on_cookie_findings": {
+      "condition": "cookie_findings_present",
+      "trigger": ["csp_evaluator"],
+      "reason": "Weak session cookies should prompt complementary client-side hardening review."
+    }
+  },
+  "risk": {"level": "low", "cost": 3, "priority": 24, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

@@ -1,0 +1,55 @@
+{
+  "decision_summary": "[phase:passive_recon] Proposed 2 safe action(s), total estimated cost 20, remaining budget after plan 179.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "subdomain_enum_passive",
+      "target": "lynolz.com",
+      "options": {
+        "max_results": 100
+      },
+      "priority": 9,
+      "cost": 5,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "7f31c8afc15e8983b82aa0e5cff3aa29758082323404df3830662032f00396a7",
+      "reason": "Enumerate likely subdomains through passive certificate transparency sources.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "domain_scope_declared"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "nmap_scan",
+      "target": "lynolz.com",
+      "options": {
+        "ports": "top-100",
+        "scan_profile": "conservative_service_discovery",
+        "timeout_seconds": 90,
+        "version_detection": false
+      },
+      "priority": 14,
+      "cost": 15,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "137e887ba0df4cf6132d5529a97d4c4b7a790fdad59c688d4a0352616ba8e9e8",
+      "reason": "Use nmap for conservative service discovery on in-scope hosts. for initial service discovery.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

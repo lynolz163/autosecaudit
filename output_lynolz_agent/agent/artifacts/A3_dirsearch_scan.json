@@ -1,0 +1,84 @@
+{
+  "action": {
+    "action_id": "A3",
+    "tool_name": "dirsearch_scan",
+    "target": "https://lynolz.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "priority": 25,
+    "cost": 10,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "a00b6438b07c644a77aa905172d75122013ae598f28155ad9f106bb9529c8b3f",
+    "reason": "Use conservative content discovery to enumerate hidden files/directories on the confirmed HTTP origin.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "failed",
+  "error": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe: No module named dirsearch",
+  "duration_ms": 80,
+  "result": {
+    "command": [
+      "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "-m",
+      "dirsearch",
+      "-u",
+      "https://lynolz.com:443/",
+      "--format=json",
+      "--json-report=C:\\Users\\Administrator\\AppData\\Local\\Temp\\autosecaudit-dirsearch-towfxv88\\dirsearch_report.json",
+      "-t",
+      "4"
+    ],
+    "return_code": 1,
+    "stdout_preview": "",
+    "stderr_preview": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe: No module named dirsearch",
+    "parse_errors": 1,
+    "entry_count": 0
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "dirsearch_scan",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "failed",
+      "payload": {
+        "command": [
+          "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+          "-m",
+          "dirsearch",
+          "-u",
+          "https://lynolz.com:443/",
+          "--format=json",
+          "--json-report=C:\\Users\\Administrator\\AppData\\Local\\Temp\\autosecaudit-dirsearch-towfxv88\\dirsearch_report.json",
+          "-t",
+          "4"
+        ],
+        "return_code": 1,
+        "stdout_preview": "",
+        "stderr_preview": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe: No module named dirsearch",
+        "parse_errors": 1,
+        "entry_count": 0
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "dirsearch_results": [],
+        "discovered_urls": [],
+        "dirsearch_entry_count": 0
+      }
+    },
+    "error": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe: No module named dirsearch",
+    "raw_output": null,
+    "duration_ms": 80
+  }
+}

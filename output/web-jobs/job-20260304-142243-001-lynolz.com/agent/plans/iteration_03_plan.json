@@ -1,0 +1,206 @@
+{
+  "decision_summary": "[phase:deep_testing] Proposed 8 safe action(s), total estimated cost 43, remaining budget after plan 257.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "csp_evaluator",
+      "target": "https://dogs.lynolz.com:443/",
+      "options": {},
+      "priority": 19,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "6665679e052a16e985eed5034af9188af7f026f550a63b95b3a44ce7450c1f19",
+      "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "csp_evaluator",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 19,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c1130c96c912342960585b670465f573a81a9073c5faca8ed235fb1b135dd8ec",
+      "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "cors_misconfiguration",
+      "target": "https://dogs.lynolz.com:443/",
+      "options": {},
+      "priority": 22,
+      "cost": 5,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "3e125f39c57fc7bcdbaee99bffd7754deaf9088f7c960a28d5f490d82bfed83d",
+      "reason": "Probe origins for arbitrary Origin reflection and credentialed wildcard CORS behavior.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "cors_misconfiguration",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 22,
+      "cost": 5,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "00bcb27f008f569218462d3d6c43be4d97649fd15e5cb9d2dad990b6322add9d",
+      "reason": "Probe origins for arbitrary Origin reflection and credentialed wildcard CORS behavior.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "xss_protection_audit",
+      "target": "https://dogs.lynolz.com:443/",
+      "options": {
+        "method": "GET",
+        "params": {
+          "_rsc": "10omf"
+        }
+      },
+      "priority": 23,
+      "cost": 8,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "9980d0c30c832350eb764caf0d6655b73e8dbcdd7e925c6b3f4064c9438c68e0",
+      "reason": "Probe parameterized endpoints for reflection and output-encoding weaknesses. on crawler-confirmed parameterized endpoint.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "params_available",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "sql_sanitization_audit",
+      "target": "https://dogs.lynolz.com:443/",
+      "options": {
+        "method": "GET",
+        "params": {
+          "_rsc": "10omf"
+        }
+      },
+      "priority": 23,
+      "cost": 8,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2381759d172b97465a6683a468c030e5bcaa230c3855ec048130cc97fe70695d",
+      "reason": "Send bounded SQL hygiene probes to parameterized endpoints and inspect responses. on crawler-confirmed parameterized endpoint.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "params_available",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "cookie_security_audit",
+      "target": "https://dogs.lynolz.com:443/",
+      "options": {},
+      "priority": 24,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "56ac33d24aa45f34e0b382bfd87626f0330861a407cb0cb9bf397a2b4bbec28f",
+      "reason": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A6",
+      "tool_name": "param_fuzzer",
+      "target": "https://dogs.lynolz.com:443/",
+      "options": {
+        "max_probes": 6,
+        "method": "GET",
+        "mode": "lightweight",
+        "params": {
+          "_rsc": "10omf"
+        }
+      },
+      "priority": 25,
+      "cost": 6,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "109f60bfdde98aa90143f9cd659a612605cd2c6f8072b5833db609a6d365a819",
+      "reason": "Run bounded benign parameter probes against parameterized endpoints. on crawler-confirmed parameterized endpoint.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "params_available",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    }
+  ]
+}

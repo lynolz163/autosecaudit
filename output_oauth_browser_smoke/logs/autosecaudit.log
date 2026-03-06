@@ -1,0 +1,30 @@
+2026-02-22 15:44:45 [INFO] autosecaudit - LLM router enabled: primary=codex/gpt-5, fallbacks=[], default_provider=codex
+2026-02-22 15:44:45 [INFO] autosecaudit - LLM request via provider=codex model=gpt-5
+2026-02-22 15:44:46 [WARNING] autosecaudit - LLM attempt failed (codex/gpt-5: codex HTTP 429: {
+    "error": {
+        "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.",
+        "type": "insufficient_quota",
+        "param": null,
+        "code": "insufficient_quota"
+    }
+}
+)
+2026-02-22 15:44:46 [WARNING] autosecaudit - LLM router failed; using fallback empty suggestion: all LLM providers/models failed: codex/gpt-5: codex HTTP 429: {
+    "error": {
+        "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.",
+        "type": "insufficient_quota",
+        "param": null,
+        "code": "insufficient_quota"
+    }
+}
+
+2026-02-22 15:44:46 [INFO] autosecaudit - [agent] plan_only | success | Plan generated without execution.
+2026-02-22 15:44:46 [INFO] autosecaudit - Agent decision summary: Proposed 2 safe action(s), total estimated cost 15, remaining budget after plan 35.
+2026-02-22 15:44:46 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output_oauth_browser_smoke\agent\ActionPlan.json
+2026-02-22 15:44:46 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output_oauth_browser_smoke\agent\agent_history.json
+2026-02-22 15:44:46 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output_oauth_browser_smoke\agent\agent_state.json
+2026-02-22 15:44:46 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output_oauth_browser_smoke\agent\blocked_actions.json
+2026-02-22 15:44:46 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output_oauth_browser_smoke\agent\artifact_index.json
+2026-02-22 15:44:46 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output_oauth_browser_smoke\agent\agent_report.md
+2026-02-22 15:44:46 [INFO] autosecaudit - Findings: 0, Budget remaining: 50
+2026-02-22 15:44:46 [INFO] autosecaudit - Resumed: False, Resumed from: None

@@ -1,0 +1,160 @@
+{
+  "action": {
+    "action_id": "A8",
+    "tool_name": "passive_config_audit",
+    "target": "https://edu.360-24.com:443",
+    "options": {},
+    "priority": 0,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "7ad3ee83c26cb9a68a1a1f9d5c52b757c3df908d5e7ad21a25affd79b6273ecd",
+    "reason": "Low-cost high-value check for exposed configuration artifacts.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 28544,
+  "result": {
+    "origin": "https://edu.360-24.com:443",
+    "checked_paths": [
+      ".env",
+      ".env.prod",
+      ".env.local",
+      ".env.backup",
+      ".git/config",
+      "wp-config.php.bak",
+      "database.yml",
+      ".htpasswd",
+      "api/swagger.json",
+      "swagger.json",
+      "v1/swagger.json",
+      "api/v1/swagger.json",
+      "actuator/env",
+      "actuator/health",
+      "config.php.bak"
+    ],
+    "request_timeout_seconds": 5.0,
+    "max_total_seconds": 30.0,
+    "exposures": [
+      {
+        "path": "actuator/health",
+        "url": "https://edu.360-24.com:443/actuator/health",
+        "matched_keywords": [
+          "\"status\""
+        ],
+        "snippet": "t-50 translate-middle-x p-3 dd-toast-container\"> <div id=\"ddToast\" class=\"toast dd-toast\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"> <div class=\"toast-body d-flex align-items-start gap-2"
+      },
+      {
+        "path": "config.php.bak",
+        "url": "https://edu.360-24.com:443/config.php.bak",
+        "matched_keywords": [
+          "password"
+        ],
+        "snippet": "</div> <div class=\"mb-3\"> <label class=\"form-label dd-label\" for=\"password\"> 密码 </label> <div class=\"input-group dd-input"
+      }
+    ]
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "passive_config_audit",
+    "target": "https://edu.360-24.com:443",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "https://edu.360-24.com:443",
+        "checked_paths": [
+          ".env",
+          ".env.prod",
+          ".env.local",
+          ".env.backup",
+          ".git/config",
+          "wp-config.php.bak",
+          "database.yml",
+          ".htpasswd",
+          "api/swagger.json",
+          "swagger.json",
+          "v1/swagger.json",
+          "api/v1/swagger.json",
+          "actuator/env",
+          "actuator/health",
+          "config.php.bak"
+        ],
+        "request_timeout_seconds": 5.0,
+        "max_total_seconds": 30.0,
+        "exposures": [
+          {
+            "path": "actuator/health",
+            "url": "https://edu.360-24.com:443/actuator/health",
+            "matched_keywords": [
+              "\"status\""
+            ],
+            "snippet": "t-50 translate-middle-x p-3 dd-toast-container\"> <div id=\"ddToast\" class=\"toast dd-toast\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"> <div class=\"toast-body d-flex align-items-start gap-2"
+          },
+          {
+            "path": "config.php.bak",
+            "url": "https://edu.360-24.com:443/config.php.bak",
+            "matched_keywords": [
+              "password"
+            ],
+            "snippet": "</div> <div class=\"mb-3\"> <label class=\"form-label dd-label\" for=\"password\"> 密码 </label> <div class=\"input-group dd-input"
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "vuln",
+          "name": "Sensitive File Exposure: actuator/health",
+          "severity": "medium",
+          "evidence": "keywords=['\"status\"']; snippet=t-50 translate-middle-x p-3 dd-toast-container\"> <div id=\"ddToast\" class=\"toast dd-toast\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"> <div class=\"toast-body d-flex align-items-start gap-2",
+          "reproduction_steps": [
+            "Send GET request to https://edu.360-24.com:443/actuator/health.",
+            "Confirm HTTP 200 and sensitive marker(s): \"status\"."
+          ]
+        },
+        {
+          "type": "vuln",
+          "name": "Sensitive File Exposure: config.php.bak",
+          "severity": "medium",
+          "evidence": "keywords=['password']; snippet=</div> <div class=\"mb-3\"> <label class=\"form-label dd-label\" for=\"password\"> 密码 </label> <div class=\"input-group dd-input",
+          "reproduction_steps": [
+            "Send GET request to https://edu.360-24.com:443/config.php.bak.",
+            "Confirm HTTP 200 and sensitive marker(s): password."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "config_exposures": [
+          {
+            "path": "actuator/health",
+            "url": "https://edu.360-24.com:443/actuator/health",
+            "matched_keywords": [
+              "\"status\""
+            ],
+            "snippet": "t-50 translate-middle-x p-3 dd-toast-container\"> <div id=\"ddToast\" class=\"toast dd-toast\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\"> <div class=\"toast-body d-flex align-items-start gap-2"
+          },
+          {
+            "path": "config.php.bak",
+            "url": "https://edu.360-24.com:443/config.php.bak",
+            "matched_keywords": [
+              "password"
+            ],
+            "snippet": "</div> <div class=\"mb-3\"> <label class=\"form-label dd-label\" for=\"password\"> 密码 </label> <div class=\"input-group dd-input"
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 28544
+  }
+}

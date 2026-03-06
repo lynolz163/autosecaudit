@@ -1,0 +1,118 @@
+[
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A1_subdomain_enum_passive.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A2_nmap_scan.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A1_passive_config_audit.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A2_passive_config_audit.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A3_passive_config_audit.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A4_passive_config_audit.json"
+  },
+  {
+    "action_id": "A5",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A5_passive_config_audit.json"
+  },
+  {
+    "action_id": "A6",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A6_passive_config_audit.json"
+  },
+  {
+    "action_id": "A7",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A7_passive_config_audit.json"
+  },
+  {
+    "action_id": "A8",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A8_passive_config_audit.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A1_passive_config_audit.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A2_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A3_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A4_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A5",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A5_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A6",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A6_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A7",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A7_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A8",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A8_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A1_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A2_tech_stack_fingerprint.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A3_login_form_detector.json"
+  },
+  {
+    "action_id": "A4",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A4_login_form_detector.json"
+  },
+  {
+    "action_id": "A5",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A5_login_form_detector.json"
+  },
+  {
+    "action_id": "A6",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A6_login_form_detector.json"
+  },
+  {
+    "action_id": "A7",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A7_login_form_detector.json"
+  },
+  {
+    "action_id": "A8",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A8_login_form_detector.json"
+  },
+  {
+    "action_id": "A1",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A1_login_form_detector.json"
+  },
+  {
+    "action_id": "A2",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A2_login_form_detector.json"
+  },
+  {
+    "action_id": "A3",
+    "path": "/workspace/output/web-jobs/job-20260303-204436-001-edu.360-24.com/agent/artifacts/A3_login_form_detector.json"
+  }
+]

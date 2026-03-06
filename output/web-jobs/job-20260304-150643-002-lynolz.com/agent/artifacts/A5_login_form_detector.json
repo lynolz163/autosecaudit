@@ -1,0 +1,127 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "login_form_detector",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "priority": 4,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "0545b3abdfff27ce628f44ca9a8074e7bd8d10b86ce4d3b62f36c0af5618f767",
+    "reason": "Detect login and authentication forms from passive page inspection.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 749,
+  "attempts": 1,
+  "result": {
+    "url": "https://lynolz.com:443",
+    "status_code": 200,
+    "forms": [],
+    "headers": {
+      "date": "Wed, 04 Mar 2026 07:08:17 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=pnsUa6Koje72Bxls%2BOgJSmzoeRUE1jtiJM36uO4gOiokPr6yuRL2xLMGzcD%2BCqDs3PIaYQFfel4wFLaWrDpKXrXJ%2FdTQ%2F515yGF2fw0Wt76InWQnQnw%3D\"}]}",
+      "set-cookie": "_gorilla_csrf=MTc3MjYwODA5N3xJaTltTm5KaGJVWXpWa0V5YkN0SU9ETXhhRmhqTHpGa1VXaFRSMlZOZUcwemVGY3JWekpWY1dzek1WVTlJZ289fCLMmZNwp089a809ZejuYobe_I9VxKiCSvAVxB9Xi_10; Path=/; Expires=Wed, 04 Mar 2026 19:08:17 GMT; Max-Age=43200; HttpOnly; SameSite=Lax",
+      "vary": "Accept-Encoding",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=5,cfOrigin;dur=8",
+      "cf-ray": "9d6f0c843bff1d4d-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    }
+  },
+  "metadata": {
+    "url": "https://lynolz.com:443",
+    "status_code": 200,
+    "forms": [],
+    "headers": {
+      "date": "Wed, 04 Mar 2026 07:08:17 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=pnsUa6Koje72Bxls%2BOgJSmzoeRUE1jtiJM36uO4gOiokPr6yuRL2xLMGzcD%2BCqDs3PIaYQFfel4wFLaWrDpKXrXJ%2FdTQ%2F515yGF2fw0Wt76InWQnQnw%3D\"}]}",
+      "set-cookie": "_gorilla_csrf=MTc3MjYwODA5N3xJaTltTm5KaGJVWXpWa0V5YkN0SU9ETXhhRmhqTHpGa1VXaFRSMlZOZUcwemVGY3JWekpWY1dzek1WVTlJZ289fCLMmZNwp089a809ZejuYobe_I9VxKiCSvAVxB9Xi_10; Path=/; Expires=Wed, 04 Mar 2026 19:08:17 GMT; Max-Age=43200; HttpOnly; SameSite=Lax",
+      "vary": "Accept-Encoding",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=5,cfOrigin;dur=8",
+      "cf-ray": "9d6f0c843bff1d4d-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "skill_name": "login_form_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "login_form_detector",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "login_form_detector:forms",
+          "tool": "login_form_detector",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "Login Form Detection",
+          "description": "Password-bearing forms were identified on the target origin.",
+          "evidence": {
+            "status_code": 200,
+            "forms": [],
+            "url": "https://lynolz.com:443"
+          },
+          "remediation": "Use the discovered auth surface to drive low-risk validation of cookie and session controls.",
+          "cwe_id": null,
+          "cvss_score": null
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "login_forms": [],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {}
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://lynolz.com:443",
+        "status_code": 200,
+        "forms": [],
+        "headers": {
+          "date": "Wed, 04 Mar 2026 07:08:17 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "server": "cloudflare",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=pnsUa6Koje72Bxls%2BOgJSmzoeRUE1jtiJM36uO4gOiokPr6yuRL2xLMGzcD%2BCqDs3PIaYQFfel4wFLaWrDpKXrXJ%2FdTQ%2F515yGF2fw0Wt76InWQnQnw%3D\"}]}",
+          "set-cookie": "_gorilla_csrf=MTc3MjYwODA5N3xJaTltTm5KaGJVWXpWa0V5YkN0SU9ETXhhRmhqTHpGa1VXaFRSMlZOZUcwemVGY3JWekpWY1dzek1WVTlJZ289fCLMmZNwp089a809ZejuYobe_I9VxKiCSvAVxB9Xi_10; Path=/; Expires=Wed, 04 Mar 2026 19:08:17 GMT; Max-Age=43200; HttpOnly; SameSite=Lax",
+          "vary": "Accept-Encoding",
+          "cf-cache-status": "DYNAMIC",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "server-timing": "cfEdge;dur=5,cfOrigin;dur=8",
+          "cf-ray": "9d6f0c843bff1d4d-LAX",
+          "alt-svc": "h3=\":443\"; ma=86400"
+        }
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 749
+  }
+}

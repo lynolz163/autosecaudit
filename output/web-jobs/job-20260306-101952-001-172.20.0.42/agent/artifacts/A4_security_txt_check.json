@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "security_txt_check",
+    "target": "https://172.20.0.42:443/",
+    "options": {},
+    "priority": 3,
+    "cost": 1,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "4bad39884185b2c6fc77bb4eec5f0163ccc99ab319b52ac8c4913e05c303f3e2",
+    "reason": "Check /.well-known/security.txt for presence and baseline completeness.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+  "duration_ms": 8016,
+  "attempts": 1,
+  "result": {
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+  },
+  "metadata": {
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "skill_name": "security_txt_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "security_txt_check",
+    "target": "https://172.20.0.42:443/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "<urlopen error _ssl.c:999: The handshake operation timed out>"
+      }
+    },
+    "error": "<urlopen error _ssl.c:999: The handshake operation timed out>",
+    "raw_output": null,
+    "duration_ms": 8016
+  }
+}

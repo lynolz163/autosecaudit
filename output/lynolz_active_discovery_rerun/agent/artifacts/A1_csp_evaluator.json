@@ -1,0 +1,75 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "csp_evaluator",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "priority": 19,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "6665679e052a16e985eed5034af9188af7f026f550a63b95b3a44ce7450c1f19",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1440,
+  "attempts": 1,
+  "result": {
+    "url": "https://dogs.lynolz.com:443",
+    "csp_present": false
+  },
+  "metadata": {
+    "url": "https://dogs.lynolz.com:443",
+    "csp_present": false,
+    "skill_name": "csp_evaluator",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "csp_evaluator",
+    "target": "https://dogs.lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "csp_evaluator:missing",
+          "tool": "csp_evaluator",
+          "severity": "medium",
+          "category": "misconfig",
+          "title": "Content-Security-Policy Missing",
+          "description": "No CSP header was observed on the target origin.",
+          "evidence": {
+            "url": "https://dogs.lynolz.com:443",
+            "status_code": 200
+          },
+          "remediation": "Deploy a restrictive Content-Security-Policy tailored to the application.",
+          "cwe_id": null,
+          "cvss_score": null
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [
+        "http_security_headers"
+      ],
+      "metadata": {
+        "url": "https://dogs.lynolz.com:443",
+        "csp_present": false
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1440
+  }
+}

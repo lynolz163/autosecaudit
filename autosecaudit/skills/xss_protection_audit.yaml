@@ -1,0 +1,35 @@
+{
+  "skill": {
+    "name": "xss_protection_audit",
+    "version": "1.0",
+    "tool": "xss_protection_audit",
+    "category": "testing",
+    "description": "Probe parameterized endpoints for reflection and output-encoding weaknesses."
+  },
+  "triggers": {
+    "phase": ["deep_testing", "verification"],
+    "when": [{"condition": "has_parameterized_endpoints"}, {"condition": "crawler_signal_present"}, {"condition": "not_already_done"}],
+    "target_source": "surface.endpoint_params",
+    "target_type": "parameterized_endpoint"
+  },
+  "parameters": {"defaults": {"method": "GET", "params": "$params"}, "constraints": {}},
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "findings", "condition": "non_empty", "meaning": "potential XSS reflection signal identified"}
+    ],
+    "output_extraction": {},
+    "severity_mapping": {},
+    "severity_escalation": [
+      {"if_finding_contains": ["xss", "cross-site scripting", "reflection"], "escalate_to": "high"}
+    ]
+  },
+  "follow_up": {
+    "on_xss_signal": {
+      "condition": "findings_contain_xss_signal",
+      "trigger": ["csp_evaluator"],
+      "reason": "XSS signals warrant deeper CSP policy review."
+    }
+  },
+  "risk": {"level": "medium", "cost": 8, "priority": 30, "retry": {}},
+  "dependencies": {"runtime": null, "tools": ["dynamic_crawl"]}
+}

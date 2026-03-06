@@ -1,0 +1,20 @@
+{
+  "skill": {
+    "name": "active_web_crawler",
+    "version": "1.0",
+    "tool": "active_web_crawler",
+    "category": "discovery",
+    "description": "Run bounded active crawling with explicit page and depth limits."
+  },
+  "triggers": {
+    "phase": ["active_discovery"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {"max_depth": 2, "limit": 50, "allow_domain": ["$target_host"]}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {},
+  "risk": {"level": "low", "cost": 12, "priority": 21, "retry": {}},
+  "dependencies": {"runtime": "playwright", "tools": ["dynamic_crawl"]}
+}

@@ -1,0 +1,16 @@
+{"timestamp": "2026-03-03T12:07:45.156374+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=100, max_iterations=3, timeout=300.0s, resumed=False"}
+{"timestamp": "2026-03-03T12:08:17.056674+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=edu.360-24.com"}
+{"timestamp": "2026-03-03T12:08:19.335244+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2268"}
+{"timestamp": "2026-03-03T12:08:19.337949+00:00", "plugin_id": "nmap_scan", "action": "action_start", "status": "start", "detail": "A2 target=edu.360-24.com"}
+{"timestamp": "2026-03-03T12:08:32.662629+00:00", "plugin_id": "nmap_scan", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=13313"}
+{"timestamp": "2026-03-03T12:09:16.747363+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=http://edu.360-24.com:3128"}
+{"timestamp": "2026-03-03T12:10:31.881196+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=75129"}
+{"timestamp": "2026-03-03T12:10:31.883402+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A2 target=http://edu.360-24.com:5800"}
+{"timestamp": "2026-03-03T12:11:47.029172+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=75138"}
+{"timestamp": "2026-03-03T12:11:47.032827+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A3 target=http://edu.360-24.com:80"}
+{"timestamp": "2026-03-03T12:12:42.205715+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=55165"}
+{"timestamp": "2026-03-03T12:12:42.207742+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A4 target=http://edu.360-24.com:8000"}
+{"timestamp": "2026-03-03T12:13:57.349529+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=75136"}
+{"timestamp": "2026-03-03T12:13:57.351948+00:00", "plugin_id": "agent", "action": "run_stop", "status": "warning", "detail": "Global timeout reached during execution."}
+{"timestamp": "2026-03-03T12:13:57.382018+00:00", "plugin_id": "agent", "action": "run_stop", "status": "warning", "detail": "Global timeout reached."}
+{"timestamp": "2026-03-03T12:13:57.434343+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=6, findings=1"}

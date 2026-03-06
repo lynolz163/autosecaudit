@@ -1,0 +1,343 @@
+{
+  "decision_summary": "[phase:passive_recon] Proposed 15 safe action(s), total estimated cost 40, remaining budget after plan 139.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "passive_config_audit",
+      "target": "https://lynolz.com:443",
+      "options": {
+        "max_paths": 10,
+        "max_total_seconds": 18,
+        "request_timeout_seconds": 3
+      },
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "a0087ff482125ce9043e79a59fe323d5066eb70bf46f770f0e5fdd580ccae44f",
+      "reason": "Check common sensitive config paths using read-only requests.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A12",
+      "tool_name": "passive_config_audit",
+      "target": "http://lynolz.com:80",
+      "options": {
+        "max_paths": 10,
+        "max_total_seconds": 18,
+        "request_timeout_seconds": 3
+      },
+      "priority": 0,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "5154aee24ef2aeec1b16831c4246d1bd1634bb7bc712f77e29df9bda53d6e626",
+      "reason": "Check common sensitive config paths using read-only requests.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2e99061a5621936e46301117784a3760bca420a024c157d2851af815fd894b8e",
+      "reason": "Passively fingerprint exposed technologies from headers and page content.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A13",
+      "tool_name": "tech_stack_fingerprint",
+      "target": "http://lynolz.com:80/",
+      "options": {},
+      "priority": 1,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "948b04bc252e631c3a4ecc3e306f19adea4d49d613b75da3b58ecf6b092a641e",
+      "reason": "Passively fingerprint exposed technologies from headers and page content.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "git_exposure_check",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 2,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c88788c22c6ebe50ef540b7630c45307debddba3dcb3a613d2d45a20c75ba945",
+      "reason": "Detect exposed repository metadata such as .git and .svn files.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "source_map_detector",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 3,
+      "cost": 2,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "8159c73c58f9345f671f4fdba6ea59e522ff634faef24f0a9b07d2981887254c",
+      "reason": "Detect exposed JavaScript source maps that may reveal source code or routes.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A5",
+      "tool_name": "security_txt_check",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 3,
+      "cost": 1,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "eac56c942493a59f6f0e33edf478702ddde46ebc387badc70e3d388c7d236f6d",
+      "reason": "Check /.well-known/security.txt for presence and baseline completeness.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A6",
+      "tool_name": "login_form_detector",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "0545b3abdfff27ce628f44ca9a8074e7bd8d10b86ce4d3b62f36c0af5618f767",
+      "reason": "Detect login and authentication forms from passive page inspection.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A14",
+      "tool_name": "login_form_detector",
+      "target": "http://lynolz.com:80/",
+      "options": {},
+      "priority": 4,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "b5f9db6067a595aab24c29b3039d1f30cf48f0c68334bca897fdf4b7b5901c3a",
+      "reason": "Detect login and authentication forms from passive page inspection.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A7",
+      "tool_name": "http_security_headers",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 5,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "36a64ed2fd4c3249cb0110aba461c118c170c380f3c30ca679498dc83776de53",
+      "reason": "Validate common HTTP security headers on reachable origins.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A8",
+      "tool_name": "ssl_expiry_check",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 6,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "c82c92bb256a0f168b811ceb830e05f701bf675807a874cdebed32a56dc5cd0f",
+      "reason": "Check TLS certificate expiry dates on HTTPS origins.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "https_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A15",
+      "tool_name": "ssl_expiry_check",
+      "target": "https://lynolz.com:8443/",
+      "options": {},
+      "priority": 6,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "f5287bc7bbe832150e0e5b713b091c961c27240918d8535be710b38ed5e7199a",
+      "reason": "Check TLS certificate expiry dates on HTTPS origins.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "https_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A9",
+      "tool_name": "js_endpoint_extractor",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 8,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "55447e1d463a2e3824a5556bd2d3bf8328831f7d3dc48d5c5889e4643f6b295e",
+      "reason": "Inspect same-origin HTML and JavaScript to discover hidden endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A10",
+      "tool_name": "error_page_analyzer",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 11,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "ba7159eca88eb89176db9726aeadbe492b73b6c5fe921b0e7ead78ff224f1bc3",
+      "reason": "Inspect verbose error pages for stack traces, framework markers, and debug data.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A11",
+      "tool_name": "waf_detector",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 13,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "878af3145e21eedf5dbbe6241e03fdc441c8ea2293d18b949d90a4e1d5253d6a",
+      "reason": "Identify common CDN and WAF protection layers from passive response markers.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

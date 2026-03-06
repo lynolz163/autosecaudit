@@ -1,0 +1,1914 @@
+[
+  {
+    "tool": "subdomain_enum_passive",
+    "target": "0x6288.com",
+    "options": {
+      "max_results": 100
+    },
+    "idempotency_key": "b11313468a93cbfefe6385f33be2628e549215c5cb253adac61a3db50447d845",
+    "status": "completed",
+    "started_at": "2026-03-06T09:32:41.275852+00:00",
+    "ended_at": "2026-03-06T09:32:48.543797+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_subdomain_enum_passive.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 5,
+    "budget_before": 999,
+    "budget_after": 975
+  },
+  {
+    "tool": "nmap_scan",
+    "target": "0x6288.com",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "idempotency_key": "fcb16787db943ae3cb12a414167f51781bc89558a422a23c56685d28f3461c84",
+    "status": "completed",
+    "started_at": "2026-03-06T09:32:48.563591+00:00",
+    "ended_at": "2026-03-06T09:33:00.946454+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_nmap_scan.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 15,
+    "budget_before": 975,
+    "budget_after": 975
+  },
+  {
+    "tool": "dns_zone_audit",
+    "target": "0x6288.com",
+    "options": {
+      "max_nameservers": 3,
+      "timeout_seconds": 5
+    },
+    "idempotency_key": "cc774ca2d16bc001a5241f5ceb6b8314e567b00860197dbe3b2eb7257e2fa9fa",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:00.988131+00:00",
+    "ended_at": "2026-03-06T09:33:01.001975+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A3_dns_zone_audit.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 4,
+    "budget_before": 975,
+    "budget_after": 975
+  },
+  {
+    "tool": "passive_config_audit",
+    "target": "https://0x6288.com:443",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "idempotency_key": "c502fa3d8c2a2c2f2b212b1a374d58c6205fd6c1b202bf8e6b4fb236c38162e3",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:01.309167+00:00",
+    "ended_at": "2026-03-06T09:33:16.579470+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_passive_config_audit.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 3,
+    "budget_before": 975,
+    "budget_after": 936
+  },
+  {
+    "tool": "tech_stack_fingerprint",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "2f43108972a0e45629d7de9595bea55c7b8d839d4920b0e3b6d3e9e3bba197f2",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:16.598957+00:00",
+    "ended_at": "2026-03-06T09:33:17.843373+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_tech_stack_fingerprint.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 2,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "git_exposure_check",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "404812ef43b9f7ee565b3668f08f60583d7e5ae7901d51a318fd59676b661dc3",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:17.860984+00:00",
+    "ended_at": "2026-03-06T09:33:25.834864+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A3_git_exposure_check.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 2,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "source_map_detector",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "48883893786d017afe17d1ab9184e1f5a462fea95b03b09e53ab96caff894368",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:25.853927+00:00",
+    "ended_at": "2026-03-06T09:33:31.473567+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A4_source_map_detector.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 2,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "security_txt_check",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "768208a0a254b92516ec975742783b83ce0e6e23d05e86ed01dfa99b599c0e1e",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:31.490116+00:00",
+    "ended_at": "2026-03-06T09:33:33.260605+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A5_security_txt_check.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 1,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "login_form_detector",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "8e846c1de8a6b63adc0f2399317684aa2a271df3fdf984f020522510468609a6",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:33.277049+00:00",
+    "ended_at": "2026-03-06T09:33:35.272545+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A6_login_form_detector.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 3,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "http_security_headers",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "1f8548b73067ef7a3afcb7993b29f24d4adedcc0993da1d10cf94d4e418bb57f",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:35.289503+00:00",
+    "ended_at": "2026-03-06T09:33:36.234715+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A7_http_security_headers.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 3,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "ssl_expiry_check",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "e4985847e43713e53f37bfdc579ca707606f00ed220c79bbab8416d9d4ce0413",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:36.254002+00:00",
+    "ended_at": "2026-03-06T09:33:36.828654+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A8_ssl_expiry_check.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 3,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "js_endpoint_extractor",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "5a881a097d0e7bfcfc95fa0c005a420eb859d0d7789afb018c2f63917111a9af",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:36.846420+00:00",
+    "ended_at": "2026-03-06T09:33:38.073382+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A9_js_endpoint_extractor.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 4,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "reverse_dns_probe",
+    "target": "0x6288.com",
+    "options": {
+      "max_addresses": 6,
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "f69a5e6ba5da600ff9636eb347890335fed3961dfcbe037c86b63fb55c3fb068",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:38.090147+00:00",
+    "ended_at": "2026-03-06T09:33:54.104979+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A10_reverse_dns_probe.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 2,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "error_page_analyzer",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "ecae3a1f82919e8e2a4790baeba368b0a0410f424dceb4f3c0086be919cb8b6e",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:54.116605+00:00",
+    "ended_at": "2026-03-06T09:33:55.359688+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A11_error_page_analyzer.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 3,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "tls_service_probe",
+    "target": "https://0x6288.com:443/",
+    "options": {
+      "server_name": "0x6288.com",
+      "timeout_seconds": 5
+    },
+    "idempotency_key": "cc693799c3c0aa22ec50c5e683b1010dbb7479e241b868669c2aa27982438895",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:55.370112+00:00",
+    "ended_at": "2026-03-06T09:33:56.395426+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A12_tls_service_probe.json"
+    ],
+    "phase": "passive_recon",
+    "metadata_summary": {
+      "port": 443
+    },
+    "action_cost": 4,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "waf_detector",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "3622f79ed25d49d02c5b85a69b6ff33d1c7040ac57dffa0a82f0e2fe464700d8",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:56.406153+00:00",
+    "ended_at": "2026-03-06T09:33:58.807343+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A13_waf_detector.json"
+    ],
+    "phase": "passive_recon",
+    "action_cost": 3,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 7,
+      "read_bytes": 512,
+      "service": "echo",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "1ff51b59ee94729bbc2ad771653fd608910a38ebdddb8638c353978e6f397ec2",
+    "status": "completed",
+    "started_at": "2026-03-06T09:33:58.818622+00:00",
+    "ended_at": "2026-03-06T09:34:02.832152+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A14_service_banner_probe.json"
+    ],
+    "phase": "passive_recon",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "echo",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: echo"
+      ]
+    },
+    "metadata_summary": {
+      "service": "echo",
+      "port": 7
+    },
+    "action_cost": 4,
+    "budget_before": 936,
+    "budget_after": 936
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "afe63c567c94dbb215587ba87e6597327018207de9503ce95a0445477236c10c",
+    "status": "completed",
+    "started_at": "2026-03-06T09:34:03.026141+00:00",
+    "ended_at": "2026-03-06T09:34:14.875728+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 936,
+    "budget_after": 823
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:80/",
+    "options": {},
+    "idempotency_key": "febbb91e0234d12d5b34ac11be16d6c317e17e063c06aaa486ca0e56aed55dc9",
+    "status": "completed",
+    "started_at": "2026-03-06T09:34:14.887649+00:00",
+    "ended_at": "2026-03-06T09:34:30.005681+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A7_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "https://0x6288.com:8443/",
+    "options": {},
+    "idempotency_key": "5a4131f910d332abf86bb9170467a32911686f8eca3aa8818ca140d7982acb41",
+    "status": "completed",
+    "started_at": "2026-03-06T09:34:30.016219+00:00",
+    "ended_at": "2026-03-06T09:34:37.689249+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A13_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 9,
+      "read_bytes": 512,
+      "service": "discard",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "170cee9d40b1e35a7480e42df961f38eaaa54b5d70e366b817347ecad2dbc71e",
+    "status": "completed",
+    "started_at": "2026-03-06T09:34:37.699210+00:00",
+    "ended_at": "2026-03-06T09:34:41.711716+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "discard",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: discard"
+      ]
+    },
+    "metadata_summary": {
+      "service": "discard",
+      "port": 9
+    },
+    "action_cost": 4,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 13,
+      "read_bytes": 512,
+      "service": "daytime",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "d36bfb04f9a700f45548c764bb34d316d1971987ea15b262ddde00ef21c06117",
+    "status": "completed",
+    "started_at": "2026-03-06T09:34:41.725275+00:00",
+    "ended_at": "2026-03-06T09:34:45.741099+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A8_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "daytime",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: daytime"
+      ]
+    },
+    "metadata_summary": {
+      "service": "daytime",
+      "port": 13
+    },
+    "action_cost": 4,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 21,
+      "read_bytes": 512,
+      "service": "ftp",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "9f1ddeacab749a42a14d566425897c0b04d3032ed3bbc15073e94b981f035a83",
+    "status": "completed",
+    "started_at": "2026-03-06T09:34:45.751890+00:00",
+    "ended_at": "2026-03-06T09:34:49.764057+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A14_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "ftp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: ftp"
+      ]
+    },
+    "metadata_summary": {
+      "service": "ftp",
+      "port": 21
+    },
+    "action_cost": 4,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "https://0x6288.com:443/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "99428d0751ea7c712341287fc23beca368bdc140361cfc99506e8862213d8e36",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:49.777153+00:00",
+    "ended_at": "2026-03-06T09:34:50.499403+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A3_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:80/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "0eee4b34cada45d8cfb391a092d69572eaa891c68cdb14d4da425b4a3b60b4c7",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:50.510161+00:00",
+    "ended_at": "2026-03-06T09:34:51.027727+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A9_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "https://0x6288.com:8443/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "b7f7b3aed8359293f062b08083e5cdc5f493479d880e471dde2a8ee4abf557fb",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:51.039787+00:00",
+    "ended_at": "2026-03-06T09:34:51.571379+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A15_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "https://0x6288.com:443/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "1d74deacf3f6c60b3cf83c3a7331e7562ae119e175e59f9d0b803c53fe536dc4",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:51.585641+00:00",
+    "ended_at": "2026-03-06T09:34:52.103407+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A4_dynamic_crawl.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "http://0x6288.com:80/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "999badc4a1ac29fd77c91f065a2acd4a272c5051f03f599197a632b335a0a1fe",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:52.115376+00:00",
+    "ended_at": "2026-03-06T09:34:52.623423+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A10_dynamic_crawl.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "https://0x6288.com:443/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "5e1fbd69e38839fb0820dd7d291a0a1dfff4b60d8a16f3e6ae4e52d42262caba",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:52.633960+00:00",
+    "ended_at": "2026-03-06T09:34:53.144073+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A5_active_web_crawler.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "http://0x6288.com:80/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "c6ec5685dff11e8663be9bfe94b864fab6b3e0050c5e0bee983a6c2d97eb7446",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:53.155076+00:00",
+    "ended_at": "2026-03-06T09:34:53.658110+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A11_active_web_crawler.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://0x6288.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "5c033ff3b0d8f07a2aa97e482c3cb1cbbb1fee030c54560d296fdfb0e4e6569b",
+    "status": "error",
+    "started_at": "2026-03-06T09:34:53.671364+00:00",
+    "ended_at": "2026-03-06T09:36:23.688012+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A6_dirsearch_scan.json"
+    ],
+    "phase": "active_discovery",
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "http://0x6288.com:80",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "b73ce60bbae2ccd3493cdae4eb21b02a9945793ad1ae201ac13aa6dc05a22e00",
+    "status": "error",
+    "started_at": "2026-03-06T09:36:23.699994+00:00",
+    "ended_at": "2026-03-06T09:37:53.715714+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A12_dirsearch_scan.json"
+    ],
+    "phase": "active_discovery",
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 823,
+    "budget_after": 823
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:8080/",
+    "options": {},
+    "idempotency_key": "dd3af9382b5f2ecf74f922284a09f62ecc0d6d7e0882bc7f774c7f8dcbbc2ec9",
+    "status": "completed",
+    "started_at": "2026-03-06T09:37:54.082994+00:00",
+    "ended_at": "2026-03-06T09:38:00.157439+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 823,
+    "budget_after": 710
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:8000/",
+    "options": {},
+    "idempotency_key": "85d1454de05648ead37ef2517c34dbf8694865407275ec0ce24222299b2874b2",
+    "status": "completed",
+    "started_at": "2026-03-06T09:38:00.167297+00:00",
+    "ended_at": "2026-03-06T09:38:56.281780+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A7_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:8008/",
+    "options": {},
+    "idempotency_key": "222f2c09ebd71df1b42b04f578df1d23933a6a9f911621d3b75f3f0cfa51f9c4",
+    "status": "completed",
+    "started_at": "2026-03-06T09:38:56.291982+00:00",
+    "ended_at": "2026-03-06T09:39:52.571855+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A13_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 22,
+      "read_bytes": 512,
+      "service": "ssh",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "4ecf11e00a9b5b2ae7268edbf91ec6db5ace158c427af93fada03f21e34991d6",
+    "status": "completed",
+    "started_at": "2026-03-06T09:39:52.583171+00:00",
+    "ended_at": "2026-03-06T09:39:56.594836+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "ssh",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: ssh"
+      ]
+    },
+    "metadata_summary": {
+      "service": "ssh",
+      "port": 22
+    },
+    "action_cost": 4,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 23,
+      "read_bytes": 512,
+      "service": "telnet",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "cd0e7262365b7f817dd53fe3b193d941536e20841074bcb5eea7f820338f0805",
+    "status": "completed",
+    "started_at": "2026-03-06T09:39:56.609793+00:00",
+    "ended_at": "2026-03-06T09:40:00.621708+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A8_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "telnet",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: telnet"
+      ]
+    },
+    "metadata_summary": {
+      "service": "telnet",
+      "port": 23
+    },
+    "action_cost": 4,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 25,
+      "read_bytes": 512,
+      "service": "smtp",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "90ff9b53ce2c597d4a9d258a93e8e1eabd0460515933bd287585d045a600de42",
+    "status": "completed",
+    "started_at": "2026-03-06T09:40:00.633051+00:00",
+    "ended_at": "2026-03-06T09:40:04.646161+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A14_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "smtp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: smtp"
+      ]
+    },
+    "metadata_summary": {
+      "service": "smtp",
+      "port": 25
+    },
+    "action_cost": 4,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:8080/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "3d503339e05c9d9691a0e9d69880075113cdadc844f0a3c2fa51c80f8cb34240",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:04.658503+00:00",
+    "ended_at": "2026-03-06T09:40:05.281340+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A3_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:8000/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "59308dca4c49d43be29085cea101bf56df8c0705c9ea8a03d6a0c87cb752b9f7",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:05.291822+00:00",
+    "ended_at": "2026-03-06T09:40:05.925902+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A9_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:8008/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "266c2eead25f9f8fab85d3e1e8d89464b7afb56f353251292969514fed7c9ccd",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:05.936205+00:00",
+    "ended_at": "2026-03-06T09:40:06.554754+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A15_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "https://0x6288.com:8443/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "52de4e552470d092960285b597af58b96a89617adf74339621992f8ddba43bb6",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:06.565653+00:00",
+    "ended_at": "2026-03-06T09:40:07.158806+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A4_dynamic_crawl.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "http://0x6288.com:8080/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "6a2215f411723a81a0e93d0b94b28cd92ee36f0469b06dd68fff7b8565a894c6",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:07.168417+00:00",
+    "ended_at": "2026-03-06T09:40:07.170582+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A10_dynamic_crawl.json"
+    ],
+    "phase": "active_discovery",
+    "error": "circuit_open:dynamic_crawl:failures=3",
+    "action_cost": 12,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "https://0x6288.com:8443/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "48d70c0a0e1442b9e32b6fdd0fbe139684868dfd62e32a2613392a9085d0ce43",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:07.180944+00:00",
+    "ended_at": "2026-03-06T09:40:07.780946+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A5_active_web_crawler.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "http://0x6288.com:8080/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "e8a4582c5d0a6aa64b444431893b80797f2f4691de4e9670d0958eddf5a6b49e",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:07.791840+00:00",
+    "ended_at": "2026-03-06T09:40:07.794388+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A11_active_web_crawler.json"
+    ],
+    "phase": "active_discovery",
+    "error": "circuit_open:active_web_crawler:failures=3",
+    "action_cost": 12,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://0x6288.com:8443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "072ec9644fb9c733fa013b15b32b777038e9fef39ff70f6222ce94f7f768109e",
+    "status": "error",
+    "started_at": "2026-03-06T09:40:07.807944+00:00",
+    "ended_at": "2026-03-06T09:41:37.825472+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A6_dirsearch_scan.json"
+    ],
+    "phase": "active_discovery",
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "http://0x6288.com:8080",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "c0e8652a8027c68c6f501af109f732b1c84271aac7b44773814d9e2af151dfd7",
+    "status": "error",
+    "started_at": "2026-03-06T09:41:37.835932+00:00",
+    "ended_at": "2026-03-06T09:41:37.838452+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A12_dirsearch_scan.json"
+    ],
+    "phase": "active_discovery",
+    "error": "circuit_open:dirsearch_scan:failures=3",
+    "action_cost": 10,
+    "budget_before": 710,
+    "budget_after": 710
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:8888/",
+    "options": {},
+    "idempotency_key": "c322edacd27ac051d90ac437be04df9142e6436f8b2b631857458f537661bcb1",
+    "status": "completed",
+    "started_at": "2026-03-06T09:41:38.027899+00:00",
+    "ended_at": "2026-03-06T09:42:34.113459+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 710,
+    "budget_after": 648
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:3128/",
+    "options": {},
+    "idempotency_key": "98524cc196a709c0c69d536ecd2f15fedc5bf9b26615876789a6f3047d3f398c",
+    "status": "completed",
+    "started_at": "2026-03-06T09:42:34.126086+00:00",
+    "ended_at": "2026-03-06T09:43:30.390000+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A7_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "http://0x6288.com:5800/",
+    "options": {},
+    "idempotency_key": "c5e53c46fdde4637991a1dc1e02dc3aa0d0945763baa9742c578af886272bcfa",
+    "status": "completed",
+    "started_at": "2026-03-06T09:43:30.402257+00:00",
+    "ended_at": "2026-03-06T09:44:26.498330+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A10_api_schema_discovery.json"
+    ],
+    "phase": "active_discovery",
+    "action_cost": 4,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 26,
+      "read_bytes": 512,
+      "service": "rsftp",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "133ca89d5032a7fea5f606ca79082d2c6fb087a5e18fa6fe6c0335855294af81",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:26.509613+00:00",
+    "ended_at": "2026-03-06T09:44:30.522779+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "rsftp",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: rsftp"
+      ]
+    },
+    "metadata_summary": {
+      "service": "rsftp",
+      "port": 26
+    },
+    "action_cost": 4,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 37,
+      "read_bytes": 512,
+      "service": "time",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "eb896ec428b8e50d70f07ee40c507a5d4899d217155badabf9cb66ff54de59f3",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:30.534642+00:00",
+    "ended_at": "2026-03-06T09:44:34.546116+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A8_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "time",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: time"
+      ]
+    },
+    "metadata_summary": {
+      "service": "time",
+      "port": 37
+    },
+    "action_cost": 4,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 53,
+      "read_bytes": 512,
+      "service": "domain",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "98268645d8f608df41f898ba0322a56171293fe24db741037fc0db51479167e4",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:34.556907+00:00",
+    "ended_at": "2026-03-06T09:44:38.570059+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A11_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "domain",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: domain"
+      ]
+    },
+    "metadata_summary": {
+      "service": "domain",
+      "port": 53
+    },
+    "action_cost": 4,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:8888/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "66c5a38bdfe54b332cb31af0742ee35720cdf0cd58ed13dfc9ae19b290708ccd",
+    "status": "error",
+    "started_at": "2026-03-06T09:44:38.581501+00:00",
+    "ended_at": "2026-03-06T09:44:39.127149+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A3_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:3128/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "5d7c7478e23d251cbf495c5d3e47a218109c72312060b46bcd10895b18b0839b",
+    "status": "error",
+    "started_at": "2026-03-06T09:44:39.136478+00:00",
+    "ended_at": "2026-03-06T09:44:39.680172+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A9_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "http://0x6288.com:8000/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "f054c6f6d802bd9a4c142564d55e3ef5ebd27fda92928e24b3cd8f10d9e70fee",
+    "status": "error",
+    "started_at": "2026-03-06T09:44:39.694728+00:00",
+    "ended_at": "2026-03-06T09:44:40.217484+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A4_dynamic_crawl.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "http://0x6288.com:8000/",
+    "options": {
+      "allow_domain": [
+        "0x6288.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "0189578bb6d0a0ee6d879ac277998e40c62bb05d4e28481c1efa35071e304755",
+    "status": "error",
+    "started_at": "2026-03-06T09:44:40.228611+00:00",
+    "ended_at": "2026-03-06T09:44:40.737485+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A5_active_web_crawler.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 12,
+    "budget_before": 648,
+    "budget_after": 648
+  },
+  {
+    "tool": "service_banner_probe",
+    "target": "0x6288.com",
+    "options": {
+      "port": 79,
+      "read_bytes": 512,
+      "service": "finger",
+      "timeout_seconds": 4
+    },
+    "idempotency_key": "4dc29af2c74d9fcf50512fab5d6a5adafe5e327209d998622502247373cfd08a",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:40.831214+00:00",
+    "ended_at": "2026-03-06T09:44:44.843660+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_service_banner_probe.json"
+    ],
+    "phase": "active_discovery",
+    "ranking_explanation": {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "finger",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: finger"
+      ]
+    },
+    "metadata_summary": {
+      "service": "finger",
+      "port": 79
+    },
+    "action_cost": 4,
+    "budget_before": 648,
+    "budget_after": 637
+  },
+  {
+    "tool": "page_vision_analyzer",
+    "target": "http://0x6288.com:5800/",
+    "options": {
+      "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+      "enable_vision_llm": true,
+      "full_page": true,
+      "max_vision_image_bytes": 2000000,
+      "timeout_seconds": 20,
+      "wait_until": "networkidle"
+    },
+    "idempotency_key": "eed6938c5a129d1f2eb97acec584152ae0b482f27ecdcdefa08569949b19516b",
+    "status": "error",
+    "started_at": "2026-03-06T09:44:44.855224+00:00",
+    "ended_at": "2026-03-06T09:44:45.501857+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_page_vision_analyzer.json"
+    ],
+    "phase": "active_discovery",
+    "error": "BrowserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     playwright install                                     ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝",
+    "action_cost": 7,
+    "budget_before": 637,
+    "budget_after": 637
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "44f36b76802affafba4526f27d3373a1b2d2073e0471aaabe4236f4e51421718",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:45.687655+00:00",
+    "ended_at": "2026-03-06T09:44:46.483815+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 4,
+    "budget_before": 637,
+    "budget_after": 580
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:80/",
+    "options": {},
+    "idempotency_key": "84db6f3715bcee1f8b4cfdac7e977a04fe15a54f15b8b4cc993366385f5e3fae",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:46.494723+00:00",
+    "ended_at": "2026-03-06T09:44:47.815664+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A5_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 4,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://0x6288.com:8443/",
+    "options": {},
+    "idempotency_key": "e0065323ab506b0ac98fa0e7f34477278116ad098ff8c44fe9608e158494d746",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:47.825278+00:00",
+    "ended_at": "2026-03-06T09:44:48.949957+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A8_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 4,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:8080/",
+    "options": {},
+    "idempotency_key": "cc9804d9f043564946ff81efe1f60abbe1d385a18c96323abd759f4d006b9725",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:48.962559+00:00",
+    "ended_at": "2026-03-06T09:44:49.844367+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A11_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 4,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:8000/",
+    "options": {},
+    "idempotency_key": "acd122c1ea7ad203d211e222b7c07bad2cb055387ea5c80b667e6c363a752fb8",
+    "status": "error",
+    "started_at": "2026-03-06T09:44:49.855125+00:00",
+    "ended_at": "2026-03-06T09:44:57.866300+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A14_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "error": "timed out",
+    "action_cost": 4,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "57634071901e0a628ce5460b10299fb5a80752d62c4fc2a16a7dcf7799f666a1",
+    "status": "completed",
+    "started_at": "2026-03-06T09:44:57.877642+00:00",
+    "ended_at": "2026-03-06T09:45:01.208327+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:80/",
+    "options": {},
+    "idempotency_key": "f2b1693fbb667a3dbc130f2c096eb0e4233a8c1ed60958cd9d2baefb22e1ea51",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:01.223082+00:00",
+    "ended_at": "2026-03-06T09:45:03.197000+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A6_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "https://0x6288.com:8443/",
+    "options": {},
+    "idempotency_key": "5f3975cf41f04c634b8c2ba33326fa8c038ccbc5be22154ae1785aee71655974",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:03.208525+00:00",
+    "ended_at": "2026-03-06T09:45:05.374055+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A9_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:8080/",
+    "options": {},
+    "idempotency_key": "f640f1745f5d62576530e0333396b091a3ff38d6c391546d9f0cb1c0737ba764",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:05.387593+00:00",
+    "ended_at": "2026-03-06T09:45:07.730066+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A12_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:8000/",
+    "options": {},
+    "idempotency_key": "710b5dc90a89c01457969c9d147f47cacda56671ce31d69f8841f0f9b1cdb49a",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:07.743196+00:00",
+    "ended_at": "2026-03-06T09:45:31.791727+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A15_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "idempotency_key": "9ff66e15c8954a5278d9b9e9da622ad873ea084b40e2e1fef506c4cc578cb802",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:31.805094+00:00",
+    "ended_at": "2026-03-06T09:45:32.547836+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A4_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 3,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:80/",
+    "options": {},
+    "idempotency_key": "98b82c1749dfe1dd95db36e8dedf21f24f4824060303842ba97c97c6ddd67bd2",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:32.559244+00:00",
+    "ended_at": "2026-03-06T09:45:34.884841+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A7_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 3,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://0x6288.com:8443/",
+    "options": {},
+    "idempotency_key": "92351d292b5a5d750f523ae9e8f611b3986c191775dbbc1ddc869cd98324a388",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:34.895254+00:00",
+    "ended_at": "2026-03-06T09:45:36.380763+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A10_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 3,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:8080/",
+    "options": {},
+    "idempotency_key": "51cba83a61546b0a1f8cc5cf8cacca67c5a183ac12e909661a99bee4eda90d5d",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:36.394176+00:00",
+    "ended_at": "2026-03-06T09:45:37.538033+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A13_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 3,
+    "budget_before": 580,
+    "budget_after": 580
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:8008/",
+    "options": {},
+    "idempotency_key": "691a60ede6875711f5ad80c616f91271295862ff27eff48213045e7b08bfdc14",
+    "status": "error",
+    "started_at": "2026-03-06T09:45:37.774246+00:00",
+    "ended_at": "2026-03-06T09:45:45.788597+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "error": "timed out",
+    "action_cost": 4,
+    "budget_before": 580,
+    "budget_after": 529
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:8888/",
+    "options": {},
+    "idempotency_key": "e0ac116e7a69410ebdc1a029b5fcba121e68111c80f4e60ea0d8075be7742916",
+    "status": "error",
+    "started_at": "2026-03-06T09:45:45.799874+00:00",
+    "ended_at": "2026-03-06T09:45:53.813622+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A5_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "error": "timed out",
+    "action_cost": 4,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:3128/",
+    "options": {},
+    "idempotency_key": "8c8f6fda2004b16acf696ed1ae5d50f28b39c521a15d3dcf536771f6df0eb60f",
+    "status": "error",
+    "started_at": "2026-03-06T09:45:53.825029+00:00",
+    "ended_at": "2026-03-06T09:45:53.827616+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A8_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "error": "circuit_open:csp_evaluator:failures=3",
+    "action_cost": 4,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://0x6288.com:5800/",
+    "options": {},
+    "idempotency_key": "7c0a5a4038cb1a1529da664f4973d4a6653d679b064ad4f0838a3687f0027032",
+    "status": "error",
+    "started_at": "2026-03-06T09:45:53.839213+00:00",
+    "ended_at": "2026-03-06T09:45:53.841872+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A11_csp_evaluator.json"
+    ],
+    "phase": "deep_testing",
+    "error": "circuit_open:csp_evaluator:failures=4",
+    "action_cost": 4,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:8008/",
+    "options": {},
+    "idempotency_key": "f5afea46b6cefa213f3fc5d686e868bb3717299e32989a7d9ba687e8198cb7cd",
+    "status": "completed",
+    "started_at": "2026-03-06T09:45:53.857101+00:00",
+    "ended_at": "2026-03-06T09:46:17.897209+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A2_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:8888/",
+    "options": {},
+    "idempotency_key": "52dae539e71b53423b8b43d48b6151cd31f15865f8316521b6eadf20a0f76342",
+    "status": "completed",
+    "started_at": "2026-03-06T09:46:17.910859+00:00",
+    "ended_at": "2026-03-06T09:46:41.951550+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A6_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:3128/",
+    "options": {},
+    "idempotency_key": "be34a604a5e7bba22d19c0df1c8b5fec4f74a9684aca93b284b39643eeaca935",
+    "status": "completed",
+    "started_at": "2026-03-06T09:46:41.964100+00:00",
+    "ended_at": "2026-03-06T09:47:06.007448+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A9_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://0x6288.com:5800/",
+    "options": {},
+    "idempotency_key": "798b1ea8f1c97bcebbf415dc9db0501c653b4650388151e2354d8d75b4a5a79e",
+    "status": "completed",
+    "started_at": "2026-03-06T09:47:06.018264+00:00",
+    "ended_at": "2026-03-06T09:47:30.054141+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A12_cors_misconfiguration.json"
+    ],
+    "phase": "deep_testing",
+    "action_cost": 5,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:8000/",
+    "options": {},
+    "idempotency_key": "dadee9195d6e81e3fe855115b59db718b74e9eb388f98f44664bfe1ba78f3a5e",
+    "status": "error",
+    "started_at": "2026-03-06T09:47:30.064973+00:00",
+    "ended_at": "2026-03-06T09:47:38.081718+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A4_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "error": "timed out",
+    "action_cost": 3,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:8008/",
+    "options": {},
+    "idempotency_key": "e6a3ccb7bd5ea085e2045ba976b6508c20b74b093e0986df80551aba0d1d7586",
+    "status": "error",
+    "started_at": "2026-03-06T09:47:38.092081+00:00",
+    "ended_at": "2026-03-06T09:47:46.105797+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A7_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "error": "timed out",
+    "action_cost": 3,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:8888/",
+    "options": {},
+    "idempotency_key": "425f9b4858589982a19caf5be22e96223003d0509e59c9d6bd0229027d276b8a",
+    "status": "error",
+    "started_at": "2026-03-06T09:47:46.115903+00:00",
+    "ended_at": "2026-03-06T09:47:54.127984+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A10_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "error": "timed out",
+    "action_cost": 3,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:3128/",
+    "options": {},
+    "idempotency_key": "da98830a3322491be8b9113f1332f6a5d8c2044ca3d6de56168fa8101220cab8",
+    "status": "error",
+    "started_at": "2026-03-06T09:47:54.139057+00:00",
+    "ended_at": "2026-03-06T09:47:54.142000+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A13_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "error": "circuit_open:cookie_security_audit:failures=3",
+    "action_cost": 3,
+    "budget_before": 529,
+    "budget_after": 529
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://0x6288.com:5800/",
+    "options": {},
+    "idempotency_key": "b08c637aff46a63482797070a04cff6aeed40bc19d87b9e2ceae109a66fdb9ce",
+    "status": "error",
+    "started_at": "2026-03-06T09:47:54.152229+00:00",
+    "ended_at": "2026-03-06T09:47:54.154940+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-173240-001-0x6288.com/agent/artifacts/A14_cookie_security_audit.json"
+    ],
+    "phase": "deep_testing",
+    "error": "circuit_open:cookie_security_audit:failures=4",
+    "action_cost": 3,
+    "budget_before": 529,
+    "budget_after": 529
+  }
+]

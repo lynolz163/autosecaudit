@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "generated_at": "2026-02-24T06:56:43.721433+00:00",
+    "target": "https://lynolz.com",
+    "decision_summary": "Proposed 2 safe action(s), total estimated cost 22, remaining budget after plan 5. Blocked actions: 2. Executable actions after environment checks: 0.",
+    "resumed": false,
+    "resumed_from": "None"
+  },
+  "summary": {
+    "audit_score": 100,
+    "score_label": "Excellent",
+    "total_findings": 0,
+    "vulnerability_findings": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "history_count": 1,
+    "iteration_count": 2,
+    "budget_remaining": 27,
+    "budget_start_inferred": 30
+  },
+  "history": [
+    {
+      "index": 1,
+      "tool": "passive_config_audit",
+      "target": "https://lynolz.com:443",
+      "status": "completed",
+      "started_at": "2026-02-24T06:56:38.440431+00:00",
+      "ended_at": "2026-02-24T06:56:43.662503+00:00",
+      "action_cost": 3,
+      "budget_before": 30,
+      "budget_after": 27,
+      "error": null
+    }
+  ],
+  "budget_trace": [
+    {
+      "step": 0,
+      "label": "Start",
+      "tool": "",
+      "cost": 0,
+      "budget_before": 30,
+      "budget_after": 30,
+      "cumulative_spent": 0
+    },
+    {
+      "step": 1,
+      "label": "1. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 30,
+      "budget_after": 27,
+      "cumulative_spent": 3
+    }
+  ],
+  "scope": {
+    "scope": [
+      "lynolz.com"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "https://lynolz.com"
+      },
+      {
+        "type": "endpoint",
+        "data": "https://lynolz.com/"
+      }
+    ],
+    "surface": {
+      "config_exposures": []
+    }
+  },
+  "findings": []
+}

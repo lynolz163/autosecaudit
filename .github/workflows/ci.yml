@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Bytecode compile check
+        run: |
+          python - <<'PY'
+          import pathlib
+          import py_compile
+
+          for path in sorted(pathlib.Path("autosecaudit/webapp").rglob("*.py")):
+              py_compile.compile(str(path), doraise=True)
+          for path in sorted(pathlib.Path("tests").glob("test_*.py")):
+              py_compile.compile(str(path), doraise=True)
+          PY
+
+      - name: Run backend tests
+        run: pytest tests -q
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: web-console/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: web-console
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: web-console
+        run: npm run build

@@ -1,0 +1,87 @@
+{"timestamp": "2026-03-06T12:40:10.069709+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=999, max_iterations=10, timeout=1800.0s, resumed=False"}
+{"timestamp": "2026-03-06T12:40:10.889286+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:40:12.744220+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=1842"}
+{"timestamp": "2026-03-06T12:40:12.747803+00:00", "plugin_id": "nmap_scan", "action": "action_start", "status": "start", "detail": "A2 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:40:28.683755+00:00", "plugin_id": "nmap_scan", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=15642"}
+{"timestamp": "2026-03-06T12:40:28.695343+00:00", "plugin_id": "dns_zone_audit", "action": "action_start", "status": "start", "detail": "A3 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:40:28.713725+00:00", "plugin_id": "dns_zone_audit", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=5"}
+{"timestamp": "2026-03-06T12:40:29.197941+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://0x6288.com:443"}
+{"timestamp": "2026-03-06T12:40:39.391018+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=10182"}
+{"timestamp": "2026-03-06T12:40:39.400278+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_start", "status": "start", "detail": "A2 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:40.219283+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=806"}
+{"timestamp": "2026-03-06T12:40:40.230098+00:00", "plugin_id": "git_exposure_check", "action": "action_start", "status": "start", "detail": "A3 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:44.233244+00:00", "plugin_id": "git_exposure_check", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=3993"}
+{"timestamp": "2026-03-06T12:40:44.243745+00:00", "plugin_id": "source_map_detector", "action": "action_start", "status": "start", "detail": "A4 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:47.979177+00:00", "plugin_id": "source_map_detector", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=3724"}
+{"timestamp": "2026-03-06T12:40:47.993452+00:00", "plugin_id": "security_txt_check", "action": "action_start", "status": "start", "detail": "A5 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:48.852353+00:00", "plugin_id": "security_txt_check", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=846"}
+{"timestamp": "2026-03-06T12:40:48.864985+00:00", "plugin_id": "login_form_detector", "action": "action_start", "status": "start", "detail": "A6 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:50.016176+00:00", "plugin_id": "login_form_detector", "action": "action_end", "status": "success", "detail": "A6 status=completed duration_ms=1140"}
+{"timestamp": "2026-03-06T12:40:50.027163+00:00", "plugin_id": "http_security_headers", "action": "action_start", "status": "start", "detail": "A7 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:51.112638+00:00", "plugin_id": "http_security_headers", "action": "action_end", "status": "success", "detail": "A7 status=completed duration_ms=1073"}
+{"timestamp": "2026-03-06T12:40:51.124506+00:00", "plugin_id": "ssl_expiry_check", "action": "action_start", "status": "start", "detail": "A8 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:52.517857+00:00", "plugin_id": "ssl_expiry_check", "action": "action_end", "status": "success", "detail": "A8 status=completed duration_ms=1379"}
+{"timestamp": "2026-03-06T12:40:52.536424+00:00", "plugin_id": "js_endpoint_extractor", "action": "action_start", "status": "start", "detail": "A9 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:40:53.345405+00:00", "plugin_id": "js_endpoint_extractor", "action": "action_end", "status": "success", "detail": "A9 status=completed duration_ms=795"}
+{"timestamp": "2026-03-06T12:40:53.354751+00:00", "plugin_id": "reverse_dns_probe", "action": "action_start", "status": "start", "detail": "A10 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:41:09.374520+00:00", "plugin_id": "reverse_dns_probe", "action": "action_end", "status": "success", "detail": "A10 status=completed duration_ms=16009"}
+{"timestamp": "2026-03-06T12:41:09.412558+00:00", "plugin_id": "error_page_analyzer", "action": "action_start", "status": "start", "detail": "A11 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:41:10.652510+00:00", "plugin_id": "error_page_analyzer", "action": "action_end", "status": "success", "detail": "A11 status=completed duration_ms=1230"}
+{"timestamp": "2026-03-06T12:41:10.664043+00:00", "plugin_id": "tls_service_probe", "action": "action_start", "status": "start", "detail": "A12 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:41:12.019777+00:00", "plugin_id": "tls_service_probe", "action": "action_end", "status": "success", "detail": "A12 status=completed duration_ms=1345"}
+{"timestamp": "2026-03-06T12:41:12.029470+00:00", "plugin_id": "waf_detector", "action": "action_start", "status": "start", "detail": "A13 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:41:13.162175+00:00", "plugin_id": "waf_detector", "action": "action_end", "status": "success", "detail": "A13 status=completed duration_ms=1121"}
+{"timestamp": "2026-03-06T12:41:13.174608+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A14 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:41:17.196728+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A14 status=completed duration_ms=4010"}
+{"timestamp": "2026-03-06T12:41:17.340260+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=active_discovery reason=advance:passive_recon"}
+{"timestamp": "2026-03-06T12:41:17.513820+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A1 target=https://0x6288.com:443/"}
+{"timestamp": "2026-03-06T12:41:26.305949+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=8783"}
+{"timestamp": "2026-03-06T12:41:26.317683+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A4 target=http://0x6288.com:80/"}
+{"timestamp": "2026-03-06T12:41:42.318428+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=15990"}
+{"timestamp": "2026-03-06T12:41:42.329254+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A7 target=https://0x6288.com:8443/"}
+{"timestamp": "2026-03-06T12:41:49.199310+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A7 status=completed duration_ms=6859"}
+{"timestamp": "2026-03-06T12:41:49.212268+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A10 target=http://0x6288.com:8080/"}
+{"timestamp": "2026-03-06T12:41:56.363004+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A10 status=completed duration_ms=7139"}
+{"timestamp": "2026-03-06T12:41:56.375064+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A13 target=http://0x6288.com:8000/"}
+{"timestamp": "2026-03-06T12:42:52.480980+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A13 status=completed duration_ms=56097"}
+{"timestamp": "2026-03-06T12:42:52.491453+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A2 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:42:56.516760+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=4014"}
+{"timestamp": "2026-03-06T12:42:56.534693+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A5 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:43:00.561332+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=4013"}
+{"timestamp": "2026-03-06T12:43:00.584119+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A8 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:43:04.618025+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A8 status=completed duration_ms=4019"}
+{"timestamp": "2026-03-06T12:43:04.671955+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A11 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:43:08.702524+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A11 status=completed duration_ms=4017"}
+{"timestamp": "2026-03-06T12:43:08.712382+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A3 target=https://0x6288.com:443"}
+{"timestamp": "2026-03-06T12:44:38.737857+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "error", "detail": "A3 status=error duration_ms=90019"}
+{"timestamp": "2026-03-06T12:44:38.754464+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A6 target=http://0x6288.com:80"}
+{"timestamp": "2026-03-06T12:46:08.779395+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "error", "detail": "A6 status=error duration_ms=90018"}
+{"timestamp": "2026-03-06T12:46:08.793959+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A9 target=https://0x6288.com:8443"}
+{"timestamp": "2026-03-06T12:47:38.820225+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "error", "detail": "A9 status=error duration_ms=90016"}
+{"timestamp": "2026-03-06T12:47:38.839467+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A12 target=http://0x6288.com:8080"}
+{"timestamp": "2026-03-06T12:47:38.853865+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "error", "detail": "A12 status=error duration_ms=3"}
+{"timestamp": "2026-03-06T12:47:38.866886+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A14 target=http://0x6288.com:8000"}
+{"timestamp": "2026-03-06T12:47:38.881064+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "error", "detail": "A14 status=error duration_ms=3"}
+{"timestamp": "2026-03-06T12:47:39.198059+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A1 target=http://0x6288.com:8008/"}
+{"timestamp": "2026-03-06T12:48:35.299053+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=56094"}
+{"timestamp": "2026-03-06T12:48:35.310134+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A4 target=http://0x6288.com:8888/"}
+{"timestamp": "2026-03-06T12:49:31.411919+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=56095"}
+{"timestamp": "2026-03-06T12:49:31.422407+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A7 target=http://0x6288.com:3128/"}
+{"timestamp": "2026-03-06T12:50:27.676885+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A7 status=completed duration_ms=56246"}
+{"timestamp": "2026-03-06T12:50:27.688520+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A10 target=http://0x6288.com:5800/"}
+{"timestamp": "2026-03-06T12:51:23.794446+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A10 status=completed duration_ms=56096"}
+{"timestamp": "2026-03-06T12:51:23.814131+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A13 target=http://0x6288.com:280/"}
+{"timestamp": "2026-03-06T12:52:19.924550+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A13 status=completed duration_ms=56101"}
+{"timestamp": "2026-03-06T12:52:19.938143+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A2 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:52:23.961256+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=4010"}
+{"timestamp": "2026-03-06T12:52:23.977629+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A5 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:52:28.000298+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=4010"}
+{"timestamp": "2026-03-06T12:52:28.038949+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A8 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:52:32.063289+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A8 status=completed duration_ms=4011"}
+{"timestamp": "2026-03-06T12:52:32.076402+00:00", "plugin_id": "service_banner_probe", "action": "action_start", "status": "start", "detail": "A11 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:52:36.095275+00:00", "plugin_id": "service_banner_probe", "action": "action_end", "status": "success", "detail": "A11 status=completed duration_ms=4007"}
+{"timestamp": "2026-03-06T12:52:36.421341+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A1 target=http://0x6288.com:593/"}
+{"timestamp": "2026-03-06T12:53:32.686518+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=56256"}
+{"timestamp": "2026-03-06T12:53:32.697711+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A4 target=http://0x6288.com:777/"}
+{"timestamp": "2026-03-06T12:54:28.798934+00:00", "plugin_id": "api_schema_discovery", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=56092"}
+{"timestamp": "2026-03-06T12:54:28.816455+00:00", "plugin_id": "api_schema_discovery", "action": "action_start", "status": "start", "detail": "A7 target=http://0x6288.com:808/"}

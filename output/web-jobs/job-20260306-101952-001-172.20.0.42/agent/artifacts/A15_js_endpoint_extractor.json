@@ -1,0 +1,126 @@
+{
+  "action": {
+    "action_id": "A15",
+    "tool_name": "js_endpoint_extractor",
+    "target": "http://172.20.0.42:80/",
+    "options": {},
+    "priority": 8,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "cf9c91e7153e4b88a5d53909299f0452c60e3e21616603d7847670c91067232c",
+    "reason": "Inspect same-origin HTML and JavaScript to discover hidden endpoints.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 30,
+  "attempts": 1,
+  "result": {
+    "url": "http://172.20.0.42:80",
+    "status_code": 200,
+    "headers": {
+      "content-length": "3429",
+      "accept-ranges": "bytes",
+      "connection": "keep-alive",
+      "content-type": "text/html",
+      "date": "Fri, 06 Mar 2026 02:22:28 GMT",
+      "etag": "\"60c1d6af-d65\"",
+      "keep-alive": "timeout=60",
+      "last-modified": "Thu, 10 Jun 2021 09:09:03 GMT",
+      "proxy-connection": "keep-alive",
+      "server": "nginx/1.14.1"
+    },
+    "scripts": [],
+    "discovered_urls": [],
+    "api_endpoints": []
+  },
+  "metadata": {
+    "url": "http://172.20.0.42:80",
+    "status_code": 200,
+    "headers": {
+      "content-length": "3429",
+      "accept-ranges": "bytes",
+      "connection": "keep-alive",
+      "content-type": "text/html",
+      "date": "Fri, 06 Mar 2026 02:22:28 GMT",
+      "etag": "\"60c1d6af-d65\"",
+      "keep-alive": "timeout=60",
+      "last-modified": "Thu, 10 Jun 2021 09:09:03 GMT",
+      "proxy-connection": "keep-alive",
+      "server": "nginx/1.14.1"
+    },
+    "scripts": [],
+    "discovered_urls": [],
+    "api_endpoints": [],
+    "skill_name": "js_endpoint_extractor",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "js_endpoint_extractor",
+    "target": "http://172.20.0.42:80/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "js_endpoint_extractor:discovery",
+          "tool": "js_endpoint_extractor",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "JavaScript Endpoint Extraction",
+          "description": "Static analysis of same-origin HTML/JS revealed candidate API or hidden endpoints.",
+          "evidence": {
+            "url": "http://172.20.0.42:80",
+            "count": 0,
+            "scripts": []
+          },
+          "remediation": "Review exposed client-side endpoints and ensure undocumented APIs are properly scoped and protected.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "discovered_urls": [],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {}
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "http://172.20.0.42:80",
+        "status_code": 200,
+        "headers": {
+          "content-length": "3429",
+          "accept-ranges": "bytes",
+          "connection": "keep-alive",
+          "content-type": "text/html",
+          "date": "Fri, 06 Mar 2026 02:22:28 GMT",
+          "etag": "\"60c1d6af-d65\"",
+          "keep-alive": "timeout=60",
+          "last-modified": "Thu, 10 Jun 2021 09:09:03 GMT",
+          "proxy-connection": "keep-alive",
+          "server": "nginx/1.14.1"
+        },
+        "scripts": [],
+        "discovered_urls": [],
+        "api_endpoints": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 30
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "disabled_tools": [],
+  "focus_ports": [],
+  "preferred_origins": [],
+  "mission_intent": "pentest",
+  "mission_depth": "deep",
+  "mission_message": "对0x6288.com进行最高限度的渗透测试",
+  "autonomy_mode": "adaptive",
+  "authorization_confirmed": false,
+  "mission_parser_source": "llm",
+  "mission_parser_values": {
+    "target": "0x6288.com",
+    "intent": "pentest",
+    "depth": "deep"
+  }
+}

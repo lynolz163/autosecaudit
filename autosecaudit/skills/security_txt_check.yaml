@@ -1,0 +1,20 @@
+{
+  "skill": {
+    "name": "security_txt_check",
+    "version": "1.0",
+    "tool": "security_txt_check",
+    "category": "recon",
+    "description": "Check /.well-known/security.txt for presence and baseline completeness."
+  },
+  "triggers": {
+    "phase": ["passive_recon"],
+    "when": [{"condition": "has_http_origin"}, {"condition": "not_already_done"}],
+    "target_source": "origins",
+    "target_type": "origin_url"
+  },
+  "parameters": {"defaults": {}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {},
+  "risk": {"level": "safe", "cost": 1, "priority": 3, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

@@ -1,0 +1,49 @@
+{
+  "decision_summary": "[phase:verification] Proposed 4 safe action(s), total estimated cost 15, remaining budget after plan 170. Blocked actions: 2. Executable actions after environment checks: 2.",
+  "actions": [
+    {
+      "action_id": "A2",
+      "tool_name": "csp_evaluator",
+      "target": "http://360-24.com:8080/",
+      "options": {},
+      "priority": 28,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "d7739d0d6052d39b1e9182f5b15eb6b2383eeb577bb57ccf42f20db0571bcf1c",
+      "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "cookie_security_audit",
+      "target": "http://360-24.com:8080/",
+      "options": {},
+      "priority": 29,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "8c0ac9f23f61bfcc28e3749bb9eed9c7e8a4230b5d89f0da38ee1533796ad2b7",
+      "reason": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

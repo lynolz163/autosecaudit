@@ -1,0 +1,50 @@
+2026-03-04 13:46:18 [INFO] autosecaudit - [agent] run_start | start | budget=120, max_iterations=3, timeout=900.0s, resumed=False
+2026-03-04 13:46:18 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://lynolz.com:443
+2026-03-04 13:46:30 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=11831
+2026-03-04 13:46:30 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=https://lynolz.com:443/
+2026-03-04 13:46:30 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A2 status=completed duration_ms=823
+2026-03-04 13:46:30 [INFO] autosecaudit - [git_exposure_check] action_start | start | A3 target=https://lynolz.com:443/
+2026-03-04 13:46:35 [INFO] autosecaudit - [git_exposure_check] action_end | success | A3 status=completed duration_ms=4458
+2026-03-04 13:46:35 [INFO] autosecaudit - [security_txt_check] action_start | start | A4 target=https://lynolz.com:443/
+2026-03-04 13:46:36 [INFO] autosecaudit - [security_txt_check] action_end | success | A4 status=completed duration_ms=717
+2026-03-04 13:46:36 [INFO] autosecaudit - [login_form_detector] action_start | start | A5 target=https://lynolz.com:443/
+2026-03-04 13:46:36 [INFO] autosecaudit - [login_form_detector] action_end | success | A5 status=completed duration_ms=750
+2026-03-04 13:46:36 [INFO] autosecaudit - [http_security_headers] action_start | start | A6 target=https://lynolz.com:443/
+2026-03-04 13:46:37 [INFO] autosecaudit - [http_security_headers] action_end | success | A6 status=completed duration_ms=700
+2026-03-04 13:46:37 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A7 target=https://lynolz.com:443/
+2026-03-04 13:46:39 [INFO] autosecaudit - [ssl_expiry_check] action_end | success | A7 status=completed duration_ms=1364
+2026-03-04 13:46:39 [INFO] autosecaudit - [source_map_detector] action_start | start | A8 target=https://lynolz.com:443/
+2026-03-04 13:46:52 [INFO] autosecaudit - [source_map_detector] action_end | success | A8 status=completed duration_ms=13950
+2026-03-04 13:46:53 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-04 13:46:53 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://lynolz.com:443/
+2026-03-04 13:47:00 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=7651
+2026-03-04 13:47:00 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=https://lynolz.com:443/
+2026-03-04 13:49:37 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=156923
+2026-03-04 13:49:37 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=https://lynolz.com:443/
+2026-03-04 13:51:12 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=94364
+2026-03-04 13:51:12 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=https://lynolz.com:443
+2026-03-04 13:54:12 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A4 status=error duration_ms=180019
+2026-03-04 13:54:12 [INFO] autosecaudit - [agent] phase_transition | info | phase=deep_testing reason=advance:active_discovery
+2026-03-04 13:54:12 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=https://dogs.lynolz.com:443/
+2026-03-04 13:54:13 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=1440
+2026-03-04 13:54:13 [INFO] autosecaudit - [cors_misconfiguration] action_start | start | A2 target=https://dogs.lynolz.com:443/
+2026-03-04 13:54:16 [INFO] autosecaudit - [cors_misconfiguration] action_end | success | A2 status=completed duration_ms=2662
+2026-03-04 13:54:16 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A3 target=https://dogs.lynolz.com:443/
+2026-03-04 13:54:18 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A3 status=completed duration_ms=1742
+2026-03-04 13:54:18 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A4 target=https://dogs.lynolz.com:443/
+2026-03-04 13:54:25 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A4 status=completed duration_ms=7326
+2026-03-04 13:54:25 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A5 target=https://dogs.lynolz.com:443/
+2026-03-04 13:54:26 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A5 status=completed duration_ms=722
+2026-03-04 13:54:26 [INFO] autosecaudit - [param_fuzzer] action_start | start | A6 target=https://dogs.lynolz.com:443/
+2026-03-04 13:54:29 [INFO] autosecaudit - [param_fuzzer] action_end | success | A6 status=completed duration_ms=2600
+2026-03-04 13:54:29 [INFO] autosecaudit - [agent] run_end | success | history=18, findings=13
+2026-03-04 13:54:29 [INFO] autosecaudit - Agent decision summary: [phase:deep_testing] Proposed 6 safe action(s), total estimated cost 34, remaining budget after plan 2.
+2026-03-04 13:54:29 [INFO] autosecaudit - Action plan: /workspace/output/lynolz_active_discovery_rerun/agent/ActionPlan.json
+2026-03-04 13:54:29 [INFO] autosecaudit - History: /workspace/output/lynolz_active_discovery_rerun/agent/agent_history.json
+2026-03-04 13:54:29 [INFO] autosecaudit - State: /workspace/output/lynolz_active_discovery_rerun/agent/agent_state.json
+2026-03-04 13:54:29 [INFO] autosecaudit - Blocked actions: /workspace/output/lynolz_active_discovery_rerun/agent/blocked_actions.json
+2026-03-04 13:54:29 [INFO] autosecaudit - Artifact index: /workspace/output/lynolz_active_discovery_rerun/agent/artifact_index.json
+2026-03-04 13:54:29 [INFO] autosecaudit - Markdown report: /workspace/output/lynolz_active_discovery_rerun/agent/agent_report.md
+2026-03-04 13:54:29 [INFO] autosecaudit - HTML visual report: /workspace/output/lynolz_active_discovery_rerun/agent/agent_report.html
+2026-03-04 13:54:29 [INFO] autosecaudit - Findings: 13, Budget remaining: 29
+2026-03-04 13:54:29 [INFO] autosecaudit - Resumed: False, Resumed from: None

@@ -1,0 +1,91 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "dirsearch_scan",
+    "target": "http://edu.360-24.com:8888",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "priority": 30,
+    "cost": 10,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "38eabfe34b04c26fc936fa041890d2b5ebce9bcd70ff94d15d122d9682bb6590",
+    "reason": "Use dirsearch for conservative directory and file discovery.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 10494,
+  "attempts": 1,
+  "result": {
+    "command": [
+      "/usr/local/bin/python",
+      "/opt/dirsearch/dirsearch.py",
+      "-u",
+      "http://edu.360-24.com:8888/",
+      "-O",
+      "json",
+      "-o",
+      "/tmp/autosecaudit-dirsearch-va4hgrfp/dirsearch_report.json",
+      "-t",
+      "4"
+    ],
+    "return_code": 0,
+    "stdout_preview": "_|. _ _  _  _  _ _|_    v0.4.3\n (_||| _) (/_(_|| (_| )\n\nExtensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 4\nWordlist size: 12295\n\nTarget: http://edu.360-24.com:8888/\n\n[01:25:17] Scanning: \n\nThere was a problem in the request to: http://edu.360-24.com:8888/D2ztLb\n\nTask Completed",
+    "stderr_preview": "",
+    "parse_errors": 0,
+    "entry_count": 0
+  },
+  "metadata": {
+    "skill_name": "dirsearch_scan",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "dirsearch_scan",
+    "target": "http://edu.360-24.com:8888/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "command": [
+          "/usr/local/bin/python",
+          "/opt/dirsearch/dirsearch.py",
+          "-u",
+          "http://edu.360-24.com:8888/",
+          "-O",
+          "json",
+          "-o",
+          "/tmp/autosecaudit-dirsearch-va4hgrfp/dirsearch_report.json",
+          "-t",
+          "4"
+        ],
+        "return_code": 0,
+        "stdout_preview": "_|. _ _  _  _  _ _|_    v0.4.3\n (_||| _) (/_(_|| (_| )\n\nExtensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 4\nWordlist size: 12295\n\nTarget: http://edu.360-24.com:8888/\n\n[01:25:17] Scanning: \n\nThere was a problem in the request to: http://edu.360-24.com:8888/D2ztLb\n\nTask Completed",
+        "stderr_preview": "",
+        "parse_errors": 0,
+        "entry_count": 0
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "dirsearch_results": [],
+        "discovered_urls": [],
+        "dirsearch_entry_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": "_|. _ _  _  _  _ _|_    v0.4.3\n (_||| _) (/_(_|| (_| )\n\nExtensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 4\nWordlist size: 12295\n\nTarget: http://edu.360-24.com:8888/\n\n[01:25:17] Scanning: \n\nThere was a problem in the request to: http://edu.360-24.com:8888/D2ztLb\n\nTask Completed",
+    "duration_ms": 10494
+  }
+}

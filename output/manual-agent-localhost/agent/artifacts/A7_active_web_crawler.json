@@ -1,0 +1,127 @@
+{
+  "action": {
+    "action_id": "A7",
+    "tool_name": "active_web_crawler",
+    "target": "http://localhost:8080/",
+    "options": {
+      "allow_domain": [
+        "localhost"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "priority": 21,
+    "cost": 12,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "092512102f2bed31c9615c6da8eb3bd7975b40dd17206e9e9a49955a915d35b1",
+    "reason": "Perform bounded interactive crawling with a strict page limit to enrich surface coverage.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4741,
+  "result": {
+    "start_url": "http://localhost:8080/",
+    "max_depth": 2,
+    "page_limit": 50,
+    "visited_pages": 1,
+    "discovered_urls": [
+      "http://localhost:8080/",
+      "http://localhost:8080/api/auth/status",
+      "http://localhost:8080/assets/index-CM3LHc1m.css",
+      "http://localhost:8080/assets/index-DJOZ8zFL.js"
+    ],
+    "api_endpoints": [
+      {
+        "url": "http://localhost:8080/api/auth/status",
+        "method": "GET",
+        "source": "fetch"
+      }
+    ],
+    "url_parameters": {},
+    "parameter_origins": {},
+    "tech_stack": [],
+    "errors": []
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "active_web_crawler",
+    "target": "http://localhost:8080/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "start_url": "http://localhost:8080/",
+        "max_depth": 2,
+        "page_limit": 50,
+        "visited_pages": 1,
+        "discovered_urls": [
+          "http://localhost:8080/",
+          "http://localhost:8080/api/auth/status",
+          "http://localhost:8080/assets/index-CM3LHc1m.css",
+          "http://localhost:8080/assets/index-DJOZ8zFL.js"
+        ],
+        "api_endpoints": [
+          {
+            "url": "http://localhost:8080/api/auth/status",
+            "method": "GET",
+            "source": "fetch"
+          }
+        ],
+        "url_parameters": {},
+        "parameter_origins": {},
+        "tech_stack": [],
+        "errors": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [
+        {
+          "type": "endpoint",
+          "data": "http://localhost:8080/"
+        },
+        {
+          "type": "endpoint",
+          "data": "http://localhost:8080/api/auth/status"
+        },
+        {
+          "type": "endpoint",
+          "data": "http://localhost:8080/assets/index-CM3LHc1m.css"
+        },
+        {
+          "type": "endpoint",
+          "data": "http://localhost:8080/assets/index-DJOZ8zFL.js"
+        }
+      ],
+      "surface_delta": {
+        "discovered_urls": [
+          "http://localhost:8080/",
+          "http://localhost:8080/api/auth/status",
+          "http://localhost:8080/assets/index-CM3LHc1m.css",
+          "http://localhost:8080/assets/index-DJOZ8zFL.js"
+        ],
+        "api_endpoints": [
+          {
+            "url": "http://localhost:8080/api/auth/status",
+            "method": "GET",
+            "source": "fetch"
+          }
+        ],
+        "url_parameters": {},
+        "parameter_origins": {},
+        "tech_stack": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4741
+  }
+}

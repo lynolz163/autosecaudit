@@ -1,0 +1,140 @@
+{
+  "action": {
+    "action_id": "A9",
+    "tool_name": "js_endpoint_extractor",
+    "target": "https://360-24.com:443/",
+    "options": {},
+    "priority": 8,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "1cdb87e06d0e3ec259cb20136862641be8a2ec871107e37576809d41e93ab105",
+    "reason": "Inspect same-origin HTML and JavaScript to discover hidden endpoints.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 3303,
+  "attempts": 1,
+  "result": {
+    "url": "https://360-24.com:443",
+    "status_code": 200,
+    "headers": {
+      "server": "nginx/1.14.1",
+      "date": "Fri, 06 Mar 2026 03:53:44 GMT",
+      "content-type": "text/html",
+      "content-length": "61877",
+      "last-modified": "Sat, 02 Aug 2025 09:42:59 GMT",
+      "connection": "close",
+      "etag": "\"688ddda3-f1b5\"",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "access-control-allow-credentials": "true",
+      "accept-ranges": "bytes"
+    },
+    "scripts": [
+      "https://360-24.com:443/js/script.js"
+    ],
+    "discovered_urls": [],
+    "api_endpoints": []
+  },
+  "metadata": {
+    "url": "https://360-24.com:443",
+    "status_code": 200,
+    "headers": {
+      "server": "nginx/1.14.1",
+      "date": "Fri, 06 Mar 2026 03:53:44 GMT",
+      "content-type": "text/html",
+      "content-length": "61877",
+      "last-modified": "Sat, 02 Aug 2025 09:42:59 GMT",
+      "connection": "close",
+      "etag": "\"688ddda3-f1b5\"",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "access-control-allow-credentials": "true",
+      "accept-ranges": "bytes"
+    },
+    "scripts": [
+      "https://360-24.com:443/js/script.js"
+    ],
+    "discovered_urls": [],
+    "api_endpoints": [],
+    "skill_name": "js_endpoint_extractor",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "js_endpoint_extractor",
+    "target": "https://360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "js_endpoint_extractor:discovery",
+          "tool": "js_endpoint_extractor",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "JavaScript Endpoint Extraction",
+          "description": "Static analysis of same-origin HTML/JS revealed candidate API or hidden endpoints.",
+          "evidence": {
+            "url": "https://360-24.com:443",
+            "count": 0,
+            "scripts": [
+              "https://360-24.com:443/js/script.js"
+            ]
+          },
+          "remediation": "Review exposed client-side endpoints and ensure undocumented APIs are properly scoped and protected.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "discovered_urls": [],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {}
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://360-24.com:443",
+        "status_code": 200,
+        "headers": {
+          "server": "nginx/1.14.1",
+          "date": "Fri, 06 Mar 2026 03:53:44 GMT",
+          "content-type": "text/html",
+          "content-length": "61877",
+          "last-modified": "Sat, 02 Aug 2025 09:42:59 GMT",
+          "connection": "close",
+          "etag": "\"688ddda3-f1b5\"",
+          "access-control-allow-origin": "*",
+          "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+          "access-control-allow-credentials": "true",
+          "accept-ranges": "bytes"
+        },
+        "scripts": [
+          "https://360-24.com:443/js/script.js"
+        ],
+        "discovered_urls": [],
+        "api_endpoints": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 3303
+  }
+}

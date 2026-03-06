@@ -1,0 +1,22 @@
+{
+  "scope": [
+    "example.com"
+  ],
+  "breadcrumbs": [
+    {
+      "type": "service",
+      "data": "https://example.com"
+    },
+    {
+      "type": "endpoint",
+      "data": "https://example.com/"
+    }
+  ],
+  "history": [],
+  "surface": {},
+  "budget_remaining": 50,
+  "target": "https://example.com",
+  "iteration_count": 0,
+  "resumed": false,
+  "resumed_from": null
+}

@@ -1,0 +1,48 @@
+{
+  "skill": {
+    "name": "mysql_handshake_probe",
+    "version": "1.0",
+    "tool": "mysql_handshake_probe",
+    "category": "validation",
+    "description": "Collect MySQL handshake metadata without attempting authentication."
+  },
+  "triggers": {
+    "phase": ["passive_recon", "verification"],
+    "when": [
+      {"condition": "not_already_done"},
+      {"condition": "service_port_matches", "services": ["mysql"], "ports": [3306]}
+    ],
+    "target_source": "surface",
+    "target_type": "service_port"
+  },
+  "parameters": {
+    "defaults": {
+      "port": "$port",
+      "service": "$service",
+      "timeout_seconds": 4,
+      "read_bytes": 512
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.mysql_handshakes", "condition": "non_empty", "meaning": "MySQL handshake metadata collected"}
+    ],
+    "output_extraction": {
+      "surface_updates": [
+        {"field": "mysql_handshakes", "source": "surface_delta.mysql_handshakes"}
+      ]
+    },
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_db_stack": {
+      "trigger": ["rag_intel_lookup", "cve_lookup"],
+      "when_surface_contains": {"tech_component_names": ["mysql", "mariadb", "percona-server"]},
+      "reason": "Database version metadata can drive vulnerability intelligence and CVE lookup."
+    }
+  },
+  "risk": {"level": "safe", "cost": 4, "priority": 20, "retry": {"max_retries": 1, "backoff_seconds": 0.5}},
+  "dependencies": {"tools": ["nmap_scan", "service_banner_probe"]}
+}

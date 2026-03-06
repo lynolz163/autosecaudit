@@ -1,0 +1,202 @@
+{
+  "action": {
+    "action_id": "A6",
+    "tool_name": "param_fuzzer",
+    "target": "https://edu.360-24.com:443/",
+    "options": {
+      "max_probes": 6,
+      "method": "GET",
+      "mode": "lightweight",
+      "params": {
+        "account": "",
+        "captcha": "",
+        "password": ""
+      }
+    },
+    "priority": 25,
+    "cost": 6,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "21eef141d6da2cc8c7727fb0cbd7ca6cc1f0b735e2fe0d61796a7eda03a51b99",
+    "reason": "Run bounded benign parameter probes against parameterized endpoints. on crawler-confirmed parameterized endpoint.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "params_available",
+      "crawler_signal_present"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 6922,
+  "attempts": 1,
+  "result": {
+    "baseline_status_code": 200,
+    "baseline_headers": {
+      "server": "nginx",
+      "date": "Wed, 04 Mar 2026 12:53:49 GMT",
+      "content-type": "text/html",
+      "content-length": "13964",
+      "last-modified": "Tue, 30 Dec 2025 17:29:06 GMT",
+      "connection": "close",
+      "etag": "\"69540be2-368c\"",
+      "accept-ranges": "bytes"
+    },
+    "baseline_url": "https://edu.360-24.com:443/?account=&captcha=&password=",
+    "probes": [
+      {
+        "param": "account",
+        "original_value": "",
+        "probe_value": "'",
+        "status_code": 200,
+        "baseline_status_code": 200,
+        "content_length_delta": 0,
+        "reflected": false,
+        "url": "https://edu.360-24.com:443/?account=%27&captcha=&password=",
+        "server": "nginx"
+      },
+      {
+        "param": "captcha",
+        "original_value": "",
+        "probe_value": "\"",
+        "status_code": 200,
+        "baseline_status_code": 200,
+        "content_length_delta": 0,
+        "reflected": true,
+        "url": "https://edu.360-24.com:443/?account=&captcha=%22&password=",
+        "server": "nginx"
+      },
+      {
+        "param": "password",
+        "original_value": "",
+        "probe_value": "<asa-canary>",
+        "status_code": 200,
+        "baseline_status_code": 200,
+        "content_length_delta": 0,
+        "reflected": false,
+        "url": "https://edu.360-24.com:443/?account=&captcha=&password=%3Casa-canary%3E",
+        "server": "nginx"
+      }
+    ]
+  },
+  "metadata": {
+    "skill_name": "param_fuzzer",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "param_fuzzer",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "baseline_status_code": 200,
+        "baseline_headers": {
+          "server": "nginx",
+          "date": "Wed, 04 Mar 2026 12:53:49 GMT",
+          "content-type": "text/html",
+          "content-length": "13964",
+          "last-modified": "Tue, 30 Dec 2025 17:29:06 GMT",
+          "connection": "close",
+          "etag": "\"69540be2-368c\"",
+          "accept-ranges": "bytes"
+        },
+        "baseline_url": "https://edu.360-24.com:443/?account=&captcha=&password=",
+        "probes": [
+          {
+            "param": "account",
+            "original_value": "",
+            "probe_value": "'",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": false,
+            "url": "https://edu.360-24.com:443/?account=%27&captcha=&password=",
+            "server": "nginx"
+          },
+          {
+            "param": "captcha",
+            "original_value": "",
+            "probe_value": "\"",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": true,
+            "url": "https://edu.360-24.com:443/?account=&captcha=%22&password=",
+            "server": "nginx"
+          },
+          {
+            "param": "password",
+            "original_value": "",
+            "probe_value": "<asa-canary>",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": false,
+            "url": "https://edu.360-24.com:443/?account=&captcha=&password=%3Casa-canary%3E",
+            "server": "nginx"
+          }
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "Parameter Fuzzing Observed Notable Response Change",
+          "severity": "info",
+          "evidence": "{\"param\": \"captcha\", \"original_value\": \"\", \"probe_value\": \"\\\"\", \"status_code\": 200, \"baseline_status_code\": 200, \"content_length_delta\": 0, \"reflected\": true, \"url\": \"https://edu.360-24.com:443/?account=&captcha=%22&password=\", \"server\": \"nginx\"}",
+          "reproduction_steps": [
+            "Request https://edu.360-24.com:443/?account=&captcha=&password= as baseline.",
+            "Mutate `captcha` with `\"` and compare response behavior."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "fuzz_probes": [
+          {
+            "param": "account",
+            "original_value": "",
+            "probe_value": "'",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": false,
+            "url": "https://edu.360-24.com:443/?account=%27&captcha=&password=",
+            "server": "nginx"
+          },
+          {
+            "param": "captcha",
+            "original_value": "",
+            "probe_value": "\"",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": true,
+            "url": "https://edu.360-24.com:443/?account=&captcha=%22&password=",
+            "server": "nginx"
+          },
+          {
+            "param": "password",
+            "original_value": "",
+            "probe_value": "<asa-canary>",
+            "status_code": 200,
+            "baseline_status_code": 200,
+            "content_length_delta": 0,
+            "reflected": false,
+            "url": "https://edu.360-24.com:443/?account=&captcha=&password=%3Casa-canary%3E",
+            "server": "nginx"
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 6922
+  }
+}

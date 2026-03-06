@@ -1,0 +1,57 @@
+[
+  {
+    "tool": "passive_config_audit",
+    "target": "https://lynolz.com:443",
+    "options": {},
+    "idempotency_key": "efbb8a4100c2295cd5ed66a9e2aa26f89be041957aa749a256d9f3a0138bbdeb",
+    "status": "completed",
+    "started_at": "2026-02-24T06:51:39.789708+00:00",
+    "ended_at": "2026-02-24T06:51:45.454338+00:00",
+    "artifacts": [
+      "C:\\Users\\Administrator\\Desktop\\agent\\output_lynolz_agent\\agent\\artifacts\\A1_passive_config_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 30,
+    "budget_after": 5
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "https://lynolz.com:443/",
+    "options": {
+      "allow_domain": [
+        "lynolz.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "5c0b27e93337f278ab7354c9dca3b484d409aed839f567f76c026717e6fc566b",
+    "status": "error",
+    "started_at": "2026-02-24T06:51:45.456750+00:00",
+    "ended_at": "2026-02-24T06:51:45.458804+00:00",
+    "artifacts": [
+      "C:\\Users\\Administrator\\Desktop\\agent\\output_lynolz_agent\\agent\\artifacts\\A2_dynamic_crawl.json"
+    ],
+    "error": "playwright is required. Install with `pip install playwright` and run `playwright install`.",
+    "action_cost": 12,
+    "budget_before": 5,
+    "budget_after": 5
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://lynolz.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "a00b6438b07c644a77aa905172d75122013ae598f28155ad9f106bb9529c8b3f",
+    "status": "failed",
+    "started_at": "2026-02-24T06:51:45.460417+00:00",
+    "ended_at": "2026-02-24T06:51:45.547468+00:00",
+    "artifacts": [
+      "C:\\Users\\Administrator\\Desktop\\agent\\output_lynolz_agent\\agent\\artifacts\\A3_dirsearch_scan.json"
+    ],
+    "error": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python313\\python.exe: No module named dirsearch",
+    "action_cost": 10,
+    "budget_before": 5,
+    "budget_after": 5
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "action": {
+    "action_id": "A10",
+    "tool_name": "error_page_analyzer",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "priority": 11,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "65f0ce32259d5ec4c167254b1468dc6af8e574240c565543067275ea4dff77ef",
+    "reason": "Inspect verbose error pages for stack traces, framework markers, and debug data.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 573,
+  "attempts": 1,
+  "result": {
+    "origin": "https://edu.360-24.com:443",
+    "status_code": 200
+  },
+  "metadata": {
+    "origin": "https://edu.360-24.com:443",
+    "status_code": 200,
+    "skill_name": "error_page_analyzer",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "error_page_analyzer",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {
+        "error_page_markers": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "https://edu.360-24.com:443",
+        "status_code": 200
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 573
+  }
+}

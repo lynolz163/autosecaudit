@@ -1,0 +1,14 @@
+2026-02-22 15:29:13 [INFO] autosecaudit - LLM router enabled: primary=test-model, fallbacks=[], default_provider=local
+2026-02-22 15:29:13 [INFO] autosecaudit - LLM request via provider=local model=test-model
+2026-02-22 15:29:14 [WARNING] autosecaudit - LLM attempt failed (local/test-model: local network error: <urlopen error timed out>)
+2026-02-22 15:29:14 [WARNING] autosecaudit - LLM router failed; using fallback empty suggestion: all LLM providers/models failed: local/test-model: local network error: <urlopen error timed out>
+2026-02-22 15:29:15 [INFO] autosecaudit - [agent] plan_only | success | Plan generated without execution.
+2026-02-22 15:29:15 [INFO] autosecaudit - Agent decision summary: Proposed 2 safe action(s), total estimated cost 15, remaining budget after plan 35.
+2026-02-22 15:29:15 [INFO] autosecaudit - Action plan: C:\Users\Administrator\Desktop\agent\output_llm_smoke\agent\ActionPlan.json
+2026-02-22 15:29:15 [INFO] autosecaudit - History: C:\Users\Administrator\Desktop\agent\output_llm_smoke\agent\agent_history.json
+2026-02-22 15:29:15 [INFO] autosecaudit - State: C:\Users\Administrator\Desktop\agent\output_llm_smoke\agent\agent_state.json
+2026-02-22 15:29:15 [INFO] autosecaudit - Blocked actions: C:\Users\Administrator\Desktop\agent\output_llm_smoke\agent\blocked_actions.json
+2026-02-22 15:29:15 [INFO] autosecaudit - Artifact index: C:\Users\Administrator\Desktop\agent\output_llm_smoke\agent\artifact_index.json
+2026-02-22 15:29:15 [INFO] autosecaudit - Markdown report: C:\Users\Administrator\Desktop\agent\output_llm_smoke\agent\agent_report.md
+2026-02-22 15:29:15 [INFO] autosecaudit - Findings: 0, Budget remaining: 50
+2026-02-22 15:29:15 [INFO] autosecaudit - Resumed: False, Resumed from: None

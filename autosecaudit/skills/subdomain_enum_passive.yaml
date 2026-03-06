@@ -1,0 +1,20 @@
+{
+  "skill": {
+    "name": "subdomain_enum_passive",
+    "version": "1.0",
+    "tool": "subdomain_enum_passive",
+    "category": "recon",
+    "description": "Enumerate likely subdomains through passive certificate transparency sources."
+  },
+  "triggers": {
+    "phase": ["passive_recon"],
+    "when": [{"condition": "has_scope_target"}, {"condition": "not_already_done"}],
+    "target_source": "scope",
+    "target_type": "domain"
+  },
+  "parameters": {"defaults": {"max_results": 100}, "constraints": {}},
+  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
+  "follow_up": {},
+  "risk": {"level": "safe", "cost": 5, "priority": 12, "retry": {}},
+  "dependencies": {"runtime": null, "tools": []}
+}

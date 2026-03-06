@@ -1,0 +1,89 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "priority": 1,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "49bcce90653c98c3eb25ce48988081c20de282be9b3aba0962805fc103ce659b",
+    "reason": "Collect passive header and page-signature technology hints for safer follow-up planning.",
+    "preconditions": [
+      "target_in_scope",
+      "http_service_confirmed",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1723,
+  "result": {
+    "url": "https://edu.360-24.com:443",
+    "status_code": 200,
+    "headers": {
+      "server": "nginx",
+      "date": "Tue, 03 Mar 2026 12:52:54 GMT",
+      "content-type": "text/html",
+      "content-length": "13964",
+      "last-modified": "Tue, 30 Dec 2025 17:29:06 GMT",
+      "connection": "close",
+      "etag": "\"69540be2-368c\"",
+      "accept-ranges": "bytes"
+    },
+    "tech_stack": [
+      "nginx"
+    ]
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "url": "https://edu.360-24.com:443",
+        "status_code": 200,
+        "headers": {
+          "server": "nginx",
+          "date": "Tue, 03 Mar 2026 12:52:54 GMT",
+          "content-type": "text/html",
+          "content-length": "13964",
+          "last-modified": "Tue, 30 Dec 2025 17:29:06 GMT",
+          "connection": "close",
+          "etag": "\"69540be2-368c\"",
+          "accept-ranges": "bytes"
+        },
+        "tech_stack": [
+          "nginx"
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "Passive Technology Fingerprint",
+          "severity": "info",
+          "evidence": "{\"url\": \"https://edu.360-24.com:443\", \"status_code\": 200, \"tech_stack\": [\"nginx\"], \"server\": \"nginx\"}",
+          "reproduction_steps": [
+            "Send GET request to https://edu.360-24.com:443 and inspect response headers/body signatures."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "tech_stack": [
+          "nginx"
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1723
+  }
+}

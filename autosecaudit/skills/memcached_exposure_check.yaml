@@ -1,0 +1,48 @@
+{
+  "skill": {
+    "name": "memcached_exposure_check",
+    "version": "1.0",
+    "tool": "memcached_exposure_check",
+    "category": "validation",
+    "description": "Safely verify whether memcached answers version and stats probes without authentication."
+  },
+  "triggers": {
+    "phase": ["passive_recon", "verification"],
+    "when": [
+      {"condition": "not_already_done"},
+      {"condition": "service_port_matches", "services": ["memcached"], "ports": [11211]}
+    ],
+    "target_source": "surface",
+    "target_type": "service_port"
+  },
+  "parameters": {
+    "defaults": {
+      "port": "$port",
+      "service": "$service",
+      "timeout_seconds": 4,
+      "read_bytes": 1024
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "surface_delta.memcached_exposure_checks", "condition": "non_empty", "meaning": "Memcached exposure probe completed"}
+    ],
+    "output_extraction": {
+      "surface_updates": [
+        {"field": "memcached_exposure_checks", "source": "surface_delta.memcached_exposure_checks"}
+      ]
+    },
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_cache_stack": {
+      "trigger": ["rag_intel_lookup", "cve_lookup"],
+      "when_surface_contains": {"tech_component_names": ["memcached"]},
+      "reason": "Memcached version metadata can drive exploit intelligence and CVE lookup."
+    }
+  },
+  "risk": {"level": "safe", "cost": 5, "priority": 18, "retry": {"max_retries": 1, "backoff_seconds": 0.5}},
+  "dependencies": {"runtime": "socket", "tools": ["nmap_scan", "service_banner_probe"]}
+}

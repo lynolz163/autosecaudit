@@ -1,0 +1,126 @@
+{
+  "action": {
+    "action_id": "A6",
+    "tool_name": "login_form_detector",
+    "target": "https://360-24.com:443/",
+    "options": {},
+    "priority": 4,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "c6d40a14a5a53e40510190c9b014d22b2d8c6e16cfde925622a9038aab44b6c3",
+    "reason": "Detect login and authentication forms from passive page inspection.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1673,
+  "attempts": 1,
+  "result": {
+    "url": "https://360-24.com:443",
+    "status_code": 200,
+    "forms": [],
+    "headers": {
+      "server": "nginx/1.14.1",
+      "date": "Fri, 06 Mar 2026 03:53:30 GMT",
+      "content-type": "text/html",
+      "content-length": "61877",
+      "last-modified": "Sat, 02 Aug 2025 09:42:59 GMT",
+      "connection": "close",
+      "etag": "\"688ddda3-f1b5\"",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "access-control-allow-credentials": "true",
+      "accept-ranges": "bytes"
+    }
+  },
+  "metadata": {
+    "url": "https://360-24.com:443",
+    "status_code": 200,
+    "forms": [],
+    "headers": {
+      "server": "nginx/1.14.1",
+      "date": "Fri, 06 Mar 2026 03:53:30 GMT",
+      "content-type": "text/html",
+      "content-length": "61877",
+      "last-modified": "Sat, 02 Aug 2025 09:42:59 GMT",
+      "connection": "close",
+      "etag": "\"688ddda3-f1b5\"",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+      "access-control-allow-credentials": "true",
+      "accept-ranges": "bytes"
+    },
+    "skill_name": "login_form_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "login_form_detector",
+    "target": "https://360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "login_form_detector:forms",
+          "tool": "login_form_detector",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "Login Form Detection",
+          "description": "Password-bearing forms were identified on the target origin.",
+          "evidence": {
+            "status_code": 200,
+            "forms": [],
+            "url": "https://360-24.com:443"
+          },
+          "remediation": "Use the discovered auth surface to drive low-risk validation of cookie and session controls.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "login_forms": [],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {}
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://360-24.com:443",
+        "status_code": 200,
+        "forms": [],
+        "headers": {
+          "server": "nginx/1.14.1",
+          "date": "Fri, 06 Mar 2026 03:53:30 GMT",
+          "content-type": "text/html",
+          "content-length": "61877",
+          "last-modified": "Sat, 02 Aug 2025 09:42:59 GMT",
+          "connection": "close",
+          "etag": "\"688ddda3-f1b5\"",
+          "access-control-allow-origin": "*",
+          "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+          "access-control-allow-credentials": "true",
+          "accept-ranges": "bytes"
+        }
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1673
+  }
+}

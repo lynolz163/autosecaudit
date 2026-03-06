@@ -1,0 +1,55 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "csp_evaluator",
+    "target": "http://0x6288.com:8888/",
+    "options": {},
+    "priority": 19,
+    "cost": 4,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "e0ac116e7a69410ebdc1a029b5fcba121e68111c80f4e60ea0d8075be7742916",
+    "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "timed out",
+  "duration_ms": 8012,
+  "attempts": 1,
+  "result": {
+    "error": "timed out"
+  },
+  "metadata": {
+    "error": "timed out",
+    "skill_name": "csp_evaluator",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "csp_evaluator",
+    "target": "http://0x6288.com:8888/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "graph_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "timed out"
+      }
+    },
+    "error": "timed out",
+    "raw_output": null,
+    "duration_ms": 8012
+  }
+}

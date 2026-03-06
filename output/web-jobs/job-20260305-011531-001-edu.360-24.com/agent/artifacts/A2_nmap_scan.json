@@ -1,0 +1,1898 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "nmap_scan",
+    "target": "edu.360-24.com",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "priority": 14,
+    "cost": 15,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "14f1648c4166ab616504ec316b01ad2c794154be2c3dcb83c49f3539db8596e6",
+    "reason": "Use nmap for conservative service discovery on in-scope hosts. for initial service discovery.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 13324,
+  "attempts": 1,
+  "result": {
+    "ok": true,
+    "tool_name": "nmap_tool",
+    "target": "edu.360-24.com",
+    "data": {
+      "scanner": "nmap",
+      "format": "xml",
+      "hosts": [
+        {
+          "state": "up",
+          "addresses": [
+            {
+              "addr": "39.99.43.46",
+              "addrtype": "ipv4"
+            }
+          ],
+          "hostnames": [
+            "edu.360-24.com"
+          ],
+          "open_ports": [
+            {
+              "port": 7,
+              "protocol": "tcp",
+              "service": "echo",
+              "version": ""
+            },
+            {
+              "port": 9,
+              "protocol": "tcp",
+              "service": "discard",
+              "version": ""
+            },
+            {
+              "port": 13,
+              "protocol": "tcp",
+              "service": "daytime",
+              "version": ""
+            },
+            {
+              "port": 21,
+              "protocol": "tcp",
+              "service": "ftp",
+              "version": ""
+            },
+            {
+              "port": 22,
+              "protocol": "tcp",
+              "service": "ssh",
+              "version": ""
+            },
+            {
+              "port": 23,
+              "protocol": "tcp",
+              "service": "telnet",
+              "version": ""
+            },
+            {
+              "port": 25,
+              "protocol": "tcp",
+              "service": "smtp",
+              "version": ""
+            },
+            {
+              "port": 26,
+              "protocol": "tcp",
+              "service": "rsftp",
+              "version": ""
+            },
+            {
+              "port": 37,
+              "protocol": "tcp",
+              "service": "time",
+              "version": ""
+            },
+            {
+              "port": 53,
+              "protocol": "tcp",
+              "service": "domain",
+              "version": ""
+            },
+            {
+              "port": 79,
+              "protocol": "tcp",
+              "service": "finger",
+              "version": ""
+            },
+            {
+              "port": 80,
+              "protocol": "tcp",
+              "service": "http",
+              "version": ""
+            },
+            {
+              "port": 81,
+              "protocol": "tcp",
+              "service": "hosts2-ns",
+              "version": ""
+            },
+            {
+              "port": 88,
+              "protocol": "tcp",
+              "service": "kerberos-sec",
+              "version": ""
+            },
+            {
+              "port": 106,
+              "protocol": "tcp",
+              "service": "pop3pw",
+              "version": ""
+            },
+            {
+              "port": 110,
+              "protocol": "tcp",
+              "service": "pop3",
+              "version": ""
+            },
+            {
+              "port": 111,
+              "protocol": "tcp",
+              "service": "rpcbind",
+              "version": ""
+            },
+            {
+              "port": 113,
+              "protocol": "tcp",
+              "service": "ident",
+              "version": ""
+            },
+            {
+              "port": 119,
+              "protocol": "tcp",
+              "service": "nntp",
+              "version": ""
+            },
+            {
+              "port": 135,
+              "protocol": "tcp",
+              "service": "msrpc",
+              "version": ""
+            },
+            {
+              "port": 139,
+              "protocol": "tcp",
+              "service": "netbios-ssn",
+              "version": ""
+            },
+            {
+              "port": 143,
+              "protocol": "tcp",
+              "service": "imap",
+              "version": ""
+            },
+            {
+              "port": 144,
+              "protocol": "tcp",
+              "service": "news",
+              "version": ""
+            },
+            {
+              "port": 179,
+              "protocol": "tcp",
+              "service": "bgp",
+              "version": ""
+            },
+            {
+              "port": 199,
+              "protocol": "tcp",
+              "service": "smux",
+              "version": ""
+            },
+            {
+              "port": 389,
+              "protocol": "tcp",
+              "service": "ldap",
+              "version": ""
+            },
+            {
+              "port": 427,
+              "protocol": "tcp",
+              "service": "svrloc",
+              "version": ""
+            },
+            {
+              "port": 443,
+              "protocol": "tcp",
+              "service": "https",
+              "version": ""
+            },
+            {
+              "port": 444,
+              "protocol": "tcp",
+              "service": "snpp",
+              "version": ""
+            },
+            {
+              "port": 445,
+              "protocol": "tcp",
+              "service": "microsoft-ds",
+              "version": ""
+            },
+            {
+              "port": 513,
+              "protocol": "tcp",
+              "service": "login",
+              "version": ""
+            },
+            {
+              "port": 514,
+              "protocol": "tcp",
+              "service": "shell",
+              "version": ""
+            },
+            {
+              "port": 515,
+              "protocol": "tcp",
+              "service": "printer",
+              "version": ""
+            },
+            {
+              "port": 543,
+              "protocol": "tcp",
+              "service": "klogin",
+              "version": ""
+            },
+            {
+              "port": 544,
+              "protocol": "tcp",
+              "service": "kshell",
+              "version": ""
+            },
+            {
+              "port": 548,
+              "protocol": "tcp",
+              "service": "afp",
+              "version": ""
+            },
+            {
+              "port": 554,
+              "protocol": "tcp",
+              "service": "rtsp",
+              "version": ""
+            },
+            {
+              "port": 631,
+              "protocol": "tcp",
+              "service": "ipp",
+              "version": ""
+            },
+            {
+              "port": 646,
+              "protocol": "tcp",
+              "service": "ldp",
+              "version": ""
+            },
+            {
+              "port": 873,
+              "protocol": "tcp",
+              "service": "rsync",
+              "version": ""
+            },
+            {
+              "port": 990,
+              "protocol": "tcp",
+              "service": "ftps",
+              "version": ""
+            },
+            {
+              "port": 1025,
+              "protocol": "tcp",
+              "service": "NFS-or-IIS",
+              "version": ""
+            },
+            {
+              "port": 1026,
+              "protocol": "tcp",
+              "service": "LSA-or-nterm",
+              "version": ""
+            },
+            {
+              "port": 1027,
+              "protocol": "tcp",
+              "service": "IIS",
+              "version": ""
+            },
+            {
+              "port": 1028,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 1029,
+              "protocol": "tcp",
+              "service": "ms-lsa",
+              "version": ""
+            },
+            {
+              "port": 1110,
+              "protocol": "tcp",
+              "service": "nfsd-status",
+              "version": ""
+            },
+            {
+              "port": 1433,
+              "protocol": "tcp",
+              "service": "ms-sql-s",
+              "version": ""
+            },
+            {
+              "port": 1720,
+              "protocol": "tcp",
+              "service": "h323q931",
+              "version": ""
+            },
+            {
+              "port": 1723,
+              "protocol": "tcp",
+              "service": "pptp",
+              "version": ""
+            },
+            {
+              "port": 1755,
+              "protocol": "tcp",
+              "service": "wms",
+              "version": ""
+            },
+            {
+              "port": 1900,
+              "protocol": "tcp",
+              "service": "upnp",
+              "version": ""
+            },
+            {
+              "port": 2000,
+              "protocol": "tcp",
+              "service": "cisco-sccp",
+              "version": ""
+            },
+            {
+              "port": 2001,
+              "protocol": "tcp",
+              "service": "dc",
+              "version": ""
+            },
+            {
+              "port": 2049,
+              "protocol": "tcp",
+              "service": "nfs",
+              "version": ""
+            },
+            {
+              "port": 2121,
+              "protocol": "tcp",
+              "service": "ccproxy-ftp",
+              "version": ""
+            },
+            {
+              "port": 2717,
+              "protocol": "tcp",
+              "service": "pn-requester",
+              "version": ""
+            },
+            {
+              "port": 3000,
+              "protocol": "tcp",
+              "service": "ppp",
+              "version": ""
+            },
+            {
+              "port": 3128,
+              "protocol": "tcp",
+              "service": "squid-http",
+              "version": ""
+            },
+            {
+              "port": 3306,
+              "protocol": "tcp",
+              "service": "mysql",
+              "version": ""
+            },
+            {
+              "port": 3389,
+              "protocol": "tcp",
+              "service": "ms-wbt-server",
+              "version": ""
+            },
+            {
+              "port": 3986,
+              "protocol": "tcp",
+              "service": "mapper-ws_ethd",
+              "version": ""
+            },
+            {
+              "port": 4899,
+              "protocol": "tcp",
+              "service": "radmin",
+              "version": ""
+            },
+            {
+              "port": 5000,
+              "protocol": "tcp",
+              "service": "upnp",
+              "version": ""
+            },
+            {
+              "port": 5009,
+              "protocol": "tcp",
+              "service": "airport-admin",
+              "version": ""
+            },
+            {
+              "port": 5051,
+              "protocol": "tcp",
+              "service": "ida-agent",
+              "version": ""
+            },
+            {
+              "port": 5060,
+              "protocol": "tcp",
+              "service": "sip",
+              "version": ""
+            },
+            {
+              "port": 5101,
+              "protocol": "tcp",
+              "service": "admdog",
+              "version": ""
+            },
+            {
+              "port": 5190,
+              "protocol": "tcp",
+              "service": "aol",
+              "version": ""
+            },
+            {
+              "port": 5357,
+              "protocol": "tcp",
+              "service": "wsdapi",
+              "version": ""
+            },
+            {
+              "port": 5432,
+              "protocol": "tcp",
+              "service": "postgresql",
+              "version": ""
+            },
+            {
+              "port": 5631,
+              "protocol": "tcp",
+              "service": "pcanywheredata",
+              "version": ""
+            },
+            {
+              "port": 5666,
+              "protocol": "tcp",
+              "service": "nrpe",
+              "version": ""
+            },
+            {
+              "port": 5800,
+              "protocol": "tcp",
+              "service": "vnc-http",
+              "version": ""
+            },
+            {
+              "port": 5900,
+              "protocol": "tcp",
+              "service": "vnc",
+              "version": ""
+            },
+            {
+              "port": 6000,
+              "protocol": "tcp",
+              "service": "X11",
+              "version": ""
+            },
+            {
+              "port": 6001,
+              "protocol": "tcp",
+              "service": "X11:1",
+              "version": ""
+            },
+            {
+              "port": 6646,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 7070,
+              "protocol": "tcp",
+              "service": "realserver",
+              "version": ""
+            },
+            {
+              "port": 8000,
+              "protocol": "tcp",
+              "service": "http-alt",
+              "version": ""
+            },
+            {
+              "port": 8008,
+              "protocol": "tcp",
+              "service": "http",
+              "version": ""
+            },
+            {
+              "port": 8009,
+              "protocol": "tcp",
+              "service": "ajp13",
+              "version": ""
+            },
+            {
+              "port": 8080,
+              "protocol": "tcp",
+              "service": "http-proxy",
+              "version": ""
+            },
+            {
+              "port": 8081,
+              "protocol": "tcp",
+              "service": "blackice-icecap",
+              "version": ""
+            },
+            {
+              "port": 8443,
+              "protocol": "tcp",
+              "service": "https-alt",
+              "version": ""
+            },
+            {
+              "port": 8888,
+              "protocol": "tcp",
+              "service": "sun-answerbook",
+              "version": ""
+            },
+            {
+              "port": 9100,
+              "protocol": "tcp",
+              "service": "jetdirect",
+              "version": ""
+            },
+            {
+              "port": 9999,
+              "protocol": "tcp",
+              "service": "abyss",
+              "version": ""
+            },
+            {
+              "port": 10000,
+              "protocol": "tcp",
+              "service": "snet-sensor-mgmt",
+              "version": ""
+            },
+            {
+              "port": 32768,
+              "protocol": "tcp",
+              "service": "filenet-tms",
+              "version": ""
+            },
+            {
+              "port": 49152,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49153,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49154,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49155,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49156,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            },
+            {
+              "port": 49157,
+              "protocol": "tcp",
+              "service": "unknown",
+              "version": ""
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "host_count": 1,
+        "up_hosts": 1,
+        "open_port_count": 96
+      }
+    },
+    "error": null,
+    "raw_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///usr/bin/../share/nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.95 scan initiated Thu Mar  5 01:16:31 2026 as: nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - edu.360-24.com -->\n<nmaprun scanner=\"nmap\" args=\"nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - edu.360-24.com\" start=\"1772644591\" startstr=\"Thu Mar  5 01:16:31 2026\" version=\"7.95\" xmloutputversion=\"1.05\">\n<scaninfo type=\"syn\" protocol=\"tcp\" numservices=\"100\" services=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1772644603\" endtime=\"1772644604\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"39.99.43.46\" addrtype=\"ipv4\"/>\n<hostnames>\n<hostname name=\"edu.360-24.com\" type=\"user\"/>\n</hostnames>\n<ports><extraports state=\"filtered\" count=\"4\">\n<extrareasons reason=\"no-response\" count=\"4\" proto=\"tcp\" ports=\"465,587,993,995\"/>\n</extraports>\n<port protocol=\"tcp\" portid=\"7\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"echo\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"discard\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"13\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"daytime\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"21\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"22\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ssh\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"23\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"telnet\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"25\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"smtp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"26\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rsftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"37\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"time\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"53\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"domain\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"79\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"finger\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"80\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"81\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"hosts2-ns\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"88\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"kerberos-sec\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"106\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pop3pw\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"110\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pop3\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"111\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rpcbind\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"113\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ident\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"119\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nntp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"135\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"msrpc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"139\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"netbios-ssn\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"143\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"imap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"144\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"news\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"179\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"bgp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"199\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"smux\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"389\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ldap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"427\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"svrloc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"443\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"https\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"444\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"snpp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"445\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"microsoft-ds\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"513\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"login\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"514\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"shell\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"515\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"printer\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"543\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"klogin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"544\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"kshell\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"548\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"afp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"554\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rtsp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"631\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ipp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"646\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ldp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"873\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rsync\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"990\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ftps\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1025\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"NFS-or-IIS\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1026\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"LSA-or-nterm\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1027\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"IIS\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1028\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"1029\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-lsa\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1110\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nfsd-status\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1433\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-sql-s\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1720\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"h323q931\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1723\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pptp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1755\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"wms\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1900\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"upnp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"cisco-sccp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2001\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"dc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2049\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nfs\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2121\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ccproxy-ftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2717\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pn-requester\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ppp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3128\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"squid-http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3306\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"mysql\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3389\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-wbt-server\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3986\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"mapper-ws_ethd\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"4899\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"radmin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"upnp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5009\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"airport-admin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5051\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ida-agent\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5060\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"sip\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5101\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"admdog\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5190\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"aol\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5357\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"wsdapi\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5432\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"postgresql\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5631\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pcanywheredata\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5666\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nrpe\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5800\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"vnc-http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5900\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"vnc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"X11\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6001\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"X11:1\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6646\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"7070\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"realserver\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http-alt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8008\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8009\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ajp13\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8080\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http-proxy\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8081\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"blackice-icecap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8443\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"https-alt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8888\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"sun-answerbook\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9100\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"jetdirect\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9999\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"abyss\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"10000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"snet-sensor-mgmt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"32768\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"filenet-tms\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"49152\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49153\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49154\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49155\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49156\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49157\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n</ports>\n<times srtt=\"10662\" rttvar=\"2113\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1772644604\" timestr=\"Thu Mar  5 01:16:44 2026\" summary=\"Nmap done at Thu Mar  5 01:16:44 2026; 1 IP address (1 host up) scanned in 13.30 seconds\" elapsed=\"13.30\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>",
+    "duration_ms": 13324
+  },
+  "metadata": {
+    "skill_name": "nmap_scan",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "nmap_scan",
+    "target": "edu.360-24.com",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "ok": true,
+        "tool_name": "nmap_tool",
+        "target": "edu.360-24.com",
+        "data": {
+          "scanner": "nmap",
+          "format": "xml",
+          "hosts": [
+            {
+              "state": "up",
+              "addresses": [
+                {
+                  "addr": "39.99.43.46",
+                  "addrtype": "ipv4"
+                }
+              ],
+              "hostnames": [
+                "edu.360-24.com"
+              ],
+              "open_ports": [
+                {
+                  "port": 7,
+                  "protocol": "tcp",
+                  "service": "echo",
+                  "version": ""
+                },
+                {
+                  "port": 9,
+                  "protocol": "tcp",
+                  "service": "discard",
+                  "version": ""
+                },
+                {
+                  "port": 13,
+                  "protocol": "tcp",
+                  "service": "daytime",
+                  "version": ""
+                },
+                {
+                  "port": 21,
+                  "protocol": "tcp",
+                  "service": "ftp",
+                  "version": ""
+                },
+                {
+                  "port": 22,
+                  "protocol": "tcp",
+                  "service": "ssh",
+                  "version": ""
+                },
+                {
+                  "port": 23,
+                  "protocol": "tcp",
+                  "service": "telnet",
+                  "version": ""
+                },
+                {
+                  "port": 25,
+                  "protocol": "tcp",
+                  "service": "smtp",
+                  "version": ""
+                },
+                {
+                  "port": 26,
+                  "protocol": "tcp",
+                  "service": "rsftp",
+                  "version": ""
+                },
+                {
+                  "port": 37,
+                  "protocol": "tcp",
+                  "service": "time",
+                  "version": ""
+                },
+                {
+                  "port": 53,
+                  "protocol": "tcp",
+                  "service": "domain",
+                  "version": ""
+                },
+                {
+                  "port": 79,
+                  "protocol": "tcp",
+                  "service": "finger",
+                  "version": ""
+                },
+                {
+                  "port": 80,
+                  "protocol": "tcp",
+                  "service": "http",
+                  "version": ""
+                },
+                {
+                  "port": 81,
+                  "protocol": "tcp",
+                  "service": "hosts2-ns",
+                  "version": ""
+                },
+                {
+                  "port": 88,
+                  "protocol": "tcp",
+                  "service": "kerberos-sec",
+                  "version": ""
+                },
+                {
+                  "port": 106,
+                  "protocol": "tcp",
+                  "service": "pop3pw",
+                  "version": ""
+                },
+                {
+                  "port": 110,
+                  "protocol": "tcp",
+                  "service": "pop3",
+                  "version": ""
+                },
+                {
+                  "port": 111,
+                  "protocol": "tcp",
+                  "service": "rpcbind",
+                  "version": ""
+                },
+                {
+                  "port": 113,
+                  "protocol": "tcp",
+                  "service": "ident",
+                  "version": ""
+                },
+                {
+                  "port": 119,
+                  "protocol": "tcp",
+                  "service": "nntp",
+                  "version": ""
+                },
+                {
+                  "port": 135,
+                  "protocol": "tcp",
+                  "service": "msrpc",
+                  "version": ""
+                },
+                {
+                  "port": 139,
+                  "protocol": "tcp",
+                  "service": "netbios-ssn",
+                  "version": ""
+                },
+                {
+                  "port": 143,
+                  "protocol": "tcp",
+                  "service": "imap",
+                  "version": ""
+                },
+                {
+                  "port": 144,
+                  "protocol": "tcp",
+                  "service": "news",
+                  "version": ""
+                },
+                {
+                  "port": 179,
+                  "protocol": "tcp",
+                  "service": "bgp",
+                  "version": ""
+                },
+                {
+                  "port": 199,
+                  "protocol": "tcp",
+                  "service": "smux",
+                  "version": ""
+                },
+                {
+                  "port": 389,
+                  "protocol": "tcp",
+                  "service": "ldap",
+                  "version": ""
+                },
+                {
+                  "port": 427,
+                  "protocol": "tcp",
+                  "service": "svrloc",
+                  "version": ""
+                },
+                {
+                  "port": 443,
+                  "protocol": "tcp",
+                  "service": "https",
+                  "version": ""
+                },
+                {
+                  "port": 444,
+                  "protocol": "tcp",
+                  "service": "snpp",
+                  "version": ""
+                },
+                {
+                  "port": 445,
+                  "protocol": "tcp",
+                  "service": "microsoft-ds",
+                  "version": ""
+                },
+                {
+                  "port": 513,
+                  "protocol": "tcp",
+                  "service": "login",
+                  "version": ""
+                },
+                {
+                  "port": 514,
+                  "protocol": "tcp",
+                  "service": "shell",
+                  "version": ""
+                },
+                {
+                  "port": 515,
+                  "protocol": "tcp",
+                  "service": "printer",
+                  "version": ""
+                },
+                {
+                  "port": 543,
+                  "protocol": "tcp",
+                  "service": "klogin",
+                  "version": ""
+                },
+                {
+                  "port": 544,
+                  "protocol": "tcp",
+                  "service": "kshell",
+                  "version": ""
+                },
+                {
+                  "port": 548,
+                  "protocol": "tcp",
+                  "service": "afp",
+                  "version": ""
+                },
+                {
+                  "port": 554,
+                  "protocol": "tcp",
+                  "service": "rtsp",
+                  "version": ""
+                },
+                {
+                  "port": 631,
+                  "protocol": "tcp",
+                  "service": "ipp",
+                  "version": ""
+                },
+                {
+                  "port": 646,
+                  "protocol": "tcp",
+                  "service": "ldp",
+                  "version": ""
+                },
+                {
+                  "port": 873,
+                  "protocol": "tcp",
+                  "service": "rsync",
+                  "version": ""
+                },
+                {
+                  "port": 990,
+                  "protocol": "tcp",
+                  "service": "ftps",
+                  "version": ""
+                },
+                {
+                  "port": 1025,
+                  "protocol": "tcp",
+                  "service": "NFS-or-IIS",
+                  "version": ""
+                },
+                {
+                  "port": 1026,
+                  "protocol": "tcp",
+                  "service": "LSA-or-nterm",
+                  "version": ""
+                },
+                {
+                  "port": 1027,
+                  "protocol": "tcp",
+                  "service": "IIS",
+                  "version": ""
+                },
+                {
+                  "port": 1028,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 1029,
+                  "protocol": "tcp",
+                  "service": "ms-lsa",
+                  "version": ""
+                },
+                {
+                  "port": 1110,
+                  "protocol": "tcp",
+                  "service": "nfsd-status",
+                  "version": ""
+                },
+                {
+                  "port": 1433,
+                  "protocol": "tcp",
+                  "service": "ms-sql-s",
+                  "version": ""
+                },
+                {
+                  "port": 1720,
+                  "protocol": "tcp",
+                  "service": "h323q931",
+                  "version": ""
+                },
+                {
+                  "port": 1723,
+                  "protocol": "tcp",
+                  "service": "pptp",
+                  "version": ""
+                },
+                {
+                  "port": 1755,
+                  "protocol": "tcp",
+                  "service": "wms",
+                  "version": ""
+                },
+                {
+                  "port": 1900,
+                  "protocol": "tcp",
+                  "service": "upnp",
+                  "version": ""
+                },
+                {
+                  "port": 2000,
+                  "protocol": "tcp",
+                  "service": "cisco-sccp",
+                  "version": ""
+                },
+                {
+                  "port": 2001,
+                  "protocol": "tcp",
+                  "service": "dc",
+                  "version": ""
+                },
+                {
+                  "port": 2049,
+                  "protocol": "tcp",
+                  "service": "nfs",
+                  "version": ""
+                },
+                {
+                  "port": 2121,
+                  "protocol": "tcp",
+                  "service": "ccproxy-ftp",
+                  "version": ""
+                },
+                {
+                  "port": 2717,
+                  "protocol": "tcp",
+                  "service": "pn-requester",
+                  "version": ""
+                },
+                {
+                  "port": 3000,
+                  "protocol": "tcp",
+                  "service": "ppp",
+                  "version": ""
+                },
+                {
+                  "port": 3128,
+                  "protocol": "tcp",
+                  "service": "squid-http",
+                  "version": ""
+                },
+                {
+                  "port": 3306,
+                  "protocol": "tcp",
+                  "service": "mysql",
+                  "version": ""
+                },
+                {
+                  "port": 3389,
+                  "protocol": "tcp",
+                  "service": "ms-wbt-server",
+                  "version": ""
+                },
+                {
+                  "port": 3986,
+                  "protocol": "tcp",
+                  "service": "mapper-ws_ethd",
+                  "version": ""
+                },
+                {
+                  "port": 4899,
+                  "protocol": "tcp",
+                  "service": "radmin",
+                  "version": ""
+                },
+                {
+                  "port": 5000,
+                  "protocol": "tcp",
+                  "service": "upnp",
+                  "version": ""
+                },
+                {
+                  "port": 5009,
+                  "protocol": "tcp",
+                  "service": "airport-admin",
+                  "version": ""
+                },
+                {
+                  "port": 5051,
+                  "protocol": "tcp",
+                  "service": "ida-agent",
+                  "version": ""
+                },
+                {
+                  "port": 5060,
+                  "protocol": "tcp",
+                  "service": "sip",
+                  "version": ""
+                },
+                {
+                  "port": 5101,
+                  "protocol": "tcp",
+                  "service": "admdog",
+                  "version": ""
+                },
+                {
+                  "port": 5190,
+                  "protocol": "tcp",
+                  "service": "aol",
+                  "version": ""
+                },
+                {
+                  "port": 5357,
+                  "protocol": "tcp",
+                  "service": "wsdapi",
+                  "version": ""
+                },
+                {
+                  "port": 5432,
+                  "protocol": "tcp",
+                  "service": "postgresql",
+                  "version": ""
+                },
+                {
+                  "port": 5631,
+                  "protocol": "tcp",
+                  "service": "pcanywheredata",
+                  "version": ""
+                },
+                {
+                  "port": 5666,
+                  "protocol": "tcp",
+                  "service": "nrpe",
+                  "version": ""
+                },
+                {
+                  "port": 5800,
+                  "protocol": "tcp",
+                  "service": "vnc-http",
+                  "version": ""
+                },
+                {
+                  "port": 5900,
+                  "protocol": "tcp",
+                  "service": "vnc",
+                  "version": ""
+                },
+                {
+                  "port": 6000,
+                  "protocol": "tcp",
+                  "service": "X11",
+                  "version": ""
+                },
+                {
+                  "port": 6001,
+                  "protocol": "tcp",
+                  "service": "X11:1",
+                  "version": ""
+                },
+                {
+                  "port": 6646,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 7070,
+                  "protocol": "tcp",
+                  "service": "realserver",
+                  "version": ""
+                },
+                {
+                  "port": 8000,
+                  "protocol": "tcp",
+                  "service": "http-alt",
+                  "version": ""
+                },
+                {
+                  "port": 8008,
+                  "protocol": "tcp",
+                  "service": "http",
+                  "version": ""
+                },
+                {
+                  "port": 8009,
+                  "protocol": "tcp",
+                  "service": "ajp13",
+                  "version": ""
+                },
+                {
+                  "port": 8080,
+                  "protocol": "tcp",
+                  "service": "http-proxy",
+                  "version": ""
+                },
+                {
+                  "port": 8081,
+                  "protocol": "tcp",
+                  "service": "blackice-icecap",
+                  "version": ""
+                },
+                {
+                  "port": 8443,
+                  "protocol": "tcp",
+                  "service": "https-alt",
+                  "version": ""
+                },
+                {
+                  "port": 8888,
+                  "protocol": "tcp",
+                  "service": "sun-answerbook",
+                  "version": ""
+                },
+                {
+                  "port": 9100,
+                  "protocol": "tcp",
+                  "service": "jetdirect",
+                  "version": ""
+                },
+                {
+                  "port": 9999,
+                  "protocol": "tcp",
+                  "service": "abyss",
+                  "version": ""
+                },
+                {
+                  "port": 10000,
+                  "protocol": "tcp",
+                  "service": "snet-sensor-mgmt",
+                  "version": ""
+                },
+                {
+                  "port": 32768,
+                  "protocol": "tcp",
+                  "service": "filenet-tms",
+                  "version": ""
+                },
+                {
+                  "port": 49152,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 49153,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 49154,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 49155,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 49156,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                },
+                {
+                  "port": 49157,
+                  "protocol": "tcp",
+                  "service": "unknown",
+                  "version": ""
+                }
+              ]
+            }
+          ],
+          "summary": {
+            "host_count": 1,
+            "up_hosts": 1,
+            "open_port_count": 96
+          }
+        },
+        "error": null,
+        "raw_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///usr/bin/../share/nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.95 scan initiated Thu Mar  5 01:16:31 2026 as: nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - edu.360-24.com -->\n<nmaprun scanner=\"nmap\" args=\"nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - edu.360-24.com\" start=\"1772644591\" startstr=\"Thu Mar  5 01:16:31 2026\" version=\"7.95\" xmloutputversion=\"1.05\">\n<scaninfo type=\"syn\" protocol=\"tcp\" numservices=\"100\" services=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1772644603\" endtime=\"1772644604\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"39.99.43.46\" addrtype=\"ipv4\"/>\n<hostnames>\n<hostname name=\"edu.360-24.com\" type=\"user\"/>\n</hostnames>\n<ports><extraports state=\"filtered\" count=\"4\">\n<extrareasons reason=\"no-response\" count=\"4\" proto=\"tcp\" ports=\"465,587,993,995\"/>\n</extraports>\n<port protocol=\"tcp\" portid=\"7\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"echo\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"discard\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"13\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"daytime\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"21\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"22\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ssh\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"23\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"telnet\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"25\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"smtp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"26\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rsftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"37\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"time\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"53\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"domain\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"79\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"finger\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"80\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"81\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"hosts2-ns\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"88\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"kerberos-sec\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"106\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pop3pw\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"110\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pop3\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"111\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rpcbind\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"113\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ident\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"119\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nntp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"135\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"msrpc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"139\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"netbios-ssn\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"143\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"imap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"144\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"news\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"179\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"bgp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"199\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"smux\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"389\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ldap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"427\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"svrloc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"443\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"https\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"444\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"snpp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"445\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"microsoft-ds\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"513\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"login\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"514\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"shell\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"515\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"printer\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"543\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"klogin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"544\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"kshell\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"548\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"afp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"554\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rtsp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"631\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ipp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"646\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ldp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"873\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rsync\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"990\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ftps\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1025\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"NFS-or-IIS\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1026\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"LSA-or-nterm\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1027\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"IIS\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1028\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"1029\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-lsa\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1110\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nfsd-status\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1433\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-sql-s\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1720\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"h323q931\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1723\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pptp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1755\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"wms\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1900\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"upnp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"cisco-sccp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2001\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"dc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2049\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nfs\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2121\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ccproxy-ftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2717\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pn-requester\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ppp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3128\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"squid-http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3306\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"mysql\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3389\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-wbt-server\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3986\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"mapper-ws_ethd\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"4899\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"radmin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"upnp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5009\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"airport-admin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5051\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ida-agent\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5060\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"sip\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5101\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"admdog\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5190\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"aol\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5357\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"wsdapi\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5432\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"postgresql\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5631\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pcanywheredata\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5666\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nrpe\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5800\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"vnc-http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5900\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"vnc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"X11\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6001\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"X11:1\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6646\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"7070\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"realserver\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http-alt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8008\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8009\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ajp13\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8080\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http-proxy\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8081\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"blackice-icecap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8443\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"https-alt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8888\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"sun-answerbook\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9100\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"jetdirect\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9999\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"abyss\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"10000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"snet-sensor-mgmt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"32768\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"filenet-tms\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"49152\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49153\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49154\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49155\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49156\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49157\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n</ports>\n<times srtt=\"10662\" rttvar=\"2113\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1772644604\" timestr=\"Thu Mar  5 01:16:44 2026\" summary=\"Nmap done at Thu Mar  5 01:16:44 2026; 1 IP address (1 host up) scanned in 13.30 seconds\" elapsed=\"13.30\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>",
+        "duration_ms": 13324
+      },
+      "findings": [],
+      "breadcrumbs_delta": [
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:80"
+        },
+        {
+          "type": "service",
+          "data": "https://edu.360-24.com:443"
+        },
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:3128"
+        },
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:5800"
+        },
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:8000"
+        },
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:8008"
+        },
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:8080"
+        },
+        {
+          "type": "service",
+          "data": "https://edu.360-24.com:8443"
+        },
+        {
+          "type": "service",
+          "data": "http://edu.360-24.com:8888"
+        }
+      ],
+      "surface_delta": {
+        "nmap_hosts": [
+          {
+            "state": "up",
+            "addresses": [
+              {
+                "addr": "39.99.43.46",
+                "addrtype": "ipv4"
+              }
+            ],
+            "hostnames": [
+              "edu.360-24.com"
+            ],
+            "open_ports": [
+              {
+                "port": 7,
+                "protocol": "tcp",
+                "service": "echo",
+                "version": ""
+              },
+              {
+                "port": 9,
+                "protocol": "tcp",
+                "service": "discard",
+                "version": ""
+              },
+              {
+                "port": 13,
+                "protocol": "tcp",
+                "service": "daytime",
+                "version": ""
+              },
+              {
+                "port": 21,
+                "protocol": "tcp",
+                "service": "ftp",
+                "version": ""
+              },
+              {
+                "port": 22,
+                "protocol": "tcp",
+                "service": "ssh",
+                "version": ""
+              },
+              {
+                "port": 23,
+                "protocol": "tcp",
+                "service": "telnet",
+                "version": ""
+              },
+              {
+                "port": 25,
+                "protocol": "tcp",
+                "service": "smtp",
+                "version": ""
+              },
+              {
+                "port": 26,
+                "protocol": "tcp",
+                "service": "rsftp",
+                "version": ""
+              },
+              {
+                "port": 37,
+                "protocol": "tcp",
+                "service": "time",
+                "version": ""
+              },
+              {
+                "port": 53,
+                "protocol": "tcp",
+                "service": "domain",
+                "version": ""
+              },
+              {
+                "port": 79,
+                "protocol": "tcp",
+                "service": "finger",
+                "version": ""
+              },
+              {
+                "port": 80,
+                "protocol": "tcp",
+                "service": "http",
+                "version": ""
+              },
+              {
+                "port": 81,
+                "protocol": "tcp",
+                "service": "hosts2-ns",
+                "version": ""
+              },
+              {
+                "port": 88,
+                "protocol": "tcp",
+                "service": "kerberos-sec",
+                "version": ""
+              },
+              {
+                "port": 106,
+                "protocol": "tcp",
+                "service": "pop3pw",
+                "version": ""
+              },
+              {
+                "port": 110,
+                "protocol": "tcp",
+                "service": "pop3",
+                "version": ""
+              },
+              {
+                "port": 111,
+                "protocol": "tcp",
+                "service": "rpcbind",
+                "version": ""
+              },
+              {
+                "port": 113,
+                "protocol": "tcp",
+                "service": "ident",
+                "version": ""
+              },
+              {
+                "port": 119,
+                "protocol": "tcp",
+                "service": "nntp",
+                "version": ""
+              },
+              {
+                "port": 135,
+                "protocol": "tcp",
+                "service": "msrpc",
+                "version": ""
+              },
+              {
+                "port": 139,
+                "protocol": "tcp",
+                "service": "netbios-ssn",
+                "version": ""
+              },
+              {
+                "port": 143,
+                "protocol": "tcp",
+                "service": "imap",
+                "version": ""
+              },
+              {
+                "port": 144,
+                "protocol": "tcp",
+                "service": "news",
+                "version": ""
+              },
+              {
+                "port": 179,
+                "protocol": "tcp",
+                "service": "bgp",
+                "version": ""
+              },
+              {
+                "port": 199,
+                "protocol": "tcp",
+                "service": "smux",
+                "version": ""
+              },
+              {
+                "port": 389,
+                "protocol": "tcp",
+                "service": "ldap",
+                "version": ""
+              },
+              {
+                "port": 427,
+                "protocol": "tcp",
+                "service": "svrloc",
+                "version": ""
+              },
+              {
+                "port": 443,
+                "protocol": "tcp",
+                "service": "https",
+                "version": ""
+              },
+              {
+                "port": 444,
+                "protocol": "tcp",
+                "service": "snpp",
+                "version": ""
+              },
+              {
+                "port": 445,
+                "protocol": "tcp",
+                "service": "microsoft-ds",
+                "version": ""
+              },
+              {
+                "port": 513,
+                "protocol": "tcp",
+                "service": "login",
+                "version": ""
+              },
+              {
+                "port": 514,
+                "protocol": "tcp",
+                "service": "shell",
+                "version": ""
+              },
+              {
+                "port": 515,
+                "protocol": "tcp",
+                "service": "printer",
+                "version": ""
+              },
+              {
+                "port": 543,
+                "protocol": "tcp",
+                "service": "klogin",
+                "version": ""
+              },
+              {
+                "port": 544,
+                "protocol": "tcp",
+                "service": "kshell",
+                "version": ""
+              },
+              {
+                "port": 548,
+                "protocol": "tcp",
+                "service": "afp",
+                "version": ""
+              },
+              {
+                "port": 554,
+                "protocol": "tcp",
+                "service": "rtsp",
+                "version": ""
+              },
+              {
+                "port": 631,
+                "protocol": "tcp",
+                "service": "ipp",
+                "version": ""
+              },
+              {
+                "port": 646,
+                "protocol": "tcp",
+                "service": "ldp",
+                "version": ""
+              },
+              {
+                "port": 873,
+                "protocol": "tcp",
+                "service": "rsync",
+                "version": ""
+              },
+              {
+                "port": 990,
+                "protocol": "tcp",
+                "service": "ftps",
+                "version": ""
+              },
+              {
+                "port": 1025,
+                "protocol": "tcp",
+                "service": "NFS-or-IIS",
+                "version": ""
+              },
+              {
+                "port": 1026,
+                "protocol": "tcp",
+                "service": "LSA-or-nterm",
+                "version": ""
+              },
+              {
+                "port": 1027,
+                "protocol": "tcp",
+                "service": "IIS",
+                "version": ""
+              },
+              {
+                "port": 1028,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 1029,
+                "protocol": "tcp",
+                "service": "ms-lsa",
+                "version": ""
+              },
+              {
+                "port": 1110,
+                "protocol": "tcp",
+                "service": "nfsd-status",
+                "version": ""
+              },
+              {
+                "port": 1433,
+                "protocol": "tcp",
+                "service": "ms-sql-s",
+                "version": ""
+              },
+              {
+                "port": 1720,
+                "protocol": "tcp",
+                "service": "h323q931",
+                "version": ""
+              },
+              {
+                "port": 1723,
+                "protocol": "tcp",
+                "service": "pptp",
+                "version": ""
+              },
+              {
+                "port": 1755,
+                "protocol": "tcp",
+                "service": "wms",
+                "version": ""
+              },
+              {
+                "port": 1900,
+                "protocol": "tcp",
+                "service": "upnp",
+                "version": ""
+              },
+              {
+                "port": 2000,
+                "protocol": "tcp",
+                "service": "cisco-sccp",
+                "version": ""
+              },
+              {
+                "port": 2001,
+                "protocol": "tcp",
+                "service": "dc",
+                "version": ""
+              },
+              {
+                "port": 2049,
+                "protocol": "tcp",
+                "service": "nfs",
+                "version": ""
+              },
+              {
+                "port": 2121,
+                "protocol": "tcp",
+                "service": "ccproxy-ftp",
+                "version": ""
+              },
+              {
+                "port": 2717,
+                "protocol": "tcp",
+                "service": "pn-requester",
+                "version": ""
+              },
+              {
+                "port": 3000,
+                "protocol": "tcp",
+                "service": "ppp",
+                "version": ""
+              },
+              {
+                "port": 3128,
+                "protocol": "tcp",
+                "service": "squid-http",
+                "version": ""
+              },
+              {
+                "port": 3306,
+                "protocol": "tcp",
+                "service": "mysql",
+                "version": ""
+              },
+              {
+                "port": 3389,
+                "protocol": "tcp",
+                "service": "ms-wbt-server",
+                "version": ""
+              },
+              {
+                "port": 3986,
+                "protocol": "tcp",
+                "service": "mapper-ws_ethd",
+                "version": ""
+              },
+              {
+                "port": 4899,
+                "protocol": "tcp",
+                "service": "radmin",
+                "version": ""
+              },
+              {
+                "port": 5000,
+                "protocol": "tcp",
+                "service": "upnp",
+                "version": ""
+              },
+              {
+                "port": 5009,
+                "protocol": "tcp",
+                "service": "airport-admin",
+                "version": ""
+              },
+              {
+                "port": 5051,
+                "protocol": "tcp",
+                "service": "ida-agent",
+                "version": ""
+              },
+              {
+                "port": 5060,
+                "protocol": "tcp",
+                "service": "sip",
+                "version": ""
+              },
+              {
+                "port": 5101,
+                "protocol": "tcp",
+                "service": "admdog",
+                "version": ""
+              },
+              {
+                "port": 5190,
+                "protocol": "tcp",
+                "service": "aol",
+                "version": ""
+              },
+              {
+                "port": 5357,
+                "protocol": "tcp",
+                "service": "wsdapi",
+                "version": ""
+              },
+              {
+                "port": 5432,
+                "protocol": "tcp",
+                "service": "postgresql",
+                "version": ""
+              },
+              {
+                "port": 5631,
+                "protocol": "tcp",
+                "service": "pcanywheredata",
+                "version": ""
+              },
+              {
+                "port": 5666,
+                "protocol": "tcp",
+                "service": "nrpe",
+                "version": ""
+              },
+              {
+                "port": 5800,
+                "protocol": "tcp",
+                "service": "vnc-http",
+                "version": ""
+              },
+              {
+                "port": 5900,
+                "protocol": "tcp",
+                "service": "vnc",
+                "version": ""
+              },
+              {
+                "port": 6000,
+                "protocol": "tcp",
+                "service": "X11",
+                "version": ""
+              },
+              {
+                "port": 6001,
+                "protocol": "tcp",
+                "service": "X11:1",
+                "version": ""
+              },
+              {
+                "port": 6646,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 7070,
+                "protocol": "tcp",
+                "service": "realserver",
+                "version": ""
+              },
+              {
+                "port": 8000,
+                "protocol": "tcp",
+                "service": "http-alt",
+                "version": ""
+              },
+              {
+                "port": 8008,
+                "protocol": "tcp",
+                "service": "http",
+                "version": ""
+              },
+              {
+                "port": 8009,
+                "protocol": "tcp",
+                "service": "ajp13",
+                "version": ""
+              },
+              {
+                "port": 8080,
+                "protocol": "tcp",
+                "service": "http-proxy",
+                "version": ""
+              },
+              {
+                "port": 8081,
+                "protocol": "tcp",
+                "service": "blackice-icecap",
+                "version": ""
+              },
+              {
+                "port": 8443,
+                "protocol": "tcp",
+                "service": "https-alt",
+                "version": ""
+              },
+              {
+                "port": 8888,
+                "protocol": "tcp",
+                "service": "sun-answerbook",
+                "version": ""
+              },
+              {
+                "port": 9100,
+                "protocol": "tcp",
+                "service": "jetdirect",
+                "version": ""
+              },
+              {
+                "port": 9999,
+                "protocol": "tcp",
+                "service": "abyss",
+                "version": ""
+              },
+              {
+                "port": 10000,
+                "protocol": "tcp",
+                "service": "snet-sensor-mgmt",
+                "version": ""
+              },
+              {
+                "port": 32768,
+                "protocol": "tcp",
+                "service": "filenet-tms",
+                "version": ""
+              },
+              {
+                "port": 49152,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 49153,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 49154,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 49155,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 49156,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              },
+              {
+                "port": 49157,
+                "protocol": "tcp",
+                "service": "unknown",
+                "version": ""
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE nmaprun>\n<?xml-stylesheet href=\"file:///usr/bin/../share/nmap/nmap.xsl\" type=\"text/xsl\"?>\n<!-- Nmap 7.95 scan initiated Thu Mar  5 01:16:31 2026 as: nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - edu.360-24.com -->\n<nmaprun scanner=\"nmap\" args=\"nmap -&#45;open -Pn -T4 -&#45;max-retries 1 -&#45;host-timeout 85s -&#45;top-ports 100 -oX - edu.360-24.com\" start=\"1772644591\" startstr=\"Thu Mar  5 01:16:31 2026\" version=\"7.95\" xmloutputversion=\"1.05\">\n<scaninfo type=\"syn\" protocol=\"tcp\" numservices=\"100\" services=\"7,9,13,21-23,25-26,37,53,79-81,88,106,110-111,113,119,135,139,143-144,179,199,389,427,443-445,465,513-515,543-544,548,554,587,631,646,873,990,993,995,1025-1029,1110,1433,1720,1723,1755,1900,2000-2001,2049,2121,2717,3000,3128,3306,3389,3986,4899,5000,5009,5051,5060,5101,5190,5357,5432,5631,5666,5800,5900,6000-6001,6646,7070,8000,8008-8009,8080-8081,8443,8888,9100,9999-10000,32768,49152-49157\"/>\n<verbose level=\"0\"/>\n<debugging level=\"0\"/>\n<host starttime=\"1772644603\" endtime=\"1772644604\"><status state=\"up\" reason=\"user-set\" reason_ttl=\"0\"/>\n<address addr=\"39.99.43.46\" addrtype=\"ipv4\"/>\n<hostnames>\n<hostname name=\"edu.360-24.com\" type=\"user\"/>\n</hostnames>\n<ports><extraports state=\"filtered\" count=\"4\">\n<extrareasons reason=\"no-response\" count=\"4\" proto=\"tcp\" ports=\"465,587,993,995\"/>\n</extraports>\n<port protocol=\"tcp\" portid=\"7\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"echo\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"discard\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"13\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"daytime\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"21\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"22\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ssh\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"23\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"telnet\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"25\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"smtp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"26\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rsftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"37\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"time\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"53\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"domain\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"79\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"finger\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"80\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"81\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"hosts2-ns\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"88\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"kerberos-sec\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"106\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pop3pw\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"110\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pop3\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"111\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rpcbind\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"113\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ident\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"119\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nntp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"135\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"msrpc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"139\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"netbios-ssn\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"143\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"imap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"144\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"news\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"179\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"bgp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"199\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"smux\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"389\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ldap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"427\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"svrloc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"443\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"https\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"444\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"snpp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"445\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"microsoft-ds\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"513\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"login\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"514\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"shell\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"515\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"printer\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"543\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"klogin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"544\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"kshell\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"548\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"afp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"554\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rtsp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"631\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ipp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"646\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ldp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"873\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"rsync\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"990\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ftps\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1025\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"NFS-or-IIS\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1026\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"LSA-or-nterm\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1027\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"IIS\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1028\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"1029\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-lsa\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1110\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nfsd-status\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1433\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-sql-s\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1720\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"h323q931\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1723\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pptp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1755\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"wms\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"1900\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"upnp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"cisco-sccp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2001\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"dc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2049\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nfs\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2121\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ccproxy-ftp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"2717\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pn-requester\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ppp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3128\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"squid-http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3306\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"mysql\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3389\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ms-wbt-server\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"3986\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"mapper-ws_ethd\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"4899\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"radmin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"upnp\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5009\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"airport-admin\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5051\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ida-agent\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5060\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"sip\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5101\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"admdog\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5190\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"aol\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5357\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"wsdapi\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5432\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"postgresql\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5631\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"pcanywheredata\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5666\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"nrpe\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5800\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"vnc-http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"5900\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"vnc\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"X11\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6001\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"X11:1\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"6646\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"7070\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"realserver\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http-alt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8008\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8009\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"ajp13\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8080\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"http-proxy\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8081\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"blackice-icecap\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8443\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"https-alt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"8888\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"sun-answerbook\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9100\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"jetdirect\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"9999\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"abyss\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"10000\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"snet-sensor-mgmt\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"32768\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/><service name=\"filenet-tms\" method=\"table\" conf=\"3\"/></port>\n<port protocol=\"tcp\" portid=\"49152\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49153\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49154\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49155\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49156\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n<port protocol=\"tcp\" portid=\"49157\"><state state=\"open\" reason=\"syn-ack\" reason_ttl=\"63\"/></port>\n</ports>\n<times srtt=\"10662\" rttvar=\"2113\" to=\"100000\"/>\n</host>\n<runstats><finished time=\"1772644604\" timestr=\"Thu Mar  5 01:16:44 2026\" summary=\"Nmap done at Thu Mar  5 01:16:44 2026; 1 IP address (1 host up) scanned in 13.30 seconds\" elapsed=\"13.30\" exit=\"success\"/><hosts up=\"1\" down=\"0\" total=\"1\"/>\n</runstats>\n</nmaprun>",
+    "duration_ms": 13324
+  }
+}

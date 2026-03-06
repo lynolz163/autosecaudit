@@ -1,0 +1,162 @@
+[
+  {
+    "action": {
+      "action_id": "A2",
+      "tool_name": "dynamic_crawl",
+      "target": "https://edu.360-24.com:443/",
+      "options": {
+        "allow_domain": [
+          "edu.360-24.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 20,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "0ca62361a922421f1f1fd265bf654ef997b81aa1e0ef40c8bff91306d4e8017a",
+      "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "dependency_unsatisfied:tech_stack_fingerprint"
+  },
+  {
+    "action": {
+      "action_id": "A3",
+      "tool_name": "nuclei_exploit_check",
+      "target": "https://edu.360-24.com:443/",
+      "options": {
+        "severity": [
+          "medium"
+        ]
+      },
+      "priority": 40,
+      "cost": 20,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "9e808f22eeaf5b95ec63f3cb64188c345c19882b72d0f753de411fdee6d8d847",
+      "reason": "Run curated non-destructive nuclei templates against high-signal targets. after fingerprint/path hints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "hints_detected"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected",
+        "signal_detected"
+      ]
+    },
+    "reason": "dependency_unsatisfied:tech_stack_fingerprint"
+  },
+  {
+    "action": {
+      "action_id": "A1",
+      "tool_name": "csp_evaluator",
+      "target": "http://edu.360-24.com:8888/",
+      "options": {},
+      "priority": 28,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2f926c2cfe582f49950d54bd783f6ca63cabffc6e6e1ffffa90f6fa61435caba",
+      "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "circuit_open:csp_evaluator:failures=4"
+  },
+  {
+    "action": {
+      "action_id": "A2",
+      "tool_name": "cookie_security_audit",
+      "target": "http://edu.360-24.com:8888/",
+      "options": {},
+      "priority": 29,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "07c870627ec290b138c156f40a776df7dca7bd0427f4f23e4ae3cae74dd567cf",
+      "reason": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "circuit_open:cookie_security_audit:failures=4"
+  },
+  {
+    "action": {
+      "action_id": "A4",
+      "tool_name": "csp_evaluator",
+      "target": "http://edu.360-24.com:3128/",
+      "options": {},
+      "priority": 28,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "2f5d0e4caa8f43e1ad2cb1df0fa5c6c7f804f825db430e5750b60e4497bf1877",
+      "reason": "Evaluate Content-Security-Policy quality and risky directives.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "circuit_open:csp_evaluator:failures=4"
+  },
+  {
+    "action": {
+      "action_id": "A5",
+      "tool_name": "cookie_security_audit",
+      "target": "http://edu.360-24.com:3128/",
+      "options": {},
+      "priority": 29,
+      "cost": 3,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "a4100b436f435e359df00afdf59094cbb7bdc4cc0ea082a611ae0c452d44a85c",
+      "reason": "Audit Secure, HttpOnly, and SameSite attributes on set-cookie headers.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    "reason": "circuit_open:cookie_security_audit:failures=4"
+  }
+]

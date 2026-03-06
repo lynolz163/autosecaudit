@@ -1,0 +1,54 @@
+{
+  "action": {
+    "action_id": "A11",
+    "tool_name": "waf_detector",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "priority": 13,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "6f45a23d458b19dca900b02b5e9d0a3d8b04a775e33e92d2d6767f1b84de9a82",
+    "reason": "Identify common CDN and WAF protection layers from passive response markers.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "error",
+  "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+  "duration_ms": 2369,
+  "attempts": 1,
+  "result": {
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>"
+  },
+  "metadata": {
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+    "skill_name": "waf_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": false,
+    "tool_name": "waf_detector",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "error",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {},
+      "follow_up_hints": [],
+      "metadata": {
+        "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>"
+      }
+    },
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+    "raw_output": null,
+    "duration_ms": 2369
+  }
+}

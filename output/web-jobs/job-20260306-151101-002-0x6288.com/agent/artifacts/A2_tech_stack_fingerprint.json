@@ -1,0 +1,121 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://0x6288.com:443/",
+    "options": {},
+    "priority": 1,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "2f43108972a0e45629d7de9595bea55c7b8d839d4920b0e3b6d3e9e3bba197f2",
+    "reason": "Passively fingerprint exposed technologies from headers and page content.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 1246,
+  "attempts": 1,
+  "result": {
+    "url": "https://0x6288.com:443",
+    "status_code": 402,
+    "headers": {
+      "date": "Fri, 06 Mar 2026 07:12:51 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=7,cfOrigin;dur=164",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=A6lBzA%2FlXJiuuRghr7O324450ew14JDigfPQtPLFj8WDBcuDMHCKwCtjYCf8UpjXMSgIZU0GGlyDseOrJc6I%2BK1tybYONfopG2A7Gd1DfpTM3%2FnOsgM%3D\"}]}",
+      "cf-ray": "9d7f8df3dff12f41-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "tech_stack": []
+  },
+  "metadata": {
+    "url": "https://0x6288.com:443",
+    "status_code": 402,
+    "headers": {
+      "date": "Fri, 06 Mar 2026 07:12:51 GMT",
+      "content-type": "text/html; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "close",
+      "server": "cloudflare",
+      "cf-cache-status": "DYNAMIC",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "server-timing": "cfEdge;dur=7,cfOrigin;dur=164",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=A6lBzA%2FlXJiuuRghr7O324450ew14JDigfPQtPLFj8WDBcuDMHCKwCtjYCf8UpjXMSgIZU0GGlyDseOrJc6I%2BK1tybYONfopG2A7Gd1DfpTM3%2FnOsgM%3D\"}]}",
+      "cf-ray": "9d7f8df3dff12f41-LAX",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "tech_stack": [],
+    "skill_name": "tech_stack_fingerprint",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "tech_stack_fingerprint",
+    "target": "https://0x6288.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "tech_stack_fingerprint:fingerprint",
+          "tool": "tech_stack_fingerprint",
+          "severity": "info",
+          "category": "info_leak",
+          "title": "Passive Technology Fingerprint",
+          "description": "Passive fingerprinting identified stack indicators from headers or page content.",
+          "evidence": {
+            "url": "https://0x6288.com:443",
+            "status_code": 402,
+            "tech_stack": [],
+            "server": "cloudflare"
+          },
+          "remediation": "Review exposed technology markers and minimize unnecessary fingerprinting signals where practical.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [],
+      "surface_updates": {
+        "tech_stack": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "url": "https://0x6288.com:443",
+        "status_code": 402,
+        "headers": {
+          "date": "Fri, 06 Mar 2026 07:12:51 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "close",
+          "server": "cloudflare",
+          "cf-cache-status": "DYNAMIC",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "server-timing": "cfEdge;dur=7,cfOrigin;dur=164",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=A6lBzA%2FlXJiuuRghr7O324450ew14JDigfPQtPLFj8WDBcuDMHCKwCtjYCf8UpjXMSgIZU0GGlyDseOrJc6I%2BK1tybYONfopG2A7Gd1DfpTM3%2FnOsgM%3D\"}]}",
+          "cf-ray": "9d7f8df3dff12f41-LAX",
+          "alt-svc": "h3=\":443\"; ma=86400"
+        },
+        "tech_stack": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 1246
+  }
+}

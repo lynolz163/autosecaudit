@@ -1,0 +1,321 @@
+{
+  "target": "lynolz.com",
+  "started_at": "2026-03-04T08:03:44.151718+00:00",
+  "ended_at": "2026-03-04T08:04:02.799715+00:00",
+  "plugin_results": [
+    {
+      "plugin_id": "cors_misconfiguration",
+      "plugin_name": "CORS Misconfiguration Check",
+      "category": "validation",
+      "status": "passed",
+      "started_at": "2026-03-04T08:03:44.157598+00:00",
+      "ended_at": "2026-03-04T08:03:45.981287+00:00",
+      "findings": [
+        {
+          "finding_id": "VAL-CORS-HEALTHY-001",
+          "title": "CORS Policy Looks Restrictive",
+          "description": "No obvious overly permissive CORS behavior was detected in the probe response.",
+          "severity": "info",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 405,
+            "probe_method": "OPTIONS",
+            "access_control_allow_origin": "",
+            "access_control_allow_credentials": ""
+          },
+          "recommendation": null
+        }
+      ],
+      "error": null,
+      "metadata": {
+        "url": "https://lynolz.com",
+        "status_code": 405,
+        "probe_method": "OPTIONS",
+        "allow_origin": null,
+        "allow_credentials": null,
+        "allow_methods": null,
+        "vary": "Cookie"
+      }
+    },
+    {
+      "plugin_id": "dns_discovery",
+      "plugin_name": "DNS Discovery",
+      "category": "discovery",
+      "status": "passed",
+      "started_at": "2026-03-04T08:03:45.986933+00:00",
+      "ended_at": "2026-03-04T08:03:45.991811+00:00",
+      "findings": [
+        {
+          "finding_id": "DISC-DNS-INFO-001",
+          "title": "DNS Addresses Discovered",
+          "description": "Asset discovery succeeded and DNS addresses were resolved.",
+          "severity": "info",
+          "evidence": {
+            "host": "lynolz.com",
+            "addresses": [
+              "104.21.89.22",
+              "172.67.136.81"
+            ]
+          },
+          "recommendation": null
+        }
+      ],
+      "error": null,
+      "metadata": {
+        "address_count": 2,
+        "host": "lynolz.com"
+      }
+    },
+    {
+      "plugin_id": "http_headers_validation",
+      "plugin_name": "HTTP Header Validation",
+      "category": "validation",
+      "status": "failed",
+      "started_at": "2026-03-04T08:03:45.997274+00:00",
+      "ended_at": "2026-03-04T08:03:47.596055+00:00",
+      "findings": [
+        {
+          "finding_id": "VAL-HTTP-STRICT_TRANSPORT_SECURITY",
+          "title": "Missing HTTP Header: strict-transport-security",
+          "description": "Response is missing the security header `strict-transport-security`.",
+          "severity": "high",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 200
+          },
+          "recommendation": "Enable HSTS to enforce secure transport in browsers."
+        },
+        {
+          "finding_id": "VAL-HTTP-CONTENT_SECURITY_POLICY",
+          "title": "Missing HTTP Header: content-security-policy",
+          "description": "Response is missing the security header `content-security-policy`.",
+          "severity": "medium",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 200
+          },
+          "recommendation": "Define a restrictive CSP to reduce XSS and content injection risks."
+        },
+        {
+          "finding_id": "VAL-HTTP-X_CONTENT_TYPE_OPTIONS",
+          "title": "Missing HTTP Header: x-content-type-options",
+          "description": "Response is missing the security header `x-content-type-options`.",
+          "severity": "low",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 200
+          },
+          "recommendation": "Set X-Content-Type-Options to 'nosniff'."
+        },
+        {
+          "finding_id": "VAL-HTTP-X_FRAME_OPTIONS",
+          "title": "Missing HTTP Header: x-frame-options",
+          "description": "Response is missing the security header `x-frame-options`.",
+          "severity": "low",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 200
+          },
+          "recommendation": "Set X-Frame-Options to 'DENY' or 'SAMEORIGIN'."
+        },
+        {
+          "finding_id": "VAL-HTTP-REFERRER_POLICY",
+          "title": "Missing HTTP Header: referrer-policy",
+          "description": "Response is missing the security header `referrer-policy`.",
+          "severity": "low",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 200
+          },
+          "recommendation": "Set Referrer-Policy (e.g. 'strict-origin-when-cross-origin') to reduce cross-origin URL leakage."
+        },
+        {
+          "finding_id": "VAL-HTTP-PERMISSIONS_POLICY",
+          "title": "Missing HTTP Header: permissions-policy",
+          "description": "Response is missing the security header `permissions-policy`.",
+          "severity": "low",
+          "evidence": {
+            "url": "https://lynolz.com",
+            "status_code": 200
+          },
+          "recommendation": "Set Permissions-Policy to restrict browser feature access (camera, microphone, geolocation, etc.)."
+        }
+      ],
+      "error": null,
+      "metadata": {
+        "url": "https://lynolz.com",
+        "missing_headers": [
+          "strict-transport-security",
+          "content-security-policy",
+          "x-content-type-options",
+          "x-frame-options",
+          "referrer-policy",
+          "permissions-policy"
+        ],
+        "status_code": 200
+      }
+    },
+    {
+      "plugin_id": "port_service_scan",
+      "plugin_name": "Port Service Scan",
+      "category": "discovery",
+      "status": "error",
+      "started_at": "2026-03-04T08:03:47.603652+00:00",
+      "ended_at": "2026-03-04T08:04:01.629575+00:00",
+      "findings": [],
+      "error": "Nmap scan timed out after 14.0s",
+      "metadata": {}
+    },
+    {
+      "plugin_id": "ssl_expiry_check",
+      "plugin_name": "SSL Expiry Check",
+      "category": "validation",
+      "status": "passed",
+      "started_at": "2026-03-04T08:04:01.636398+00:00",
+      "ended_at": "2026-03-04T08:04:02.195867+00:00",
+      "findings": [
+        {
+          "finding_id": "VAL-SSL-HEALTHY-001",
+          "title": "SSL Certificate Expiry Healthy",
+          "description": "The TLS certificate is valid and not close to expiry.",
+          "severity": "info",
+          "evidence": {
+            "host": "lynolz.com",
+            "port": 443,
+            "days_left": 86,
+            "expires_at": "2026-05-29T09:58:44+00:00",
+            "issuer": [
+              [
+                [
+                  "countryName",
+                  "US"
+                ]
+              ],
+              [
+                [
+                  "organizationName",
+                  "Google Trust Services"
+                ]
+              ],
+              [
+                [
+                  "commonName",
+                  "WE1"
+                ]
+              ]
+            ],
+            "subject": [
+              [
+                [
+                  "commonName",
+                  "lynolz.com"
+                ]
+              ]
+            ],
+            "subject_alt_name": [
+              [
+                "DNS",
+                "lynolz.com"
+              ],
+              [
+                "DNS",
+                "*.lynolz.com"
+              ]
+            ]
+          },
+          "recommendation": null
+        }
+      ],
+      "error": null,
+      "metadata": {
+        "host": "lynolz.com",
+        "port": 443,
+        "days_left": 86,
+        "expires_at": "2026-05-29T09:58:44+00:00",
+        "issuer": [
+          [
+            [
+              "countryName",
+              "US"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "Google Trust Services"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "WE1"
+            ]
+          ]
+        ],
+        "subject": [
+          [
+            [
+              "commonName",
+              "lynolz.com"
+            ]
+          ]
+        ],
+        "subject_alt_name": [
+          [
+            "DNS",
+            "lynolz.com"
+          ],
+          [
+            "DNS",
+            "*.lynolz.com"
+          ]
+        ]
+      }
+    },
+    {
+      "plugin_id": "tls_certificate_validation",
+      "plugin_name": "TLS Certificate Validation",
+      "category": "validation",
+      "status": "passed",
+      "started_at": "2026-03-04T08:04:02.200891+00:00",
+      "ended_at": "2026-03-04T08:04:02.796935+00:00",
+      "findings": [
+        {
+          "finding_id": "VAL-TLS-INFO-001",
+          "title": "TLS Certificate Validity Check Passed",
+          "description": "TLS certificate is valid and not near expiry.",
+          "severity": "info",
+          "evidence": {
+            "host": "lynolz.com",
+            "port": 443,
+            "days_left": 86
+          },
+          "recommendation": null
+        }
+      ],
+      "error": null,
+      "metadata": {
+        "host": "lynolz.com",
+        "port": 443,
+        "not_after": "May 29 09:58:44 2026 GMT"
+      }
+    }
+  ],
+  "summary": {
+    "total_plugins": 6,
+    "total_findings": 10,
+    "status_counts": {
+      "passed": 4,
+      "failed": 1,
+      "error": 1,
+      "skipped": 0
+    },
+    "severity_counts": {
+      "info": 4,
+      "low": 4,
+      "medium": 1,
+      "high": 1,
+      "critical": 0
+    }
+  }
+}

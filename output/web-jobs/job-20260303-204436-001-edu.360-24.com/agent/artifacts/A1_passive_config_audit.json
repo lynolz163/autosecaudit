@@ -1,0 +1,88 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "passive_config_audit",
+    "target": "https://edu.360-24.com:8443",
+    "options": {},
+    "priority": 0,
+    "cost": 3,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "93dc8a2086cc37b262e1c26f3e359b53eb7fe7cc944ed35f28daf688406d8719",
+    "reason": "Low-cost high-value check for exposed configuration artifacts.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 30116,
+  "result": {
+    "origin": "https://edu.360-24.com:8443",
+    "checked_paths": [
+      ".env",
+      ".env.prod",
+      ".env.local",
+      ".env.backup",
+      ".git/config",
+      "wp-config.php.bak",
+      "database.yml",
+      ".htpasswd",
+      "api/swagger.json",
+      "swagger.json",
+      "v1/swagger.json",
+      "api/v1/swagger.json",
+      "actuator/env",
+      "actuator/health",
+      "config.php.bak"
+    ],
+    "request_timeout_seconds": 5.0,
+    "max_total_seconds": 30.0,
+    "exposures": []
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "passive_config_audit",
+    "target": "https://edu.360-24.com:8443",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "origin": "https://edu.360-24.com:8443",
+        "checked_paths": [
+          ".env",
+          ".env.prod",
+          ".env.local",
+          ".env.backup",
+          ".git/config",
+          "wp-config.php.bak",
+          "database.yml",
+          ".htpasswd",
+          "api/swagger.json",
+          "swagger.json",
+          "v1/swagger.json",
+          "api/v1/swagger.json",
+          "actuator/env",
+          "actuator/health",
+          "config.php.bak"
+        ],
+        "request_timeout_seconds": 5.0,
+        "max_total_seconds": 30.0,
+        "exposures": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "config_exposures": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 30116
+  }
+}

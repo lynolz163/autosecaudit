@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "generated_at": "2026-02-22T09:03:19.055691+00:00",
+    "target": "https://example.com",
+    "decision_summary": "Proposed 3 safe action(s), total estimated cost 25, remaining budget after plan 5.",
+    "resumed": false,
+    "resumed_from": "None"
+  },
+  "summary": {
+    "audit_score": 100,
+    "score_label": "Excellent",
+    "total_findings": 0,
+    "vulnerability_findings": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "history_count": 0,
+    "iteration_count": 0,
+    "budget_remaining": 30,
+    "budget_start_inferred": null
+  },
+  "history": [],
+  "budget_trace": [],
+  "scope": {
+    "scope": [
+      "example.com"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "https://example.com"
+      },
+      {
+        "type": "endpoint",
+        "data": "https://example.com/"
+      }
+    ],
+    "surface": {}
+  },
+  "findings": []
+}

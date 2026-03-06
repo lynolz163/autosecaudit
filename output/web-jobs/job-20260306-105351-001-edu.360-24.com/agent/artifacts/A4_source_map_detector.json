@@ -1,0 +1,87 @@
+{
+  "action": {
+    "action_id": "A4",
+    "tool_name": "source_map_detector",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "priority": 3,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "7098d6c21bf92ddafeafbab552318edf1c84b59e56dc8d81939093b8240eaf84",
+    "reason": "Detect exposed JavaScript source maps that may reveal source code or routes.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 19261,
+  "attempts": 1,
+  "result": {
+    "origin": "https://edu.360-24.com:443",
+    "source_map_count": 1
+  },
+  "metadata": {
+    "origin": "https://edu.360-24.com:443",
+    "source_map_count": 1,
+    "skill_name": "source_map_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "source_map_detector",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [
+        {
+          "id": "source_map_detector:1",
+          "tool": "source_map_detector",
+          "severity": "medium",
+          "category": "info_leak",
+          "title": "Exposed JavaScript Source Map",
+          "description": "A source map is publicly accessible and may reveal application source paths or code.",
+          "evidence": {
+            "url": "https://edu.360-24.com:443/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js.map",
+            "script_url": "https://edu.360-24.com:443/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"
+          },
+          "remediation": "Disable public source map exposure in production or gate access to build artifacts.",
+          "cwe_id": null,
+          "cvss_score": null,
+          "cve_id": null,
+          "cve_verified": false
+        }
+      ],
+      "discovered_assets": [
+        {
+          "type": "endpoint",
+          "data": "https://edu.360-24.com:443/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js.map",
+          "metadata": {}
+        }
+      ],
+      "surface_updates": {
+        "source_maps": [
+          "https://edu.360-24.com:443/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js.map"
+        ]
+      },
+      "follow_up_hints": [
+        "js_endpoint_extractor"
+      ],
+      "metadata": {
+        "origin": "https://edu.360-24.com:443",
+        "source_map_count": 1
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 19261
+  }
+}

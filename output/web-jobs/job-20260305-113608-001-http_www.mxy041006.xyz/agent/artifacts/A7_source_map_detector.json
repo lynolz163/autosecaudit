@@ -1,0 +1,59 @@
+{
+  "action": {
+    "action_id": "A7",
+    "tool_name": "source_map_detector",
+    "target": "http://www.mxy041006.xyz:80/",
+    "options": {},
+    "priority": 7,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "43d57cf5d6aba394f29341d68ef3471fbfd6eb23e960e6fae5b54e48f4a88da0",
+    "reason": "Detect exposed JavaScript source maps that may reveal source code or routes.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 10837,
+  "attempts": 1,
+  "result": {
+    "origin": "http://www.mxy041006.xyz:80",
+    "source_map_count": 0
+  },
+  "metadata": {
+    "origin": "http://www.mxy041006.xyz:80",
+    "source_map_count": 0,
+    "skill_name": "source_map_detector",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "source_map_detector",
+    "target": "http://www.mxy041006.xyz:80/",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {
+        "source_maps": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "http://www.mxy041006.xyz:80",
+        "source_map_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 10837
+  }
+}

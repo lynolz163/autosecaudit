@@ -1,0 +1,331 @@
+[
+  {
+    "tool": "subdomain_enum_passive",
+    "target": "edu.360-24.com",
+    "options": {
+      "max_results": 100
+    },
+    "idempotency_key": "10e21621592842adadd5250d7f4280912e5a885a6a8a6b7739ace32d3de9b6d2",
+    "status": "completed",
+    "started_at": "2026-03-04T05:18:53.569678+00:00",
+    "ended_at": "2026-03-04T05:18:55.546013+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A1_subdomain_enum_passive.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 1000,
+    "budget_after": 980
+  },
+  {
+    "tool": "nmap_scan",
+    "target": "edu.360-24.com",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "idempotency_key": "14f1648c4166ab616504ec316b01ad2c794154be2c3dcb83c49f3539db8596e6",
+    "status": "completed",
+    "started_at": "2026-03-04T05:18:55.555631+00:00",
+    "ended_at": "2026-03-04T05:19:08.866232+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A2_nmap_scan.json"
+    ],
+    "action_cost": 15,
+    "budget_before": 980,
+    "budget_after": 980
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "idempotency_key": "24c5836abd57d6aaa8cdcc05ef85649ff0fc385c43a35e2c863a9af8f4bbd599",
+    "status": "completed",
+    "started_at": "2026-03-04T05:19:50.301347+00:00",
+    "ended_at": "2026-03-04T05:20:05.990476+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 980,
+    "budget_after": 954
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "https://edu.360-24.com:443/",
+    "options": {
+      "allow_domain": [
+        "edu.360-24.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "122e2ee6d74b318d01f9b5bb2fd2dc13234a3ef7ff502eaf4a9391f8223aa249",
+    "status": "completed",
+    "started_at": "2026-03-04T05:20:05.999275+00:00",
+    "ended_at": "2026-03-04T05:20:18.790756+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A3_active_web_crawler.json"
+    ],
+    "action_cost": 12,
+    "budget_before": 954,
+    "budget_after": 954
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://edu.360-24.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "1294a49e3e692e77472f8efd858541054cd9ccf912cd73051beed4a429fa021b",
+    "status": "failed",
+    "started_at": "2026-03-04T05:20:18.801896+00:00",
+    "ended_at": "2026-03-04T05:20:18.887318+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A4_dirsearch_scan.json"
+    ],
+    "error": "Usage: dirsearch.py [-u|--url] target [-e|--extensions] extensions [options]\n\ndirsearch.py: error: no such option: --format",
+    "action_cost": 10,
+    "budget_before": 954,
+    "budget_after": 954
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "idempotency_key": "aedb0d373fcf84a6efa32a21740c021c952cc1a173badd46f23ecf76f7c618ab",
+    "status": "completed",
+    "started_at": "2026-03-04T05:21:01.207413+00:00",
+    "ended_at": "2026-03-04T05:21:03.008016+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 954,
+    "budget_after": 930
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://edu.360-24.com:80/",
+    "options": {},
+    "idempotency_key": "84aabb0bc3dea5d08efcbe382674206b0cdc9f849e4412268a261409b3496798",
+    "status": "completed",
+    "started_at": "2026-03-04T05:21:03.018225+00:00",
+    "ended_at": "2026-03-04T05:21:07.394234+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A4_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 930,
+    "budget_after": 930
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "idempotency_key": "906fcdca4c2a3cd83747ee1b230969e1753471aa41dfe4010bfb3a013678e7a7",
+    "status": "completed",
+    "started_at": "2026-03-04T05:21:07.403637+00:00",
+    "ended_at": "2026-03-04T05:21:12.557052+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A2_cors_misconfiguration.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 930,
+    "budget_after": 930
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "http://edu.360-24.com:80/",
+    "options": {},
+    "idempotency_key": "7a99dd8f3dbab209d887cd8ec5bfe895d476b3676622e6374039c1c3ae1879c3",
+    "status": "completed",
+    "started_at": "2026-03-04T05:21:12.567588+00:00",
+    "ended_at": "2026-03-04T05:21:23.486183+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A5_cors_misconfiguration.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 930,
+    "budget_after": 930
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://edu.360-24.com:443/",
+    "options": {},
+    "idempotency_key": "610d55eba377d04f758ac35c4e5add33e3f013d8dbf5dffaf1d8a878c7a9e32c",
+    "status": "completed",
+    "started_at": "2026-03-04T05:21:23.495642+00:00",
+    "ended_at": "2026-03-04T05:21:25.288343+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A3_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 930,
+    "budget_after": 930
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://edu.360-24.com:80/",
+    "options": {},
+    "idempotency_key": "81b2ac807d66fdb5c19cde0081193fe301cf3b15343c37a4b3346417f9510732",
+    "status": "completed",
+    "started_at": "2026-03-04T05:21:25.298960+00:00",
+    "ended_at": "2026-03-04T05:21:28.493143+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A6_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 930,
+    "budget_after": 930
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://edu.360-24.com:8443/",
+    "options": {},
+    "idempotency_key": "2f7640a5bd268b26a6213d94d4abcd734d0da82d8bda695e4e9a3cd5bf32a906",
+    "status": "error",
+    "started_at": "2026-03-04T05:22:10.563381+00:00",
+    "ended_at": "2026-03-04T05:22:15.583540+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+    "action_cost": 4,
+    "budget_before": 930,
+    "budget_after": 916
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://edu.360-24.com:8080/",
+    "options": {},
+    "idempotency_key": "bf92445823e54caff6692a89a174aa388df21147b351ff4d2bbee28c0dc6997c",
+    "status": "error",
+    "started_at": "2026-03-04T05:22:15.593062+00:00",
+    "ended_at": "2026-03-04T05:22:20.604015+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A4_csp_evaluator.json"
+    ],
+    "error": "Remote end closed connection without response",
+    "action_cost": 4,
+    "budget_before": 916,
+    "budget_after": 916
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://edu.360-24.com:8443/",
+    "options": {},
+    "idempotency_key": "f45ab9baf1fbcc372b7da6ab5d1a4ff4137513f6b152e08669efef4e2abf3851",
+    "status": "error",
+    "started_at": "2026-03-04T05:22:20.613360+00:00",
+    "ended_at": "2026-03-04T05:22:25.632803+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A2_cookie_security_audit.json"
+    ],
+    "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1016)>",
+    "action_cost": 3,
+    "budget_before": 916,
+    "budget_after": 916
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://edu.360-24.com:8080/",
+    "options": {},
+    "idempotency_key": "61b02ba5db02d71c02a87b3e1317a3848931a07896387735f85cc57e9395d23f",
+    "status": "error",
+    "started_at": "2026-03-04T05:22:25.642738+00:00",
+    "ended_at": "2026-03-04T05:22:30.650514+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A5_cookie_security_audit.json"
+    ],
+    "error": "Remote end closed connection without response",
+    "action_cost": 3,
+    "budget_before": 916,
+    "budget_after": 916
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://edu.360-24.com:8000/",
+    "options": {},
+    "idempotency_key": "d15fc775b7cff595fba4a2aa552839a041baae0ae49747b65efc89215183712e",
+    "status": "error",
+    "started_at": "2026-03-04T05:23:14.476770+00:00",
+    "ended_at": "2026-03-04T05:23:19.487750+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "error": "Remote end closed connection without response",
+    "action_cost": 4,
+    "budget_before": 916,
+    "budget_after": 902
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://edu.360-24.com:8008/",
+    "options": {},
+    "idempotency_key": "505059e84b486545cbec099ab5acb75c960a242d2a6b0dbd766f7fd3daf8734d",
+    "status": "error",
+    "started_at": "2026-03-04T05:23:19.497515+00:00",
+    "ended_at": "2026-03-04T05:23:19.499657+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A4_csp_evaluator.json"
+    ],
+    "error": "circuit_open:csp_evaluator:failures=3",
+    "action_cost": 4,
+    "budget_before": 902,
+    "budget_after": 902
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://edu.360-24.com:8000/",
+    "options": {},
+    "idempotency_key": "7e5a2d02ac8bdd4c3ddc7e76843312a7699c7e2b2f25fc09bc46e0286175f829",
+    "status": "error",
+    "started_at": "2026-03-04T05:23:19.508481+00:00",
+    "ended_at": "2026-03-04T05:23:24.521083+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A2_cookie_security_audit.json"
+    ],
+    "error": "Remote end closed connection without response",
+    "action_cost": 3,
+    "budget_before": 902,
+    "budget_after": 902
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://edu.360-24.com:8008/",
+    "options": {},
+    "idempotency_key": "16944fb3fa7c8aa356ac3cb728778d0dc23e400579b466e3908f714c521609f7",
+    "status": "error",
+    "started_at": "2026-03-04T05:23:24.530613+00:00",
+    "ended_at": "2026-03-04T05:23:24.532658+00:00",
+    "retry_attempts": 0,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-131809-001-edu.360-24.com/agent/artifacts/A5_cookie_security_audit.json"
+    ],
+    "error": "circuit_open:cookie_security_audit:failures=3",
+    "action_cost": 3,
+    "budget_before": 902,
+    "budget_after": 902
+  }
+]

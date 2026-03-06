@@ -1,0 +1,131 @@
+[
+  {
+    "tool": "subdomain_enum_passive",
+    "target": "0x6288.com",
+    "options": {
+      "max_results": 100
+    },
+    "idempotency_key": "b11313468a93cbfefe6385f33be2628e549215c5cb253adac61a3db50447d845",
+    "reason": "Enumerate likely subdomains through passive certificate transparency sources.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "domain_scope_declared"
+    ],
+    "status": "completed",
+    "started_at": "2026-03-06T12:38:49.728538+00:00",
+    "ended_at": "2026-03-06T12:38:52.239021+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-203847-001-0x6288.com/agent/artifacts/A1_subdomain_enum_passive.json"
+    ],
+    "phase": "passive_recon",
+    "ranking_explanation": {
+      "tool": "subdomain_enum_passive",
+      "target": "0x6288.com",
+      "component": null,
+      "service": null,
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Enumerate likely subdomains through passive certificate transparency sources.",
+        "Scheduled in phase: passive_recon",
+        "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"
+      ]
+    },
+    "action_cost": 5,
+    "budget_before": 50,
+    "budget_after": 41
+  },
+  {
+    "tool": "dns_zone_audit",
+    "target": "0x6288.com",
+    "options": {
+      "max_nameservers": 3,
+      "timeout_seconds": 5
+    },
+    "idempotency_key": "cc774ca2d16bc001a5241f5ceb6b8314e567b00860197dbe3b2eb7257e2fa9fa",
+    "reason": "Resolve NS/MX/TXT/SOA records and test whether AXFR is exposed.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "domain_scope_declared"
+    ],
+    "status": "completed",
+    "started_at": "2026-03-06T12:38:52.256557+00:00",
+    "ended_at": "2026-03-06T12:38:52.270063+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-203847-001-0x6288.com/agent/artifacts/A2_dns_zone_audit.json"
+    ],
+    "phase": "passive_recon",
+    "ranking_explanation": {
+      "tool": "dns_zone_audit",
+      "target": "0x6288.com",
+      "component": null,
+      "service": null,
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Resolve NS/MX/TXT/SOA records and test whether AXFR is exposed.",
+        "Scheduled in phase: passive_recon",
+        "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared"
+      ]
+    },
+    "action_cost": 4,
+    "budget_before": 41,
+    "budget_after": 41
+  },
+  {
+    "tool": "passive_config_audit",
+    "target": "https://0x6288.com:443",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "idempotency_key": "c502fa3d8c2a2c2f2b212b1a374d58c6205fd6c1b202bf8e6b4fb236c38162e3",
+    "reason": "Check common sensitive config paths using read-only requests.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "status": "completed",
+    "started_at": "2026-03-06T12:38:52.397610+00:00",
+    "ended_at": "2026-03-06T12:39:06.042148+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260306-203847-001-0x6288.com/agent/artifacts/A1_passive_config_audit.json"
+    ],
+    "phase": "passive_recon",
+    "ranking_explanation": {
+      "tool": "passive_config_audit",
+      "target": "https://0x6288.com:443",
+      "component": null,
+      "service": null,
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Check common sensitive config paths using read-only requests.",
+        "Scheduled in phase: passive_recon",
+        "Preconditions satisfied: target_in_scope, not_already_done, http_service_confirmed"
+      ]
+    },
+    "action_cost": 3,
+    "budget_before": 41,
+    "budget_after": 38
+  }
+]

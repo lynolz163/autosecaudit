@@ -1,0 +1,34 @@
+{
+  "documents": [
+    {
+      "id": "grafana-auth-hardening",
+      "title": "Grafana Auth and Plugin Exposure Checks",
+      "summary": "Grafana deployments often expose login endpoints and plugin metadata that influence exploitability.",
+      "content": "Validate auth hardening, plugin list exposure, and known CVE coverage for detected Grafana versions.",
+      "tags": ["grafana", "auth", "plugins", "dashboard"],
+      "recommended_tools": ["login_form_detector", "cve_lookup", "nuclei_exploit_check"],
+      "severity_hint": "medium",
+      "references": ["https://grafana.com/security/security-advisories/"]
+    },
+    {
+      "id": "django-debug-and-admin",
+      "title": "Django Debug/Admin Surface Intelligence",
+      "summary": "Django applications may leak debug traces or expose admin portals with weak controls.",
+      "content": "Check debug traces, admin URL exposure, and session/cookie policy around authentication boundaries.",
+      "tags": ["django", "python", "debug", "admin"],
+      "recommended_tools": ["page_vision_analyzer", "cookie_security_audit", "passive_config_audit"],
+      "severity_hint": "medium",
+      "references": ["https://docs.djangoproject.com/"]
+    },
+    {
+      "id": "apache-httpd-misconfig-patterns",
+      "title": "Apache HTTPD Misconfiguration Patterns",
+      "summary": "Apache may expose directory indexing, verbose error pages, or risky alias/proxy routes.",
+      "content": "Prioritize passive config checks and safe endpoint discovery before exploit verification templates.",
+      "tags": ["apache", "httpd", "misconfig", "error-pages"],
+      "recommended_tools": ["passive_config_audit", "error_page_analyzer", "dirsearch_scan"],
+      "severity_hint": "low",
+      "references": ["https://httpd.apache.org/security_report.html"]
+    }
+  ]
+}

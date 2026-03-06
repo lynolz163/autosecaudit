@@ -1,0 +1,94 @@
+{
+  "action": {
+    "action_id": "A2",
+    "tool_name": "dynamic_crawl",
+    "target": "http://edu.360-24.com:3128/",
+    "options": {
+      "allow_domain": [
+        "edu.360-24.com"
+      ],
+      "max_depth": 2
+    },
+    "priority": 20,
+    "cost": 12,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "71b7eb860caf2cfb42fdc91236ff1034bb6889027d676da5dcd34a5797ea0b7f",
+    "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 5701,
+  "attempts": 1,
+  "result": {
+    "start_url": "http://edu.360-24.com:3128/",
+    "max_depth": 2,
+    "visited_pages": 1,
+    "discovered_urls": [
+      "http://edu.360-24.com:3128/"
+    ],
+    "api_endpoints": [],
+    "url_parameters": {},
+    "parameter_origins": {},
+    "tech_stack": [],
+    "errors": [
+      "Failed visiting http://edu.360-24.com:3128/: Page.goto: net::ERR_EMPTY_RESPONSE at http://edu.360-24.com:3128/\nCall log:\n  - navigating to \"http://edu.360-24.com:3128/\", waiting until \"networkidle\"\n"
+    ]
+  },
+  "metadata": {
+    "skill_name": "dynamic_crawl",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "dynamic_crawl",
+    "target": "http://edu.360-24.com:3128/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "start_url": "http://edu.360-24.com:3128/",
+        "max_depth": 2,
+        "visited_pages": 1,
+        "discovered_urls": [
+          "http://edu.360-24.com:3128/"
+        ],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {},
+        "tech_stack": [],
+        "errors": [
+          "Failed visiting http://edu.360-24.com:3128/: Page.goto: net::ERR_EMPTY_RESPONSE at http://edu.360-24.com:3128/\nCall log:\n  - navigating to \"http://edu.360-24.com:3128/\", waiting until \"networkidle\"\n"
+        ]
+      },
+      "findings": [],
+      "breadcrumbs_delta": [
+        {
+          "type": "endpoint",
+          "data": "http://edu.360-24.com:3128/"
+        }
+      ],
+      "surface_delta": {
+        "discovered_urls": [
+          "http://edu.360-24.com:3128/"
+        ],
+        "api_endpoints": [],
+        "url_parameters": {},
+        "parameter_origins": {},
+        "tech_stack": []
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 5701
+  }
+}

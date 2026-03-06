@@ -1,0 +1,79 @@
+{
+  "action": {
+    "action_id": "A1",
+    "tool_name": "subdomain_enum_passive",
+    "target": "0x6288.com",
+    "options": {
+      "max_results": 100
+    },
+    "priority": 9,
+    "cost": 5,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "b11313468a93cbfefe6385f33be2628e549215c5cb253adac61a3db50447d845",
+    "reason": "Enumerate likely subdomains through passive certificate transparency sources.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "domain_scope_declared"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 7264,
+  "attempts": 1,
+  "result": {
+    "domain": "0x6288.com",
+    "subdomains": [
+      "0x6288.com"
+    ]
+  },
+  "metadata": {
+    "skill_name": "subdomain_enum_passive",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "subdomain_enum_passive",
+    "target": "0x6288.com",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "domain": "0x6288.com",
+        "subdomains": [
+          "0x6288.com"
+        ]
+      },
+      "findings": [
+        {
+          "type": "info",
+          "name": "Passive Subdomain Enumeration Results",
+          "severity": "info",
+          "evidence": "{\"domain\": \"0x6288.com\", \"count\": 1, \"subdomains\": [\"0x6288.com\"]}",
+          "reproduction_steps": [
+            "Query crt.sh for %.0x6288.com and review returned SAN/CN values."
+          ]
+        }
+      ],
+      "breadcrumbs_delta": [
+        {
+          "type": "service",
+          "data": "https://0x6288.com"
+        }
+      ],
+      "surface_delta": {
+        "discovered_subdomains": [
+          "0x6288.com"
+        ]
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 7264
+  }
+}

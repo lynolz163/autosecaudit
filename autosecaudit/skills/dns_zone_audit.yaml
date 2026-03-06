@@ -1,0 +1,53 @@
+{
+  "skill": {
+    "name": "dns_zone_audit",
+    "version": "1.0",
+    "tool": "dns_zone_audit",
+    "category": "recon",
+    "description": "Resolve NS/MX/TXT/SOA records and test whether AXFR is exposed."
+  },
+  "triggers": {
+    "phase": ["passive_recon", "verification"],
+    "when": [
+      {"condition": "has_scope_target"},
+      {"condition": "not_already_done"}
+    ],
+    "target_source": "scope",
+    "target_type": "domain"
+  },
+  "parameters": {
+    "defaults": {
+      "timeout_seconds": 5,
+      "max_nameservers": 3
+    },
+    "constraints": {}
+  },
+  "result_interpretation": {
+    "success_indicators": [
+      {"field": "metadata.domain", "condition": "non_empty", "meaning": "DNS authority metadata collected"}
+    ],
+    "output_extraction": {
+      "surface_updates": [
+        {"field": "dns_zone_audit", "source": "surface_delta.dns_zone_audit"}
+      ]
+    },
+    "severity_mapping": {
+      "zone transfer exposed": "high"
+    },
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_zone_transfer": {
+      "trigger": ["subdomain_enum_passive"],
+      "when_surface_contains": {"dns_follow_up_signals": ["zone_transfer", "discovered_subdomains"]},
+      "reason": "Zone transfer results can expand subdomain coverage."
+    },
+    "on_authoritative_records": {
+      "trigger": ["reverse_dns_probe"],
+      "when_surface_contains": {"dns_follow_up_signals": ["authoritative_records"]},
+      "reason": "Authoritative DNS records justify PTR correlation for discovered hosts."
+    }
+  },
+  "risk": {"level": "safe", "cost": 4, "priority": 15, "retry": {"max_retries": 1, "backoff_seconds": 0.5}},
+  "dependencies": {"tools": []}
+}

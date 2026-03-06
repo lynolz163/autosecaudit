@@ -1,0 +1,59 @@
+{
+  "action": {
+    "action_id": "A3",
+    "tool_name": "git_exposure_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "priority": 2,
+    "cost": 2,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "c88788c22c6ebe50ef540b7630c45307debddba3dcb3a613d2d45a20c75ba945",
+    "reason": "Detect exposed repository metadata such as .git and .svn files.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4784,
+  "attempts": 1,
+  "result": {
+    "origin": "https://lynolz.com:443",
+    "exposure_count": 0
+  },
+  "metadata": {
+    "origin": "https://lynolz.com:443",
+    "exposure_count": 0,
+    "skill_name": "git_exposure_check",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "git_exposure_check",
+    "target": "https://lynolz.com:443/",
+    "data": {
+      "status": "completed",
+      "findings": [],
+      "discovered_assets": [],
+      "surface_updates": {
+        "git_exposures": []
+      },
+      "follow_up_hints": [],
+      "metadata": {
+        "origin": "https://lynolz.com:443",
+        "exposure_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4784
+  }
+}

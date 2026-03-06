@@ -1,0 +1,10 @@
+{"timestamp": "2026-03-06T12:38:47.685087+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=50, max_iterations=5, timeout=600.0s, resumed=False"}
+{"timestamp": "2026-03-06T12:38:49.728574+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:38:52.251309+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2504"}
+{"timestamp": "2026-03-06T12:38:52.256597+00:00", "plugin_id": "dns_zone_audit", "action": "action_start", "status": "start", "detail": "A2 target=0x6288.com"}
+{"timestamp": "2026-03-06T12:38:52.288424+00:00", "plugin_id": "dns_zone_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=6"}
+{"timestamp": "2026-03-06T12:38:52.397661+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://0x6288.com:443"}
+{"timestamp": "2026-03-06T12:39:06.055471+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=13637"}
+{"timestamp": "2026-03-06T12:39:06.148851+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 3: no executable actions after policy/scheduler."}
+{"timestamp": "2026-03-06T12:39:07.261413+00:00", "plugin_id": "agent", "action": "report_snapshot", "status": "info", "detail": "markdown=agent_report_0x6288-com_20260306T123907Z.md, html=agent_report_0x6288-com_20260306T123907Z.html, json=audit_report_0x6288-com_20260306T123907Z.json"}
+{"timestamp": "2026-03-06T12:39:07.267321+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=3, findings=2"}

@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "generated_at": "2026-02-22T08:42:29.371920+00:00",
+    "target": "https://example.com",
+    "decision_summary": "test",
+    "resumed": false,
+    "resumed_from": null
+  },
+  "summary": {
+    "audit_score": 85,
+    "score_label": "Good",
+    "total_findings": 1,
+    "vulnerability_findings": 1,
+    "severity_counts": {
+      "critical": 0,
+      "high": 1,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "history_count": 3,
+    "iteration_count": 2,
+    "budget_remaining": 27,
+    "budget_start_inferred": 50
+  },
+  "history": [
+    {
+      "index": 1,
+      "tool": "passive_config_audit",
+      "target": "https://example.com:443",
+      "status": "completed",
+      "started_at": "",
+      "ended_at": "",
+      "action_cost": 3,
+      "budget_before": 50,
+      "budget_after": 47,
+      "error": null
+    },
+    {
+      "index": 2,
+      "tool": "dynamic_crawl",
+      "target": "https://example.com:443",
+      "status": "completed",
+      "started_at": "",
+      "ended_at": "",
+      "action_cost": 12,
+      "budget_before": 47,
+      "budget_after": 35,
+      "error": null
+    },
+    {
+      "index": 3,
+      "tool": "xss_protection_audit",
+      "target": "https://example.com/search",
+      "status": "failed",
+      "started_at": "",
+      "ended_at": "",
+      "action_cost": 8,
+      "budget_before": 35,
+      "budget_after": 27,
+      "error": null
+    }
+  ],
+  "budget_trace": [
+    {
+      "step": 0,
+      "label": "Start",
+      "tool": "",
+      "cost": 0,
+      "budget_before": 50,
+      "budget_after": 50,
+      "cumulative_spent": 0
+    },
+    {
+      "step": 1,
+      "label": "1. passive_config_audit",
+      "tool": "passive_config_audit",
+      "cost": 3,
+      "budget_before": 50,
+      "budget_after": 47,
+      "cumulative_spent": 3
+    },
+    {
+      "step": 2,
+      "label": "2. dynamic_crawl",
+      "tool": "dynamic_crawl",
+      "cost": 12,
+      "budget_before": 47,
+      "budget_after": 35,
+      "cumulative_spent": 15
+    },
+    {
+      "step": 3,
+      "label": "3. xss_protection_audit",
+      "tool": "xss_protection_audit",
+      "cost": 8,
+      "budget_before": 35,
+      "budget_after": 27,
+      "cumulative_spent": 23
+    }
+  ],
+  "scope": {
+    "scope": [
+      "example.com"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "https://example.com:443"
+      }
+    ],
+    "surface": {
+      "discovered_urls": [
+        "https://example.com/",
+        "https://example.com/search?q=a"
+      ]
+    }
+  },
+  "findings": [
+    {
+      "index": 1,
+      "type": "vuln",
+      "name": "Potential XSS Reflection / Encoding Weakness",
+      "severity": "high",
+      "evidence": "canary reflected in HTML body",
+      "reproduction_steps": [
+        "GET /search?q=<canary>",
+        "observe reflection"
+      ],
+      "recommendation": "Apply context-aware encoding"
+    }
+  ]
+}

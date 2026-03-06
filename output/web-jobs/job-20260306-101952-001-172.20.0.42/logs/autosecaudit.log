@@ -1,0 +1,72 @@
+2026-03-06 10:19:53 [INFO] autosecaudit - LLM router enabled: primary=deepseek-reasoner, fallbacks=['openai/deepseek-chat'], default_provider=openai
+2026-03-06 10:19:53 [INFO] autosecaudit - [agent] run_start | start | budget=999, max_iterations=10, timeout=1800.0s, resumed=False
+2026-03-06 10:19:53 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-06 10:20:36 [INFO] autosecaudit - [nmap_scan] action_start | start | A1 target=172.20.0.42
+2026-03-06 10:20:49 [INFO] autosecaudit - [nmap_scan] action_end | success | A1 status=completed duration_ms=13736
+2026-03-06 10:20:49 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://172.20.0.42:443
+2026-03-06 10:21:07 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=18080
+2026-03-06 10:21:07 [INFO] autosecaudit - [passive_config_audit] action_start | start | A12 target=http://172.20.0.42:80
+2026-03-06 10:21:08 [INFO] autosecaudit - [passive_config_audit] action_end | success | A12 status=completed duration_ms=634
+2026-03-06 10:21:08 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=https://172.20.0.42:443/
+2026-03-06 10:21:16 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | error | A2 status=error duration_ms=8016
+2026-03-06 10:21:16 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A13 target=http://172.20.0.42:80/
+2026-03-06 10:21:16 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A13 status=completed duration_ms=40
+2026-03-06 10:21:16 [INFO] autosecaudit - [git_exposure_check] action_start | start | A3 target=https://172.20.0.42:443/
+2026-03-06 10:21:40 [INFO] autosecaudit - [git_exposure_check] action_end | success | A3 status=completed duration_ms=24059
+2026-03-06 10:21:40 [INFO] autosecaudit - [security_txt_check] action_start | start | A4 target=https://172.20.0.42:443/
+2026-03-06 10:21:48 [INFO] autosecaudit - [security_txt_check] action_end | error | A4 status=error duration_ms=8016
+2026-03-06 10:21:48 [INFO] autosecaudit - [login_form_detector] action_start | start | A5 target=https://172.20.0.42:443/
+2026-03-06 10:21:56 [INFO] autosecaudit - [login_form_detector] action_end | error | A5 status=error duration_ms=8023
+2026-03-06 10:21:56 [INFO] autosecaudit - [login_form_detector] action_start | start | A14 target=http://172.20.0.42:80/
+2026-03-06 10:21:56 [INFO] autosecaudit - [login_form_detector] action_end | success | A14 status=completed duration_ms=59
+2026-03-06 10:21:56 [INFO] autosecaudit - [http_security_headers] action_start | start | A6 target=https://172.20.0.42:443/
+2026-03-06 10:22:05 [INFO] autosecaudit - [http_security_headers] action_end | error | A6 status=error duration_ms=8026
+2026-03-06 10:22:05 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A7 target=https://172.20.0.42:443/
+2026-03-06 10:22:13 [INFO] autosecaudit - [ssl_expiry_check] action_end | error | A7 status=error duration_ms=8023
+2026-03-06 10:22:13 [INFO] autosecaudit - [source_map_detector] action_start | start | A8 target=https://172.20.0.42:443/
+2026-03-06 10:22:21 [INFO] autosecaudit - [source_map_detector] action_end | error | A8 status=error duration_ms=8024
+2026-03-06 10:22:21 [INFO] autosecaudit - [js_endpoint_extractor] action_start | start | A9 target=https://172.20.0.42:443/
+2026-03-06 10:22:29 [INFO] autosecaudit - [js_endpoint_extractor] action_end | error | A9 status=error duration_ms=8022
+2026-03-06 10:22:29 [INFO] autosecaudit - [js_endpoint_extractor] action_start | start | A15 target=http://172.20.0.42:80/
+2026-03-06 10:22:29 [INFO] autosecaudit - [js_endpoint_extractor] action_end | success | A15 status=completed duration_ms=30
+2026-03-06 10:22:29 [INFO] autosecaudit - [error_page_analyzer] action_start | start | A10 target=https://172.20.0.42:443/
+2026-03-06 10:22:37 [INFO] autosecaudit - [error_page_analyzer] action_end | error | A10 status=error duration_ms=8024
+2026-03-06 10:22:37 [INFO] autosecaudit - [waf_detector] action_start | start | A11 target=https://172.20.0.42:443/
+2026-03-06 10:22:45 [INFO] autosecaudit - [waf_detector] action_end | error | A11 status=error duration_ms=8021
+2026-03-06 10:22:45 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-06 10:22:45 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://172.20.0.42:443/
+2026-03-06 10:23:41 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=56157
+2026-03-06 10:23:41 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A2 target=https://172.20.0.42:443/
+2026-03-06 10:23:42 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A2 status=error duration_ms=1277
+2026-03-06 10:23:42 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=https://172.20.0.42:443
+2026-03-06 10:23:59 [INFO] autosecaudit - [dirsearch_scan] action_end | success | A5 status=completed duration_ms=16359
+2026-03-06 10:23:59 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://172.20.0.42:80/
+2026-03-06 10:23:59 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=382
+2026-03-06 10:23:59 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A4 target=http://172.20.0.42:80/
+2026-03-06 10:24:01 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A4 status=error duration_ms=1660
+2026-03-06 10:24:01 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=http://172.20.0.42:80
+2026-03-06 10:25:31 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90023
+2026-03-06 10:25:31 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://172.20.0.42:8080/
+2026-03-06 10:25:31 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=315
+2026-03-06 10:25:31 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A4 target=http://172.20.0.42:8080/
+2026-03-06 10:25:32 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A4 status=error duration_ms=578
+2026-03-06 10:25:32 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=http://172.20.0.42:8080
+2026-03-06 10:27:02 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90031
+2026-03-06 10:27:02 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=http://172.20.0.42:8000/
+2026-03-06 10:27:02 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=245
+2026-03-06 10:27:02 [INFO] autosecaudit - [page_vision_analyzer] action_start | start | A4 target=http://172.20.0.42:8000/
+2026-03-06 10:27:03 [INFO] autosecaudit - [page_vision_analyzer] action_end | error | A4 status=error duration_ms=1030
+2026-03-06 10:27:03 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A5 target=http://172.20.0.42:8000
+2026-03-06 10:28:33 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A5 status=error duration_ms=90024
+2026-03-06 10:28:33 [INFO] autosecaudit - [agent] iteration_stop | warning | Iteration 7: no executable actions after policy/scheduler.
+2026-03-06 10:28:34 [INFO] autosecaudit - [agent] run_end | success | history=28, findings=3
+2026-03-06 10:28:34 [INFO] autosecaudit - Agent decision summary: [phase:active_discovery] Proposed 2 safe action(s), total estimated cost 24, remaining budget after plan 191. Blocked actions: 2. Executable actions after environment checks: 0.
+2026-03-06 10:28:34 [INFO] autosecaudit - Action plan: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/ActionPlan.json
+2026-03-06 10:28:34 [INFO] autosecaudit - History: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/agent_history.json
+2026-03-06 10:28:34 [INFO] autosecaudit - State: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/agent_state.json
+2026-03-06 10:28:34 [INFO] autosecaudit - Blocked actions: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/blocked_actions.json
+2026-03-06 10:28:34 [INFO] autosecaudit - Artifact index: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/artifact_index.json
+2026-03-06 10:28:34 [INFO] autosecaudit - Markdown report: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/agent_report.md
+2026-03-06 10:28:34 [INFO] autosecaudit - HTML visual report: /workspace/output/web-jobs/job-20260306-101952-001-172.20.0.42/agent/agent_report.html
+2026-03-06 10:28:34 [INFO] autosecaudit - Findings: 3, Budget remaining: 859
+2026-03-06 10:28:34 [INFO] autosecaudit - Resumed: False, Resumed from: None

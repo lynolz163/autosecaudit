@@ -1,0 +1,30 @@
+{"timestamp": "2026-03-03T12:05:51.283784+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=100, max_iterations=3, timeout=300.0s, resumed=False"}
+{"timestamp": "2026-03-03T12:05:51.299426+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=localhost"}
+{"timestamp": "2026-03-03T12:06:04.947509+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "error", "detail": "A1 status=error duration_ms=13638"}
+{"timestamp": "2026-03-03T12:06:04.950369+00:00", "plugin_id": "nmap_scan", "action": "action_start", "status": "start", "detail": "A2 target=localhost"}
+{"timestamp": "2026-03-03T12:06:05.065434+00:00", "plugin_id": "nmap_scan", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=103"}
+{"timestamp": "2026-03-03T12:06:05.110041+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=http://localhost:8080"}
+{"timestamp": "2026-03-03T12:06:05.179179+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=58"}
+{"timestamp": "2026-03-03T12:06:05.181153+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_start", "status": "start", "detail": "A2 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:05.193948+00:00", "plugin_id": "tech_stack_fingerprint", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=3"}
+{"timestamp": "2026-03-03T12:06:05.196301+00:00", "plugin_id": "login_form_detector", "action": "action_start", "status": "start", "detail": "A3 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:05.209007+00:00", "plugin_id": "login_form_detector", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=3"}
+{"timestamp": "2026-03-03T12:06:05.211032+00:00", "plugin_id": "http_security_headers", "action": "action_start", "status": "start", "detail": "A4 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:05.222935+00:00", "plugin_id": "http_security_headers", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=3"}
+{"timestamp": "2026-03-03T12:06:05.225070+00:00", "plugin_id": "js_endpoint_extractor", "action": "action_start", "status": "start", "detail": "A5 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:05.246424+00:00", "plugin_id": "js_endpoint_extractor", "action": "action_end", "status": "success", "detail": "A5 status=completed duration_ms=11"}
+{"timestamp": "2026-03-03T12:06:05.248881+00:00", "plugin_id": "dynamic_crawl", "action": "action_start", "status": "start", "detail": "A6 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:10.648255+00:00", "plugin_id": "dynamic_crawl", "action": "action_end", "status": "success", "detail": "A6 status=completed duration_ms=5388"}
+{"timestamp": "2026-03-03T12:06:10.650581+00:00", "plugin_id": "active_web_crawler", "action": "action_start", "status": "start", "detail": "A7 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:15.401981+00:00", "plugin_id": "active_web_crawler", "action": "action_end", "status": "success", "detail": "A7 status=completed duration_ms=4741"}
+{"timestamp": "2026-03-03T12:06:15.404284+00:00", "plugin_id": "cors_misconfiguration", "action": "action_start", "status": "start", "detail": "A8 target=http://localhost:8080/"}
+{"timestamp": "2026-03-03T12:06:15.420206+00:00", "plugin_id": "cors_misconfiguration", "action": "action_end", "status": "success", "detail": "A8 status=completed duration_ms=6"}
+{"timestamp": "2026-03-03T12:06:15.462419+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A1 target=http://localhost:8080"}
+{"timestamp": "2026-03-03T12:06:15.553296+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "warning", "detail": "A1 status=failed duration_ms=79"}
+{"timestamp": "2026-03-03T12:06:15.555473+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_start", "status": "start", "detail": "A2 target=http://localhost:8080/api/audit/events"}
+{"timestamp": "2026-03-03T12:06:15.584417+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_end", "status": "success", "detail": "A2 status=completed duration_ms=18"}
+{"timestamp": "2026-03-03T12:06:15.586760+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_start", "status": "start", "detail": "A3 target=http://localhost:8080/assets/index-DJOZ8zFL.js"}
+{"timestamp": "2026-03-03T12:06:15.707616+00:00", "plugin_id": "sql_sanitization_audit", "action": "action_end", "status": "success", "detail": "A3 status=completed duration_ms=109"}
+{"timestamp": "2026-03-03T12:06:15.710224+00:00", "plugin_id": "xss_protection_audit", "action": "action_start", "status": "start", "detail": "A4 target=http://localhost:8080/api/audit/events"}
+{"timestamp": "2026-03-03T12:06:15.723188+00:00", "plugin_id": "xss_protection_audit", "action": "action_end", "status": "success", "detail": "A4 status=completed duration_ms=2"}
+{"timestamp": "2026-03-03T12:06:15.799165+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=14, findings=9"}

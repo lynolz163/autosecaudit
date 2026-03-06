@@ -1,0 +1,108 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 4 safe action(s), total estimated cost 38, remaining budget after plan 4.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "api_schema_discovery",
+      "target": "https://lynolz.com:443/",
+      "options": {},
+      "priority": 14,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "641e8b8dbf0b573ffcec5c24a6a574e1efe8a6a92b556909498a5837ad4c5be1",
+      "reason": "Discover OpenAPI, Swagger, and GraphQL schema endpoints.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "dynamic_crawl",
+      "target": "https://lynolz.com:443/",
+      "options": {
+        "allow_domain": [
+          "lynolz.com"
+        ],
+        "max_depth": 2
+      },
+      "priority": 20,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "5c0b27e93337f278ab7354c9dca3b484d409aed839f567f76c026717e6fc566b",
+      "reason": "Use Playwright-based crawling to map in-scope pages and forms.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A3",
+      "tool_name": "active_web_crawler",
+      "target": "https://lynolz.com:443/",
+      "options": {
+        "allow_domain": [
+          "lynolz.com"
+        ],
+        "limit": 50,
+        "max_depth": 2
+      },
+      "priority": 21,
+      "cost": 12,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "38652d8fa374c980c94d768f6a114828dcf63a80e6100e8046d043adc80f3b44",
+      "reason": "Run bounded active crawling with explicit page and depth limits.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    },
+    {
+      "action_id": "A4",
+      "tool_name": "dirsearch_scan",
+      "target": "https://lynolz.com:443",
+      "options": {
+        "max_results": 200,
+        "threads": 4
+      },
+      "priority": 25,
+      "cost": 10,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "a00b6438b07c644a77aa905172d75122013ae598f28155ad9f106bb9529c8b3f",
+      "reason": "Use dirsearch for conservative directory and file discovery.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ]
+}

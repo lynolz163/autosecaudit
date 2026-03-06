@@ -1,0 +1,91 @@
+{
+  "action": {
+    "action_id": "A5",
+    "tool_name": "dirsearch_scan",
+    "target": "http://0x6288.com:8000",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "priority": 30,
+    "cost": 10,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "f0439659173c1f26a8cbb1718fa96c419263fc6d45eef0b7040ab3159e98b95a",
+    "reason": "Use dirsearch for conservative directory and file discovery.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "http_service_confirmed"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 16238,
+  "attempts": 1,
+  "result": {
+    "command": [
+      "/usr/local/bin/python",
+      "/opt/dirsearch/dirsearch.py",
+      "-u",
+      "http://0x6288.com:8000/",
+      "-O",
+      "json",
+      "-o",
+      "/tmp/autosecaudit-dirsearch-hepg49so/dirsearch_report.json",
+      "-t",
+      "4"
+    ],
+    "return_code": 0,
+    "stdout_preview": "_|. _ _  _  _  _ _|_    v0.4.3\n (_||| _) (/_(_|| (_| )\n\nExtensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 4\nWordlist size: 12295\n\nTarget: http://0x6288.com:8000/\n\n[15:24:04] Scanning: \n\nThere was a problem in the request to: http://0x6288.com:8000/AEnZCr\n\nTask Completed",
+    "stderr_preview": "",
+    "parse_errors": 0,
+    "entry_count": 0
+  },
+  "metadata": {
+    "skill_name": "dirsearch_scan",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "dirsearch_scan",
+    "target": "http://0x6288.com:8000/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "command": [
+          "/usr/local/bin/python",
+          "/opt/dirsearch/dirsearch.py",
+          "-u",
+          "http://0x6288.com:8000/",
+          "-O",
+          "json",
+          "-o",
+          "/tmp/autosecaudit-dirsearch-hepg49so/dirsearch_report.json",
+          "-t",
+          "4"
+        ],
+        "return_code": 0,
+        "stdout_preview": "_|. _ _  _  _  _ _|_    v0.4.3\n (_||| _) (/_(_|| (_| )\n\nExtensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 4\nWordlist size: 12295\n\nTarget: http://0x6288.com:8000/\n\n[15:24:04] Scanning: \n\nThere was a problem in the request to: http://0x6288.com:8000/AEnZCr\n\nTask Completed",
+        "stderr_preview": "",
+        "parse_errors": 0,
+        "entry_count": 0
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {
+        "dirsearch_results": [],
+        "discovered_urls": [],
+        "dirsearch_entry_count": 0
+      }
+    },
+    "error": null,
+    "raw_output": "_|. _ _  _  _  _ _|_    v0.4.3\n (_||| _) (/_(_|| (_| )\n\nExtensions: php, asp, aspx, jsp, html, htm | HTTP method: GET | Threads: 4\nWordlist size: 12295\n\nTarget: http://0x6288.com:8000/\n\n[15:24:04] Scanning: \n\nThere was a problem in the request to: http://0x6288.com:8000/AEnZCr\n\nTask Completed",
+    "duration_ms": 16238
+  }
+}

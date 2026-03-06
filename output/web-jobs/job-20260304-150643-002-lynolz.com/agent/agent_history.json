@@ -1,0 +1,706 @@
+[
+  {
+    "tool": "subdomain_enum_passive",
+    "target": "lynolz.com",
+    "options": {
+      "max_results": 100
+    },
+    "idempotency_key": "7f31c8afc15e8983b82aa0e5cff3aa29758082323404df3830662032f00396a7",
+    "status": "error",
+    "started_at": "2026-03-04T07:07:35.521608+00:00",
+    "ended_at": "2026-03-04T07:07:48.641685+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_subdomain_enum_passive.json"
+    ],
+    "error": "The read operation timed out",
+    "action_cost": 5,
+    "budget_before": 1000,
+    "budget_after": 980
+  },
+  {
+    "tool": "nmap_scan",
+    "target": "lynolz.com",
+    "options": {
+      "ports": "top-100",
+      "scan_profile": "conservative_service_discovery",
+      "timeout_seconds": 90,
+      "version_detection": false
+    },
+    "idempotency_key": "137e887ba0df4cf6132d5529a97d4c4b7a790fdad59c688d4a0352616ba8e9e8",
+    "status": "completed",
+    "started_at": "2026-03-04T07:07:48.651608+00:00",
+    "ended_at": "2026-03-04T07:08:00.829076+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_nmap_scan.json"
+    ],
+    "action_cost": 15,
+    "budget_before": 980,
+    "budget_after": 980
+  },
+  {
+    "tool": "passive_config_audit",
+    "target": "https://lynolz.com:443",
+    "options": {
+      "max_paths": 10,
+      "max_total_seconds": 18,
+      "request_timeout_seconds": 3
+    },
+    "idempotency_key": "a0087ff482125ce9043e79a59fe323d5066eb70bf46f770f0e5fdd580ccae44f",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:00.920647+00:00",
+    "ended_at": "2026-03-04T07:08:12.072635+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_passive_config_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 980,
+    "budget_after": 961
+  },
+  {
+    "tool": "tech_stack_fingerprint",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "2e99061a5621936e46301117784a3760bca420a024c157d2851af815fd894b8e",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:12.081963+00:00",
+    "ended_at": "2026-03-04T07:08:13.194025+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_tech_stack_fingerprint.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "git_exposure_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "c88788c22c6ebe50ef540b7630c45307debddba3dcb3a613d2d45a20c75ba945",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:13.203993+00:00",
+    "ended_at": "2026-03-04T07:08:17.354121+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_git_exposure_check.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "security_txt_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "eac56c942493a59f6f0e33edf478702ddde46ebc387badc70e3d388c7d236f6d",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:17.364693+00:00",
+    "ended_at": "2026-03-04T07:08:18.398502+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A4_security_txt_check.json"
+    ],
+    "action_cost": 1,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "login_form_detector",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "0545b3abdfff27ce628f44ca9a8074e7bd8d10b86ce4d3b62f36c0af5618f767",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:18.408639+00:00",
+    "ended_at": "2026-03-04T07:08:19.160215+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A5_login_form_detector.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "http_security_headers",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "36a64ed2fd4c3249cb0110aba461c118c170c380f3c30ca679498dc83776de53",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:19.170256+00:00",
+    "ended_at": "2026-03-04T07:08:21.027598+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A6_http_security_headers.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "ssl_expiry_check",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "c82c92bb256a0f168b811ceb830e05f701bf675807a874cdebed32a56dc5cd0f",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:21.037783+00:00",
+    "ended_at": "2026-03-04T07:08:21.620865+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A7_ssl_expiry_check.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "source_map_detector",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "8159c73c58f9345f671f4fdba6ea59e522ff634faef24f0a9b07d2981887254c",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:21.630297+00:00",
+    "ended_at": "2026-03-04T07:08:33.818015+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A8_source_map_detector.json"
+    ],
+    "action_cost": 2,
+    "budget_before": 961,
+    "budget_after": 961
+  },
+  {
+    "tool": "api_schema_discovery",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "641e8b8dbf0b573ffcec5c24a6a574e1efe8a6a92b556909498a5837ad4c5be1",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:33.880948+00:00",
+    "ended_at": "2026-03-04T07:08:39.840319+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_api_schema_discovery.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 961,
+    "budget_after": 923
+  },
+  {
+    "tool": "dynamic_crawl",
+    "target": "https://lynolz.com:443/",
+    "options": {
+      "allow_domain": [
+        "lynolz.com"
+      ],
+      "max_depth": 2
+    },
+    "idempotency_key": "5c0b27e93337f278ab7354c9dca3b484d409aed839f567f76c026717e6fc566b",
+    "status": "completed",
+    "started_at": "2026-03-04T07:08:39.850114+00:00",
+    "ended_at": "2026-03-04T07:09:28.031890+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_dynamic_crawl.json"
+    ],
+    "action_cost": 12,
+    "budget_before": 923,
+    "budget_after": 923
+  },
+  {
+    "tool": "active_web_crawler",
+    "target": "https://lynolz.com:443/",
+    "options": {
+      "allow_domain": [
+        "lynolz.com"
+      ],
+      "limit": 50,
+      "max_depth": 2
+    },
+    "idempotency_key": "38652d8fa374c980c94d768f6a114828dcf63a80e6100e8046d043adc80f3b44",
+    "status": "completed",
+    "started_at": "2026-03-04T07:09:28.043408+00:00",
+    "ended_at": "2026-03-04T07:11:08.214167+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_active_web_crawler.json"
+    ],
+    "action_cost": 12,
+    "budget_before": 923,
+    "budget_after": 923
+  },
+  {
+    "tool": "dirsearch_scan",
+    "target": "https://lynolz.com:443",
+    "options": {
+      "max_results": 200,
+      "threads": 4
+    },
+    "idempotency_key": "a00b6438b07c644a77aa905172d75122013ae598f28155ad9f106bb9529c8b3f",
+    "status": "error",
+    "started_at": "2026-03-04T07:11:08.229511+00:00",
+    "ended_at": "2026-03-04T07:12:38.245073+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A4_dirsearch_scan.json"
+    ],
+    "error": "dirsearch scan timed out after 90.0s",
+    "action_cost": 10,
+    "budget_before": 923,
+    "budget_after": 923
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "6665679e052a16e985eed5034af9188af7f026f550a63b95b3a44ce7450c1f19",
+    "status": "completed",
+    "started_at": "2026-03-04T07:12:38.460189+00:00",
+    "ended_at": "2026-03-04T07:12:41.707525+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 923,
+    "budget_after": 880
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "c1130c96c912342960585b670465f573a81a9073c5faca8ed235fb1b135dd8ec",
+    "status": "completed",
+    "started_at": "2026-03-04T07:12:41.717746+00:00",
+    "ended_at": "2026-03-04T07:12:42.511177+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A7_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "3e125f39c57fc7bcdbaee99bffd7754deaf9088f7c960a28d5f490d82bfed83d",
+    "status": "completed",
+    "started_at": "2026-03-04T07:12:42.519491+00:00",
+    "ended_at": "2026-03-04T07:12:53.982804+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_cors_misconfiguration.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "cors_misconfiguration",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "00bcb27f008f569218462d3d6c43be4d97649fd15e5cb9d2dad990b6322add9d",
+    "status": "completed",
+    "started_at": "2026-03-04T07:12:53.993223+00:00",
+    "ended_at": "2026-03-04T07:12:57.928518+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A8_cors_misconfiguration.json"
+    ],
+    "action_cost": 5,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "10omf"
+      }
+    },
+    "idempotency_key": "9980d0c30c832350eb764caf0d6655b73e8dbcdd7e925c6b3f4064c9438c68e0",
+    "status": "completed",
+    "started_at": "2026-03-04T07:12:57.939009+00:00",
+    "ended_at": "2026-03-04T07:13:01.736249+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "sql_sanitization_audit",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "10omf"
+      }
+    },
+    "idempotency_key": "2381759d172b97465a6683a468c030e5bcaa230c3855ec048130cc97fe70695d",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:01.746303+00:00",
+    "ended_at": "2026-03-04T07:13:10.462506+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A4_sql_sanitization_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "56ac33d24aa45f34e0b382bfd87626f0330861a407cb0cb9bf397a2b4bbec28f",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:10.472173+00:00",
+    "ended_at": "2026-03-04T07:13:11.267731+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A5_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "param_fuzzer",
+    "target": "https://dogs.lynolz.com:443/",
+    "options": {
+      "max_probes": 6,
+      "method": "GET",
+      "mode": "lightweight",
+      "params": {
+        "_rsc": "10omf"
+      }
+    },
+    "idempotency_key": "109f60bfdde98aa90143f9cd659a612605cd2c6f8072b5833db609a6d365a819",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:11.277463+00:00",
+    "ended_at": "2026-03-04T07:13:14.740629+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A6_param_fuzzer.json"
+    ],
+    "action_cost": 6,
+    "budget_before": 880,
+    "budget_after": 880
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://tools.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "90e540b6f140550d3250122c8a999bb755f611c8e7d53cb06f0ed5ad52656b70",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:14.976327+00:00",
+    "ended_at": "2026-03-04T07:13:15.731882+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 880,
+    "budget_after": 834
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://lynolz.com:80/",
+    "options": {},
+    "idempotency_key": "48758ab0ffa560e959bf2f764296561cc554519ee3e6490310e8dd67bd948dd5",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:15.742074+00:00",
+    "ended_at": "2026-03-04T07:13:17.220456+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A5_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/100",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "5e6734e106c0a6025fc27664e09afaceeed016ebd99a7f19542b8d2313009c04",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:17.230284+00:00",
+    "ended_at": "2026-03-04T07:13:18.505794+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "sql_sanitization_audit",
+    "target": "https://dogs.lynolz.com:443/100",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "c810b214a6c9269420f1f446842e73abecc349c20693c012edb22e7bc6cf4cee",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:18.515226+00:00",
+    "ended_at": "2026-03-04T07:13:35.893820+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_sql_sanitization_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/101",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "588f2efc6f0eea2355750846d65bd2b56d9a490cb03403070e501e1fd5432aac",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:35.902475+00:00",
+    "ended_at": "2026-03-04T07:13:37.227682+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A6_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "sql_sanitization_audit",
+    "target": "https://dogs.lynolz.com:443/101",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "bacce1331164d95c4756cdb3c0e0f06bffbe84b223b8f776d760d5ced2065a52",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:37.236796+00:00",
+    "ended_at": "2026-03-04T07:13:44.756872+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A7_sql_sanitization_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "99f45e51a7637ad8d78c21e85ee1e2324f17cbf67890ec95612416d9a4ddcc5a",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:44.765754+00:00",
+    "ended_at": "2026-03-04T07:13:45.530633+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A4_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://tools.lynolz.com:443/",
+    "options": {},
+    "idempotency_key": "52520097670855d9dd1833d83961c484595d65d026c0218bca8f11eb8e1f2b17",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:45.540274+00:00",
+    "ended_at": "2026-03-04T07:13:46.277058+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A8_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 834,
+    "budget_after": 834
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "https://lynolz.com:8443/",
+    "options": {},
+    "idempotency_key": "48f1fd55afc04b65128e577677fab97f8602ff694682cd428a8738dd0f37da35",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:46.408498+00:00",
+    "ended_at": "2026-03-04T07:13:47.267451+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 834,
+    "budget_after": 819
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://lynolz.com:80/",
+    "options": {},
+    "idempotency_key": "8f089e0055448cdd340ee91072b8d8bc6b9eebbcfb5fbfc17da93a02caf27670",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:47.276996+00:00",
+    "ended_at": "2026-03-04T07:13:49.667310+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 819,
+    "budget_after": 819
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/102",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "8324ef37d3fea0eccde825e9950482f233bc30e5deedec8b5cdf846bc4d1f3f5",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:49.686626+00:00",
+    "ended_at": "2026-03-04T07:13:50.513026+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 819,
+    "budget_after": 819
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://lynolz.com:8080/",
+    "options": {},
+    "idempotency_key": "ec0651bf2f7441e21ba2f2a06d816c0f3d1ed857ca6d2a4b189ef6dd773937e8",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:50.633741+00:00",
+    "ended_at": "2026-03-04T07:13:52.026562+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "action_cost": 4,
+    "budget_before": 819,
+    "budget_after": 804
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "https://lynolz.com:8443/",
+    "options": {},
+    "idempotency_key": "9afbcfcbd1ae736c9f2ed7cce31816a12af30074e54aaf27bde7c5c354ce01e2",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:52.036189+00:00",
+    "ended_at": "2026-03-04T07:13:52.784921+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 804,
+    "budget_after": 804
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/103",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "72f1c151232516c56c7aba6dc4f5060879c6bce574bb97101e9f1f54b9870546",
+    "status": "completed",
+    "started_at": "2026-03-04T07:13:52.796774+00:00",
+    "ended_at": "2026-03-04T07:13:54.026928+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 804,
+    "budget_after": 804
+  },
+  {
+    "tool": "csp_evaluator",
+    "target": "http://lynolz.com:8000/",
+    "options": {},
+    "idempotency_key": "2a903f601a71695e84ab0b4a0d6c3c2d1218f4966d750b59131be5346569fcb9",
+    "status": "error",
+    "started_at": "2026-03-04T07:13:54.144276+00:00",
+    "ended_at": "2026-03-04T07:14:02.159287+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A1_csp_evaluator.json"
+    ],
+    "error": "timed out",
+    "action_cost": 4,
+    "budget_before": 804,
+    "budget_after": 789
+  },
+  {
+    "tool": "cookie_security_audit",
+    "target": "http://lynolz.com:8080/",
+    "options": {},
+    "idempotency_key": "3eefd1f0a2fd15d882143b4f5dbd08a38e8e9949cf4e15f82eb98e889070b09c",
+    "status": "completed",
+    "started_at": "2026-03-04T07:14:02.169275+00:00",
+    "ended_at": "2026-03-04T07:14:03.495351+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A2_cookie_security_audit.json"
+    ],
+    "action_cost": 3,
+    "budget_before": 789,
+    "budget_after": 789
+  },
+  {
+    "tool": "xss_protection_audit",
+    "target": "https://dogs.lynolz.com:443/200",
+    "options": {
+      "method": "GET",
+      "params": {
+        "_rsc": "19zvn"
+      }
+    },
+    "idempotency_key": "c36a896031d1d22f76b17be1bf90f8d687288ebe696fc18d5f1b71f21da2ca17",
+    "status": "completed",
+    "started_at": "2026-03-04T07:14:03.504822+00:00",
+    "ended_at": "2026-03-04T07:14:04.526247+00:00",
+    "retry_attempts": 1,
+    "artifacts": [
+      "/workspace/output/web-jobs/job-20260304-150643-002-lynolz.com/agent/artifacts/A3_xss_protection_audit.json"
+    ],
+    "action_cost": 8,
+    "budget_before": 789,
+    "budget_after": 789
+  }
+]

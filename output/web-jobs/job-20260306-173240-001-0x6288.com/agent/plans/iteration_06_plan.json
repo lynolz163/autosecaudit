@@ -1,0 +1,93 @@
+{
+  "decision_summary": "[phase:active_discovery] Proposed 2 safe action(s), total estimated cost 11, remaining budget after plan 0.",
+  "actions": [
+    {
+      "action_id": "A1",
+      "tool_name": "service_banner_probe",
+      "target": "0x6288.com",
+      "options": {
+        "port": 79,
+        "read_bytes": 512,
+        "service": "finger",
+        "timeout_seconds": 4
+      },
+      "priority": 15,
+      "cost": 4,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "4dc29af2c74d9fcf50512fab5d6a5adafe5e327209d998622502247373cfd08a",
+      "reason": "Safely capture banners from nmap-discovered non-HTTP TCP services. on discovered finger service port 79.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ],
+      "ranking_explanation": {
+        "tool": "service_banner_probe",
+        "target": "0x6288.com",
+        "component": null,
+        "service": "finger",
+        "version": null,
+        "selected_candidate": null,
+        "candidate_order": [],
+        "selected_templates": [],
+        "protocol_tags": [],
+        "rag_recommended_tools": [],
+        "reasons": [
+          "Service match: finger"
+        ]
+      }
+    },
+    {
+      "action_id": "A2",
+      "tool_name": "page_vision_analyzer",
+      "target": "http://0x6288.com:5800/",
+      "options": {
+        "analysis_prompt": "Identify login/admin/debug interfaces and provide safe follow-up checks.",
+        "enable_vision_llm": true,
+        "full_page": true,
+        "max_vision_image_bytes": 2000000,
+        "timeout_seconds": 20,
+        "wait_until": "networkidle"
+      },
+      "priority": 24,
+      "cost": 7,
+      "capabilities": [
+        "network_read"
+      ],
+      "idempotency_key": "eed6938c5a129d1f2eb97acec584152ae0b482f27ecdcdefa08569949b19516b",
+      "reason": "Capture rendered screenshots and extract UI-level security cues with optional vision LLM analysis.",
+      "preconditions": [
+        "target_in_scope",
+        "not_already_done",
+        "http_service_confirmed",
+        "crawler_signal_present"
+      ],
+      "stop_conditions": [
+        "budget_exhausted",
+        "scope_violation_detected"
+      ]
+    }
+  ],
+  "ranking_overview": [
+    {
+      "tool": "service_banner_probe",
+      "target": "0x6288.com",
+      "component": null,
+      "service": "finger",
+      "version": null,
+      "selected_candidate": null,
+      "candidate_order": [],
+      "selected_templates": [],
+      "protocol_tags": [],
+      "rag_recommended_tools": [],
+      "reasons": [
+        "Service match: finger"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+2026-03-04 20:48:22 [INFO] autosecaudit - LLM router enabled: primary=deepseek-reasoner, fallbacks=['openai/deepseek-chat'], default_provider=openai
+2026-03-04 20:48:22 [INFO] autosecaudit - [agent] run_start | start | budget=999, max_iterations=10, timeout=1800.0s, resumed=False
+2026-03-04 20:48:22 [INFO] autosecaudit - LLM request via provider=openai model=deepseek-reasoner
+2026-03-04 20:49:16 [INFO] autosecaudit - [subdomain_enum_passive] action_start | start | A1 target=edu.360-24.com
+2026-03-04 20:49:17 [INFO] autosecaudit - [subdomain_enum_passive] action_end | success | A1 status=completed duration_ms=1597
+2026-03-04 20:49:17 [INFO] autosecaudit - [nmap_scan] action_start | start | A2 target=edu.360-24.com
+2026-03-04 20:49:31 [INFO] autosecaudit - [nmap_scan] action_end | success | A2 status=completed duration_ms=13321
+2026-03-04 20:49:31 [INFO] autosecaudit - [passive_config_audit] action_start | start | A1 target=https://edu.360-24.com:443
+2026-03-04 20:49:50 [INFO] autosecaudit - [passive_config_audit] action_end | success | A1 status=completed duration_ms=19136
+2026-03-04 20:49:50 [INFO] autosecaudit - [passive_config_audit] action_start | start | A12 target=http://edu.360-24.com:80
+2026-03-04 20:50:08 [INFO] autosecaudit - [passive_config_audit] action_end | success | A12 status=completed duration_ms=18066
+2026-03-04 20:50:08 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-04 20:50:10 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A2 status=completed duration_ms=1727
+2026-03-04 20:50:10 [INFO] autosecaudit - [tech_stack_fingerprint] action_start | start | A13 target=http://edu.360-24.com:80/
+2026-03-04 20:50:13 [INFO] autosecaudit - [tech_stack_fingerprint] action_end | success | A13 status=completed duration_ms=3089
+2026-03-04 20:50:13 [INFO] autosecaudit - [git_exposure_check] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-04 20:50:20 [INFO] autosecaudit - [git_exposure_check] action_end | success | A3 status=completed duration_ms=6723
+2026-03-04 20:50:20 [INFO] autosecaudit - [source_map_detector] action_start | start | A4 target=https://edu.360-24.com:443/
+2026-03-04 20:50:34 [INFO] autosecaudit - [source_map_detector] action_end | success | A4 status=completed duration_ms=14176
+2026-03-04 20:50:34 [INFO] autosecaudit - [security_txt_check] action_start | start | A5 target=https://edu.360-24.com:443/
+2026-03-04 20:50:36 [INFO] autosecaudit - [security_txt_check] action_end | success | A5 status=completed duration_ms=1707
+2026-03-04 20:50:36 [INFO] autosecaudit - [login_form_detector] action_start | start | A6 target=https://edu.360-24.com:443/
+2026-03-04 20:50:38 [INFO] autosecaudit - [login_form_detector] action_end | success | A6 status=completed duration_ms=2166
+2026-03-04 20:50:38 [INFO] autosecaudit - [login_form_detector] action_start | start | A14 target=http://edu.360-24.com:80/
+2026-03-04 20:50:41 [INFO] autosecaudit - [login_form_detector] action_end | success | A14 status=completed duration_ms=3106
+2026-03-04 20:50:41 [INFO] autosecaudit - [http_security_headers] action_start | start | A7 target=https://edu.360-24.com:443/
+2026-03-04 20:50:42 [INFO] autosecaudit - [http_security_headers] action_end | success | A7 status=completed duration_ms=1362
+2026-03-04 20:50:42 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A8 target=https://edu.360-24.com:443/
+2026-03-04 20:50:44 [INFO] autosecaudit - [ssl_expiry_check] action_end | success | A8 status=completed duration_ms=1806
+2026-03-04 20:50:44 [INFO] autosecaudit - [ssl_expiry_check] action_start | start | A15 target=https://edu.360-24.com:8443/
+2026-03-04 20:50:49 [INFO] autosecaudit - [ssl_expiry_check] action_end | error | A15 status=error duration_ms=5018
+2026-03-04 20:50:49 [INFO] autosecaudit - [js_endpoint_extractor] action_start | start | A9 target=https://edu.360-24.com:443/
+2026-03-04 20:50:59 [INFO] autosecaudit - [js_endpoint_extractor] action_end | success | A9 status=completed duration_ms=9622
+2026-03-04 20:50:59 [INFO] autosecaudit - [error_page_analyzer] action_start | start | A10 target=https://edu.360-24.com:443/
+2026-03-04 20:51:00 [INFO] autosecaudit - [error_page_analyzer] action_end | success | A10 status=completed duration_ms=1580
+2026-03-04 20:51:00 [INFO] autosecaudit - [waf_detector] action_start | start | A11 target=https://edu.360-24.com:443/
+2026-03-04 20:51:02 [INFO] autosecaudit - [waf_detector] action_end | success | A11 status=completed duration_ms=1465
+2026-03-04 20:51:02 [INFO] autosecaudit - [agent] phase_transition | info | phase=active_discovery reason=advance:passive_recon
+2026-03-04 20:51:02 [INFO] autosecaudit - [api_schema_discovery] action_start | start | A1 target=https://edu.360-24.com:443/
+2026-03-04 20:51:15 [INFO] autosecaudit - [api_schema_discovery] action_end | success | A1 status=completed duration_ms=12626
+2026-03-04 20:51:15 [INFO] autosecaudit - [dynamic_crawl] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-04 20:51:28 [INFO] autosecaudit - [dynamic_crawl] action_end | success | A2 status=completed duration_ms=13743
+2026-03-04 20:51:28 [INFO] autosecaudit - [active_web_crawler] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-04 20:51:40 [INFO] autosecaudit - [active_web_crawler] action_end | success | A3 status=completed duration_ms=11608
+2026-03-04 20:51:40 [INFO] autosecaudit - [dirsearch_scan] action_start | start | A4 target=https://edu.360-24.com:443
+2026-03-04 20:53:10 [INFO] autosecaudit - [dirsearch_scan] action_end | error | A4 status=error duration_ms=90019
+2026-03-04 20:53:10 [INFO] autosecaudit - [agent] phase_transition | info | phase=deep_testing reason=advance:active_discovery
+2026-03-04 20:53:10 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=https://edu.360-24.com:443/
+2026-03-04 20:53:12 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=1398
+2026-03-04 20:53:12 [INFO] autosecaudit - [cors_misconfiguration] action_start | start | A2 target=https://edu.360-24.com:443/
+2026-03-04 20:53:15 [INFO] autosecaudit - [cors_misconfiguration] action_end | success | A2 status=completed duration_ms=3840
+2026-03-04 20:53:15 [INFO] autosecaudit - [xss_protection_audit] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-04 20:53:20 [INFO] autosecaudit - [xss_protection_audit] action_end | success | A3 status=completed duration_ms=4176
+2026-03-04 20:53:20 [INFO] autosecaudit - [sql_sanitization_audit] action_start | start | A4 target=https://edu.360-24.com:443/
+2026-03-04 20:53:47 [INFO] autosecaudit - [sql_sanitization_audit] action_end | success | A4 status=completed duration_ms=27349
+2026-03-04 20:53:47 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A5 target=https://edu.360-24.com:443/
+2026-03-04 20:53:48 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A5 status=completed duration_ms=1371
+2026-03-04 20:53:48 [INFO] autosecaudit - [param_fuzzer] action_start | start | A6 target=https://edu.360-24.com:443/
+2026-03-04 20:53:55 [INFO] autosecaudit - [param_fuzzer] action_end | success | A6 status=completed duration_ms=6922
+2026-03-04 20:53:55 [INFO] autosecaudit - [agent] phase_transition | info | phase=verification reason=advance:deep_testing
+2026-03-04 20:53:55 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=http://edu.360-24.com:80/
+2026-03-04 20:53:59 [INFO] autosecaudit - [csp_evaluator] action_end | success | A1 status=completed duration_ms=3247
+2026-03-04 20:53:59 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A2 target=http://edu.360-24.com:80/
+2026-03-04 20:54:02 [INFO] autosecaudit - [cookie_security_audit] action_end | success | A2 status=completed duration_ms=3244
+2026-03-04 20:54:02 [INFO] autosecaudit - [nuclei_exploit_check] action_start | start | A3 target=https://edu.360-24.com:443/
+2026-03-04 20:57:25 [INFO] autosecaudit - [nuclei_exploit_check] action_end | success | A3 status=completed duration_ms=203523
+2026-03-04 20:57:25 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=https://edu.360-24.com:8443/
+2026-03-04 20:57:30 [INFO] autosecaudit - [csp_evaluator] action_end | error | A1 status=error duration_ms=5026
+2026-03-04 20:57:31 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A2 target=https://edu.360-24.com:8443/
+2026-03-04 20:57:36 [INFO] autosecaudit - [cookie_security_audit] action_end | error | A2 status=error duration_ms=5024
+2026-03-04 20:57:36 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=http://edu.360-24.com:8080/
+2026-03-04 20:57:41 [INFO] autosecaudit - [csp_evaluator] action_end | error | A1 status=error duration_ms=5009
+2026-03-04 20:57:41 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A2 target=http://edu.360-24.com:8080/
+2026-03-04 20:57:46 [INFO] autosecaudit - [cookie_security_audit] action_end | error | A2 status=error duration_ms=5008
+2026-03-04 20:57:46 [INFO] autosecaudit - [csp_evaluator] action_start | start | A1 target=http://edu.360-24.com:8000/
+2026-03-04 20:57:51 [INFO] autosecaudit - [csp_evaluator] action_end | error | A1 status=error duration_ms=5008
+2026-03-04 20:57:51 [INFO] autosecaudit - [cookie_security_audit] action_start | start | A2 target=http://edu.360-24.com:8000/
+2026-03-04 20:57:56 [INFO] autosecaudit - [cookie_security_audit] action_end | error | A2 status=error duration_ms=5008
+2026-03-04 20:57:56 [INFO] autosecaudit - [agent] iteration_stop | warning | Iteration 9: no executable actions after policy/scheduler.
+2026-03-04 20:57:56 [INFO] autosecaudit - [agent] run_end | success | history=36, findings=19
+2026-03-04 20:57:56 [INFO] autosecaudit - Agent decision summary: [phase:verification] Proposed 2 safe action(s), total estimated cost 7, remaining budget after plan 144. Blocked actions: 2. Executable actions after environment checks: 0.
+2026-03-04 20:57:56 [INFO] autosecaudit - Action plan: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/ActionPlan.json
+2026-03-04 20:57:56 [INFO] autosecaudit - History: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/agent_history.json
+2026-03-04 20:57:56 [INFO] autosecaudit - State: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/agent_state.json
+2026-03-04 20:57:56 [INFO] autosecaudit - Blocked actions: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/blocked_actions.json
+2026-03-04 20:57:56 [INFO] autosecaudit - Artifact index: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/artifact_index.json
+2026-03-04 20:57:56 [INFO] autosecaudit - Markdown report: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/agent_report.md
+2026-03-04 20:57:56 [INFO] autosecaudit - HTML visual report: /workspace/output/web-jobs/job-20260304-204821-002-edu.360-24.com/agent/agent_report.html
+2026-03-04 20:57:56 [INFO] autosecaudit - Findings: 19, Budget remaining: 819
+2026-03-04 20:57:56 [INFO] autosecaudit - Resumed: False, Resumed from: None

@@ -1,0 +1,87 @@
+{
+  "action": {
+    "action_id": "A3",
+    "tool_name": "xss_protection_audit",
+    "target": "https://edu.360-24.com:443/",
+    "options": {
+      "method": "GET",
+      "params": {
+        "account": "",
+        "captcha": "",
+        "password": ""
+      }
+    },
+    "priority": 23,
+    "cost": 8,
+    "capabilities": [
+      "network_read"
+    ],
+    "idempotency_key": "82e79c8e63fb75331369fe2caa2a5123884aef11d53cde59e9aa952247521975",
+    "reason": "Probe parameterized endpoints for reflection and output-encoding weaknesses. on crawler-confirmed parameterized endpoint.",
+    "preconditions": [
+      "target_in_scope",
+      "not_already_done",
+      "params_available",
+      "crawler_signal_present"
+    ],
+    "stop_conditions": [
+      "budget_exhausted",
+      "scope_violation_detected",
+      "signal_detected"
+    ]
+  },
+  "status": "completed",
+  "error": null,
+  "duration_ms": 4176,
+  "attempts": 1,
+  "result": {
+    "target_url": "https://edu.360-24.com:443/",
+    "canary": "XSSA_CANARY_023dfbddd28b9ebb",
+    "tested_parameters": [
+      "account",
+      "captcha",
+      "password"
+    ],
+    "reflection_points": [],
+    "is_reflected": false,
+    "browser_verification": null,
+    "notes": [
+      "No raw canary reflection detected in tested responses."
+    ],
+    "errors": []
+  },
+  "metadata": {
+    "skill_name": "xss_protection_audit",
+    "skill_version": "1.0"
+  },
+  "tool_result": {
+    "ok": true,
+    "tool_name": "xss_protection_audit",
+    "target": "https://edu.360-24.com:443/",
+    "data": {
+      "status": "completed",
+      "payload": {
+        "target_url": "https://edu.360-24.com:443/",
+        "canary": "XSSA_CANARY_023dfbddd28b9ebb",
+        "tested_parameters": [
+          "account",
+          "captcha",
+          "password"
+        ],
+        "reflection_points": [],
+        "is_reflected": false,
+        "browser_verification": null,
+        "notes": [
+          "No raw canary reflection detected in tested responses."
+        ],
+        "errors": []
+      },
+      "findings": [],
+      "breadcrumbs_delta": [],
+      "surface_delta": {}
+    },
+    "error": null,
+    "raw_output": null,
+    "duration_ms": 4176
+  }
+}

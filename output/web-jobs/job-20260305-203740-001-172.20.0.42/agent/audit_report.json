@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "generated_at": "2026-03-05T12:38:36.256861+00:00",
+    "target": "172.20.0.42",
+    "decision_summary": "[phase:passive_recon] No safe in-scope actions selected. Possible reasons: budget exhausted, all actions already executed, or scope constraints.",
+    "resumed": false,
+    "resumed_from": "None"
+  },
+  "summary": {
+    "audit_score": 100,
+    "score_label": "Excellent",
+    "total_findings": 0,
+    "vulnerability_findings": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0
+    },
+    "history_count": 0,
+    "iteration_count": 1,
+    "budget_remaining": 50,
+    "budget_start_inferred": null,
+    "unique_tools_executed": 0,
+    "service_origins_observed": 0,
+    "api_endpoint_count": 0
+  },
+  "history": [],
+  "budget_trace": [],
+  "coverage": {
+    "tool_stats": [],
+    "unique_tools_executed": 0,
+    "service_origins_observed": 0,
+    "service_origins": [],
+    "api_endpoint_count": 0,
+    "discovered_url_count": 0,
+    "parameter_count": 0,
+    "tech_stack": [],
+    "config_exposure_count": 0,
+    "completed_actions": 0,
+    "failed_actions": 0,
+    "error_actions": 0,
+    "highlights": [
+      "Coverage remained shallow; few concrete HTTP artifacts were discovered."
+    ]
+  },
+  "recon": {
+    "target_info": {
+      "target": "172.20.0.42",
+      "scope": [
+        "172.20.0.42"
+      ],
+      "service_origins": []
+    },
+    "subdomains": [],
+    "dns_records": {},
+    "ports_services": {
+      "ports": [],
+      "services": []
+    },
+    "tls_certificate": {},
+    "http_headers": {},
+    "tech_stack": [],
+    "waf_cdn": [],
+    "security_policies": {
+      "security_txt": {},
+      "csp_evaluation": {},
+      "cookies": []
+    },
+    "login_forms": [],
+    "api_schemas": [],
+    "config_exposures": [],
+    "git_exposures": [],
+    "source_maps": [],
+    "discovered_urls": [],
+    "api_endpoints": [],
+    "url_parameters": {},
+    "error_page_markers": [],
+    "tools_executed": []
+  },
+  "scope": {
+    "scope": [
+      "172.20.0.42"
+    ],
+    "breadcrumbs": [
+      {
+        "type": "service",
+        "data": "172.20.0.42"
+      }
+    ],
+    "surface": {
+      "cve_candidates": [],
+      "authorization_confirmed": false,
+      "safe_only": true,
+      "allow_high_risk": false,
+      "approval_granted": false
+    }
+  },
+  "findings": []
+}
