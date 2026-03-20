@@ -1084,9 +1084,9 @@ def generate_agent_visual_html_report(
     output_html_path: Path,
 ) -> str:
     """
-    Generate a single-file visual HTML report (React + Tailwind CDN).
+    Generate a single-file static HTML report.
 
-    The generated page is static and can be mounted by any lightweight backend.
+    The generated page has no frontend framework dependency and can be opened directly.
     """
     audit_payload = _read_json_object(audit_report_json_path)
     state_payload = _read_json_object(agent_state_json_path)
@@ -2994,1651 +2994,234 @@ def _build_visual_verification_ranking(payload: dict[str, Any]) -> list[dict[str
 
 
 def _build_agent_visual_html(audit_report: dict[str, Any], agent_state: dict[str, Any]) -> str:
-    """Render a single-file React + Tailwind visual HTML report."""
-    audit_json = _json_for_html_script_tag(audit_report)
-    state_json = _json_for_html_script_tag(agent_state)
+    """Render a single-file static HTML report without frontend framework dependencies."""
     meta_payload = audit_report.get("meta", {}) if isinstance(audit_report.get("meta"), dict) else {}
-    html_lang = (
-        "zh-CN"
-        if normalize_report_lang(
-            meta_payload.get("report_lang")
-            or (agent_state.get("report_lang") if isinstance(agent_state, dict) else None)
-        )
-        == "zh-CN"
-        else "en"
+    visual_analysis = audit_report.get("visual_analysis", {}) if isinstance(audit_report.get("visual_analysis"), dict) else {}
+    scope_payload = audit_report.get("scope", {}) if isinstance(audit_report.get("scope"), dict) else {}
+    findings = audit_report.get("findings", []) if isinstance(audit_report.get("findings"), list) else []
+    history = audit_report.get("history", []) if isinstance(audit_report.get("history"), list) else []
+    severity_counts = {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+    }
+    for item in findings:
+        if not isinstance(item, dict):
+            continue
+        severity = _normalize_severity(str(item.get("severity", "")).strip().lower(), str(item.get("name", "")))
+        severity_counts[severity] = severity_counts.get(severity, 0) + 1
+
+    audit_score = _compute_audit_score(severity_counts)
+    score_label = _score_label(audit_score)
+    target = str(meta_payload.get("target") or agent_state.get("target") or "AutoSecAudit Agent Report").strip() or "AutoSecAudit Agent Report"
+    html_lang = "zh-CN" if normalize_report_lang(meta_payload.get("report_lang") or agent_state.get("report_lang")) == "zh-CN" else "en"
+
+    assets = scope_payload.get("assets", []) if isinstance(scope_payload, dict) and isinstance(scope_payload.get("assets"), list) else []
+    surface = scope_payload.get("surface", {}) if isinstance(scope_payload, dict) and isinstance(scope_payload.get("surface"), dict) else {}
+    protocol_evidence = surface.get("poc_protocol_evidence", []) if isinstance(surface.get("poc_protocol_evidence"), list) else []
+    cve_validation = audit_report.get("cve_validation", {}) if isinstance(audit_report.get("cve_validation"), dict) else {}
+    evidence_graph = audit_report.get("evidence_graph", {}) if isinstance(audit_report.get("evidence_graph"), dict) else {}
+    path_graph = audit_report.get("path_graph", {}) if isinstance(audit_report.get("path_graph"), dict) else {}
+    remediation_priority = audit_report.get("remediation_priority", []) if isinstance(audit_report.get("remediation_priority"), list) else []
+    knowledge_context = audit_report.get("knowledge_context", {}) if isinstance(audit_report.get("knowledge_context"), dict) else {}
+
+    metric_cards = [
+        ("Target", target),
+        ("Audit Score", f"{audit_score} ({score_label})"),
+        ("Findings", len(findings)),
+        ("Critical / High", f"{severity_counts.get('critical', 0)} / {severity_counts.get('high', 0)}"),
+        ("Assets", len(assets)),
+        ("Executed Actions", len(history)),
+    ]
+
+    scope_json = {
+        "scope": scope_payload.get("scope", agent_state.get("scope", [])),
+        "assets": assets,
+        "surface": surface,
+        "findings": findings,
+    }
+    protocol_glossary = {
+        "Redis Version": "Common validation label retained for compatibility and service-version rendering.",
+        "TLS Supported": "Boolean protocol capability field.",
+        "Banner": "Observed service banner or greeting.",
+    }
+
+    protocol_breakdown: dict[str, int] = {}
+    for asset in assets:
+        if not isinstance(asset, dict):
+            continue
+        attrs = asset.get("attributes", {}) if isinstance(asset.get("attributes"), dict) else {}
+        service = str(attrs.get("service") or asset.get("kind") or "asset").strip().lower()
+        proto = str(attrs.get("proto") or "tcp").strip().lower()
+        if not service:
+            continue
+        key = f"{service}/{proto or 'tcp'}"
+        protocol_breakdown[key] = protocol_breakdown.get(key, 0) + 1
+
+    severity_by_asset: dict[str, str] = {}
+    severity_rank = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+    for item in findings:
+        if not isinstance(item, dict):
+            continue
+        severity = _normalize_severity(str(item.get("severity", "")).strip().lower(), str(item.get("name", "")))
+        for asset_id in item.get("related_asset_ids", []) if isinstance(item.get("related_asset_ids"), list) else []:
+            key = str(asset_id).strip()
+            if not key:
+                continue
+            current = severity_by_asset.get(key, "info")
+            if severity_rank.get(severity, 9) < severity_rank.get(current, 9):
+                severity_by_asset[key] = severity
+
+    asset_severity_breakdown: dict[str, int] = {"critical": 0, "high": 0, "medium": 0, "low": 0, "info": 0}
+    for severity in severity_by_asset.values():
+        asset_severity_breakdown[severity] = asset_severity_breakdown.get(severity, 0) + 1
+
+    sections = [
+        _html_section("Asset Topology", _html_pre(_pretty_json(scope_json))),
+        _html_section(
+            "Asset Trends",
+            _html_pre(_pretty_json(visual_analysis.get("asset_phase_trends", []))),
+            subtitle="Static execution-phase summary derived from the exported report.",
+        ),
+        _html_section(
+            "Structured Validation",
+            _html_pre(_pretty_json({"protocol_evidence": protocol_evidence, "cve_validation": cve_validation, "field_glossary": protocol_glossary})),
+            subtitle="Protocol evidence, conservative validation output, and common field labels.",
+        ),
+        _html_section(
+            "Verification Ranking",
+            _html_pre(_pretty_json(visual_analysis.get("verification_ranking", []))),
+        ),
+        _html_section(
+            "Run Batch Trends",
+            _html_pre(_pretty_json(visual_analysis.get("asset_batch_trends", []))),
+        ),
+        _html_section(
+            "Phase Trends",
+            _html_pre(_pretty_json(visual_analysis.get("asset_phase_trends", []))),
+        ),
+        _html_section(
+            "New / Resolved Since Previous Batch",
+            _html_pre(_pretty_json((visual_analysis.get("batch_diff", {}) if isinstance(visual_analysis.get("batch_diff"), dict) else {}))),
+        ),
+        _html_section(
+            "Asset Inventory Changes",
+            _html_pre(_pretty_json((visual_analysis.get("batch_diff", {}) if isinstance(visual_analysis.get("batch_diff"), dict) else {}).get("asset_inventory_changes", (visual_analysis.get("batch_diff", {}) if isinstance(visual_analysis.get("batch_diff"), dict) else {})))),
+        ),
+        _html_section(
+            "Service Changes",
+            _html_pre(_pretty_json((visual_analysis.get("batch_diff", {}) if isinstance(visual_analysis.get("batch_diff"), dict) else {}).get("service_changes", (visual_analysis.get("batch_diff", {}) if isinstance(visual_analysis.get("batch_diff"), dict) else {})))),
+        ),
+        _html_section(
+            "Executed Actions and Selection Rationale",
+            _html_pre(_pretty_json(history)),
+        ),
+        _html_section(
+            "Asset Severity Breakdown",
+            _html_pre(_pretty_json(asset_severity_breakdown)),
+        ),
+        _html_section(
+            "Service Protocol Breakdown",
+            _html_pre(_pretty_json(protocol_breakdown)),
+        ),
+        _html_section(
+            "Evidence Correlation",
+            _html_pre(_pretty_json(evidence_graph)),
+        ),
+        _html_section(
+            "Attack Path",
+            _html_pre(_pretty_json(path_graph)),
+        ),
+        _html_section(
+            "Remediation Priority",
+            _html_pre(_pretty_json(remediation_priority)),
+        ),
+        _html_section(
+            "Knowledge Context",
+            _html_pre(_pretty_json(knowledge_context)),
+        ),
+        _html_section(
+            "Raw Report Payload",
+            _html_pre(_pretty_json(audit_report)),
+            subtitle="Included for agent-to-human traceability."
+        ),
+    ]
+
+    metrics_html = "".join(
+        f'<div class="metric"><div class="metric-label">{html.escape(str(label))}</div><div class="metric-value">{html.escape(str(value))}</div></div>'
+        for label, value in metric_cards
     )
-    title = html.escape(
-        str(
-            meta_payload.get(
-                "target",
-                "AutoSecAudit Agent Report",
-            )
-        )
-    )
-    template = """<!doctype html>
-<html lang="__HTML_LANG__">
+
+    return f"""<!doctype html>
+<html lang="{html_lang}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AutoSecAudit Visual Report - __TITLE__</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <title>AutoSecAudit Report - {html.escape(target)}</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-    html {
-      -webkit-text-size-adjust: 100%;
-    }
-    body {
-      font-family: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI",
-        "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "SimHei", "Segoe UI",
-        system-ui, sans-serif;
-      background:
-        radial-gradient(circle at 12% 18%, rgba(14,165,233,0.10), transparent 34%),
-        radial-gradient(circle at 88% 12%, rgba(16,185,129,0.10), transparent 38%),
-        linear-gradient(180deg, #f8fafc, #eef2ff 46%, #f8fafc);
-      line-height: 1.6;
-      text-rendering: optimizeLegibility;
-      font-synthesis-weight: none;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
-    html[lang="zh-CN"] body {
-      font-family: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI",
-        "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "SimHei", system-ui, sans-serif;
-    }
-    .glass {
-      background: rgba(255,255,255,0.80);
-      border: 1px solid rgba(148,163,184,0.22);
-      box-shadow: 0 18px 40px rgba(15,23,42,0.06);
-      backdrop-filter: blur(10px);
-      overflow-wrap: anywhere;
-    }
+    :root {{
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --stroke: #d9e1ec;
+      --muted: #5b6b80;
+      --text: #142033;
+      --accent: #0f6cbd;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }}
+    * {{ box-sizing: border-box; }}
+    body {{ margin: 0; padding: 0; font-family: Segoe UI, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; }}
+    .page {{ max-width: 1280px; margin: 0 auto; padding: 32px 20px 56px; }}
+    .hero {{ background: var(--panel); border: 1px solid var(--stroke); border-radius: 18px; padding: 24px; box-shadow: var(--shadow); }}
+    h1 {{ margin: 0 0 8px; font-size: 32px; }}
+    .subtle {{ color: var(--muted); font-size: 14px; }}
+    .metrics {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 20px; }}
+    .metric {{ background: #f8fafc; border: 1px solid var(--stroke); border-radius: 14px; padding: 14px; }}
+    .metric-label {{ color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }}
+    .metric-value {{ margin-top: 6px; font-size: 24px; font-weight: 700; word-break: break-word; }}
+    .stack {{ margin-top: 20px; display: grid; gap: 16px; }}
+    .section {{ background: var(--panel); border: 1px solid var(--stroke); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }}
+    .section > summary {{ cursor: pointer; list-style: none; padding: 16px 18px; font-weight: 700; border-bottom: 1px solid var(--stroke); }}
+    .section > summary::-webkit-details-marker {{ display: none; }}
+    .section-body {{ padding: 18px; }}
+    .section-subtitle {{ margin: -4px 0 14px; color: var(--muted); font-size: 13px; }}
+    pre {{ margin: 0; white-space: pre-wrap; word-break: break-word; background: #f8fafc; border: 1px solid var(--stroke); border-radius: 12px; padding: 14px; overflow: auto; font-family: Consolas, Monaco, monospace; font-size: 12px; }}
+    code {{ font-family: Consolas, Monaco, monospace; }}
   </style>
 </head>
-<body class="min-h-screen text-slate-900">
-  <script id="audit-report-data" type="application/json">__AUDIT_JSON__</script>
-  <script id="agent-state-data" type="application/json">__STATE_JSON__</script>
-  <div id="root"></div>
-  <script type="text/babel">
-    const auditReport = JSON.parse(document.getElementById("audit-report-data").textContent || "{}");
-    const agentState = JSON.parse(document.getElementById("agent-state-data").textContent || "{}");
-    const reportMeta = auditReport.meta || {};
-    const langTag = String(reportMeta.report_lang || agentState.report_lang || navigator.language || document.documentElement.lang || "").toLowerCase();
-    const isZh = langTag.startsWith("zh");
-    const tt = (en, zh) => isZh ? zh : en;
-    const scoreLabelMap = {
-      "Excellent": "优秀",
-      "Good": "良好",
-      "Needs Attention": "需要关注",
-      "High Risk": "高风险",
-      "Critical Risk": "严重风险",
-    };
-    const renderScoreLabel = (value) => {
-      const text = String(value || "N/A");
-      return isZh ? (scoreLabelMap[text] || text) : text;
-    };
-
-    const severityRank = ["critical", "high", "medium", "low", "info"];
-    const severityBadge = {
-      critical: "bg-rose-600 text-white",
-      high: "bg-orange-500 text-white",
-      medium: "bg-amber-300 text-slate-900",
-      low: "bg-emerald-300 text-slate-900",
-      info: "bg-sky-200 text-slate-900"
-    };
-
-    function MetricCard({ label, value, sub }) {
-      return (
-        <div className="glass rounded-2xl p-4">
-          <div className="text-xs uppercase tracking-[0.14em] text-slate-500">{label}</div>
-          <div className="mt-2 text-2xl font-semibold tabular-nums">{value}</div>
-          {sub ? <div className="mt-1 text-sm text-slate-500">{sub}</div> : null}
-        </div>
-      );
-    }
-
-    function BudgetLineChart({ trace }) {
-      const points = Array.isArray(trace) ? trace.filter((p) => typeof p.cumulative_spent === "number") : [];
-      if (!points.length) {
-        return <div className="text-sm text-slate-500">{tt("No budget trace available.", "暂无预算消耗轨迹。")}</div>;
-      }
-      const width = 760;
-      const height = 220;
-      const pad = 26;
-      const maxY = Math.max(1, ...points.map((p) => p.cumulative_spent || 0));
-      const maxX = Math.max(1, points.length - 1);
-      const coords = points.map((p, i) => {
-        const x = pad + ((width - pad * 2) * (points.length === 1 ? 0 : i / maxX));
-        const y = height - pad - ((height - pad * 2) * ((p.cumulative_spent || 0) / maxY));
-        return { ...p, x, y };
-      });
-      const linePath = coords.map((p, idx) => (idx === 0 ? "M" : "L") + p.x + "," + p.y).join(" ");
-      const areaPath = linePath + " L" + coords[coords.length - 1].x + "," + (height - pad) + " L" + coords[0].x + "," + (height - pad) + " Z";
-      return (
-        <div>
-          <div className="w-full overflow-x-auto">
-            <svg viewBox={"0 0 " + width + " " + height} className="w-full min-w-[520px]">
-              <defs>
-                <linearGradient id="budgetFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.26" />
-                  <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.03" />
-                </linearGradient>
-              </defs>
-              <rect x="0" y="0" width={width} height={height} rx="16" fill="#ffffff" opacity="0.75" />
-              {[0, 0.25, 0.5, 0.75, 1].map((r, idx) => {
-                const y = pad + (height - pad * 2) * r;
-                return <line key={idx} x1={pad} y1={y} x2={width - pad} y2={y} stroke="#e2e8f0" strokeWidth="1" />;
-              })}
-              {coords.length > 1 ? <path d={areaPath} fill="url(#budgetFill)" /> : null}
-              <path d={linePath} fill="none" stroke="#0284c7" strokeWidth="3" strokeLinecap="round" />
-              {coords.map((p) => (
-                <g key={p.step}>
-                  <circle cx={p.x} cy={p.y} r="4" fill="#0284c7" />
-                  <text x={p.x} y={height - 7} textAnchor="middle" fontSize="10" fill="#475569">{p.step}</text>
-                </g>
-              ))}
-            </svg>
-          </div>
-          <div className="mt-3 space-y-1 text-xs text-slate-600">
-            {points.slice(-10).map((p) => (
-              <div key={"legend-" + p.step} className="flex justify-between gap-3">
-                <span className="break-all">{p.label}</span>
-                <span className="tabular-nums">+{p.cost || 0} ({tt("total", "累计")} {p.cumulative_spent || 0})</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    function ScopeMap({ scopePayload }) {
-      const scopeList = Array.isArray(scopePayload?.scope) ? scopePayload.scope : [];
-      const breadcrumbs = Array.isArray(scopePayload?.breadcrumbs) ? scopePayload.breadcrumbs : [];
-      const surface = scopePayload?.surface && typeof scopePayload.surface === "object" ? scopePayload.surface : {};
-      const discoveredUrls = Array.isArray(surface.discovered_urls) ? surface.discovered_urls : [];
-      const apiEndpoints = Array.isArray(surface.api_endpoints) ? surface.api_endpoints : [];
-      return (
-        <div className="glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">{tt("Scope Asset Map", "范围资产地图")}</h2>
-            <div className="text-xs text-slate-500">{tt("Scope / breadcrumbs / surface", "范围 / 面包屑 / 资产面")}</div>
-          </div>
-          <div className="mt-4 grid gap-4 lg:grid-cols-3">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Scope", "范围")}</div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {scopeList.length ? scopeList.map((item, idx) => (
-                  <span key={idx} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">{item}</span>
-                )) : <span className="text-sm text-slate-500">{tt("No scope entries", "无范围条目")}</span>}
-              </div>
-            </div>
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Breadcrumbs", "面包屑")}</div>
-              <div className="mt-2 max-h-48 space-y-1 overflow-auto rounded-xl bg-slate-50 p-2 text-xs">
-                {breadcrumbs.length ? breadcrumbs.map((b, idx) => (
-                  <div key={idx} className="flex gap-2">
-                    <span className="w-16 shrink-0 text-slate-500">{b.type}</span>
-                    <span className="break-all text-slate-700">{b.data}</span>
-                  </div>
-                )) : <div className="text-slate-500">{tt("No breadcrumbs", "无面包屑记录")}</div>}
-              </div>
-            </div>
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Surface", "资产面")}</div>
-              <div className="mt-2 text-xs text-slate-700 space-y-1">
-                <div>{tt("Discovered URLs", "已发现 URL")}: <span className="font-semibold">{discoveredUrls.length}</span></div>
-                <div>{tt("API Endpoints", "API 端点")}: <span className="font-semibold">{apiEndpoints.length}</span></div>
-                <div className="mt-2 max-h-40 overflow-auto rounded-xl bg-slate-50 p-2">
-                  {discoveredUrls.slice(0, 12).map((u, idx) => <div key={idx} className="break-all">{u}</div>)}
-                  {discoveredUrls.length > 12 ? <div className="text-slate-500">... {discoveredUrls.length - 12} {tt("more", "条")}</div> : null}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function EvidenceCorrelationPanel({ evidenceGraph }) {
-      const graph = evidenceGraph && typeof evidenceGraph === "object" ? evidenceGraph : {};
-      const summary = graph.summary && typeof graph.summary === "object" ? graph.summary : {};
-      const claims = Array.isArray(graph.claims) ? graph.claims : [];
-      const priorityTargets = Array.isArray(graph.priority_targets) ? graph.priority_targets : [];
-      const recommendedTools = Array.isArray(graph.recommended_tools) ? graph.recommended_tools : [];
-      if (!claims.length && !priorityTargets.length && !recommendedTools.length) return null;
-
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Evidence Correlation", "\\u8bc1\\u636e\\u5173\\u8054")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Cross-validated Leads", "\\u4ea4\\u53c9\\u5370\\u8bc1\\u7ebf\\u7d22")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">
-              {tt("Corroborated", "\\u5df2\\u5370\\u8bc1")} {summary.corroborated_claims ?? 0}
-              {" | "}
-              {tt("High confidence", "\\u9ad8\\u7f6e\\u4fe1")} {summary.high_confidence_claims ?? 0}
-            </div>
-          </div>
-
-          <div className="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-              <div className="text-sm font-semibold">{tt("Priority Targets", "\\u4f18\\u5148\\u76ee\\u6807")}</div>
-              <div className="mt-3 space-y-3">
-                {priorityTargets.length ? priorityTargets.slice(0, 8).map((item, index) => (
-                  <div key={"evidence-target-" + index} className="rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm font-medium break-all">{item.target || "-"}</div>
-                      <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
-                        {tt("Score", "\\u8bc4\\u5206")} {item.score ?? 0}
-                      </span>
-                    </div>
-                    <div className="mt-2 space-y-1 text-xs text-slate-600">
-                      {(Array.isArray(item.reasons) ? item.reasons : []).slice(0, 4).map((reason, reasonIndex) => (
-                        <div key={"evidence-target-reason-" + index + "-" + reasonIndex}>- {reason}</div>
-                      ))}
-                    </div>
-                  </div>
-                )) : (
-                  <div className="text-sm text-slate-500">{tt("No priority targets were derived.", "\\u6682\\u65e0\\u4f18\\u5148\\u76ee\\u6807\\u3002")}</div>
-                )}
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-              <div className="text-sm font-semibold">{tt("Corroborated Claims", "\\u5df2\\u5370\\u8bc1\\u58f0\\u660e")}</div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {recommendedTools.slice(0, 10).map((toolName, index) => (
-                  <span key={"evidence-tool-" + index} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                    {toolName}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-3 space-y-3">
-                {claims.length ? claims.slice(0, 10).map((claim, index) => (
-                  <div key={"evidence-claim-" + index} className="rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-medium">{claim.subject || "-"}</div>
-                        <div className="mt-1 text-xs text-slate-500">
-                          {(claim.kind || "claim")} | {tt("Sources", "\\u6765\\u6e90")} {claim.source_count ?? 0} | {tt("Evidence", "\\u8bc1\\u636e")} {claim.evidence_count ?? 0}
-                        </div>
-                      </div>
-                      <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-cyan-700">
-                        {tt("Confidence", "\\u7f6e\\u4fe1")} {claim.confidence ?? 0}
-                      </span>
-                    </div>
-                    {Array.isArray(claim.targets) && claim.targets.length ? (
-                      <div className="mt-2 text-xs text-slate-600 break-all">
-                        {tt("Targets", "\\u76ee\\u6807")}: {claim.targets.slice(0, 3).join(", ")}
-                      </div>
-                    ) : null}
-                  </div>
-                )) : (
-                  <div className="text-sm text-slate-500">{tt("No corroborated claims yet.", "\\u6682\\u65e0\\u5df2\\u5370\\u8bc1\\u7ebf\\u7d22\\u3002")}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function KnowledgeContextPanel({ knowledgeContext }) {
-      const context = knowledgeContext && typeof knowledgeContext === "object" ? knowledgeContext : {};
-      const summary = String(context.summary || "").trim();
-      const tags = Array.isArray(context.tags) ? context.tags : [];
-      const references = Array.isArray(context.references) ? context.references : [];
-      if (!summary && !tags.length && !references.length) return null;
-
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Knowledge Context", "任务知识上下文")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Task-Level Context", "任务级上下文")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">{tt("Swagger, architecture notes, and internal references", "Swagger、架构说明与内部引用")}</div>
-          </div>
-          {summary ? <div className="mt-4 rounded-2xl border border-slate-200 bg-white/70 p-4 text-sm text-slate-700">{summary}</div> : null}
-          {tags.length ? (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {tags.slice(0, 12).map((item, index) => (
-                <span key={"knowledge-tag-" + index} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                  {item}
-                </span>
-              ))}
-            </div>
-          ) : null}
-          {references.length ? (
-            <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("References", "引用")}</div>
-              <div className="mt-3 space-y-2 text-sm text-slate-700">
-                {references.slice(0, 10).map((item, index) => (
-                  <div key={"knowledge-ref-" + index} className="break-all">{item}</div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      );
-    }
-
-    function CveValidationPanel({ cveValidation }) {
-      const pipeline = cveValidation && typeof cveValidation === "object" ? cveValidation : {};
-      const summary = pipeline.summary && typeof pipeline.summary === "object" ? pipeline.summary : {};
-      const candidates = Array.isArray(pipeline.candidates) ? pipeline.candidates : [];
-      const recommendedActions = Array.isArray(pipeline.recommended_actions) ? pipeline.recommended_actions : [];
-      if (!candidates.length && !recommendedActions.length) return null;
-
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("CVE Validation Pipeline", "CVE 分级验证流水线")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Version -> Template -> Sandbox", "版本印证 -> 模板验证 -> 沙箱最小 PoC")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">
-              {tt("Candidates", "候选")} {summary.candidate_count ?? candidates.length}
-              {" | "}
-              {tt("Sandbox ready", "沙箱就绪")} {summary.sandbox_ready_count ?? 0}
-            </div>
-          </div>
-          {recommendedActions.length ? (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {recommendedActions.slice(0, 8).map((toolName, index) => (
-                <span key={"cve-pipeline-action-" + index} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                  {toolName}
-                </span>
-              ))}
-            </div>
-          ) : null}
-          <div className="mt-4 grid gap-4 lg:grid-cols-2">
-            <MetricCard label={tt("Version Corroborated", "版本印证")} value={summary.version_corroborated_count ?? 0} sub={tt("Multi-source version matches", "多源版本匹配")} />
-            <MetricCard label={tt("Template Verified", "模板验证")} value={summary.template_verified_count ?? 0} sub={tt("Nuclei or equivalent confirmations", "Nuclei 或等效模板确认")} />
-          </div>
-          <div className="mt-4 space-y-3">
-            {candidates.slice(0, 10).map((item, index) => (
-              <div key={"cve-pipeline-candidate-" + index} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-semibold">{item.cve_id || tt("Unknown CVE", "未知 CVE")}</div>
-                    <div className="mt-1 text-xs text-slate-500 break-all">{item.target || "-"}</div>
-                  </div>
-                  <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
-                    {item.quality_label || "low"}
-                  </span>
-                </div>
-                <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  <span className="rounded-full bg-emerald-50 px-3 py-1 font-medium text-emerald-700">
-                    {tt("Version", "版本")}: {item.version_corroborated ? tt("yes", "是") : tt("no", "否")}
-                  </span>
-                  <span className="rounded-full bg-sky-50 px-3 py-1 font-medium text-sky-700">
-                    {tt("Template", "模板")}: {item.template_verified ? tt("yes", "是") : tt("no", "否")}
-                  </span>
-                  <span className="rounded-full bg-violet-50 px-3 py-1 font-medium text-violet-700">
-                    {tt("Sandbox", "沙箱")}: {item.sandbox_ready ? tt("ready", "就绪") : tt("hold", "待定")}
-                  </span>
-                </div>
-                <div className="mt-3 text-sm text-slate-600">
-                  {tt("Next step", "下一步")}: {item.recommended_next_step || "-"}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    function AttackPathPanel({ pathGraph }) {
-      const graph = pathGraph && typeof pathGraph === "object" ? pathGraph : {};
-      const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
-      const edges = Array.isArray(graph.edges) ? graph.edges : [];
-      if (!nodes.length && !edges.length) return null;
-
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Attack Path Graph", "攻击路径图")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Evidence-Linked Path View", "证据关联路径视图")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">
-              {nodes.length} {tt("nodes", "节点")} | {edges.length} {tt("edges", "连边")}
-            </div>
-          </div>
-          <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-              <div className="text-sm font-semibold">{tt("Graph nodes", "图节点")}</div>
-              <div className="mt-3 space-y-2 text-sm text-slate-700">
-                {nodes.slice(0, 10).map((node, index) => (
-                  <div key={"path-node-" + index} className="flex items-center justify-between gap-3 rounded-xl bg-slate-50/70 px-3 py-2">
-                    <span className="break-all">{node.label || node.id || "-"}</span>
-                    <span className="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-medium uppercase tracking-wider">{node.type || "node"}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-              <div className="text-sm font-semibold">{tt("Correlated edges", "关联路径")}</div>
-              <div className="mt-3 space-y-2 text-sm text-slate-700">
-                {edges.slice(0, 12).map((edge, index) => (
-                  <div key={"path-edge-" + index} className="rounded-xl bg-slate-50/70 px-3 py-2">
-                    <div className="break-all">{edge.source || "-"} -> {edge.target || "-"}</div>
-                    <div className="mt-1 text-xs text-slate-500">{tt("Kind", "类型")}: {edge.kind || "edge"} | {tt("Confidence", "置信度")}: {edge.confidence ?? 0}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function RemediationPriorityPanel({ items }) {
-      const rows = Array.isArray(items) ? items : [];
-      if (!rows.length) return null;
-
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Remediation Priority", "修复优先级")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Where remediation breaks the most paths", "优先修复能切断最多路径的点")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">{rows.length} {tt("tracked items", "条待修复项")}</div>
-          </div>
-          <div className="mt-4 space-y-3">
-            {rows.slice(0, 10).map((item, index) => (
-              <div key={"remediation-row-" + index} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div className="text-sm font-semibold">{item.title || "-"}</div>
-                    <div className="mt-1 text-xs text-slate-500 break-all">{item.target || "-"}</div>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">{item.priority || "P4"}</span>
-                    <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-amber-700">{item.severity || "info"}</span>
-                  </div>
-                </div>
-                <div className="mt-3 text-sm text-slate-600">{item.reason || "-"}</div>
-                {item.recommendation ? <div className="mt-2 text-sm text-slate-500">{tt("Recommendation", "建议")}: {item.recommendation}</div> : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    function AssetTopologyPanel({ scopePayload, findings }) {
-      const assets = Array.isArray(scopePayload?.assets) ? scopePayload.assets : [];
-      const surface = scopePayload?.surface && typeof scopePayload.surface === "object" ? scopePayload.surface : {};
-      const pocProtocolEvidence = Array.isArray(surface?.poc_protocol_evidence) ? surface.poc_protocol_evidence : [];
-      const safeFindings = Array.isArray(findings) ? findings : [];
-      if (!assets.length) return null;
-
-      const assetCounts = assets.reduce((acc, item) => {
-        const kind = String(item?.kind || "asset").toLowerCase();
-        acc[kind] = Number(acc[kind] || 0) + 1;
-        return acc;
-      }, {});
-      const linkedFindingsByAsset = new Map();
-      safeFindings.forEach((item) => {
-        const relatedIds = Array.isArray(item?.related_asset_ids) ? item.related_asset_ids : [];
-        relatedIds.forEach((assetId) => {
-          const key = String(assetId || "").trim();
-          if (!key) return;
-          if (!linkedFindingsByAsset.has(key)) {
-            linkedFindingsByAsset.set(key, []);
-          }
-          linkedFindingsByAsset.get(key).push(item);
-        });
-      });
-
-      const serviceAssets = assets.filter((item) => String(item?.kind || "").toLowerCase() === "service");
-      const otherAssets = assets.filter((item) => String(item?.kind || "").toLowerCase() !== "service");
-      const linkedFindingCount = Array.from(linkedFindingsByAsset.values()).reduce((total, rows) => total + rows.length, 0);
-
-      const assetDisplayName = (asset) => {
-        const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
-        if (String(asset?.kind || "").toLowerCase() === "service") {
-          const host = String(attrs.host || "-");
-          const port = String(attrs.port || "-");
-          const service = String(attrs.service || "service");
-          return host + ":" + port + " / " + service;
-        }
-        return String(asset?.id || tt("Unknown asset", "\\u672a\\u77e5\\u8d44\\u4ea7"));
-      };
-
-      const boolLabel = (value) => {
-        if (value === true) return tt("Yes", "\\u662f");
-        if (value === false) return tt("No", "\\u5426");
-        return "-";
-      };
-      const formatTitleCase = (value) => String(value || "")
-        .replace(/[_-]+/g, " ")
-        .replace(/\\s+/g, " ")
-        .trim()
-        .replace(/\\b\\w/g, (match) => match.toUpperCase());
-      const evidenceFieldLabels = {
-        ping_response: tt("PING Response", "PING \\u54cd\\u5e94"),
-        redis_version: tt("Redis Version", "Redis \\u7248\\u672c"),
-        unauthenticated: tt("Unauthenticated Access", "\\u672a\\u8ba4\\u8bc1\\u8bbf\\u95ee"),
-        stats_preview: tt("Stats Preview", "\\u7edf\\u8ba1\\u9884\\u89c8"),
-        reported_version: tt("Reported Version", "\\u56de\\u62a5\\u7248\\u672c"),
-        banner: tt("Banner", "Banner"),
-        tls_version: tt("TLS Version", "TLS \\u7248\\u672c"),
-        cipher: tt("Cipher Suite", "\\u5bc6\\u7801\\u5957\\u4ef6"),
-        weak_tls: tt("Weak TLS", "\\u5f31 TLS"),
-        tls_supported: tt("TLS Supported", "\\u652f\\u6301 TLS"),
-      };
-      const renderEvidenceFieldLabel = (key) => {
-        const normalized = String(key || "").trim().toLowerCase();
-        if (!normalized) return "-";
-        return evidenceFieldLabels[normalized] || formatTitleCase(normalized);
-      };
-
-      const normalizeLower = (value) => String(value || "").trim().toLowerCase();
-      const displayServiceName = (value) => {
-        const normalized = normalizeLower(value);
-        if (["tls", "ssl", "https"].includes(normalized)) return "TLS/HTTPS";
-        if (["ssh", "openssh"].includes(normalized)) return "SSH";
-        if (["postgres", "postgresql"].includes(normalized)) return "PostgreSQL";
-        if (["mysql", "mariadb"].includes(normalized)) return "MySQL";
-        if (!normalized) return tt("Unknown service", "\\u672a\\u77e5\\u670d\\u52a1");
-        return formatTitleCase(normalized);
-      };
-      const serviceAliases = (value) => {
-        const normalized = normalizeLower(value);
-        if (!normalized) return [];
-        if (["tls", "ssl", "https"].includes(normalized)) return ["tls", "ssl", "https"];
-        if (["ssh", "openssh"].includes(normalized)) return ["ssh", "openssh"];
-        if (["postgres", "postgresql"].includes(normalized)) return ["postgres", "postgresql"];
-        if (["mysql", "mariadb"].includes(normalized)) return ["mysql", "mariadb"];
-        return [normalized];
-      };
-      const parseTargetMeta = (value) => {
-        const text = String(value || "").trim();
-        if (!text) return { host: "", port: 0 };
-        try {
-          if (text.includes("://")) {
-            const parsed = new URL(text);
-            const fallbackPort = parsed.protocol === "https:" ? 443 : (parsed.protocol === "http:" ? 80 : 0);
-            return {
-              host: normalizeLower(parsed.hostname),
-              port: Number(parsed.port || fallbackPort || 0),
-            };
-          }
-        } catch (error) {
-          void error;
-        }
-        return { host: normalizeLower(text), port: 0 };
-      };
-      const renderEvidenceValue = (value) => {
-        if (value === true || value === false) return boolLabel(value);
-        if (Array.isArray(value)) return value.map((item) => renderEvidenceValue(item)).join(", ");
-        if (value && typeof value === "object") return JSON.stringify(value);
-        return String(value ?? "-");
-      };
-      const structuredEvidenceForAsset = (asset) => {
-        const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
-        const assetHost = normalizeLower(attrs.host);
-        const assetPort = Number(attrs.port || 0);
-        const assetServiceAliases = serviceAliases(attrs.service || asset.kind);
-        return pocProtocolEvidence.filter((item) => {
-          if (!item || typeof item !== "object") return false;
-          const targetMeta = parseTargetMeta(item.target);
-          const itemHost = normalizeLower(item.host || targetMeta.host);
-          const itemPort = Number(item.port || targetMeta.port || 0);
-          const itemServiceAliases = serviceAliases(item.service || item.protocol || item.component);
-          const sameHost = assetHost && itemHost && assetHost === itemHost;
-          const samePort = !assetPort || !itemPort || assetPort === itemPort;
-          const sameService = !assetServiceAliases.length || !itemServiceAliases.length || assetServiceAliases.some((value) => itemServiceAliases.includes(value));
-          return sameHost && samePort && sameService;
-        });
-      };
-      const serviceTrendRows = Object.values(serviceAssets.reduce((acc, asset) => {
-        const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
-        const serviceKey = normalizeLower(attrs.service || asset.kind || "service") || "service";
-        const structuredEvidence = structuredEvidenceForAsset(asset);
-        const relatedFindings = Array.isArray(linkedFindingsByAsset.get(asset.id)) ? linkedFindingsByAsset.get(asset.id) : [];
-        const highestSeverity = relatedFindings.reduce((current, item) => {
-          const severity = String(item?.severity || "info").toLowerCase();
-          return severityRank.indexOf(severity) < severityRank.indexOf(current) ? severity : current;
-        }, "info");
-        if (!acc[serviceKey]) {
-          acc[serviceKey] = {
-            key: serviceKey,
-            label: displayServiceName(serviceKey),
-            assetCount: 0,
-            findingCount: 0,
-            validationCount: 0,
-            highestSeverity: "info",
-          };
-        }
-        acc[serviceKey].assetCount += 1;
-        acc[serviceKey].findingCount += relatedFindings.length;
-        acc[serviceKey].validationCount += structuredEvidence.length;
-        if (severityRank.indexOf(highestSeverity) < severityRank.indexOf(acc[serviceKey].highestSeverity)) {
-          acc[serviceKey].highestSeverity = highestSeverity;
-        }
-        return acc;
-      }, {})).sort((a, b) => {
-        if (b.findingCount !== a.findingCount) return b.findingCount - a.findingCount;
-        if (b.validationCount !== a.validationCount) return b.validationCount - a.validationCount;
-        return String(a.label).localeCompare(String(b.label));
-      });
-      const maxTrendValue = Math.max(1, ...serviceTrendRows.map((item) => Math.max(item.assetCount, item.findingCount, item.validationCount)));
-
-      return (
-        <div className="glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Asset View", "\\u8d44\\u4ea7\\u89c6\\u56fe")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Asset Topology", "\\u8d44\\u4ea7\\u62d3\\u6251")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">{tt("Assets, services, and linked findings in the exported report", "\\u5bfc\\u51fa\\u62a5\\u544a\\u4e2d\\u7684\\u8d44\\u4ea7\\u3001\\u670d\\u52a1\\u4e0e\\u5173\\u8054\\u53d1\\u73b0")}</div>
-          </div>
-
-          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricCard label={tt("Assets", "\\u8d44\\u4ea7")} value={assets.length} sub={tt("Kinds", "\\u7c7b\\u578b") + ": " + Object.keys(assetCounts).length} />
-            <MetricCard label={tt("Services", "\\u670d\\u52a1")} value={serviceAssets.length} sub={tt("Other Assets", "\\u5176\\u4ed6\\u8d44\\u4ea7") + ": " + otherAssets.length} />
-            <MetricCard label={tt("Linked Findings", "\\u5173\\u8054\\u53d1\\u73b0")} value={linkedFindingCount} sub={tt("Mapped Assets", "\\u5df2\\u5173\\u8054\\u8d44\\u4ea7") + ": " + linkedFindingsByAsset.size} />
-            <MetricCard label={tt("Kinds", "\\u7c7b\\u578b")} value={Object.keys(assetCounts).length} sub={tt("Services with findings", "\\u6709\\u53d1\\u73b0\\u7684\\u670d\\u52a1") + ": " + linkedFindingsByAsset.size} />
-          </div>
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            {Object.entries(assetCounts).sort((a, b) => String(a[0]).localeCompare(String(b[0]))).map(([kind, count]) => (
-              <span key={kind} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                {kind} x{count}
-              </span>
-            ))}
-          </div>
-
-          {serviceTrendRows.length ? (
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Asset Trends", "\\u8d44\\u4ea7\\u8d70\\u52bf")}</div>
-                  <h3 className="mt-1 text-base font-semibold">{tt("Service-Level Trend Snapshot", "\\u670d\\u52a1\\u7ea7\\u8d70\\u52bf\\u5feb\\u7167")}</h3>
-                </div>
-                <div className="text-xs text-slate-500">{tt("Assets, linked findings, and structured validations per service", "\\u6309\\u670d\\u52a1\\u7ef4\\u5ea6\\u6c47\\u603b\\u8d44\\u4ea7\\u6570\\u3001\\u5173\\u8054\\u53d1\\u73b0\\u4e0e\\u7ed3\\u6784\\u5316\\u9a8c\\u8bc1")}</div>
-              </div>
-              <div className="mt-4 space-y-3">
-                {serviceTrendRows.map((item) => (
-                  <div key={"trend-" + item.key} className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm font-medium">{item.label}</div>
-                      <span className={"rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider " + (severityBadge[item.highestSeverity] || severityBadge.info)}>
-                        {item.highestSeverity}
-                      </span>
-                    </div>
-                    <div className="mt-2 grid gap-2 text-xs text-slate-600 md:grid-cols-3">
-                      <div>{tt("Assets", "\\u8d44\\u4ea7")}: <span className="font-medium text-slate-900">{item.assetCount}</span></div>
-                      <div>{tt("Findings", "\\u53d1\\u73b0")}: <span className="font-medium text-slate-900">{item.findingCount}</span></div>
-                      <div>{tt("Structured Validations", "\\u7ed3\\u6784\\u5316\\u9a8c\\u8bc1")}: <span className="font-medium text-slate-900">{item.validationCount}</span></div>
-                    </div>
-                    <div className="mt-3 space-y-2">
-                      {[
-                        [tt("Assets", "\\u8d44\\u4ea7"), item.assetCount, "bg-slate-500"],
-                        [tt("Findings", "\\u53d1\\u73b0"), item.findingCount, "bg-cyan-500"],
-                        [tt("Structured Validations", "\\u7ed3\\u6784\\u5316\\u9a8c\\u8bc1"), item.validationCount, "bg-emerald-500"],
-                      ].map(([label, value, color]) => (
-                        <div key={item.key + "-" + label} className="space-y-1">
-                          <div className="flex items-center justify-between text-[11px] text-slate-500">
-                            <span>{label}</span>
-                            <span className="font-medium text-slate-700">{value}</span>
-                          </div>
-                          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-                            <div className={String(color) + " h-full rounded-full"} style={{ width: Math.max(6, Math.round((Number(value) / maxTrendValue) * 100)) + "%" }} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          {serviceAssets.length ? (
-            <div className="mt-5 grid gap-4 xl:grid-cols-2">
-              {serviceAssets.map((asset) => {
-                const attrs = asset?.attributes && typeof asset.attributes === "object" ? asset.attributes : {};
-                const evidence = asset?.evidence && typeof asset.evidence === "object" ? asset.evidence : {};
-                const structuredEvidence = structuredEvidenceForAsset(asset);
-                const relatedFindings = Array.isArray(linkedFindingsByAsset.get(asset.id)) ? [...linkedFindingsByAsset.get(asset.id)] : [];
-                relatedFindings.sort((a, b) => severityRank.indexOf(String(a?.severity || "info")) - severityRank.indexOf(String(b?.severity || "info")));
-                return (
-                  <article key={asset.id} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-semibold break-all">{assetDisplayName(asset)}</div>
-                        <div className="mt-1 text-xs text-slate-500">{tt("Source", "\\u6765\\u6e90")}: {asset.source_tool || "-"}</div>
-                      </div>
-                      <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
-                        {displayServiceName(attrs.service || asset.kind || "service")}
-                      </span>
-                    </div>
-                    <div className="mt-3 grid gap-2 text-xs text-slate-600 md:grid-cols-2">
-                      <div>{tt("Proto", "\\u534f\\u8bae")}: <span className="font-medium text-slate-800">{String(attrs.proto || "-")}</span></div>
-                      <div>TLS: <span className="font-medium text-slate-800">{boolLabel(attrs.tls)}</span></div>
-                      <div>{tt("Auth", "\\u8ba4\\u8bc1")}: <span className="font-medium text-slate-800">{boolLabel(attrs.auth_required)}</span></div>
-                      <div>{tt("Linked Findings", "\\u5173\\u8054\\u53d1\\u73b0")}: <span className="font-medium text-slate-800">{relatedFindings.length}</span></div>
-                    </div>
-                    {(attrs.banner || evidence.banner) ? (
-                      <pre className="mt-3 max-h-32 overflow-auto rounded-xl bg-slate-900 p-3 text-xs leading-relaxed text-slate-100 whitespace-pre-wrap">
-{String(attrs.banner || evidence.banner)}
-                      </pre>
-                    ) : null}
-                    {structuredEvidence.length ? (
-                      <div className="mt-3">
-                        <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Structured Validation", "\\u7ed3\\u6784\\u5316\\u9a8c\\u8bc1")}</div>
-                        <div className="mt-2 space-y-2">
-                          {structuredEvidence.map((item, idx) => {
-                            const detailEntries = Object.entries(item).filter(([key, value]) => {
-                              if (["target", "host", "port", "service", "protocol", "template", "cve_id", "component", "version"].includes(String(key))) {
-                                return false;
-                              }
-                              if (value === null || value === undefined || value === "") return false;
-                              if (Array.isArray(value) && !value.length) return false;
-                              if (typeof value === "object" && !Array.isArray(value) && !Object.keys(value).length) return false;
-                              return true;
-                            });
-                            return (
-                              <div key={asset.id + "-structured-" + idx} className="rounded-xl border border-cyan-200 bg-cyan-50/60 px-3 py-3">
-                                <div className="flex items-start justify-between gap-3">
-                                  <div className="text-sm font-medium break-all">
-                                    {displayServiceName(item.protocol || item.service || attrs.service || tt("protocol probe", "\\u534f\\u8bae\\u63a2\\u6d4b"))}
-                                  </div>
-                                  <span className="rounded-full bg-slate-900 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-white">
-                                    {String(item.template || tt("probe", "\\u63a2\\u6d4b"))}
-                                  </span>
-                                </div>
-                                <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-slate-600">
-                                  {item.cve_id ? <span className="rounded-full bg-white px-2 py-1 font-medium">{String(item.cve_id)}</span> : null}
-                                  {item.component ? <span className="rounded-full bg-white px-2 py-1 font-medium">{String(item.component)}{item.version ? " " + String(item.version) : ""}</span> : null}
-                                  {item.port ? <span className="rounded-full bg-white px-2 py-1 font-medium">{tt("Port", "\\u7aef\\u53e3")}: {String(item.port)}</span> : null}
-                                </div>
-                                {detailEntries.length ? (
-                                  <div className="mt-2 grid gap-2 md:grid-cols-2">
-                                    {detailEntries.map(([key, value]) => (
-                                      <div key={asset.id + "-structured-detail-" + idx + "-" + key} className="rounded-lg bg-white px-2.5 py-2 text-xs text-slate-700">
-                                        <div className="uppercase tracking-wider text-slate-400">{renderEvidenceFieldLabel(key)}</div>
-                                        <div className="mt-1 break-all font-medium text-slate-900">{renderEvidenceValue(value)}</div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                ) : null}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ) : null}
-                    <div className="mt-3 space-y-2">
-                      {relatedFindings.length ? relatedFindings.map((item, idx) => {
-                        const severity = String(item?.severity || "info").toLowerCase();
-                        return (
-                          <div key={asset.id + "-" + idx} className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="text-sm font-medium break-all">{String(item?.name || item?.title || tt("Unnamed finding", "\\u672a\\u547d\\u540d\\u53d1\\u73b0"))}</div>
-                              <span className={"rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider " + (severityBadge[severity] || severityBadge.info)}>
-                                {severity}
-                              </span>
-                            </div>
-                            <div className="mt-1 text-xs text-slate-500 break-all">{tt("Tool", "\\u5de5\\u5177")}: {String(item?.tool || "-")}</div>
-                          </div>
-                        );
-                      }) : (
-                        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-500">
-                          {tt("No findings linked to this service.", "\\u8be5\\u670d\\u52a1\\u6682\\u65e0\\u5173\\u8054\\u53d1\\u73b0")}
-                        </div>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          ) : null}
-
-          {otherAssets.length ? (
-            <div className="mt-5 space-y-2">
-              {otherAssets.map((asset) => {
-                const relatedFindings = Array.isArray(linkedFindingsByAsset.get(asset.id)) ? linkedFindingsByAsset.get(asset.id) : [];
-                return (
-                  <div key={asset.id} className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 shadow-sm">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="text-sm font-semibold break-all">{assetDisplayName(asset)}</div>
-                        <div className="mt-1 text-xs text-slate-500">{tt("Source", "\\u6765\\u6e90")}: {asset.source_tool || "-"}</div>
-                      </div>
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">{String(asset.kind || "asset")}</span>
-                    </div>
-                    <div className="mt-2 text-xs text-slate-600">{tt("Linked Findings", "\\u5173\\u8054\\u53d1\\u73b0")}: <span className="font-medium text-slate-800">{relatedFindings.length}</span></div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : null}
-        </div>
-      );
-    }
-
-    function VulnerabilityCard({ item }) {
-      const severity = String(item?.severity || "medium").toLowerCase();
-      const steps = Array.isArray(item?.reproduction_steps) ? item.reproduction_steps : [];
-      return (
-        <div className="glass rounded-2xl p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <div className="text-sm text-slate-500">{tt("Finding", "发现")} #{item.index}</div>
-              <h3 className="mt-1 text-lg font-semibold">{item.name}</h3>
-            </div>
-            <span className={"rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider " + (severityBadge[severity] || severityBadge.medium)}>
-              {severity}
-            </span>
-          </div>
-          <div className="mt-4 grid gap-4 xl:grid-cols-2">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Evidence", "证据")}</div>
-              <pre className="mt-2 max-h-56 overflow-auto rounded-xl bg-slate-900 p-3 text-xs leading-relaxed text-slate-100 whitespace-pre-wrap">
-{String(item.evidence || tt("No evidence provided.", "未提供证据。"))}
-              </pre>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Reproduction Steps", "复现步骤")}</div>
-                <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-slate-700">
-                  {steps.length ? steps.map((s, idx) => <li key={idx}>{s}</li>) : <li>{tt("No steps provided.", "未提供步骤。")}</li>}
-                </ol>
-              </div>
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3">
-                <div className="text-xs font-semibold uppercase tracking-wider text-emerald-700">{tt("Fix Guidance", "修复建议")}</div>
-                <p className="mt-1 text-sm text-emerald-900 leading-relaxed">
-                  {item.recommendation || tt("No remediation recommendation provided.", "未提供修复建议。")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function ReconSection({ recon }) {
-      if (!recon) return null;
-      const ti = recon.target_info || {};
-      const tls = recon.tls_certificate || {};
-      const subdomains = Array.isArray(recon.subdomains) ? recon.subdomains : [];
-      const waf = Array.isArray(recon.waf_cdn) ? recon.waf_cdn : [];
-      const tech = Array.isArray(recon.tech_stack) ? recon.tech_stack : [];
-      const policies = recon.security_policies || {};
-      const stxt = policies.security_txt || {};
-      const csp = policies.csp_evaluation || {};
-      const cookies = Array.isArray(policies.cookies) ? policies.cookies : [];
-      const login = Array.isArray(recon.login_forms) ? recon.login_forms : [];
-      const schemas = Array.isArray(recon.api_schemas) ? recon.api_schemas : [];
-      const git = Array.isArray(recon.git_exposures) ? recon.git_exposures : [];
-      const smaps = Array.isArray(recon.source_maps) ? recon.source_maps : [];
-      const ps = recon.ports_services || {};
-      const ports = Array.isArray(ps.ports) ? ps.ports : [];
-      const hdrs = recon.http_headers || {};
-      const markers = Array.isArray(recon.error_page_markers) ? recon.error_page_markers : [];
-      const hasData = Object.keys(tls).length || subdomains.length || waf.length || tech.length || cookies.length || login.length || schemas.length || git.length || smaps.length || ports.length || Object.keys(hdrs).length || markers.length || Object.keys(stxt).length || Object.keys(csp).length;
-      if (!hasData) return null;
-
-      const Chip = ({ label, color }) => (
-        <span className={"inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold mr-1.5 mb-1 " + (color || "bg-slate-100 text-slate-600")}>{label}</span>
-      );
-      const KV = ({ k, v }) => <div className="flex justify-between text-sm"><span className="text-slate-500">{k}</span><span className="font-medium tabular-nums">{v}</span></div>;
-
-      return (
-        <div className="mt-6">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">{tt("Reconnaissance & Information Gathering", "侦察与信息收集")}</h2>
-            <div className="text-xs text-slate-500">{tt("Data collected from passive and active scanning", "来自被动与主动扫描的数据")}</div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {/* TLS */}
-            {Object.keys(tls).length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("SSL / TLS Certificate", "SSL / TLS 证书")}</div>
-                <div className="space-y-1">
-                  <KV k={tt("Host", "主机")} v={String(tls.host || "-") + ":" + String(tls.port || 443)} />
-                  <KV k={tt("TLS Version", "TLS 版本")} v={tls.tls_version || "-"} />
-                  <KV k={tt("Days Left", "剩余天数")} v={tls.days_left ?? "-"} />
-                  <KV k={tt("Expires", "到期时间")} v={tls.expires_at || "-"} />
-                  {Array.isArray(tls.subject_alt_name) && tls.subject_alt_name.length > 0 && (
-                    <div className="mt-2">
-                      <div className="text-xs text-slate-500 mb-1">SAN</div>
-                      <div className="flex flex-wrap">{tls.subject_alt_name.map((e, i) => <Chip key={i} label={Array.isArray(e) ? e.join("=") : String(e)} />)}</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Subdomains */}
-            {subdomains.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Subdomains", "子域名")} ({subdomains.length})</div>
-                <div className="max-h-48 overflow-auto rounded-xl bg-slate-50 p-2 text-xs space-y-0.5">
-                  {subdomains.slice(0, 40).map((s, i) => <div key={i} className="break-all">{s}</div>)}
-                  {subdomains.length > 40 && <div className="text-slate-400">... {subdomains.length - 40} {tt("more", "条")}</div>}
-                </div>
-              </div>
-            )}
-
-            {/* WAF / CDN */}
-            {waf.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("WAF / CDN", "WAF / CDN")}</div>
-                <div className="flex flex-wrap">{waf.map((w, i) => <Chip key={i} label={w} color="bg-amber-100 text-amber-700" />)}</div>
-              </div>
-            )}
-
-            {/* Tech Stack */}
-            {tech.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Technology Stack", "技术栈")}</div>
-                <div className="flex flex-wrap">{tech.map((t, i) => <Chip key={i} label={t} color="bg-cyan-100 text-cyan-700" />)}</div>
-              </div>
-            )}
-
-            {/* Ports */}
-            {ports.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Open Ports", "开放端口")} ({ports.length})</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-0.5">
-                  {ports.slice(0, 20).map((p, i) => (
-                    <div key={i} className="flex justify-between">
-                      <span>{typeof p === "object" ? (p.port + "/" + (p.protocol || "-")) : p}</span>
-                      <span className="text-slate-500">{typeof p === "object" ? (p.service || "-") : ""}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* HTTP Headers */}
-            {Object.keys(hdrs).length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("HTTP Headers", "HTTP 响应头")}</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-0.5">
-                  {Object.entries(hdrs).map(([k, v], i) => (
-                    <div key={i}><span className="font-medium">{k}:</span> <span className="text-slate-600 break-all">{String(v)}</span></div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* CSP */}
-            {Object.keys(csp).length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Content Security Policy", "内容安全策略")}</div>
-                <div className="space-y-1">
-                  <KV k={tt("Present", "是否存在")} v={csp.present ? tt("Yes", "是") : tt("No", "否")} />
-                  {csp.present && <KV k="script-src" v={csp.has_script_src ? tt("Yes", "是") : tt("No", "否")} />}
-                  {csp.present && <KV k="default-src" v={csp.has_default_src ? tt("Yes", "是") : tt("No", "否")} />}
-                  {Array.isArray(csp.risky_tokens) && csp.risky_tokens.length > 0 && (
-                    <div className="mt-2"><div className="flex flex-wrap">{csp.risky_tokens.map((t, i) => <Chip key={i} label={t} color="bg-red-100 text-red-700" />)}</div></div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Cookies */}
-            {cookies.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Cookies", "Cookie")} ({cookies.length})</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-1">
-                  {cookies.map((c, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="font-medium break-all">{c.name || "-"}</span>
-                      <Chip label={c.secure ? "Secure" : tt("Not Secure", "非 Secure")} color={c.secure ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} />
-                      <Chip label={c.httponly ? "HttpOnly" : tt("No HttpOnly", "非 HttpOnly")} color={c.httponly ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} />
-                      <Chip label={c.samesite ? "SameSite" : tt("No SameSite", "无 SameSite")} color={c.samesite ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* security.txt */}
-            {Object.keys(stxt).length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">security.txt</div>
-                <div className="space-y-1">
-                  <KV k={tt("Present", "是否存在")} v={stxt.present ? tt("Yes", "是") : tt("No", "否")} />
-                  {stxt.present && <KV k={tt("Contact", "联系方式")} v={stxt.has_contact ? tt("Yes", "是") : tt("No", "否")} />}
-                  {stxt.present && <KV k={tt("Expires", "过期字段")} v={stxt.has_expires ? tt("Yes", "是") : tt("No", "否")} />}
-                </div>
-              </div>
-            )}
-
-            {/* Login Forms */}
-            {login.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Login Forms", "登录表单")} ({login.length})</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-1">
-                  {login.map((f, i) => (
-                    <div key={i}><span className="font-medium">{f.method || "GET"}</span> <span className="text-slate-600 break-all">{f.action || "-"}</span></div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* API Schemas */}
-            {schemas.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("API Schemas", "API 架构")} ({schemas.length})</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-1">
-                  {schemas.map((s, i) => (
-                    <div key={i}><Chip label={s.kind || "-"} color="bg-blue-100 text-blue-700" /><span className="break-all">{s.url || "-"}</span></div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Git Exposures */}
-            {git.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("VCS Exposures", "版本库泄露")} ({git.length})</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-1">
-                  {git.map((g, i) => (
-                    <div key={i}><Chip label={g.type || "-"} color="bg-red-100 text-red-700" /><span className="break-all">{g.url || "-"}</span></div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Source Maps */}
-            {smaps.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Source Maps", "Source Map")} ({smaps.length})</div>
-                <div className="max-h-48 overflow-auto text-xs space-y-0.5">
-                  {smaps.slice(0, 15).map((s, i) => <div key={i} className="break-all">{s}</div>)}
-                </div>
-              </div>
-            )}
-
-            {/* Error Page Markers */}
-            {markers.length > 0 && (
-              <div className="glass rounded-2xl p-4">
-                <div className="text-xs uppercase tracking-wider text-slate-500 mb-2">{tt("Error Page Markers", "错误页标记")}</div>
-                <div className="flex flex-wrap">{markers.map((m, i) => <Chip key={i} label={m} color="bg-orange-100 text-orange-700" />)}</div>
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    function signedDelta(value) {
-      const numeric = Number(value || 0);
-      return numeric > 0 ? "+" + numeric : String(numeric);
-    }
-
-    function VerificationRankingPanel({ blocks }) {
-      const safeBlocks = Array.isArray(blocks) ? blocks : [];
-      if (!safeBlocks.length) return null;
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Verification Context", "\\u9a8c\\u8bc1\\u4e0a\\u4e0b\\u6587")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Verification Ranking", "\\u9a8c\\u8bc1\\u6392\\u5e8f\\u89e3\\u91ca")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">{tt("Explain why a CVE or PoC was selected first during verification.", "\\u89e3\\u91ca\\u4e3a\\u4f55\\u5728\\u9a8c\\u8bc1\\u9636\\u6bb5\\u5148\\u9009\\u62e9\\u67d0\\u4e2a CVE \\u6216 PoC\\u3002")}</div>
-          </div>
-          <div className="mt-4 space-y-4">
-            {safeBlocks.map((block, blockIndex) => {
-              const items = Array.isArray(block?.items) ? block.items : [];
-              const selectedTemplates = Array.isArray(block?.selected_templates) ? block.selected_templates : [];
-              return (
-                <article key={(block.tool || "tool") + "-" + blockIndex} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="text-sm font-semibold">{block.tool || "-"}</div>
-                      <div className="mt-1 text-xs text-slate-500 break-all">
-                        {tt("Target", "\\u76ee\\u6807")}: {block.target || "-"} | {tt("Component", "\\u7ec4\\u4ef6")}: {block.component || "-"} | {tt("Service", "\\u670d\\u52a1")}: {block.service || "-"} | {tt("Version", "\\u7248\\u672c")}: {block.version || "-"}
-                      </div>
-                    </div>
-                    <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
-                      {block.selected_candidate || "-"}
-                    </span>
-                  </div>
-                  {selectedTemplates.length ? (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {selectedTemplates.slice(0, 8).map((item) => (
-                        <span key={(block.tool || "tool") + "-" + item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  <div className="mt-3 space-y-3">
-                    {items.map((item) => {
-                      const reasons = Array.isArray(item?.reasons) ? item.reasons : [];
-                      const protocolTags = Array.isArray(item?.template_capability?.protocol_tags) ? item.template_capability.protocol_tags : [];
-                      return (
-                        <div key={(block.tool || "tool") + "-" + (item.cve_id || "candidate")} className={"rounded-xl border px-3 py-3 " + (item.selected ? "border-cyan-300 bg-cyan-50/60" : "border-slate-200 bg-slate-50/60")}>
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="text-sm font-medium">{item.cve_id || "-"}</div>
-                            <div className="text-xs text-slate-600">
-                              {(item.severity || "info").toUpperCase()}
-                              {item.rank ? " #" + item.rank : ""}
-                              {" | CVSS "}
-                              {item.cvss_score ?? "-"}
-                            </div>
-                          </div>
-                          {protocolTags.length ? (
-                            <div className="mt-2 flex flex-wrap gap-2">
-                              {protocolTags.map((tag) => (
-                                <span key={(item.cve_id || "candidate") + "-" + tag} className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          ) : null}
-                          <div className="mt-2 space-y-1 text-xs text-slate-600">
-                            {reasons.length ? reasons.slice(0, 5).map((reason) => (
-                              <div key={(item.cve_id || "candidate") + "-" + reason}>- {reason}</div>
-                            )) : (
-                              <div>{tt("No detailed ranking reason recorded.", "\\u672a\\u8bb0\\u5f55\\u66f4\\u7ec6\\u7684\\u6392\\u5e8f\\u4f9d\\u636e\\u3002")}</div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-
-    function ExecutionHistoryPanel({ rows }) {
-      const safeRows = Array.isArray(rows) ? rows : [];
-      if (!safeRows.length) return null;
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Execution Context", "\\u6267\\u884c\\u4e0a\\u4e0b\\u6587")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("Executed Actions and Selection Rationale", "\\u5df2\\u6267\\u884c\\u52a8\\u4f5c\\u4e0e\\u9009\\u62e9\\u539f\\u56e0")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">{tt("Track why each executed action was selected.", "\\u8ffd\\u8e2a\\u6bcf\\u4e2a\\u5df2\\u6267\\u884c\\u52a8\\u4f5c\\u4e3a\\u4f55\\u88ab\\u9009\\u4e2d\\u3002")}</div>
-          </div>
-          <div className="mt-4 space-y-4">
-            {safeRows.map((row, index) => {
-              const explanation = row && typeof row.ranking_explanation === "object" ? row.ranking_explanation : {};
-              const reasons = Array.isArray(explanation?.reasons) ? explanation.reasons : [];
-              const selectedTemplates = Array.isArray(explanation?.selected_templates) ? explanation.selected_templates : [];
-              const candidateOrder = Array.isArray(explanation?.candidate_order) ? explanation.candidate_order : [];
-              return (
-                <article key={(row?.tool || "tool") + "-" + (row?.target || "target") + "-" + index} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="text-sm font-semibold">{row?.tool || "-"}</div>
-                      <div className="mt-1 text-xs text-slate-500 break-all">
-                        {tt("Target", "\\u76ee\\u6807")}: {row?.target || "-"} | {tt("Phase", "\\u9636\\u6bb5")}: {row?.phase || "-"} | {tt("Status", "\\u72b6\\u6001")}: {row?.status || "-"}
-                      </div>
-                    </div>
-                    {explanation?.selected_candidate ? (
-                      <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
-                        {explanation.selected_candidate}
-                      </span>
-                    ) : null}
-                  </div>
-                  {selectedTemplates.length ? (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {selectedTemplates.slice(0, 8).map((item) => (
-                        <span key={(row?.tool || "tool") + "-template-" + item} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  <div className="mt-3 grid gap-2 text-xs text-slate-600 md:grid-cols-4">
-                    <div>{tt("Cost", "\\u6210\\u672c")}: <span className="font-medium text-slate-900">{row?.action_cost ?? 0}</span></div>
-                    <div>{tt("Budget Before", "\\u6267\\u884c\\u524d\\u9884\\u7b97")}: <span className="font-medium text-slate-900">{row?.budget_before ?? "-"}</span></div>
-                    <div>{tt("Budget After", "\\u6267\\u884c\\u540e\\u9884\\u7b97")}: <span className="font-medium text-slate-900">{row?.budget_after ?? "-"}</span></div>
-                    <div>{tt("Retry Attempts", "\\u91cd\\u8bd5\\u6b21\\u6570")}: <span className="font-medium text-slate-900">{row?.retry_attempts ?? "-"}</span></div>
-                  </div>
-                  {candidateOrder.length ? (
-                    <div className="mt-2 text-xs text-slate-500 break-all">
-                      {tt("Candidate Order", "\\u5019\\u9009\\u987a\\u5e8f")}: {candidateOrder.join(", ")}
-                    </div>
-                  ) : null}
-                  <div className="mt-2 space-y-1 text-xs text-slate-600">
-                    {reasons.length ? reasons.slice(0, 8).map((reason) => (
-                      <div key={(row?.tool || "tool") + "-reason-" + reason}>- {reason}</div>
-                    )) : (
-                      <div>{tt("No detailed ranking reason recorded.", "\\u672a\\u8bb0\\u5f55\\u66f4\\u7ec6\\u7684\\u6392\\u5e8f\\u4f9d\\u636e\\u3002")}</div>
-                    )}
-                  </div>
-                  {row?.error ? (
-                    <div className="mt-3 rounded-xl border border-rose-200 bg-rose-50/70 px-3 py-2 text-xs text-rose-700 break-all">
-                      {row.error}
-                    </div>
-                  ) : null}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      );
-    }
-
-    function AssetTrendPanels({ phaseRows, batchRows }) {
-      const safePhaseRows = Array.isArray(phaseRows) ? phaseRows : [];
-      const safeBatchRows = Array.isArray(batchRows) ? batchRows : [];
-      if (!safePhaseRows.length && !safeBatchRows.length) return null;
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Asset Trends", "\\u8d44\\u4ea7\\u8d70\\u52bf")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("By Phase / By Batch", "\\u6309\\u9636\\u6bb5 / \\u6309\\u6279\\u6b21\\u5bf9\\u6bd4")}</h2>
-            </div>
-            <div className="text-xs text-slate-500">{tt("Compare the current run by phase and the target history by batch.", "\\u540c\\u65f6\\u5bf9\\u6bd4\\u5f53\\u524d\\u8fd0\\u884c\\u7684\\u9636\\u6bb5\\u63a8\\u8fdb\\u548c\\u540c\\u76ee\\u6807\\u5386\\u53f2\\u6279\\u6b21\\u53d8\\u5316\\u3002")}</div>
-          </div>
-
-          {safePhaseRows.length ? (
-            <div className="mt-4">
-              <div className="mb-3 text-sm font-semibold">{tt("Phase Trends", "\\u9636\\u6bb5\\u8d70\\u52bf")}</div>
-              <div className="space-y-3">
-                {safePhaseRows.map((row) => (
-                  <div key={"phase-" + row.phase} className={"rounded-xl border px-3 py-3 " + (row.is_current ? "border-cyan-300 bg-cyan-50/60" : "border-slate-200 bg-slate-50/60")}>
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm font-medium">{row.phase || "-"}</div>
-                      <div className="text-xs text-slate-600">{tt("Actions", "\\u52a8\\u4f5c")}: {row.executed_actions || 0}</div>
-                    </div>
-                    <div className="mt-2 grid gap-2 text-xs text-slate-600 md:grid-cols-5">
-                      <div>{tt("Tools", "\\u5de5\\u5177")}: <span className="font-medium text-slate-900">{row.unique_tools || 0}</span></div>
-                      <div>{tt("Assets", "\\u8d44\\u4ea7")}: <span className="font-medium text-slate-900">{row.asset_count || 0}</span></div>
-                      <div>{tt("Services", "\\u670d\\u52a1")}: <span className="font-medium text-slate-900">{row.service_assets || 0}</span></div>
-                      <div>{tt("Findings", "\\u53d1\\u73b0")}: <span className="font-medium text-slate-900">{row.finding_count || 0}</span></div>
-                      <div>{tt("Asset Delta", "\\u8d44\\u4ea7\\u589e\\u91cf")}: <span className="font-medium text-slate-900">{signedDelta(row.delta_assets)}</span></div>
-                    </div>
-                    {Array.isArray(row.tool_names) && row.tool_names.length ? (
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {row.tool_names.slice(0, 8).map((tool) => (
-                          <span key={row.phase + "-" + tool} className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium">{tool}</span>
-                        ))}
-                      </div>
-                    ) : null}
-                    {row.reason ? <div className="mt-2 text-xs text-slate-500">{row.reason}</div> : null}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          {safeBatchRows.length ? (
-            <div className="mt-6">
-              <div className="mb-3 text-sm font-semibold">{tt("Run Batch Trends", "\\u8fd0\\u884c\\u6279\\u6b21\\u8d70\\u52bf")}</div>
-              <div className="space-y-3">
-                {safeBatchRows.map((row) => (
-                  <div key={"batch-" + row.job_id} className={"rounded-xl border px-3 py-3 " + (row.is_current ? "border-cyan-300 bg-cyan-50/60" : "border-slate-200 bg-slate-50/60")}>
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm font-medium break-all">{row.job_id || "-"}</div>
-                      <div className="text-xs text-slate-500">{row.ended_at || row.updated_at || "-"}</div>
-                    </div>
-                    <div className="mt-2 grid gap-2 text-xs text-slate-600 md:grid-cols-5">
-                      <div>{tt("Assets", "\\u8d44\\u4ea7")}: <span className="font-medium text-slate-900">{row.total_assets || 0}</span></div>
-                      <div>{tt("Services", "\\u670d\\u52a1")}: <span className="font-medium text-slate-900">{row.service_assets || 0}</span></div>
-                      <div>{tt("Findings", "\\u53d1\\u73b0")}: <span className="font-medium text-slate-900">{row.finding_total || 0}</span></div>
-                      <div>{tt("Asset Delta", "\\u8d44\\u4ea7\\u589e\\u91cf")}: <span className="font-medium text-slate-900">{signedDelta(row.delta_assets)}</span></div>
-                      <div>{tt("Finding Delta", "\\u53d1\\u73b0\\u589e\\u91cf")}: <span className="font-medium text-slate-900">{signedDelta(row.delta_findings)}</span></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
-      );
-    }
-
-    function BaselineDiffPanel({ diff }) {
-      const safeDiff = diff && typeof diff === "object" ? diff : {};
-      const newFindings = Array.isArray(safeDiff.new_findings) ? safeDiff.new_findings : [];
-      const resolvedFindings = Array.isArray(safeDiff.resolved_findings) ? safeDiff.resolved_findings : [];
-      const newAssets = Array.isArray(safeDiff.new_assets) ? safeDiff.new_assets : [];
-      const resolvedAssets = Array.isArray(safeDiff.resolved_assets) ? safeDiff.resolved_assets : [];
-      const newServices = Array.isArray(safeDiff.new_services) ? safeDiff.new_services : [];
-      const resolvedServices = Array.isArray(safeDiff.resolved_services) ? safeDiff.resolved_services : [];
-      const severityOrder = ["critical", "high", "medium", "low", "info"];
-      const newAssetSeverity = safeDiff.new_asset_severity_counts && typeof safeDiff.new_asset_severity_counts === "object" ? safeDiff.new_asset_severity_counts : {};
-      const resolvedAssetSeverity = safeDiff.resolved_asset_severity_counts && typeof safeDiff.resolved_asset_severity_counts === "object" ? safeDiff.resolved_asset_severity_counts : {};
-      const persistentAssetSeverity = safeDiff.persistent_asset_severity_counts && typeof safeDiff.persistent_asset_severity_counts === "object" ? safeDiff.persistent_asset_severity_counts : {};
-      const newServiceProtocols = Array.isArray(safeDiff.new_service_protocol_counts) ? safeDiff.new_service_protocol_counts : [];
-      const resolvedServiceProtocols = Array.isArray(safeDiff.resolved_service_protocol_counts) ? safeDiff.resolved_service_protocol_counts : [];
-      const persistentServiceProtocols = Array.isArray(safeDiff.persistent_service_protocol_counts) ? safeDiff.persistent_service_protocol_counts : [];
-      const renderAssetEntries = (items, emptyText, tone) => (
-        <div className={"rounded-2xl border p-4 " + tone}>
-          <div className="mt-3 space-y-2">
-            {items.length ? items.map((item, index) => (
-              <div key={(item.id || item.display_name || "item") + "-" + index} className="rounded-xl border border-white/70 bg-white/80 px-3 py-2">
-                <div className="text-sm font-medium break-all">{item.display_name || item.id || "-"}</div>
-                <div className="mt-1 text-xs text-slate-600 break-all">
-                  {(item.kind || "asset").toUpperCase()}
-                  {item.service ? " | " + item.service : ""}
-                  {item.port ? " | " + tt("Port", "\\u7aef\\u53e3") + " " + item.port : ""}
-                  {item.source_tool ? " | " + tt("Source", "\\u6765\\u6e90") + " " + item.source_tool : ""}
-                </div>
-              </div>
-            )) : (
-              <div className="text-sm text-slate-500">{emptyText}</div>
-            )}
-          </div>
-        </div>
-      );
-      const renderCountChips = (counts, emptyText) => {
-        const entries = severityOrder
-          .map((level) => [level, Number(counts?.[level] || 0)])
-          .filter(([, value]) => value > 0);
-        if (!entries.length) {
-          return <div className="text-sm text-slate-500">{emptyText}</div>;
-        }
-        return (
-          <div className="flex flex-wrap gap-2">
-            {entries.map(([label, value]) => (
-              <span key={"severity-" + label} className="rounded-full bg-white px-3 py-1 text-xs font-medium">
-                {String(label).toUpperCase()} x{value}
-              </span>
-            ))}
-          </div>
-        );
-      };
-      const renderProtocolChips = (rows, emptyText) => {
-        if (!rows.length) {
-          return <div className="text-sm text-slate-500">{emptyText}</div>;
-        }
-        return (
-          <div className="flex flex-wrap gap-2">
-            {rows.slice(0, 10).map((row, index) => (
-              <span key={"protocol-" + (row.label || "row") + "-" + index} className="rounded-full bg-white px-3 py-1 text-xs font-medium">
-                {row.label || "-"} x{row.count || 0}
-              </span>
-            ))}
-          </div>
-        );
-      };
-      if (!safeDiff.baseline_job_id && !newFindings.length && !resolvedFindings.length && !newAssets.length && !resolvedAssets.length && !newServices.length && !resolvedServices.length) {
-        return null;
-      }
-      return (
-        <div className="mt-6 glass rounded-2xl p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Baseline Comparison", "\\u57fa\\u7ebf\\u5bf9\\u6bd4")}</div>
-              <h2 className="mt-1 text-lg font-semibold">{tt("New / Resolved Since Previous Batch", "\\u76f8\\u5bf9\\u4e0a\\u4e00\\u6279\\u6b21\\u7684\\u65b0\\u589e / \\u5df2\\u89e3\\u51b3")}</h2>
-            </div>
-            <div className="text-xs text-slate-500 break-all">
-              {safeDiff.baseline_job_id
-                ? tt("Baseline", "\\u57fa\\u7ebf") + ": " + safeDiff.baseline_job_id
-                : tt("No earlier baseline available.", "\\u6682\\u65e0\\u66f4\\u65e9\\u57fa\\u7ebf\\u3002")}
-            </div>
-          </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
-            <MetricCard label={tt("New Findings", "\\u65b0\\u589e\\u53d1\\u73b0")} value={safeDiff.new_count ?? 0} sub={tt("Current batch only", "\\u4ec5\\u5f53\\u524d\\u6279\\u6b21")} />
-            <MetricCard label={tt("Resolved Findings", "\\u5df2\\u89e3\\u51b3\\u53d1\\u73b0")} value={safeDiff.resolved_count ?? 0} sub={tt("Missing from current batch", "\\u5f53\\u524d\\u6279\\u6b21\\u5df2\\u4e0d\\u518d\\u51fa\\u73b0")} />
-            <MetricCard label={tt("Persistent Findings", "\\u6301\\u7eed\\u5b58\\u5728")} value={safeDiff.persistent_count ?? 0} sub={tt("Still present", "\\u4ecd\\u7136\\u5b58\\u5728")} />
-            <MetricCard label={tt("New Assets", "\\u65b0\\u589e\\u8d44\\u4ea7")} value={safeDiff.new_assets_count ?? 0} sub={tt("Asset inventory delta", "\\u8d44\\u4ea7\\u5e93\\u589e\\u91cf")} />
-            <MetricCard label={tt("Resolved Assets", "\\u5df2\\u79fb\\u9664\\u8d44\\u4ea7")} value={safeDiff.resolved_assets_count ?? 0} sub={tt("Missing from current batch", "\\u5f53\\u524d\\u6279\\u6b21\\u5df2\\u4e0d\\u518d\\u51fa\\u73b0")} />
-            <MetricCard label={tt("Service Delta", "\\u670d\\u52a1\\u589e\\u91cf")} value={(safeDiff.new_services_count ?? 0) - (safeDiff.resolved_services_count ?? 0)} sub={tt("Added minus resolved services", "\\u65b0\\u589e\\u670d\\u52a1\\u51cf\\u5df2\\u89e3\\u51b3\\u670d\\u52a1")} />
-          </div>
-          <div className="mt-4 grid gap-4 xl:grid-cols-2">
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
-              <div className="text-sm font-semibold text-emerald-700">{tt("New Findings", "\\u65b0\\u589e\\u53d1\\u73b0")}</div>
-              <div className="mt-3 space-y-2">
-                {newFindings.length ? newFindings.map((item, index) => (
-                  <div key={"new-" + index} className="rounded-xl border border-emerald-200 bg-white/70 px-3 py-2">
-                    <div className="text-sm font-medium">{item.name || "-"}</div>
-                    <div className="mt-1 text-xs text-slate-600">{String(item.severity || "info").toUpperCase()}{item.cve_id ? " | " + item.cve_id : ""}</div>
-                  </div>
-                )) : (
-                  <div className="text-sm text-slate-500">{tt("No new findings relative to the baseline.", "\\u76f8\\u5bf9\\u57fa\\u7ebf\\u6ca1\\u6709\\u65b0\\u589e\\u53d1\\u73b0\\u3002")}</div>
-                )}
-              </div>
-            </div>
-            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-4">
-              <div className="text-sm font-semibold text-sky-700">{tt("Resolved Findings", "\\u5df2\\u89e3\\u51b3\\u53d1\\u73b0")}</div>
-              <div className="mt-3 space-y-2">
-                {resolvedFindings.length ? resolvedFindings.map((item, index) => (
-                  <div key={"resolved-" + index} className="rounded-xl border border-sky-200 bg-white/70 px-3 py-2">
-                    <div className="text-sm font-medium">{item.name || "-"}</div>
-                    <div className="mt-1 text-xs text-slate-600">{String(item.severity || "info").toUpperCase()}{item.cve_id ? " | " + item.cve_id : ""}</div>
-                  </div>
-                )) : (
-                  <div className="text-sm text-slate-500">{tt("No resolved findings relative to the baseline.", "\\u76f8\\u5bf9\\u57fa\\u7ebf\\u6682\\u65e0\\u5df2\\u89e3\\u51b3\\u9879\\u3002")}</div>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="mt-4 grid gap-4 xl:grid-cols-2">
-            <div className="space-y-4">
-              <div className="text-sm font-semibold text-slate-700">{tt("Asset Inventory Changes", "\\u8d44\\u4ea7\\u5e93\\u53d8\\u66f4")}</div>
-              {renderAssetEntries(
-                newAssets,
-                tt("No new assets relative to the baseline.", "\\u76f8\\u5bf9\\u57fa\\u7ebf\\u6ca1\\u6709\\u65b0\\u589e\\u8d44\\u4ea7\\u3002"),
-                "border-violet-200 bg-violet-50/70",
-              )}
-              {renderAssetEntries(
-                resolvedAssets,
-                tt("No resolved assets relative to the baseline.", "\\u76f8\\u5bf9\\u57fa\\u7ebf\\u6682\\u65e0\\u5df2\\u79fb\\u9664\\u8d44\\u4ea7\\u3002"),
-                "border-slate-200 bg-slate-50/70",
-              )}
-            </div>
-            <div className="space-y-4">
-              <div className="text-sm font-semibold text-slate-700">{tt("Service Changes", "\\u670d\\u52a1\\u53d8\\u66f4")}</div>
-              {renderAssetEntries(
-                newServices,
-                tt("No new services relative to the baseline.", "\\u76f8\\u5bf9\\u57fa\\u7ebf\\u6ca1\\u6709\\u65b0\\u589e\\u670d\\u52a1\\u3002"),
-                "border-cyan-200 bg-cyan-50/70",
-              )}
-              {renderAssetEntries(
-                resolvedServices,
-                tt("No resolved services relative to the baseline.", "\\u76f8\\u5bf9\\u57fa\\u7ebf\\u6682\\u65e0\\u5df2\\u89e3\\u51b3\\u670d\\u52a1\\u3002"),
-                "border-sky-200 bg-sky-50/70",
-              )}
-            </div>
-          </div>
-          <div className="mt-4 grid gap-4 xl:grid-cols-2">
-            <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-              <div className="text-sm font-semibold text-amber-700">{tt("Asset Severity Breakdown", "\\u8d44\\u4ea7\\u4e25\\u91cd\\u7ea7\\u5206\\u5e03")}</div>
-              <div className="mt-3 space-y-3">
-                <div>
-                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("New Assets", "\\u65b0\\u589e\\u8d44\\u4ea7")}</div>
-                  {renderCountChips(newAssetSeverity, tt("No new asset severity signal.", "\\u6682\\u65e0\\u65b0\\u589e\\u8d44\\u4ea7\\u4e25\\u91cd\\u7ea7\\u4fe1\\u53f7\\u3002"))}
-                </div>
-                <div>
-                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Resolved Assets", "\\u5df2\\u79fb\\u9664\\u8d44\\u4ea7")}</div>
-                  {renderCountChips(resolvedAssetSeverity, tt("No resolved asset severity signal.", "\\u6682\\u65e0\\u5df2\\u79fb\\u9664\\u8d44\\u4ea7\\u4e25\\u91cd\\u7ea7\\u4fe1\\u53f7\\u3002"))}
-                </div>
-                <div>
-                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Persistent Assets", "\\u6301\\u7eed\\u5b58\\u5728\\u8d44\\u4ea7")}</div>
-                  {renderCountChips(persistentAssetSeverity, tt("No persistent asset severity signal.", "\\u6682\\u65e0\\u6301\\u7eed\\u8d44\\u4ea7\\u4e25\\u91cd\\u7ea7\\u4fe1\\u53f7\\u3002"))}
-                </div>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4">
-              <div className="text-sm font-semibold text-indigo-700">{tt("Service Protocol Breakdown", "\\u670d\\u52a1\\u534f\\u8bae\\u5206\\u5e03")}</div>
-              <div className="mt-3 space-y-3">
-                <div>
-                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("New Services", "\\u65b0\\u589e\\u670d\\u52a1")}</div>
-                  {renderProtocolChips(newServiceProtocols, tt("No new protocol changes.", "\\u6682\\u65e0\\u65b0\\u534f\\u8bae\\u53d8\\u5316\\u3002"))}
-                </div>
-                <div>
-                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Resolved Services", "\\u5df2\\u89e3\\u51b3\\u670d\\u52a1")}</div>
-                  {renderProtocolChips(resolvedServiceProtocols, tt("No resolved protocol changes.", "\\u6682\\u65e0\\u5df2\\u89e3\\u51b3\\u7684\\u534f\\u8bae\\u53d8\\u5316\\u3002"))}
-                </div>
-                <div>
-                  <div className="mb-2 text-xs uppercase tracking-wider text-slate-500">{tt("Persistent Services", "\\u6301\\u7eed\\u5b58\\u5728\\u670d\\u52a1")}</div>
-                  {renderProtocolChips(persistentServiceProtocols, tt("No persistent protocol changes.", "\\u6682\\u65e0\\u6301\\u7eed\\u534f\\u8bae\\u5206\\u5e03\\u53d8\\u5316\\u3002"))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function App() {
-      const summary = auditReport.summary || {};
-      const meta = auditReport.meta || {};
-      const scopePayload = auditReport.scope || {};
-      const visualAnalysis = auditReport.visual_analysis || {};
-      const evidenceGraph = auditReport.evidence_graph || {};
-      const cveValidation = auditReport.cve_validation || {};
-      const knowledgeContext = auditReport.knowledge_context || {};
-      const remediationPriority = Array.isArray(auditReport.remediation_priority) ? auditReport.remediation_priority : [];
-      const pathGraph = auditReport.path_graph || {};
-      const recon = auditReport.recon || {};
-      const findings = Array.isArray(auditReport.findings) ? auditReport.findings : [];
-      const executionHistory = Array.isArray(auditReport.history) ? auditReport.history : [];
-      const verificationRanking = Array.isArray(visualAnalysis.verification_ranking) ? visualAnalysis.verification_ranking : [];
-      const assetPhaseTrends = Array.isArray(visualAnalysis.asset_phase_trends) ? visualAnalysis.asset_phase_trends : [];
-      const assetBatchTrends = Array.isArray(visualAnalysis.asset_batch_trends) ? visualAnalysis.asset_batch_trends : [];
-      const batchDiff = visualAnalysis.batch_diff || {};
-      const vulnFindings = findings
-        .filter((f) => String(f.type || "").toLowerCase() === "vuln")
-        .sort((a, b) => severityRank.indexOf(String(a.severity || "info")) - severityRank.indexOf(String(b.severity || "info")));
-      const severityCounts = summary.severity_counts || {};
-      const highCritical = Number(severityCounts.critical || 0) + Number(severityCounts.high || 0);
-
-      return (
-        <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
-          <div className="glass rounded-3xl p-6">
-            <div className="flex flex-wrap items-start justify-between gap-5">
-              <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-slate-500">{tt("AutoSecAudit Agent", "AutoSecAudit \\u667a\\u80fd\\u4f53")}</div>
-                <h1 className="mt-2 text-2xl font-semibold md:text-3xl">{tt("Visual Audit Report", "\\u53ef\\u89c6\\u5316\\u5ba1\\u8ba1\\u62a5\\u544a")}</h1>
-                <div className="mt-2 break-all text-sm text-slate-700">{meta.target || agentState.target || tt("Unknown target", "\\u672a\\u77e5\\u76ee\\u6807")}</div>
-                <div className="mt-1 text-sm text-slate-500 whitespace-pre-wrap break-all">{meta.decision_summary || tt("No decision summary available.", "\\u6682\\u65e0\\u51b3\\u7b56\\u6458\\u8981\\u3002")}</div>
-              </div>
-              <div className="rounded-2xl bg-slate-900 px-5 py-4 text-white">
-                <div className="text-xs uppercase tracking-wider text-slate-300">{tt("Audit Score", "\\u5ba1\\u8ba1\\u8bc4\\u5206")}</div>
-                <div className="mt-1 text-3xl font-semibold tabular-nums">{summary.audit_score ?? 0}</div>
-                <div className="text-xs text-slate-300">{renderScoreLabel(summary.score_label || "N/A")}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricCard label={tt("Findings", "\\u53d1\\u73b0\\u603b\\u6570")} value={summary.total_findings ?? 0} sub={tt("Vulns", "\\u6f0f\\u6d1e") + ": " + (summary.vulnerability_findings ?? 0)} />
-            <MetricCard label={tt("High/Critical", "\\u9ad8\\u5371/\\u4e25\\u91cd")} value={highCritical} sub={tt("Critical", "\\u4e25\\u91cd") + " " + (severityCounts.critical || 0) + " / " + tt("High", "\\u9ad8\\u5371") + " " + (severityCounts.high || 0)} />
-            <MetricCard label={tt("Budget Remaining", "\\u5269\\u4f59\\u9884\\u7b97")} value={summary.budget_remaining ?? 0} sub={tt("Iterations", "\\u8fed\\u4ee3") + " " + (summary.iteration_count ?? 0)} />
-            <MetricCard label={tt("Executed Actions", "\\u6267\\u884c\\u52a8\\u4f5c")} value={summary.history_count ?? 0} sub={meta.resumed ? (tt("Resumed", "\\u7eed\\u8dd1") + ": " + (meta.resumed_from || "state")) : tt("Fresh run", "\\u5168\\u65b0\\u8fd0\\u884c")} />
-          </div>
-
-          <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-            <div className="glass rounded-2xl p-5">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold">{tt("Action Budget Consumption", "\\u9884\\u7b97\\u6d88\\u8017\\u8d70\\u52bf")}</h2>
-                <div className="text-xs text-slate-500">{tt("Cumulative cost line chart", "\\u7d2f\\u8ba1\\u6210\\u672c\\u66f2\\u7ebf")}</div>
-              </div>
-              <div className="mt-4">
-                <BudgetLineChart trace={auditReport.budget_trace || []} />
-              </div>
-            </div>
-            <div className="glass rounded-2xl p-5">
-              <h2 className="text-lg font-semibold">{tt("Severity Distribution", "\\u4e25\\u91cd\\u6027\\u5206\\u5e03")}</h2>
-              <div className="mt-4 space-y-3">
-                {severityRank.map((sev) => {
-                  const value = Number(severityCounts[sev] || 0);
-                  const all = severityRank.map((k) => Number(severityCounts[k] || 0));
-                  const max = Math.max(1, ...all);
-                  const pct = value ? Math.max(5, Math.round((value / max) * 100)) : 0;
-                  return (
-                    <div key={sev}>
-                      <div className="mb-1 flex justify-between text-sm">
-                        <span className="capitalize">{sev}</span>
-                        <span className="tabular-nums text-slate-600">{value}</span>
-                      </div>
-                      <div className="h-2 rounded-full bg-slate-100">
-                        <div className="h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" style={{ width: pct + "%" }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <ScopeMap scopePayload={scopePayload} />
-          </div>
-
-          <RemediationPriorityPanel items={remediationPriority} />
-
-          <div className="mt-6">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-semibold">{tt("Vulnerability Cards", "\\u6f0f\\u6d1e\\u5361\\u7247")}</h2>
-              <div className="text-xs text-slate-500">{tt("Evidence + remediation suggestions", "\\u8bc1\\u636e\\u4e0e\\u4fee\\u590d\\u5efa\\u8bae")}</div>
-            </div>
-            <div className="space-y-4">
-              {vulnFindings.length ? vulnFindings.map((item) => (
-                <VulnerabilityCard key={String(item.index) + "-" + String(item.name)} item={item} />
-              )) : (
-                <div className="glass rounded-2xl p-6 text-sm text-slate-500">{tt("No vulnerability findings available.", "\\u6682\\u65e0\\u6f0f\\u6d1e\\u53d1\\u73b0\\u3002")}</div>
-              )}
-            </div>
-          </div>
-
-          <details className="mt-6 glass rounded-2xl p-5">
-            <summary className="cursor-pointer list-none text-sm font-semibold text-slate-900">
-              {tt("Technical appendix", "\\u6280\\u672f\\u9644\\u5f55")}
-            </summary>
-            <div className="mt-5 space-y-6">
-              <KnowledgeContextPanel knowledgeContext={knowledgeContext} />
-
-              <EvidenceCorrelationPanel evidenceGraph={evidenceGraph} />
-
-              <CveValidationPanel cveValidation={cveValidation} />
-
-              <AttackPathPanel pathGraph={pathGraph} />
-
-              <div className="mt-6">
-                <AssetTopologyPanel scopePayload={scopePayload} findings={findings} />
-              </div>
-
-              <VerificationRankingPanel blocks={verificationRanking} />
-
-              <ExecutionHistoryPanel rows={executionHistory} />
-
-              <AssetTrendPanels phaseRows={assetPhaseTrends} batchRows={assetBatchTrends} />
-
-              <BaselineDiffPanel diff={batchDiff} />
-
-              {/* ---------- Reconnaissance Section ---------- */}
-              <ReconSection recon={recon} />
-            </div>
-          </details>
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-  </script>
+<body>
+  <div class="page">
+    <section class="hero">
+      <h1>AutoSecAudit Static Report</h1>
+      <div class="subtle">Target: {html.escape(target)} | Framework-free HTML export for agent and operator review.</div>
+      <div class="metrics">{metrics_html}</div>
+    </section>
+    <section class="stack">
+      {''.join(sections)}
+    </section>
+  </div>
 </body>
-</html>
-"""
+</html>"""
+
+
+def _html_section(title: str, body: str, *, subtitle: str | None = None) -> str:
+    subtitle_html = f'<div class="section-subtitle">{html.escape(subtitle)}</div>' if subtitle else ''
     return (
-        template.replace("__TITLE__", title)
-        .replace("__AUDIT_JSON__", audit_json)
-        .replace("__STATE_JSON__", state_json)
-        .replace("__HTML_LANG__", html_lang)
+        '<details class="section" open>'
+        f'<summary>{html.escape(title)}</summary>'
+        f'<div class="section-body">{subtitle_html}{body}</div>'
+        '</details>'
     )
+
+
+def _html_pre(payload: str) -> str:
+    return f'<pre>{html.escape(payload)}</pre>'
+
+
+def _pretty_json(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, indent=2, sort_keys=False)
 
 
 def _json_for_html_script_tag(payload: dict[str, Any]) -> str:
