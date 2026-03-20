@@ -7,7 +7,7 @@ from .llm_router import (
     LLMRouter,
     LLMRouterConfig,
     LLMRouterError,
-    router_config_from_openclaw_style_file,
+    router_from_config_file,
 )
 from .notifier import (
     BaseNotifier,
@@ -33,5 +33,5 @@ __all__ = [
     "TelegramNotifier",
     "WebhookNotifier",
     "build_notifier_from_config",
-    "router_config_from_openclaw_style_file",
+    "router_from_config_file",
 ]

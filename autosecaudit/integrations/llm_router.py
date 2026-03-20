@@ -1,4 +1,4 @@
-"""OpenClaw-style LLM routing with provider/model references and fallbacks."""
+"""LLM routing with provider/model references and fallbacks."""
 
 from __future__ import annotations
 
@@ -395,8 +395,8 @@ class CodexOAuthProvider(OpenAICompatibleProvider):
     """
     OpenAI-compatible provider using OAuth subscription bearer tokens.
 
-    This is intentionally "OpenClaw-like": it does not implement the browser/device
-    OAuth login flow itself. Instead, it consumes an existing OAuth access token from:
+    This provider does not implement the browser/device OAuth login flow itself.
+    Instead, it consumes an existing OAuth access token from:
     1) configured env var
     2) configured token file (JSON/text)
     3) configured command output (JSON/text), executed safely with shell=False
@@ -411,10 +411,7 @@ class CodexOAuthProvider(OpenAICompatibleProvider):
         "~/.codex/auth.json",
         "~/.codex/oauth.json",
         "~/.config/codex/auth.json",
-        "~/.config/openclaw/auth.json",
-        "~/.openclaw/auth.json",
         r"%USERPROFILE%\.codex\auth.json",
-        r"%USERPROFILE%\.openclaw\auth.json",
     )
     _TOKEN_JSON_KEY_CANDIDATES: tuple[str, ...] = (
         "access_token",
@@ -525,7 +522,7 @@ class CodexOAuthProvider(OpenAICompatibleProvider):
 
     def _resolve_bearer_token(self) -> str:
         """Resolve OAuth bearer token from configured or common sources."""
-        # 0) Auth profile store (OpenClaw-style token sink).
+        # 0) Auth profile store.
         token = self._load_profile_access_token()
         if token:
             return token
@@ -1408,9 +1405,9 @@ class LLMRouter:
         return self._config.default_provider, raw
 
 
-def router_config_from_openclaw_style_file(path: str | Path, logger: Any | None = None) -> LLMRouter:
+def router_from_config_file(path: str | Path, logger: Any | None = None) -> LLMRouter:
     """
-    Convenience helper to load an OpenClaw-style LLM router config JSON file.
+    Convenience helper to load an LLM router config JSON file.
 
     The supported schema is intentionally small and stable for AutoSecAudit.
     """

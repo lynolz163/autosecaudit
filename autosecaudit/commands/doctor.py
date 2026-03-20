@@ -258,28 +258,8 @@ def _resolve_tool_version(candidates: list[list[str]]) -> str | None:
     return None
 
 
-def _web_security_checks() -> list[DoctorCheck]:
-    token = os.getenv("AUTOSECAUDIT_WEB_API_TOKEN", "").strip()
+def _runtime_posture_checks() -> list[DoctorCheck]:
     checks: list[DoctorCheck] = []
-    if token:
-        checks.append(
-            DoctorCheck(
-                check_id="web_api_auth",
-                status="pass",
-                message="Web API token is configured",
-                detail="AUTOSECAUDIT_WEB_API_TOKEN is set",
-            )
-        )
-    else:
-        checks.append(
-            DoctorCheck(
-                check_id="web_api_auth",
-                status="warn",
-                message="Web API token is not configured",
-                detail="Set AUTOSECAUDIT_WEB_API_TOKEN to protect /api endpoints in web mode.",
-            )
-        )
-
     builtin_flag = os.getenv("AUTOSECAUDIT_CODEX_OAUTH_BUILTIN_PRESET", "1").strip().lower()
     if builtin_flag in {"1", "true", "yes", "on"}:
         checks.append(
@@ -289,7 +269,7 @@ def _web_security_checks() -> list[DoctorCheck]:
                 message="Codex builtin OAuth preset is enabled",
                 detail=(
                     "Builtin preset can break when upstream auth parameters change; "
-                    "prefer explicit authorize/token/client_id in production."
+                    "prefer explicit authorize/token/client_id for stable skill execution."
                 ),
             )
         )
@@ -443,7 +423,7 @@ def run_doctor(*, workspace: Path, llm_config: str | None) -> dict[str, Any]:
     checks.extend(_workspace_writable_check(workspace))
     checks.extend(_tool_availability_checks())
     checks.extend(_tool_version_checks())
-    checks.extend(_web_security_checks())
+    checks.extend(_runtime_posture_checks())
     checks.append(_llm_config_check(llm_config))
     checks.extend(_llm_connectivity_checks(llm_config))
 

@@ -187,7 +187,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--llm-config",
         default=None,
         help=(
-            "Path to OpenClaw-style LLM router JSON config "
+            "Path to LLM router JSON config "
             "(provider/model routing, providers, fallbacks)."
         ),
     )
@@ -313,7 +313,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--llm-oauth-profile-id",
         default="default",
-        help="Auth profile ID for codex_oauth provider (OpenClaw-style token sink). Default: default",
+        help="Auth profile ID for codex_oauth provider token store. Default: default",
     )
     parser.add_argument(
         "--llm-oauth-profiles-file",
@@ -507,7 +507,7 @@ def _build_decision_maker_from_llm_args(
     output_dir: Path | None = None,
 ) -> AuditDecisionMaker | MultiAgentDecisionMaker | None:
     """
-    Build decision maker with OpenClaw-style LLM routing when configured.
+    Build decision maker with provider/model LLM routing when configured.
 
     Returns:
         One configured decision maker instance, or `None` when default single-agent

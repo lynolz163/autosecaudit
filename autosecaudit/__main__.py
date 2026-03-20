@@ -7,8 +7,7 @@ import sys
 from . import cli
 from .commands import doctor as doctor_command
 from .commands import init as init_command
-from .commands import users as users_command
-from .webapp import server as web_server
+from .commands import skills as skills_command
 
 
 def main() -> int:
@@ -18,10 +17,8 @@ def main() -> int:
         return init_command.main(argv[1:])
     if argv and argv[0] == "doctor":
         return doctor_command.main(argv[1:])
-    if argv and argv[0] == "users":
-        return users_command.main(argv[1:])
-    if argv and argv[0] == "web":
-        return web_server.main(argv[1:])
+    if argv and argv[0] == "skills":
+        return skills_command.main(argv[1:])
     return cli.main(argv)
 
 

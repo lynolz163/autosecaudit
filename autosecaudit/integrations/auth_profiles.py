@@ -1,4 +1,4 @@
-"""OpenClaw-style auth profile store for API keys and OAuth tokens."""
+"""JSON auth profile store for API keys and OAuth tokens."""
 
 from __future__ import annotations
 
@@ -227,4 +227,3 @@ def token_expired(token_payload: dict[str, Any], skew_seconds: float = 30.0) -> 
     if isinstance(expires_at, (int, float)):
         return float(expires_at) <= (time.time() + float(skew_seconds))
     return False
-

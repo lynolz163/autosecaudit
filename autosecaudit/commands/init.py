@@ -14,10 +14,9 @@ DEFAULT_CONFIG_PATH = Path.home() / ".autosecaudit" / "llm_router.json"
 
 
 def build_parser() -> argparse.ArgumentParser:
-    """Build parser for `python -m autosecaudit init`."""
     parser = argparse.ArgumentParser(
         prog="python -m autosecaudit init",
-        description="Interactive setup wizard for AutoSecAudit LLM router defaults.",
+        description="Interactive setup wizard for AutoSecAudit model routing defaults.",
     )
     parser.add_argument(
         "--output",
@@ -33,14 +32,6 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    """
-    Run interactive init wizard and write an OpenClaw-style config template.
-
-    The generated file includes:
-    - LLM routing defaults (provider/model + provider config)
-    - AutoSecAudit defaults (budget, agent runtime settings)
-    - Notifier template (Telegram placeholder using `lynolz_bot`)
-    """
     args = build_parser().parse_args(argv)
     output_path = Path(args.output).expanduser().resolve()
 
@@ -72,9 +63,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     default_budget = _prompt_int(
         "Default budget for one audit task",
-        default=50,
+        default=120,
         min_value=1,
-        max_value=10_000,
+        max_value=100_000,
     )
 
     config = _build_default_config(
@@ -92,7 +83,6 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 
 def _prompt_choice(title: str, *, choices: list[tuple[str, str]], default: str) -> str:
-    """Prompt user to select a single option."""
     print("")
     print(title)
     for key, label in choices:
@@ -109,7 +99,6 @@ def _prompt_choice(title: str, *, choices: list[tuple[str, str]], default: str) 
 
 
 def _prompt_yes_no(question: str, *, default: bool) -> bool:
-    """Prompt user for yes/no input."""
     hint = "Y/n" if default else "y/N"
     while True:
         raw = input(f"{question} [{hint}]: ").strip().lower()
@@ -123,7 +112,6 @@ def _prompt_yes_no(question: str, *, default: bool) -> bool:
 
 
 def _prompt_int(question: str, *, default: int, min_value: int, max_value: int) -> int:
-    """Prompt a bounded integer value."""
     while True:
         raw = input(f"{question} [{default}]: ").strip()
         if not raw:
@@ -145,7 +133,6 @@ def _build_default_config(
     enable_codex_browser_oauth: bool,
     default_budget: int,
 ) -> dict[str, Any]:
-    """Build default OpenClaw-style LLM router config template."""
     if provider_label == "openai":
         primary_model = "openai/gpt-4.1-mini"
         default_provider = "openai"
@@ -153,7 +140,7 @@ def _build_default_config(
             "openai": {
                 "type": "openai_sdk",
                 "api_key_env": "OPENAI_API_KEY",
-                "timeout_seconds": 300,
+                "timeout_seconds": 180,
             }
         }
     elif provider_label == "codex":
@@ -176,12 +163,7 @@ def _build_default_config(
                 "oauth_redirect_path": "/callback",
                 "oauth_cache_file": str(Path.home() / ".autosecaudit" / "codex_oauth_token.json"),
                 "oauth_login_timeout_seconds": 180,
-            },
-            "openai": {
-                "type": "openai_sdk",
-                "api_key_env": "OPENAI_API_KEY",
-                "timeout_seconds": 300,
-            },
+            }
         }
     else:
         primary_model = "local/qwen2.5"
@@ -191,56 +173,31 @@ def _build_default_config(
                 "type": "openai_compatible",
                 "base_url": "http://localhost:11434/v1",
                 "api_key_env": "DUMMY_KEY",
-                "timeout_seconds": 300,
+                "timeout_seconds": 180,
             }
         }
 
     return {
         "primary_model": primary_model,
-        "fallback_models": ["openai/gpt-4.1-mini"] if provider_label != "openai" else [],
+        "fallback_models": [],
         "default_provider": default_provider,
         "request": {
             "temperature": 0.0,
             "max_output_tokens": 1200,
         },
         "providers": providers,
-        # AutoSecAudit extension fields (ignored by LLMRouter parser).
         "autosecaudit": {
             "default_budget": int(default_budget),
             "strict_safe_mode": True,
             "agent_defaults": {
-                "max_iterations": 3,
-                "global_timeout": 300,
+                "max_iterations": 6,
+                "global_timeout": 900,
             },
-        },
-        # Phase 3 notifier template (disabled by default).
-        "notifiers": {
-            "telegram": {
-                "enabled": False,
-                "type": "telegram",
-                "name": "lynolz_bot",
-                "bot_token_env": "LYNOLZ_BOT_TOKEN",
-                "chat_id": "<telegram_chat_id>",
-                "timeout_seconds": 8,
-                "api_base_url": "https://api.telegram.org",
-                # Optional OpenClaw gateway/proxy dispatch endpoint.
-                "gateway_base_url": "",
-                "headers": {
-                    "X-Notifier-Route": "telegram",
-                },
-                "event_rules": {
-                    "notify_high_severity": True,
-                    "notify_budget_block": True,
-                    "notify_slow_action": True,
-                    "slow_action_threshold_ms": 15000,
-                },
-            }
         },
     }
 
 
 def _write_json_with_lock(path: Path, payload: dict[str, Any]) -> None:
-    """Write JSON atomically with a lock file to avoid concurrent corruption."""
     path.parent.mkdir(parents=True, exist_ok=True)
     lock_path = path.with_suffix(path.suffix + ".lock")
     tmp_path = path.with_suffix(path.suffix + ".tmp")

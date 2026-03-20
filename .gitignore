@@ -32,8 +32,6 @@ temp_dom.html
 dump.rdb
 
 node_modules/
-web-console/node_modules/
-web-console/dist/
 .tools/
 
 .idea/

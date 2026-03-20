@@ -1,4 +1,4 @@
-﻿"""Natural-language mission intake and multi-turn mission dialogue."""
+"""Natural-language mission intake and multi-turn mission dialogue."""
 
 from __future__ import annotations
 
