@@ -226,9 +226,22 @@ def _tool_version_candidates() -> list[tuple[str, list[list[str]]]]:
         dirsearch_candidates.append([sys.executable, str(dirsearch_py), "--version"])
     dirsearch_candidates.append([sys.executable, "-m", "dirsearch", "--version"])
 
+    nuclei_candidates: list[list[str]] = []
+    nuclei_env = os.getenv("AUTOSECAUDIT_NUCLEI_BIN", "").strip()
+    if nuclei_env:
+        nuclei_candidates.append([nuclei_env, "-version"])
+    repo_root = Path(__file__).resolve().parents[2]
+    for repo_local in (
+        repo_root / ".tools" / "nuclei" / "nuclei.exe",
+        repo_root / ".tools" / "nuclei" / "nuclei",
+    ):
+        if repo_local.exists():
+            nuclei_candidates.append([str(repo_local), "-version"])
+    nuclei_candidates.append(["nuclei", "-version"])
+
     return [
         ("nmap", [["nmap", "--version"]]),
-        ("nuclei", [["nuclei", "-version"]]),
+        ("nuclei", nuclei_candidates),
         ("dirsearch", dirsearch_candidates),
     ]
 

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import asdict
 import json
+import os
+from pathlib import Path
 import re
 import shutil
 import subprocess
@@ -82,9 +84,35 @@ class NucleiTool(BaseAgentTool):
 
     def check_availability(self) -> tuple[bool, str | None]:
         """Check nuclei executable availability before scheduling."""
-        if shutil.which("nuclei"):
+        if self.resolve_executable():
             return True, None
-        return False, "nuclei binary not found in PATH"
+        return False, "nuclei binary not found in PATH, AUTOSECAUDIT_NUCLEI_BIN, or .tools/nuclei"
+
+    @classmethod
+    def resolve_executable(cls) -> str | None:
+        for candidate in cls._candidate_binaries():
+            resolved = shutil.which(candidate)
+            if resolved:
+                return resolved
+            if Path(candidate).exists():
+                return str(Path(candidate).resolve())
+        return None
+
+    @classmethod
+    def _candidate_binaries(cls) -> list[str]:
+        candidates: list[str] = []
+        env_bin = os.getenv("AUTOSECAUDIT_NUCLEI_BIN", "").strip()
+        if env_bin:
+            candidates.append(env_bin)
+        candidates.append("nuclei")
+
+        repo_root = Path(__file__).resolve().parents[2]
+        repo_local_dir = repo_root / ".tools" / "nuclei"
+        for binary_name in ("nuclei.exe", "nuclei"):
+            repo_local_bin = repo_local_dir / binary_name
+            if repo_local_bin.exists():
+                candidates.append(str(repo_local_bin))
+        return candidates
 
     def run(self, target: str, options: dict[str, Any]) -> ToolExecutionResult:
         started = time.perf_counter()
@@ -197,7 +225,7 @@ class NucleiTool(BaseAgentTool):
                 shell=False,
             )
         except FileNotFoundError:
-            message = "nuclei binary not found in PATH"
+            message = "nuclei binary not found in PATH, AUTOSECAUDIT_NUCLEI_BIN, or .tools/nuclei"
             return ToolExecutionResult(
                 ok=False,
                 tool_name=self.name,
@@ -253,8 +281,9 @@ class NucleiTool(BaseAgentTool):
         return f"flag provided but not defined: {json_flag}".lower() in combined
 
     def _build_command(self, target: str, options: dict[str, Any], *, json_flag: str = "-j") -> list[str]:
+        executable = self.resolve_executable() or "nuclei"
         command = [
-            "nuclei",
+            executable,
             "-u",
             target,
             json_flag,
