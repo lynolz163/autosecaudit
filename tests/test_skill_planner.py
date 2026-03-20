@@ -348,3 +348,53 @@ def test_skill_planner_generates_poc_candidate_from_rag_recommended_tech_compone
     assert candidates[0].tool_name == "poc_sandbox_exec"
     assert candidates[0].options["code_template"] == "auto"
     assert candidates[0].options["component"] == "redis"
+
+
+def test_skill_planner_generates_passive_follow_ups_when_waf_is_detected() -> None:
+    planner = SkillDrivenPlanner()
+    registry = load_builtin_skill_registry()
+    skill = registry.for_tool("waf_detector")
+    assert skill is not None
+
+    interpreted = planner.interpret_result(
+        skill,
+        {
+            "status": "completed",
+            "error": None,
+            "payload": {},
+            "findings": [],
+            "breadcrumbs_delta": [],
+            "surface_delta": {
+                "waf_vendors": ["cloudflare"],
+                "waf": {
+                    "detected": True,
+                    "vendors": [{"vendor": "cloudflare", "confidence": 0.75}],
+                },
+            },
+            "follow_up_hints": [],
+            "metadata": {},
+        },
+    )
+
+    assert "http_security_headers" in interpreted["follow_up_hints"]
+    assert "security_txt_check" in interpreted["follow_up_hints"]
+    assert "passive_config_audit" in interpreted["follow_up_hints"]
+    assert "ssl_expiry_check" in interpreted["follow_up_hints"]
+
+
+def test_skill_planner_resolves_surface_follow_ups_from_waf_strategy() -> None:
+    planner = SkillDrivenPlanner()
+    registry = load_builtin_skill_registry()
+    skill = registry.for_tool("waf_detector")
+    assert skill is not None
+
+    follow_ups = planner.resolve_surface_follow_ups(
+        skill,
+        {
+            "waf_strategy": "prefer_passive_validation",
+            "waf_vendors": ["cloudflare"],
+        },
+    )
+
+    assert "http_security_headers" in follow_ups
+    assert "ssl_expiry_check" in follow_ups

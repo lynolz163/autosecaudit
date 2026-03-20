@@ -107,3 +107,35 @@ def test_build_mission_draft_prefers_llm_structured_parameters() -> None:
     assert draft.payload["surface"]["mission_parser_source"] == "llm"
     assert draft.payload["surface"]["mission_parser_values"]["intent"] == "recon"
     assert draft.payload["surface"]["mission_parser_values"]["surface"]["focus_ports"] == [443, 8443]
+
+
+def test_build_mission_draft_ignores_llm_schema_placeholder_values() -> None:
+    def _fake_llm(_prompt: str) -> str:
+        return json.dumps(
+            {
+                "target": "string|null",
+                "intent": "recon|pentest|verify|retest|null",
+                "depth": "light|standard|deep|null",
+                "mode": "agent|plan|plugins|null",
+                "report_lang": "zh-CN|en|null",
+                "multi_agent_rounds": "integer|null",
+                "surface": {
+                    "disabled_tools": ["string[]"],
+                    "focus_ports": ["integer[]"],
+                    "preferred_origins": ["string|null"],
+                },
+            }
+        )
+
+    draft = build_mission_draft(
+        "verify https://example.com for CVE exposure",
+        llm_completion=_fake_llm,
+    )
+
+    assert draft.target == "https://example.com"
+    assert draft.intent == "verify"
+    assert draft.depth == "standard"
+    assert draft.mode == "agent"
+    assert draft.report_lang == "en"
+    assert draft.payload["surface"]["mission_parser_source"] == "heuristic"
+    assert draft.payload["surface"]["mission_parser_values"] == {}

@@ -1,5 +1,0 @@
-{"timestamp": "2026-03-04T03:20:14.722827+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=50, max_iterations=10, timeout=1800.0s, resumed=False"}
-{"timestamp": "2026-03-04T03:20:40.133078+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_start", "status": "start", "detail": "A1 target=edu.360-24.com"}
-{"timestamp": "2026-03-04T03:20:42.655272+00:00", "plugin_id": "subdomain_enum_passive", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2512"}
-{"timestamp": "2026-03-04T03:21:08.476757+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 2: no executable actions after policy/scheduler."}
-{"timestamp": "2026-03-04T03:21:08.524444+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=1, findings=1"}

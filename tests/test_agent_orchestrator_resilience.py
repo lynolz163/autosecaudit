@@ -242,6 +242,55 @@ def test_build_state_normalizes_autonomy_runtime_fields(tmp_path: Path) -> None:
     assert state["preferred_origins"] == ["https://example.com:443/", "https://example.com:8443/"]
 
 
+def test_tighten_risk_signal_preserves_safety_grade_and_reduces_autonomy(tmp_path: Path) -> None:
+    tool = _HeaderFindingTool()
+    orchestrator = _build_orchestrator(tmp_path, tool)
+    state = orchestrator.build_state(
+        target="https://example.com",
+        scope=["example.com"],
+        budget_remaining=20,
+        safety_grade="aggressive",
+    )
+
+    paused, stop_reason = orchestrator._apply_risk_signal_controls(  # noqa: SLF001
+        state,
+        risk_signal="tighten",
+        phase_name="deep_testing",
+        action=_action(tool.name),
+    )
+
+    assert paused is False
+    assert stop_reason is None
+    assert state["safety_grade"] == "aggressive"
+    assert state["autonomy_mode"] == "adaptive"
+    assert state["surface"]["autonomy_mode"] == "adaptive"
+
+
+def test_tighten_risk_signal_does_not_loosen_constrained_autonomy(tmp_path: Path) -> None:
+    tool = _HeaderFindingTool()
+    orchestrator = _build_orchestrator(tmp_path, tool)
+    state = orchestrator.build_state(
+        target="https://example.com",
+        scope=["example.com"],
+        budget_remaining=20,
+        safety_grade="balanced",
+        surface={"autonomy_mode": "constrained"},
+    )
+
+    paused, stop_reason = orchestrator._apply_risk_signal_controls(  # noqa: SLF001
+        state,
+        risk_signal="tighten",
+        phase_name="verification",
+        action=_action(tool.name),
+    )
+
+    assert paused is False
+    assert stop_reason is None
+    assert state["safety_grade"] == "balanced"
+    assert state["autonomy_mode"] == "constrained"
+    assert state["surface"]["autonomy_mode"] == "constrained"
+
+
 def test_build_state_attaches_compact_memory_context(tmp_path: Path) -> None:
     tool = _HeaderFindingTool()
     orchestrator = _build_orchestrator(tmp_path, tool)
@@ -398,3 +447,25 @@ def test_execute_action_records_autonomy_adjustments(tmp_path: Path) -> None:
         "timeout_seconds -> 45",
         "max_results -> 100",
     ]
+
+
+def test_finalize_session_status_marks_clean_budget_exhaustion_completed(tmp_path: Path) -> None:
+    orchestrator = _build_orchestrator(tmp_path, _HeaderFindingTool())
+
+    status = orchestrator._finalize_session_status(  # noqa: SLF001
+        {"history": [{"tool": "http_security_headers", "status": "completed", "error": None}]},
+        final_stop_reason="budget_exhausted",
+    )
+
+    assert status == "completed"
+
+
+def test_finalize_session_status_keeps_budget_exhaustion_partial_with_failures(tmp_path: Path) -> None:
+    orchestrator = _build_orchestrator(tmp_path, _HeaderFindingTool())
+
+    status = orchestrator._finalize_session_status(  # noqa: SLF001
+        {"history": [{"tool": "dirsearch_scan", "status": "error", "error": "timed out"}]},
+        final_stop_reason="budget_exhausted",
+    )
+
+    assert status == "partial_complete"

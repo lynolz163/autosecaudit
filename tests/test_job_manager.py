@@ -252,3 +252,62 @@ def test_job_manager_build_runtime_llm_router_from_saved_web_settings(tmp_path: 
         assert captured["llm_base_url"] == "https://api.deepseek.com/v1"
     finally:
         manager.close()
+
+
+def test_job_manager_keeps_failed_jobs_from_reporting_running_session_status(tmp_path: Path) -> None:
+    manager = _build_manager(tmp_path)
+    try:
+        output_dir = tmp_path / "workspace" / "output" / "web-jobs" / "job-failed"
+        agent_dir = output_dir / "agent"
+        agent_dir.mkdir(parents=True, exist_ok=True)
+        (agent_dir / "agent_state.json").write_text('{"session_status":"running"}', encoding="utf-8")
+
+        manager._jobs["job-failed"] = {  # noqa: SLF001
+            "job_id": "job-failed",
+            "status": "failed",
+            "session_status": "running",
+            "created_at": "2026-03-19T03:16:47Z",
+            "started_at": "2026-03-19T03:16:47Z",
+            "ended_at": "2026-03-19T03:27:12Z",
+            "last_updated_at": "2026-03-19T03:27:12Z",
+            "target": "edu.360-24.com",
+            "mode": "agent",
+            "safety_grade": "aggressive",
+            "report_lang": "zh-CN",
+            "command": [],
+            "tools": [],
+            "skills": [],
+            "surface_file": None,
+            "output_dir": str(output_dir),
+            "resume": None,
+            "llm_config": None,
+            "return_code": 1,
+            "pid": None,
+            "error": None,
+            "cancel_requested": False,
+            "log_line_count": 93,
+            "logs": [],
+            "artifacts": [],
+            "pending_approval": {},
+            "loop_guard": {},
+        }
+
+        manager._apply_agent_runtime_state("job-failed")  # noqa: SLF001
+        serialized = manager.get_job("job-failed")
+
+        assert serialized["status"] == "failed"
+        assert serialized["session_status"] == "failed"
+    finally:
+        manager.close()
+
+
+def test_job_manager_uses_job_local_agent_memory_dir_for_web_runs(tmp_path: Path) -> None:
+    manager = _build_manager(tmp_path)
+    try:
+        output_dir = tmp_path / "workspace" / "output" / "web-jobs" / "job-memory"
+
+        env = manager._build_job_env(output_dir=str(output_dir))  # noqa: SLF001
+
+        assert env["AUTOSECAUDIT_AGENT_MEMORY_DIR"] == str(output_dir / "agent_memory")
+    finally:
+        manager.close()

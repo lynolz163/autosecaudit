@@ -122,6 +122,157 @@ def test_mission_execute_route_submits_job_with_compiled_payload(tmp_path: Path)
         manager.close()
 
 
+def test_mission_chat_route_auto_executes_ready_draft(tmp_path: Path) -> None:
+    app, manager = _build_app(tmp_path)
+    captured: dict[str, object] = {}
+
+    def fake_submit(payload, *, actor="web"):
+        captured["payload"] = payload
+        captured["actor"] = actor
+        return {
+            "job_id": "job-chat-123",
+            "status": "queued",
+            "target": payload["target"],
+            "mode": payload["mode"],
+            "safety_grade": payload["safety_grade"],
+            "report_lang": payload["report_lang"],
+            "log_line_count": 0,
+            "artifact_count": 0,
+            "command_preview": [],
+        }
+
+    app.state.manager.submit = fake_submit
+    try:
+        client = TestClient(app)
+        response = client.post(
+            "/api/v1/mission/chat",
+            headers={"x-api-token": "bootstrap-token"},
+            json={"message": "对 example.com 进行信息收集"},
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["action"] == "executed"
+        assert payload["workflow_state"] == "launch_executed"
+        assert payload["job"]["job_id"] == "job-chat-123"
+        assert captured["payload"]["target"] == "example.com"
+        assert [item["role"] for item in payload["messages"]] == ["user", "system"]
+        assert len(payload["messages"]) == 2
+    finally:
+        manager.close()
+
+
+def test_mission_chat_route_requests_missing_information(tmp_path: Path) -> None:
+    app, manager = _build_app(tmp_path)
+    try:
+        client = TestClient(app)
+        response = client.post(
+            "/api/v1/mission/chat",
+            headers={"x-api-token": "bootstrap-token"},
+            json={"message": "继续深挖，但先保持安全验证"},
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["action"] == "ask"
+        assert payload["workflow_state"] == "needs_input"
+        assert payload["job"] is None
+        assert "target" in payload["draft"]["missing_fields"]
+        assert [item["role"] for item in payload["messages"]] == ["user", "system"]
+        assert len(payload["messages"]) == 2
+    finally:
+        manager.close()
+
+
+def test_mission_chat_route_requires_confirmation_for_aggressive_draft(tmp_path: Path) -> None:
+    app, manager = _build_app(tmp_path)
+    try:
+        client = TestClient(app)
+        response = client.post(
+            "/api/v1/mission/chat",
+            headers={"x-api-token": "bootstrap-token"},
+            json={"message": "对 example.com 进行深度渗透测试"},
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["action"] == "confirm"
+        assert payload["workflow_state"] == "launch_confirm"
+        assert payload["job"] is None
+        assert payload["draft"]["safety_grade"] == "aggressive"
+        assert [item["role"] for item in payload["messages"]] == ["user", "system"]
+        assert len(payload["messages"]) == 2
+    finally:
+        manager.close()
+
+
+def test_mission_chat_route_returns_preview_for_viewer_even_when_draft_is_high_risk(tmp_path: Path) -> None:
+    app, manager = _build_app(tmp_path)
+    try:
+        viewer = app.state.auth_service.create_user(username="viewer", password="ViewerPass1234", role="viewer")
+        token = app.state.auth_service.issue_access_token(viewer)
+        client = TestClient(app)
+        response = client.post(
+            "/api/v1/mission/chat",
+            headers={"Authorization": f"Bearer {token}"},
+            json={"message": "对 example.com 进行深度渗透测试"},
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["action"] == "preview"
+        assert payload["workflow_state"] == "launch_preview"
+        assert payload["job"] is None
+        assert payload["draft"]["safety_grade"] == "aggressive"
+        assert [item["role"] for item in payload["messages"]] == ["user", "system"]
+        assert len(payload["messages"]) == 2
+    finally:
+        manager.close()
+
+
+def test_mission_chat_route_executes_high_risk_draft_when_approval_is_granted(tmp_path: Path) -> None:
+    app, manager = _build_app(tmp_path)
+    captured: dict[str, object] = {}
+
+    def fake_submit(payload, *, actor="web"):
+        captured["payload"] = payload
+        captured["actor"] = actor
+        return {
+            "job_id": "job-chat-approved",
+            "status": "queued",
+            "target": payload["target"],
+            "mode": payload["mode"],
+            "safety_grade": payload["safety_grade"],
+            "report_lang": payload["report_lang"],
+            "log_line_count": 0,
+            "artifact_count": 0,
+            "command_preview": [],
+        }
+
+    app.state.manager.submit = fake_submit
+    try:
+        client = TestClient(app)
+        response = client.post(
+            "/api/v1/mission/chat",
+            headers={"x-api-token": "bootstrap-token"},
+            json={
+                "message": "瀵?example.com 杩涜娣卞害娓楅€忔祴璇?",
+                "overrides": {"approval_granted": True},
+            },
+        )
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["action"] == "executed"
+        assert payload["workflow_state"] == "launch_executed"
+        assert payload["job"]["job_id"] == "job-chat-approved"
+        assert payload["draft"]["approval_granted"] is True
+        assert captured["payload"]["approval_granted"] is True
+        assert captured["actor"] == "bootstrap:bootstrap-admin"
+    finally:
+        manager.close()
+
+
 def test_mission_parse_route_uses_llm_structured_parser_when_available(tmp_path: Path) -> None:
     app, manager = _build_app(tmp_path)
     app.state.manager.get_mission_llm_completion = lambda: (

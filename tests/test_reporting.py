@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from html import escape as html_escape
 from pathlib import Path
 
 from autosecaudit.webapp.reporting import (
@@ -167,6 +168,23 @@ def test_build_report_analysis_includes_ranking_and_asset_trends(tmp_path: Path)
     current_payload = {
         "meta": {"target": "redis.example.com", "decision_summary": "verification run"},
         "summary": {"total_findings": 1, "severity_counts": {"critical": 0, "high": 1, "medium": 0, "low": 0, "info": 0}},
+        "infrastructure": {
+            "ports": [{"host": "redis.example.com", "port": 6379, "protocol": "tcp", "service": "redis", "tls": False}],
+            "middleware": [],
+            "waf": {"detected": False, "vendors": []},
+            "tech_stack": ["redis"],
+            "certificates": [],
+            "dns": {"records": {}, "subdomains": []},
+        },
+        "risk_matrix": {
+            "total_score": 15,
+            "categories": [{"name": "network", "score": 15, "finding_count": 1, "severity_counts": {"critical": 0, "high": 1, "medium": 0, "low": 0, "info": 0}}],
+        },
+        "attack_surface": {
+            "entry_points": [{"type": "origin", "url": "redis://redis.example.com:6379", "method": "CONNECT", "source": "service_origin"}],
+            "exposed_services": [{"host": "redis.example.com", "port": 6379, "service": "redis", "protocol": "tcp"}],
+            "sensitive_paths": [],
+        },
         "scope": {
             "assets": [
                 {
@@ -295,6 +313,9 @@ def test_build_report_analysis_includes_ranking_and_asset_trends(tmp_path: Path)
     assert analysis["diff"]["new_assets"][0]["display_name"] == "redis.example.com"
     assert analysis["diff"]["new_asset_severity_counts"]["info"] == 1
     assert analysis["diff"]["persistent_service_protocol_counts"][0]["label"] == "redis/tcp"
+    assert analysis["infrastructure"]["ports"][0]["port"] == 6379
+    assert analysis["risk_matrix"]["total_score"] == 15
+    assert analysis["attack_surface"]["entry_points"][0]["type"] == "origin"
 
     html = render_generated_report_html(
         item={"job_id": "job-current", "target": "redis.example.com", "status": "completed", "updated_at": "2026-03-06T10:00:00Z", "finding_total": 1, "severity_counts": {"critical": 0, "high": 1, "medium": 0, "low": 0, "info": 0}},
@@ -308,6 +329,9 @@ def test_build_report_analysis_includes_ranking_and_asset_trends(tmp_path: Path)
     assert "Baseline Asset / Service Diff" in html
     assert "New Asset Severity" in html
     assert "Persistent Service Protocols" in html
+    assert "Infrastructure Summary" in html
+    assert "Risk Matrix" in html
+    assert "Attack Surface" in html
     assert "redis/tcp" in html
     assert "redis.example.com" in html
 
@@ -362,3 +386,45 @@ def test_build_report_analysis_backfills_execution_history_reason_from_artifact(
     assert "Enumerate likely subdomains through passive certificate transparency sources." in explanation["reasons"]
     assert "Scheduled in phase: passive_recon" in explanation["reasons"]
     assert "Preconditions satisfied: target_in_scope, not_already_done, domain_scope_declared" in explanation["reasons"]
+
+
+def test_render_generated_report_html_supports_cjk_fonts_and_wraps_long_urls() -> None:
+    long_url = "https://example.com/reports/very/long/path/that/should/not/be/truncated?alpha=1&beta=2&gamma=3"
+
+    html = render_generated_report_html(
+        item={
+            "job_id": "job-zh",
+            "target": "中文站点.example.com",
+            "status": "completed",
+            "updated_at": "2026-03-18T12:00:00Z",
+            "finding_total": 1,
+            "severity_counts": {"critical": 0, "high": 0, "medium": 1, "low": 0, "info": 0},
+        },
+        analysis={
+            "findings": [
+                {
+                    "title": "中文说明",
+                    "severity": "medium",
+                    "plugin_name": "agent",
+                    "evidence_text": "{}",
+                }
+            ],
+            "attack_surface": {
+                "entry_points": [{"type": "origin", "method": "GET", "url": long_url}],
+                "sensitive_paths": [{"type": "path", "path": "/admin/portal", "url": long_url}],
+            },
+        },
+    )
+
+    assert 'lang="zh-CN"' in html
+    assert "Microsoft YaHei" in html
+    assert "Noto Sans SC" in html
+    assert "overflow-wrap: anywhere" in html
+    assert "table-layout: auto" in html
+    assert "class='url-text'" in html
+    assert "<wbr>" in html
+    assert html_escape(long_url) in html
+    assert "Jump to Sections" in html
+    assert "class=\"report-layout\"" in html
+    assert "class='table-wrap'" in html
+    assert "class='severity-badge'" in html

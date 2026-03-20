@@ -10,6 +10,8 @@ from pydantic import BaseModel, ConfigDict, Field, RootModel
 RoleName = Literal["admin", "operator", "viewer"]
 SafetyGradeName = Literal["conservative", "balanced", "aggressive"]
 AutonomyModeName = Literal["constrained", "adaptive", "supervised"]
+MissionChatActionName = Literal["ask", "confirm", "executed", "preview"]
+MissionWorkflowStateName = Literal["needs_input", "launch_preview", "launch_confirm", "launch_executed"]
 
 
 class StrictModel(BaseModel):
@@ -430,6 +432,7 @@ class CodexModelsResponse(StrictModel):
 class JobView(FlexibleModel):
     job_id: str
     status: str
+    session_status: str | None = None
     created_at: str | None = None
     started_at: str | None = None
     ended_at: str | None = None
@@ -449,6 +452,8 @@ class JobView(FlexibleModel):
     log_line_count: int = 0
     artifact_count: int = 0
     command_preview: list[str] = Field(default_factory=list)
+    pending_approval: dict[str, Any] = Field(default_factory=dict)
+    loop_guard: dict[str, Any] = Field(default_factory=dict)
 
 
 class JobCreateRequest(FlexibleModel):
@@ -460,7 +465,7 @@ class JobCreateRequest(FlexibleModel):
     scope: str | None = None
     plugins: str | None = None
     timeout: float | None = Field(default=None, ge=1.0, le=3600.0)
-    budget: int = Field(default=50, ge=1, le=100000)
+    budget: int | None = Field(default=None, ge=1, le=100000)
     max_iterations: int = Field(default=5, ge=1, le=100)
     global_timeout: float = Field(default=600.0, ge=10.0, le=86400.0)
     llm_config: str | None = None
@@ -473,6 +478,9 @@ class JobCreateRequest(FlexibleModel):
     multi_agent: bool = False
     multi_agent_rounds: int = Field(default=1, ge=1, le=8)
     approval_granted: bool | None = None
+    knowledge_summary: str | None = None
+    knowledge_tags: list[str] = Field(default_factory=list)
+    knowledge_refs: list[str] = Field(default_factory=list)
     surface: dict[str, Any] | None = None
     surface_file: str | None = None
 
@@ -524,6 +532,16 @@ class MissionExecutionResponse(StrictModel):
     job: JobView
 
 
+class MissionChatResponse(StrictModel):
+    session_id: str
+    action: MissionChatActionName
+    workflow_state: MissionWorkflowStateName
+    assistant_message: str
+    messages: list[MissionTurnView] = Field(default_factory=list)
+    draft: MissionDraftView
+    job: JobView | None = None
+
+
 class JobListResponse(StrictModel):
     items: list[JobView]
 
@@ -573,6 +591,27 @@ class DashboardSummaryResponse(FlexibleModel):
     metrics: dict[str, int | float]
     severity_counts: dict[str, int]
     recent_jobs: list[dict[str, str | None]]
+
+
+class GlobalSearchItem(FlexibleModel):
+    kind: str
+    route: Literal["jobs", "reports", "assets", "schedules"]
+    title: str
+    subtitle: str | None = None
+    summary: str | None = None
+    score: float = 0.0
+    target: str | None = None
+    job_id: str | None = None
+    asset_id: int | None = None
+    schedule_id: int | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class GlobalSearchResponse(StrictModel):
+    query: str
+    total: int = 0
+    groups: dict[str, int] = Field(default_factory=dict)
+    items: list[GlobalSearchItem] = Field(default_factory=list)
 
 
 class ReportItem(FlexibleModel):
@@ -689,6 +728,15 @@ class ReportAnalysis(FlexibleModel):
     job_id: str
     target: str | None = None
     baseline_job_id: str | None = None
+    session_status: str | None = None
+    pending_approval: dict[str, Any] = Field(default_factory=dict)
+    loop_guard: dict[str, Any] = Field(default_factory=dict)
+    thought_stream: list[dict[str, Any]] = Field(default_factory=list)
+    evidence_graph: dict[str, Any] = Field(default_factory=dict)
+    cve_validation: dict[str, Any] = Field(default_factory=dict)
+    remediation_priority: list[dict[str, Any]] = Field(default_factory=list)
+    path_graph: dict[str, Any] = Field(default_factory=dict)
+    knowledge_context: dict[str, Any] = Field(default_factory=dict)
     history: list[ReportHistoryItem] = Field(default_factory=list)
     history_count: int = 0
     execution_history: list[ReportExecutionHistoryItem] = Field(default_factory=list)

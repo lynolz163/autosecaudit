@@ -115,6 +115,38 @@ def test_param_fuzzer_is_generated_for_parameterized_surface_endpoints() -> None
     assert [action.tool_name for action in plan.actions] == ["param_fuzzer"]
 
 
+def test_param_fuzzer_skips_edge_challenge_and_static_asset_endpoints() -> None:
+    maker = AuditDecisionMaker(
+        available_tools=["param_fuzzer"],
+        safety_grade="balanced",
+    )
+    state = {
+        "scope": ["example.com"],
+        "budget_remaining": 20,
+        "breadcrumbs": [],
+        "surface": {
+            "api_endpoints": [{"url": "https://example.com/api/user?id=1", "method": "GET"}],
+            "url_parameters": {
+                "id": ["1"],
+                "v": ["99"],
+            },
+            "parameter_origins": {
+                "id": [
+                    "https://example.com/api/user?id=1",
+                    "https://example.com/cdn-cgi/content?id=challenge-token",
+                ],
+                "v": ["https://example.com/static/app.js?v=99"],
+            },
+        },
+        "history": [],
+    }
+
+    plan = maker.plan_from_state(state, use_llm_hints=False)
+
+    assert [action.tool_name for action in plan.actions] == ["param_fuzzer"]
+    assert [action.target for action in plan.actions] == ["https://example.com:443/api/user"]
+
+
 def test_decision_maker_prioritizes_passive_subdomain_before_initial_nmap() -> None:
     maker = AuditDecisionMaker()
     state = {
@@ -569,6 +601,26 @@ def test_decision_maker_generates_page_vision_analyzer_in_active_phase() -> None
     assert [action.tool_name for action in plan.actions] == ["page_vision_analyzer"]
     assert plan.actions[0].options["wait_until"] == "networkidle"
     assert plan.actions[0].options["full_page"] is True
+
+
+def test_low_budget_active_phase_can_fall_back_to_nonzero_priority_when_needed() -> None:
+    maker = AuditDecisionMaker(
+        available_tools=["api_schema_discovery", "page_vision_analyzer"],
+        safety_grade="balanced",
+    )
+    state = {
+        "scope": ["example.com"],
+        "budget_remaining": 9,
+        "current_phase": "active_discovery",
+        "breadcrumbs": [{"type": "service", "data": "https://example.com"}],
+        "surface": {},
+        "history": [],
+    }
+
+    plan = maker.plan_from_state(state, use_llm_hints=False)
+
+    assert [action.tool_name for action in plan.actions] == ["api_schema_discovery"]
+    assert plan.actions[0].target == "https://example.com:443/"
 
 
 def test_decision_maker_generates_poc_sandbox_exec_when_approved() -> None:

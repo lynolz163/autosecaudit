@@ -11,14 +11,15 @@ from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Response
 
 from autosecaudit.agent_core.mission_intake import MissionSessionManager
 
-from .api_support import extract_bearer_token
+from .api_support import extract_bearer_token, public_error_code
 from .auth import AuthService
+from .cache_backend import create_cache_backend
 from .metrics import instrument_app, render_metrics_response
-from .rate_limit import InMemoryRateLimiter, RateLimitResult
+from .rate_limit import RateLimitResult, create_rate_limiter
 from .routers.assets import router as assets_router
 from .routers.auth import router as auth_router
 from .routers.codex import oauth_router as codex_oauth_router
@@ -73,8 +74,12 @@ def create_app(
     app.state.codex_auth = codex_auth
     app.state.api_token = api_token.strip() if isinstance(api_token, str) and api_token.strip() else None
     app.state.schedule_service = ScheduleService(manager)
-    app.state.rate_limiter = InMemoryRateLimiter.from_env()
+    app.state.rate_limiter = create_rate_limiter()
+    app.state.cache = create_cache_backend()
     app.state.cors_allow_origins = _resolve_cors_allow_origins()
+    app.state.enforce_https = _env_flag("AUTOSECAUDIT_WEB_ENFORCE_HTTPS", default=False)
+    app.state.trust_proxy_headers = _env_flag("AUTOSECAUDIT_WEB_TRUST_PROXY_HEADERS", default=False)
+    app.state.hsts_header = _build_hsts_header()
 
     if app.state.cors_allow_origins:
         app.add_middleware(
@@ -88,6 +93,17 @@ def create_app(
 
     if os.getenv("AUTOSECAUDIT_WEB_ENABLE_METRICS", "1").strip().lower() not in {"0", "false", "no", "off"}:
         instrument_app(app)
+
+    @app.middleware("http")
+    async def enforce_transport_security(request: Request, call_next: Any) -> Any:
+        scheme = _request_scheme(request, trust_proxy_headers=app.state.trust_proxy_headers)
+        if app.state.enforce_https and scheme != "https":
+            return RedirectResponse(url=_https_redirect_url(request, trust_proxy_headers=app.state.trust_proxy_headers), status_code=307)
+
+        response = await call_next(request)
+        if scheme == "https" and app.state.hsts_header:
+            response.headers["Strict-Transport-Security"] = app.state.hsts_header
+        return response
 
     @app.middleware("http")
     async def apply_rate_limits(request: Request, call_next: Any) -> Any:
@@ -111,6 +127,15 @@ def create_app(
             for key, value in _rate_limit_headers(rate_limit_result).items():
                 response.headers[key] = value
         return response
+
+    @app.exception_handler(HTTPException)
+    async def render_http_exception(request: Request, exc: HTTPException) -> JSONResponse:
+        detail = exc.detail
+        if isinstance(detail, str):
+            detail = public_error_code(detail, default="request_failed")
+        payload = {"detail": detail}
+        headers = dict(exc.headers or {})
+        return JSONResponse(status_code=int(exc.status_code), content=payload, headers=headers)
 
     @app.get("/healthz")
     async def healthz() -> dict[str, Any]:
@@ -199,6 +224,58 @@ def _origin_from_url(value: str) -> str | None:
     if not parsed.scheme or not parsed.netloc:
         return None
     return f"{parsed.scheme}://{parsed.netloc}"
+
+
+def _env_flag(name: str, *, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return str(raw).strip().lower() not in {"0", "false", "no", "off", ""}
+
+
+def _build_hsts_header() -> str | None:
+    max_age = _safe_int(os.getenv("AUTOSECAUDIT_WEB_HSTS_MAX_AGE_SECONDS", "31536000"), default=31536000)
+    if max_age <= 0:
+        return None
+    parts = [f"max-age={max_age}"]
+    if _env_flag("AUTOSECAUDIT_WEB_HSTS_INCLUDE_SUBDOMAINS", default=True):
+        parts.append("includeSubDomains")
+    if _env_flag("AUTOSECAUDIT_WEB_HSTS_PRELOAD", default=False):
+        parts.append("preload")
+    return "; ".join(parts)
+
+
+def _request_scheme(request: Request, *, trust_proxy_headers: bool) -> str:
+    if trust_proxy_headers:
+        forwarded = str(request.headers.get("x-forwarded-proto", "")).split(",")[0].strip().lower()
+        if forwarded:
+            return forwarded
+    return str(request.url.scheme or "http").strip().lower() or "http"
+
+
+def _request_host(request: Request, *, trust_proxy_headers: bool) -> str:
+    if trust_proxy_headers:
+        forwarded_host = str(request.headers.get("x-forwarded-host", "")).split(",")[0].strip()
+        forwarded_port = str(request.headers.get("x-forwarded-port", "")).split(",")[0].strip()
+        if forwarded_host:
+            if forwarded_port and ":" not in forwarded_host and forwarded_port not in {"80", "443"}:
+                return f"{forwarded_host}:{forwarded_port}"
+            return forwarded_host
+    return str(request.headers.get("host") or request.url.netloc or "").strip()
+
+
+def _https_redirect_url(request: Request, *, trust_proxy_headers: bool) -> str:
+    host = _request_host(request, trust_proxy_headers=trust_proxy_headers)
+    path = str(request.url.path or "/")
+    query = str(request.url.query or "").strip()
+    return f"https://{host}{path}{f'?{query}' if query else ''}"
+
+
+def _safe_int(value: Any, default: int) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
 
 
 def _rate_limit_bucket_for_request(request: Request) -> str | None:

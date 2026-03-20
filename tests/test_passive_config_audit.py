@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import io
-from unittest.mock import MagicMock, patch
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import pytest
 
@@ -14,13 +14,15 @@ TARGET = "http://example.invalid"
 
 
 def _make_response(body: bytes, status: int = 200):
-    """Build a mock urllib response context manager."""
-    resp = MagicMock()
-    resp.status = status
-    resp.read.return_value = body
-    resp.__enter__ = MagicMock(return_value=resp)
-    resp.__exit__ = MagicMock(return_value=False)
-    return resp
+    """Build a normalized HTTP helper response."""
+    return SimpleNamespace(
+        status_code=status,
+        text=body.decode("utf-8", errors="replace"),
+        url=TARGET,
+        headers={},
+        header_lists={},
+        content=body,
+    )
 
 
 class TestPassiveConfigAuditTool:
@@ -36,9 +38,9 @@ class TestPassiveConfigAuditTool:
     def test_required_paths_count(self):
         """Tool must probe at least 14 sensitive paths."""
         # Count visible paths from tool internals by running with no matches
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen") as mock_open:
-            from urllib.error import URLError
-            mock_open.side_effect = URLError("connection refused")
+        with patch("autosecaudit.agent_core.builtin_tools.request_text") as mock_request:
+            from autosecaudit.agent_core.http_client import HttpClientError
+            mock_request.side_effect = HttpClientError("connection refused")
             result = self.tool.run(TARGET, {})
         assert result.ok
         # The payload includes checked_paths
@@ -47,9 +49,9 @@ class TestPassiveConfigAuditTool:
 
     def test_includes_key_paths(self):
         """Must probe .git/config, .env, actuator/env, swagger.json."""
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen") as mock_open:
-            from urllib.error import URLError
-            mock_open.side_effect = URLError("connection refused")
+        with patch("autosecaudit.agent_core.builtin_tools.request_text") as mock_request:
+            from autosecaudit.agent_core.http_client import HttpClientError
+            mock_request.side_effect = HttpClientError("connection refused")
             result = self.tool.run(TARGET, {})
         checked = result.data.get("payload", {}).get("checked_paths", [])
         for required in [".git/config", ".env", "actuator/env", "swagger.json"]:
@@ -62,15 +64,14 @@ class TestPassiveConfigAuditTool:
     def test_detects_git_config_exposure(self):
         """.git/config with [core] content should be flagged."""
         hit_content = b"[core]\n\trepositoryformatversion = 0\n"
-        miss_content = b""
 
-        def side_effect(request, timeout=8):
-            if ".git/config" in request.full_url:
+        def side_effect(url, **_kwargs):
+            if ".git/config" in url:
                 return _make_response(hit_content, 200)
-            from urllib.error import URLError
-            raise URLError("not found")
+            from autosecaudit.agent_core.http_client import HttpClientError
+            raise HttpClientError("not found")
 
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=side_effect):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=side_effect):
             result = self.tool.run(TARGET, {})
 
         assert result.ok
@@ -82,13 +83,13 @@ class TestPassiveConfigAuditTool:
         """.env with SECRET_KEY value should be flagged."""
         env_content = b"SECRET_KEY=super_secret_value\nDB_HOST=localhost\n"
 
-        def side_effect(request, timeout=8):
-            if request.full_url.endswith("/.env"):
+        def side_effect(url, **_kwargs):
+            if url.endswith("/.env"):
                 return _make_response(env_content, 200)
-            from urllib.error import URLError
-            raise URLError("not found")
+            from autosecaudit.agent_core.http_client import HttpClientError
+            raise HttpClientError("not found")
 
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=side_effect):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=side_effect):
             result = self.tool.run(TARGET, {})
 
         exposures = result.data.get("payload", {}).get("exposures", [])
@@ -97,13 +98,10 @@ class TestPassiveConfigAuditTool:
 
     def test_no_exposure_when_404(self):
         """404 responses should not be flagged as exposures."""
-        from urllib.error import HTTPError
-        headers = MagicMock()
+        def side_effect(_url, **_kwargs):
+            return _make_response(b"", 404)
 
-        def side_effect(request, timeout=8):
-            raise HTTPError(request.full_url, 404, "Not Found", headers, io.BytesIO(b""))
-
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=side_effect):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=side_effect):
             result = self.tool.run(TARGET, {})
 
         assert result.ok
@@ -113,13 +111,13 @@ class TestPassiveConfigAuditTool:
     def test_no_exposure_when_body_lacks_keywords(self):
         """200 response without matching keywords should NOT be flagged."""
 
-        def side_effect(request, timeout=8):
-            if ".env" in request.full_url:
+        def side_effect(url, **_kwargs):
+            if ".env" in url:
                 return _make_response(b"SOME_SAFE_VAR=hello", 200)
-            from urllib.error import URLError
-            raise URLError("not found")
+            from autosecaudit.agent_core.http_client import HttpClientError
+            raise HttpClientError("not found")
 
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=side_effect):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=side_effect):
             result = self.tool.run(TARGET, {})
 
         exposures = result.data.get("payload", {}).get("exposures", [])
@@ -131,7 +129,7 @@ class TestPassiveConfigAuditTool:
 
     def test_all_requests_timeout(self):
         """Tool must complete without raising even if all requests timeout."""
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=TimeoutError):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=TimeoutError):
             result = self.tool.run(TARGET, {})
         assert result.ok
 
@@ -139,14 +137,14 @@ class TestPassiveConfigAuditTool:
         """Handle mix of successes and errors per path."""
         call_count = [0]
 
-        def side_effect(request, timeout=8):
+        def side_effect(_url, **_kwargs):
             call_count[0] += 1
             if call_count[0] % 3 == 0:
                 return _make_response(b"[core]\nrepositoryformatversion = 0", 200)
-            from urllib.error import URLError
-            raise URLError("some error")
+            from autosecaudit.agent_core.http_client import HttpClientError
+            raise HttpClientError("some error")
 
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=side_effect):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=side_effect):
             result = self.tool.run(TARGET, {})
         assert result.ok
 
@@ -156,9 +154,9 @@ class TestPassiveConfigAuditTool:
 
     def test_result_structure(self):
         """Result data must have required keys."""
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen") as mock_open:
-            from urllib.error import URLError
-            mock_open.side_effect = URLError("none")
+        with patch("autosecaudit.agent_core.builtin_tools.request_text") as mock_request:
+            from autosecaudit.agent_core.http_client import HttpClientError
+            mock_request.side_effect = HttpClientError("none")
             result = self.tool.run(TARGET, {})
         assert result.ok
         assert "payload" in result.data
@@ -172,13 +170,13 @@ class TestPassiveConfigAuditTool:
         """Findings for exposures must include required fields."""
         env_content = b"API_KEY=very_secret_key_value"
 
-        def side_effect(request, timeout=8):
-            if request.full_url.endswith("/.env"):
+        def side_effect(url, **_kwargs):
+            if url.endswith("/.env"):
                 return _make_response(env_content, 200)
-            from urllib.error import URLError
-            raise URLError("not found")
+            from autosecaudit.agent_core.http_client import HttpClientError
+            raise HttpClientError("not found")
 
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=side_effect):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=side_effect):
             result = self.tool.run(TARGET, {})
 
         findings = result.data.get("findings", [])
@@ -190,7 +188,7 @@ class TestPassiveConfigAuditTool:
 
     def test_bounded_options_are_reflected_in_payload(self):
         """Custom lightweight bounds should be honored and exposed in payload."""
-        with patch("autosecaudit.agent_core.builtin_tools.urlopen", side_effect=TimeoutError):
+        with patch("autosecaudit.agent_core.builtin_tools.request_text", side_effect=TimeoutError):
             result = self.tool.run(
                 TARGET,
                 {

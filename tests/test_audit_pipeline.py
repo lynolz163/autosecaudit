@@ -121,6 +121,29 @@ def test_passive_recon_phase_budget_has_floor_for_low_default_budgets() -> None:
     assert pipeline.phase_budget_remaining(state, "passive_recon") == 15
 
 
+def test_verification_phase_budget_can_borrow_unused_prior_budget() -> None:
+    pipeline = AuditPipeline()
+    state = pipeline.bootstrap_state(
+        {
+            "budget_remaining": 50,
+            "total_budget": 100,
+            "current_phase": "verification",
+            "phase_budget_spent": {
+                "passive_recon": 10,
+                "active_discovery": 20,
+                "deep_testing": 20,
+                "verification": 20,
+            },
+            "history": [],
+            "breadcrumbs": [{"type": "endpoint", "data": "https://example.com/?id=1"}],
+            "surface": {"url_parameters": [{"name": "id"}]},
+            "feedback": {},
+        }
+    )
+
+    assert pipeline.phase_budget_remaining(state, "verification") == 30
+
+
 def test_pipeline_recognizes_nmap_surface_origins_without_breadcrumbs() -> None:
     pipeline = AuditPipeline()
     state = pipeline.bootstrap_state(

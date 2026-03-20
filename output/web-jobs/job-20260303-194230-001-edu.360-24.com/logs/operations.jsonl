@@ -1,6 +1,0 @@
-{"timestamp": "2026-03-03T11:42:30.661479+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=100, max_iterations=3, timeout=300.0s, resumed=False"}
-{"timestamp": "2026-03-03T11:43:06.347764+00:00", "plugin_id": "nmap_scan", "action": "action_start", "status": "start", "detail": "A1 target=edu.360-24.com"}
-{"timestamp": "2026-03-03T11:48:06.442330+00:00", "plugin_id": "nmap_scan", "action": "action_end", "status": "warning", "detail": "A1 status=failed duration_ms=300101"}
-{"timestamp": "2026-03-03T11:48:06.444455+00:00", "plugin_id": "agent", "action": "run_stop", "status": "warning", "detail": "Global timeout reached during execution."}
-{"timestamp": "2026-03-03T11:48:06.477528+00:00", "plugin_id": "agent", "action": "run_stop", "status": "warning", "detail": "Global timeout reached."}
-{"timestamp": "2026-03-03T11:48:06.527991+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=1, findings=0"}

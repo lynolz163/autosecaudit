@@ -102,6 +102,24 @@ class SkillDependencies:
 
 
 @dataclass(frozen=True)
+class SkillDocumentation:
+    """Optional natural-language guidance bundled with one skill."""
+
+    instruction_path: Path | None = None
+    docs_dir: Path | None = None
+
+
+@dataclass(frozen=True)
+class SkillResources:
+    """Optional reusable resources bundled with one skill."""
+
+    root_dir: Path | None = None
+    scripts_dir: Path | None = None
+    references_dir: Path | None = None
+    assets_dir: Path | None = None
+
+
+@dataclass(frozen=True)
 class SkillDefinition:
     """Parsed skill definition."""
 
@@ -116,6 +134,8 @@ class SkillDefinition:
     follow_up: dict[str, SkillFollowUp] = field(default_factory=dict)
     risk: SkillRisk = field(default_factory=SkillRisk)
     dependencies: SkillDependencies = field(default_factory=SkillDependencies)
+    documentation: SkillDocumentation = field(default_factory=SkillDocumentation)
+    resources: SkillResources = field(default_factory=SkillResources)
     source_path: Path | None = None
 
 
@@ -157,17 +177,24 @@ class SkillRegistry:
 class SkillLoader:
     """Load and validate structured skill YAML files."""
 
+    _MANIFEST_NAMES = ("skill.yaml", "skill.yml")
+    _MANIFEST_SUFFIXES = (".yaml", ".yml")
+
     def load_directory(self, path: Path) -> dict[str, SkillDefinition]:
-        """Scan one directory and parse all `.yaml` files."""
+        """Scan one directory and parse legacy or directory-native skill manifests."""
         base_dir = Path(path)
         if not base_dir.exists() or not base_dir.is_dir():
             return {}
 
         loaded: dict[str, SkillDefinition] = {}
-        for skill_path in sorted(base_dir.glob("*.yaml")):
+        for skill_path in self._discover_skill_manifests(base_dir):
             try:
                 payload = self._parse_file(skill_path)
-                skill = self._coerce_skill(payload, source_path=skill_path)
+                skill = self._coerce_skill(
+                    payload,
+                    source_path=skill_path,
+                    resource_root=self._resolve_resource_root(skill_path, base_dir=base_dir),
+                )
             except (OSError, ValueError):
                 continue
             errors = self.validate(skill)
@@ -218,7 +245,13 @@ class SkillLoader:
             raise ValueError(f"skill file must contain one object: {path}")
         return payload
 
-    def _coerce_skill(self, payload: dict[str, Any], *, source_path: Path) -> SkillDefinition:
+    def _coerce_skill(
+        self,
+        payload: dict[str, Any],
+        *,
+        source_path: Path,
+        resource_root: Path | None = None,
+    ) -> SkillDefinition:
         skill_block = self._mapping(payload.get("skill"))
         triggers_block = self._mapping(payload.get("triggers"))
         parameters_block = self._mapping(payload.get("parameters"))
@@ -226,6 +259,8 @@ class SkillLoader:
         follow_up_block = self._mapping(payload.get("follow_up"))
         risk_block = self._mapping(payload.get("risk"))
         dependency_block = self._mapping(payload.get("dependencies"))
+        documentation = self._build_documentation(resource_root)
+        resources = self._build_resources(resource_root)
 
         success_indicators = [
             SkillSuccessIndicator(
@@ -323,7 +358,84 @@ class SkillLoader:
                     if str(item).strip()
                 ],
             ),
+            documentation=documentation,
+            resources=resources,
             source_path=source_path,
+        )
+
+    def _discover_skill_manifests(self, base_dir: Path) -> list[Path]:
+        manifests: list[Path] = []
+        seen: set[Path] = set()
+
+        for suffix in self._MANIFEST_SUFFIXES:
+            for path in sorted(base_dir.glob(f"*{suffix}")):
+                resolved = path.resolve()
+                if resolved not in seen:
+                    seen.add(resolved)
+                    manifests.append(path)
+
+        for child in sorted(base_dir.iterdir()):
+            if not child.is_dir():
+                continue
+            manifest = self._find_directory_manifest(child)
+            if manifest is None:
+                continue
+            resolved = manifest.resolve()
+            if resolved not in seen:
+                seen.add(resolved)
+                manifests.append(manifest)
+
+        return manifests
+
+    def _find_directory_manifest(self, directory: Path) -> Path | None:
+        for manifest_name in (*self._MANIFEST_NAMES, f"{directory.name}.yaml", f"{directory.name}.yml"):
+            candidate = directory / manifest_name
+            if candidate.exists() and candidate.is_file():
+                return candidate
+
+        yaml_files = sorted(
+            path
+            for suffix in self._MANIFEST_SUFFIXES
+            for path in directory.glob(f"*{suffix}")
+            if path.is_file()
+        )
+        if len(yaml_files) == 1:
+            return yaml_files[0]
+        return None
+
+    def _resolve_resource_root(self, source_path: Path, *, base_dir: Path) -> Path | None:
+        source_path = Path(source_path)
+        if source_path.parent != base_dir:
+            return source_path.parent
+
+        sibling_dir = base_dir / source_path.stem
+        if sibling_dir.exists() and sibling_dir.is_dir():
+            return sibling_dir
+        return None
+
+    def _build_documentation(self, resource_root: Path | None) -> SkillDocumentation:
+        if resource_root is None:
+            return SkillDocumentation()
+
+        instruction_path = resource_root / "SKILL.md"
+        docs_dir = resource_root / "docs"
+        return SkillDocumentation(
+            instruction_path=instruction_path if instruction_path.is_file() else None,
+            docs_dir=docs_dir if docs_dir.is_dir() else None,
+        )
+
+    def _build_resources(self, resource_root: Path | None) -> SkillResources:
+        if resource_root is None:
+            return SkillResources()
+
+        scripts_dir = resource_root / "scripts"
+        references_dir = resource_root / "references"
+        assets_dir = resource_root / "assets"
+        return SkillResources(
+            root_dir=resource_root,
+            scripts_dir=scripts_dir if scripts_dir.is_dir() else None,
+            references_dir=references_dir if references_dir.is_dir() else None,
+            assets_dir=assets_dir if assets_dir.is_dir() else None,
         )
 
     def _coerce_conditions(self, raw: Any) -> list[SkillCondition]:

@@ -12,4 +12,10 @@ export default defineConfig({
     outDir: resolve(rootDir, "../autosecaudit/webapp/frontend_dist"),
     emptyOutDir: true,
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.js",
+    css: true,
+  },
 });

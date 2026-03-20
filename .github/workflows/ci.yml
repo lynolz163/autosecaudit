@@ -51,6 +51,16 @@ jobs:
         working-directory: web-console
         run: npm ci
 
+      - name: Run frontend tests
+        working-directory: web-console
+        run: npm run test:run
+
       - name: Build frontend
         working-directory: web-console
         run: npm run build
+
+      - name: Install Playwright browser
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run E2E smoke tests
+        run: pytest tests/e2e -q

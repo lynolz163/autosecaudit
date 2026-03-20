@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 
-from ..api_support import audit_event, authenticate_request, permission_summary, require_role
+from ..api_support import audit_event, authenticate_request, permission_summary, public_error_code, require_role
 from ..auth import AuthPrincipal
 from ..schemas import AuthMeResponse, AuthStatusResponse, BootstrapRequest, LoginRequest, RefreshRequest, TokenBundleResponse, UserView
 
@@ -37,7 +37,7 @@ async def auth_login(payload: LoginRequest, request: Request) -> TokenBundleResp
         )
         detail = str(exc)
         status_code = 403 if detail == "user_disabled" else 401
-        raise HTTPException(status_code=status_code, detail=detail) from exc
+        raise HTTPException(status_code=status_code, detail=public_error_code(detail, default="auth_failed")) from exc
 
     audit_event(
         request,
@@ -58,7 +58,7 @@ async def auth_refresh(payload: RefreshRequest, request: Request) -> TokenBundle
     try:
         item = request.app.state.auth_service.refresh_token(refresh_token)
     except ValueError as exc:
-        raise HTTPException(status_code=401, detail=str(exc)) from exc
+        raise HTTPException(status_code=401, detail=public_error_code(str(exc), default="invalid_token")) from exc
 
     audit_event(
         request,
@@ -92,7 +92,7 @@ async def auth_bootstrap(payload: BootstrapRequest, request: Request) -> TokenBu
             display_name=display_name,
         )
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="bootstrap_unavailable")) from exc
 
     audit_event(
         request,

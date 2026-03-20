@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useI18n } from "../i18n";
 
 const FALLBACK_PRESETS = [
@@ -144,12 +144,18 @@ export default function LlmConfigPanel({ llmSettings, onSave, onTest }) {
         />
       </label>
 
-      <button className="ghost-button" type="button" onClick={() => setShowAdvanced((current) => !current)} style={{ marginTop: 8 }}>
-        {showAdvanced ? (language === "zh-CN" ? "收起高级配置" : "Hide advanced settings") : language === "zh-CN" ? "展开高级配置" : "Show advanced settings"}
+      <button className="ghost-button mt-2" type="button" onClick={() => setShowAdvanced((current) => !current)}>
+        {showAdvanced
+          ? language === "zh-CN"
+            ? "收起高级配置"
+            : "Hide advanced settings"
+          : language === "zh-CN"
+            ? "展开高级配置"
+            : "Show advanced settings"}
       </button>
 
       {showAdvanced ? (
-        <div className="field-grid" style={{ marginTop: 8 }}>
+        <div className="field-grid mt-2">
           <label>
             <span>{t("llm.temperature")}</span>
             <input type="number" min="0" max="2" step="0.1" value={temperature} onChange={(event) => setTemperature(Number(event.target.value))} />
@@ -169,8 +175,8 @@ export default function LlmConfigPanel({ llmSettings, onSave, onTest }) {
         <div className={`llm-test-result ${testResult.ok ? "is-ok" : "is-error"}`}>
           {testResult.ok ? (
             <>
-              {language === "zh-CN" ? "连接成功" : "Connection succeeded"} · {testResult.latency_ms}ms
-              {testResult.reply_preview ? <span className="llm-test-reply"> · {testResult.reply_preview}</span> : null}
+              {language === "zh-CN" ? "连接成功" : "Connection succeeded"} | {testResult.latency_ms}ms
+              {testResult.reply_preview ? <span className="llm-test-reply"> | {testResult.reply_preview}</span> : null}
             </>
           ) : (
             <>{testResult.error}</>
@@ -178,7 +184,7 @@ export default function LlmConfigPanel({ llmSettings, onSave, onTest }) {
         </div>
       ) : null}
 
-      <div className="inline-actions" style={{ marginTop: 12 }}>
+      <div className="inline-actions mt-3">
         <button type="button" className="ghost-button" onClick={handleTest} disabled={testing || !baseUrl || !model}>
           {testing ? t("llm.testing") : t("llm.testConnection")}
         </button>

@@ -1,4 +1,4 @@
-import { useI18n } from "../i18n";
+﻿import { useI18n } from "../i18n";
 
 const COPY = {
   "zh-CN": {
@@ -28,12 +28,12 @@ export default function PaginationControls({ page, totalPages, totalItems, start
   }
 
   return (
-    <div className="pagination-bar">
-      <div className="pagination-meta">
-        <strong>{translate(copy.page, { page, total: totalPages })}</strong>
+    <div className="mt-4 flex flex-col gap-3 border-t border-slate-200/80 pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-1 text-sm text-slate-500">
+        <strong className="text-slate-800">{translate(copy.page, { page, total: totalPages })}</strong>
         <span>{translate(copy.range, { start: startIndex, end: endIndex, total: totalItems })}</span>
       </div>
-      <div className="inline-actions">
+      <div className="flex items-center gap-2">
         <button className="ghost-button" type="button" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
           {copy.previous}
         </button>

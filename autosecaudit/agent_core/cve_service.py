@@ -11,10 +11,9 @@ import re
 import sqlite3
 import time
 from typing import Any
-from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 
+from .http_client import HttpClientError, request_json
 from .template_capability_index import TemplateCapabilityIndex
 
 
@@ -207,31 +206,23 @@ class NvdCveService:
         url = f"{self._base_url}?{query}"
         headers = {
             "Accept": "application/json",
-            "User-Agent": "AutoSecAudit/0.2 (NVD-CVE-Lookup)",
         }
         if self._api_key:
             headers["apiKey"] = self._api_key
-        request = Request(url=url, method="GET", headers=headers)
         try:
-            with urlopen(request, timeout=self._timeout_seconds) as response:
-                raw = (response.read(4_000_000) or b"").decode("utf-8", errors="replace")
-        except HTTPError as exc:
-            detail = ""
-            try:
-                detail = (exc.read(1000) or b"").decode("utf-8", errors="replace").strip()
-            except Exception:  # noqa: BLE001
-                detail = ""
-            suffix = f": {detail}" if detail else ""
-            raise CveServiceError(f"nvd_http_error:{exc.code}{suffix}") from exc
-        except URLError as exc:
-            raise CveServiceError(f"nvd_connection_error:{exc}") from exc
-        except OSError as exc:
+            response, payload = request_json(
+                url,
+                headers=headers,
+                timeout=self._timeout_seconds,
+                max_bytes=4_000_000,
+                retry_policy={"attempts": 3},
+            )
+        except HttpClientError as exc:
             raise CveServiceError(f"nvd_transport_error:{exc}") from exc
-
-        try:
-            payload = json.loads(raw)
-        except json.JSONDecodeError as exc:
-            raise CveServiceError("nvd_invalid_json_payload") from exc
+        if response.status_code >= 400:
+            detail = response.text[:1000].strip()
+            suffix = f": {detail}" if detail else ""
+            raise CveServiceError(f"nvd_http_error:{response.status_code}{suffix}")
         if not isinstance(payload, dict):
             raise CveServiceError("nvd_payload_not_object")
         return payload

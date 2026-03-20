@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { startTransition, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useI18n } from "../i18n";
-import { apiFetch, buildAuthedUrl } from "../lib/api";
+import { apiFetch, buildAuthedUrl, buildAuthedWebSocketUrl } from "../lib/api";
+import { missionChatActionToWorkflowState, jobSessionStatusToWorkflowState, WORKFLOW_STATES } from "../lib/workflowState";
 import { activeViewFromPath, viewPath } from "../lib/views";
 
 const TOKEN_KEY = "autosecaudit_console_access_token";
 const REFRESH_TOKEN_KEY = "autosecaudit_console_refresh_token";
+const MAX_LOG_LINES = 2000;
+const LOG_FLUSH_INTERVAL_MS = 120;
+const TERMINAL_JOB_STATUSES = new Set(["completed", "failed", "error", "canceled", "waiting_approval", "partial_complete", "environment_blocked"]);
 
 export const EMPTY_PERMISSIONS = {
   role: "",
@@ -47,7 +51,20 @@ export function useConsoleRuntime() {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [searchResults, setSearchResults] = useState({ query: "", total: 0, groups: {}, items: [] });
+  const [searching, setSearching] = useState(false);
+  const [selectedReportBaselineId, setSelectedReportBaselineId] = useState("");
+  const [selectedJobRealtimeRevision, setSelectedJobRealtimeRevision] = useState(0);
+  const [followUpMissionSeed, setFollowUpMissionSeed] = useState(null);
   const refreshPromiseRef = useRef(null);
+  const searchRequestRef = useRef(0);
+  const selectedJobIdRef = useRef("");
+  const pendingLogLinesRef = useRef([]);
+  const logFlushTimerRef = useRef(0);
+
+  useEffect(() => {
+    selectedJobIdRef.current = selectedJobId;
+  }, [selectedJobId]);
 
   useEffect(() => {
     if (accessToken) {
@@ -88,6 +105,11 @@ export function useConsoleRuntime() {
   }
 
   function resetConsoleState() {
+    pendingLogLinesRef.current = [];
+    if (logFlushTimerRef.current) {
+      window.clearTimeout(logFlushTimerRef.current);
+      logFlushTimerRef.current = 0;
+    }
     setSummary(null);
     setJobs([]);
     setSelectedJobId("");
@@ -107,6 +129,54 @@ export function useConsoleRuntime() {
     setJobCatalog({ tools: [], skills: [] });
     setSystemHealth(null);
     setUsers([]);
+    setSearchResults({ query: "", total: 0, groups: {}, items: [] });
+    setSearching(false);
+    setSelectedReportBaselineId("");
+    setSelectedJobRealtimeRevision(0);
+    setFollowUpMissionSeed(null);
+  }
+
+  function clearPendingLogFlush() {
+    if (logFlushTimerRef.current) {
+      window.clearTimeout(logFlushTimerRef.current);
+      logFlushTimerRef.current = 0;
+    }
+  }
+
+  function replaceRealtimeLogs(items) {
+    pendingLogLinesRef.current = [];
+    clearPendingLogFlush();
+    startTransition(() => {
+      setLogLines(Array.isArray(items) ? items.slice(-MAX_LOG_LINES) : []);
+    });
+  }
+
+  function flushPendingLogLines() {
+    clearPendingLogFlush();
+    if (!pendingLogLinesRef.current.length) {
+      return;
+    }
+    const batch = pendingLogLinesRef.current;
+    pendingLogLinesRef.current = [];
+    startTransition(() => {
+      setLogLines((current) => {
+        const next = [...current, ...batch];
+        return next.length > MAX_LOG_LINES ? next.slice(-MAX_LOG_LINES) : next;
+      });
+    });
+  }
+
+  function queueRealtimeLogLine(item) {
+    if (!item) {
+      return;
+    }
+    pendingLogLinesRef.current.push(item);
+    if (logFlushTimerRef.current) {
+      return;
+    }
+    logFlushTimerRef.current = window.setTimeout(() => {
+      flushPendingLogLines();
+    }, LOG_FLUSH_INTERVAL_MS);
   }
 
   function handleLogout() {
@@ -205,22 +275,26 @@ export function useConsoleRuntime() {
       apiFetchWithAuth(`/api/jobs/${encodeURIComponent(jobId)}/artifacts`),
     ];
     if (includeLogs) {
-      requests.push(apiFetchWithAuth(`/api/jobs/${encodeURIComponent(jobId)}/logs?offset=0&limit=5000`));
+      requests.push(apiFetchWithAuth(`/api/jobs/${encodeURIComponent(jobId)}/logs?offset=0&limit=${MAX_LOG_LINES}`));
     }
     const [jobPayload, artifactPayload, logPayload] = await Promise.all(requests);
     setSelectedJob(jobPayload.job);
     setArtifacts(Array.isArray(artifactPayload.items) ? artifactPayload.items : []);
     if (logPayload) {
       const items = Array.isArray(logPayload.items) ? logPayload.items : [];
-      setLogLines(items);
+      replaceRealtimeLogs(items);
       return { nextStreamOffset: Number(logPayload.next_offset || items.length) };
     }
     return { nextStreamOffset: 0 };
   }
 
-  async function selectReport(report) {
+  async function selectReport(report, options = {}) {
+    const baselineJobId = Object.prototype.hasOwnProperty.call(options, "baselineJobId")
+      ? String(options.baselineJobId || "").trim()
+      : "";
     setSelectedReport(report);
-    const requests = [apiFetchWithAuth(`/api/reports/${encodeURIComponent(report.job_id)}/analysis`)];
+    const query = baselineJobId ? `?baseline_job_id=${encodeURIComponent(baselineJobId)}` : "";
+    const requests = [apiFetchWithAuth(`/api/reports/${encodeURIComponent(report.job_id)}/analysis${query}`)];
     if (report?.preview_path) {
       const path = report.preview_path.split("/").map(encodeURIComponent).join("/");
       requests.push(fetchTextWithAuth(`/api/jobs/${encodeURIComponent(report.job_id)}/files/${path}`));
@@ -229,6 +303,7 @@ export function useConsoleRuntime() {
     }
     const [analysisPayload, text] = await Promise.all(requests);
     setReportAnalysis(analysisPayload.analysis || null);
+    setSelectedReportBaselineId(baselineJobId || "");
     setReportContent(text);
   }
 
@@ -244,6 +319,13 @@ export function useConsoleRuntime() {
         setSelectedReport(refreshed);
       }
     }
+  }
+
+  async function selectReportBaseline(baselineJobId = "") {
+    if (!selectedReport?.job_id) {
+      return;
+    }
+    return selectReport(selectedReport, { baselineJobId });
   }
 
   async function loadAssets() {
@@ -340,15 +422,164 @@ export function useConsoleRuntime() {
     }
   }
 
-  async function refreshAll() {
+  async function searchGlobal(query, limit = 10) {
+    const normalized = String(query || "").trim();
+    const requestId = searchRequestRef.current + 1;
+    searchRequestRef.current = requestId;
+    if (normalized.length < 2) {
+      setSearchResults({ query: normalized, total: 0, groups: {}, items: [] });
+      setSearching(false);
+      return { query: normalized, total: 0, groups: {}, items: [] };
+    }
+    setSearching(true);
+    try {
+      const data = await apiFetchWithAuth(`/api/search/global?q=${encodeURIComponent(normalized)}&limit=${encodeURIComponent(limit)}`);
+      if (searchRequestRef.current === requestId) {
+        setSearchResults(data || { query: normalized, total: 0, groups: {}, items: [] });
+      }
+      return data;
+    } catch (error) {
+      if (searchRequestRef.current === requestId) {
+        setSearchResults({ query: normalized, total: 0, groups: {}, items: [] });
+      }
+      throw error;
+    } finally {
+      if (searchRequestRef.current === requestId) {
+        setSearching(false);
+      }
+    }
+  }
+
+  function clearGlobalSearch() {
+    searchRequestRef.current += 1;
+    setSearching(false);
+    setSearchResults({ query: "", total: 0, groups: {}, items: [] });
+  }
+
+  function replaceJobsFromRealtime(items) {
+    const nextItems = Array.isArray(items) ? items : [];
+    setJobs(nextItems);
+    const currentSelectedJobId = selectedJobIdRef.current;
+    if (!currentSelectedJobId && nextItems.length) {
+      setSelectedJobId(nextItems[0].job_id);
+      return;
+    }
+    if (!currentSelectedJobId) {
+      return;
+    }
+    const matched = nextItems.find((item) => item.job_id === currentSelectedJobId) || null;
+    if (matched) {
+      setSelectedJob((current) => ({ ...(current || {}), ...matched }));
+      return;
+    }
+    if (!nextItems.length) {
+      setSelectedJob(null);
+      setSelectedJobId("");
+      return;
+    }
+    setSelectedJob(nextItems[0]);
+    setSelectedJobId(nextItems[0].job_id);
+  }
+
+  function upsertRealtimeJob(job) {
+    if (!job?.job_id) {
+      return;
+    }
+    setJobs((current) => {
+      const next = Array.isArray(current) ? [...current] : [];
+      const index = next.findIndex((item) => item.job_id === job.job_id);
+      if (index >= 0) {
+        next[index] = { ...next[index], ...job };
+      } else {
+        next.unshift(job);
+      }
+      next.sort((left, right) =>
+        String(right?.last_updated_at || right?.created_at || "").localeCompare(
+          String(left?.last_updated_at || left?.created_at || ""),
+        ),
+      );
+      return next;
+    });
+    if (selectedJobIdRef.current && job.job_id === selectedJobIdRef.current) {
+      setSelectedJob((current) => ({ ...(current || {}), ...job }));
+    }
+  }
+
+  async function openGlobalSearchResult(item) {
+    const route = String(item?.route || "").trim().toLowerCase();
+    clearGlobalSearch();
+    if (route === "reports" && item?.job_id) {
+      await openReportByJobId(String(item.job_id));
+      return;
+    }
+    if (route === "jobs" && item?.job_id) {
+      openJob(String(item.job_id));
+      return;
+    }
+    if (route === "assets") {
+      goToView("assets");
+      return;
+    }
+    if (route === "schedules") {
+      goToView("schedules");
+      return;
+    }
+    if (item?.job_id) {
+      openJob(String(item.job_id));
+    }
+  }
+
+  function activateJob(job, { navigateToJobs = true } = {}) {
+    if (!job?.job_id) {
+      return;
+    }
+    setSelectedJobId(job.job_id);
+    setSelectedJob(job);
+    setArtifacts([]);
+    replaceRealtimeLogs([]);
+    upsertRealtimeJob(job);
+    if (navigateToJobs && activeView !== "jobs") {
+      goToView("jobs");
+    }
+  }
+
+  async function refreshViewState(viewId = activeView, options = {}) {
     if (!currentUser) {
       return;
     }
+    const forceHeavy = Boolean(options.forceHeavy);
     try {
-      const tasks = [loadDashboard(), loadJobs(), loadReports(), loadAssets(), loadSchedules(), loadJobCatalog()];
-      if (permissions.can_admin) {
-        tasks.push(loadNotificationSettings(), loadAuditEvents(), loadCodexConfig(), loadLlmSettings(), loadPlugins(), loadUsers());
-      } else {
+      const tasks = [loadJobs()];
+      if (viewId === "dashboard") {
+        tasks.push(loadDashboard());
+      }
+      if (viewId === "jobs") {
+        if (forceHeavy || !llmSettings) {
+          tasks.push(loadLlmSettings());
+        }
+        if (forceHeavy || (!jobCatalog.tools.length && !jobCatalog.skills.length)) {
+          tasks.push(loadJobCatalog());
+        }
+      }
+      if (viewId === "assets") {
+        tasks.push(loadAssets());
+      }
+      if (viewId === "schedules") {
+        tasks.push(loadAssets(), loadSchedules());
+      }
+      if (viewId === "reports") {
+        tasks.push(loadReports());
+      }
+      if (permissions.can_admin && (viewId === "settings" || forceHeavy)) {
+        tasks.push(loadNotificationSettings(), loadAuditEvents(), loadCodexConfig(), loadLlmSettings());
+      }
+      if (permissions.can_admin && (viewId === "plugins" || forceHeavy)) {
+        tasks.push(loadPlugins());
+      }
+      if (permissions.can_admin && (viewId === "users" || forceHeavy)) {
+        tasks.push(loadUsers());
+      }
+      if (!permissions.can_admin && forceHeavy) {
         setNotificationConfig({});
         setAuditEvents([]);
         setCodexConfig(null);
@@ -364,6 +595,10 @@ export function useConsoleRuntime() {
         handleLogout();
       }
     }
+  }
+
+  async function refreshAll(options = {}) {
+    return refreshViewState(activeView, { forceHeavy: true, ...options });
   }
 
   useEffect(() => {
@@ -420,12 +655,21 @@ export function useConsoleRuntime() {
     if (!currentUser) {
       return undefined;
     }
-    refreshAll().catch((error) => setMessage(localizeMessage(String(error.message || error))));
+    refreshViewState(activeView, { forceHeavy: true }).catch((error) => setMessage(localizeMessage(String(error.message || error))));
     const timer = window.setInterval(() => {
-      refreshAll().catch((error) => setMessage(localizeMessage(String(error.message || error))));
-    }, 10000);
+      refreshViewState(activeView, { forceHeavy: false }).catch((error) => setMessage(localizeMessage(String(error.message || error))));
+    }, 15000);
     return () => window.clearInterval(timer);
-  }, [accessToken, refreshToken, currentUser?.username, permissions.can_admin]);
+  }, [
+    accessToken,
+    refreshToken,
+    currentUser?.username,
+    permissions.can_admin,
+    activeView,
+    Boolean(llmSettings),
+    jobCatalog.tools.length,
+    jobCatalog.skills.length,
+  ]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -439,54 +683,145 @@ export function useConsoleRuntime() {
   }, [accessToken, refreshToken, currentUser?.username]);
 
   useEffect(() => {
-    if (!currentUser || !selectedJobId) {
+    if (!currentUser || !accessToken || typeof window.WebSocket !== "function") {
       return undefined;
     }
-    let cancelled = false;
-    let source = null;
-    setLogLines([]);
 
-    async function connectStream() {
-      try {
-        const snapshot = await loadJob(selectedJobId, true);
+    let cancelled = false;
+    let socket = null;
+    let reconnectTimer = 0;
+
+    const connect = () => {
+      if (cancelled) {
+        return;
+      }
+      socket = new window.WebSocket(buildAuthedWebSocketUrl("/api/jobs/ws", accessToken));
+
+      socket.addEventListener("message", (event) => {
+        let envelope = null;
+        try {
+          envelope = JSON.parse(event.data || "{}");
+        } catch {
+          return;
+        }
+        const eventName = String(envelope?.event || "").trim();
+        const payload = envelope?.payload || {};
+        if (eventName === "snapshot" || eventName === "jobs") {
+          replaceJobsFromRealtime(payload.items);
+        }
+      });
+
+      socket.addEventListener("error", () => {
+        socket?.close();
+      });
+
+      socket.addEventListener("close", () => {
         if (cancelled) {
           return;
         }
-        source = new window.EventSource(
-          buildAuthedUrl(`/api/jobs/${encodeURIComponent(selectedJobId)}/stream?offset=${snapshot.nextStreamOffset || 0}`, accessToken)
-        );
+        reconnectTimer = window.setTimeout(connect, 2000);
+      });
+    };
 
-        source.addEventListener("status", (event) => {
-          const payload = JSON.parse(event.data || "{}");
+    connect();
+    return () => {
+      cancelled = true;
+      if (reconnectTimer) {
+        window.clearTimeout(reconnectTimer);
+      }
+      socket?.close();
+    };
+  }, [accessToken, currentUser?.username]);
+
+  useEffect(() => {
+    if (!currentUser || !selectedJobId || typeof window.WebSocket !== "function") {
+      return undefined;
+    }
+    let cancelled = false;
+    let socket = null;
+    let reconnectTimer = 0;
+    let streamTerminal = false;
+    replaceRealtimeLogs([]);
+    setArtifacts([]);
+
+    const connectStream = () => {
+      if (cancelled) {
+        return;
+      }
+      socket = new window.WebSocket(
+        buildAuthedWebSocketUrl(
+          `/api/jobs/${encodeURIComponent(selectedJobId)}/ws?offset=0&limit=${MAX_LOG_LINES}`,
+          accessToken,
+        ),
+      );
+
+      socket.addEventListener("message", (event) => {
+        let envelope = null;
+        try {
+          envelope = JSON.parse(event.data || "{}");
+        } catch {
+          return;
+        }
+        const eventName = String(envelope?.event || "").trim();
+        const payload = envelope?.payload || {};
+
+        if (eventName === "snapshot") {
           if (payload.job) {
             setSelectedJob(payload.job);
-            setJobs((current) => current.map((item) => (item.job_id === payload.job.job_id ? payload.job : item)));
+            upsertRealtimeJob(payload.job);
+            streamTerminal = TERMINAL_JOB_STATUSES.has(String(payload.job?.status || ""));
           }
-        });
+          setArtifacts(Array.isArray(payload.artifacts) ? payload.artifacts : []);
+          replaceRealtimeLogs(payload.items);
+          setSelectedJobRealtimeRevision((current) => current + 1);
+          return;
+        }
 
-        source.addEventListener("log", (event) => {
-          const payload = JSON.parse(event.data || "{}");
-          if (!payload.item) {
-            return;
+        if (eventName === "status" || eventName === "terminal") {
+          if (payload.job) {
+            setSelectedJob(payload.job);
+            upsertRealtimeJob(payload.job);
+            streamTerminal = TERMINAL_JOB_STATUSES.has(String(payload.job?.status || ""));
           }
-          setLogLines((current) => {
-            const next = [...current, payload.item];
-            return next.length > 5000 ? next.slice(-5000) : next;
-          });
-        });
+          if (Array.isArray(payload.artifacts)) {
+            setArtifacts(payload.artifacts);
+          }
+          setSelectedJobRealtimeRevision((current) => current + 1);
+          return;
+        }
 
-        source.onerror = () => {
-          source?.close();
-        };
-      } catch (error) {
-        setMessage(localizeMessage(String(error.message || error)));
-      }
-    }
+        if (eventName === "analysis") {
+          setSelectedJobRealtimeRevision((current) => current + 1);
+          return;
+        }
+
+        if (eventName !== "log" || !payload.item) {
+          return;
+        }
+        queueRealtimeLogLine(payload.item);
+      });
+
+      socket.addEventListener("error", () => {
+        socket?.close();
+      });
+
+      socket.addEventListener("close", () => {
+        if (cancelled || streamTerminal) {
+          return;
+        }
+        reconnectTimer = window.setTimeout(connectStream, 2000);
+      });
+    };
 
     connectStream();
     return () => {
       cancelled = true;
-      source?.close();
+      pendingLogLinesRef.current = [];
+      clearPendingLogFlush();
+      if (reconnectTimer) {
+        window.clearTimeout(reconnectTimer);
+      }
+      socket?.close();
     };
   }, [selectedJobId, accessToken, currentUser?.username]);
 
@@ -494,10 +829,23 @@ export function useConsoleRuntime() {
     if (!currentUser || !selectedJobId) {
       return undefined;
     }
+    if (TERMINAL_JOB_STATUSES.has(String(selectedJob?.status || ""))) {
+      return undefined;
+    }
     const timer = window.setInterval(() => {
       loadJob(selectedJobId, false).catch((error) => setMessage(localizeMessage(String(error.message || error))));
-    }, 4000);
+    }, 12000);
     return () => window.clearInterval(timer);
+  }, [selectedJobId, selectedJob?.status, accessToken, currentUser?.username]);
+
+  useEffect(() => {
+    if (!selectedJobId) {
+      return;
+    }
+    if (selectedJob && selectedJob.job_id === selectedJobId) {
+      return;
+    }
+    loadJob(selectedJobId, false).catch((error) => setMessage(localizeMessage(String(error.message || error))));
   }, [selectedJobId, accessToken, currentUser?.username]);
 
   async function handleLogin(form) {
@@ -532,14 +880,27 @@ export function useConsoleRuntime() {
     setSubmitting(true);
     try {
       const data = await apiFetchWithAuth("/api/jobs", { method: "POST", body: JSON.stringify(payload) });
-      setSelectedJobId(data.job.job_id);
-      await refreshAll();
+      activateJob(data.job);
       setMessage(t("app.createdJob", { jobId: data.job.job_id }));
-      goToView("jobs");
     } catch (error) {
       setMessage(localizeMessage(String(error.message || error)));
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function approveAndResumeJob(jobId) {
+    try {
+      const data = await apiFetchWithAuth(`/api/jobs/${encodeURIComponent(jobId)}/approve-resume`, {
+        method: "POST",
+        body: JSON.stringify({}),
+      });
+      activateJob(data.job);
+      setMessage(`Approval granted. Resumed as ${data.job.job_id}.`);
+      return data.job;
+    } catch (error) {
+      setMessage(localizeMessage(String(error.message || error)));
+      throw error;
     }
   }
 
@@ -556,6 +917,27 @@ export function useConsoleRuntime() {
     }
   }
 
+  async function missionChat(message, overrides = {}, sessionId = "") {
+    setSubmitting(true);
+    try {
+      const data = await apiFetchWithAuth("/api/mission/chat", {
+        method: "POST",
+        body: JSON.stringify({ message, overrides, session_id: sessionId || null }),
+      });
+      const workflowState = String(data?.workflow_state || missionChatActionToWorkflowState(data?.action) || "");
+      if (workflowState === WORKFLOW_STATES.LAUNCH_EXECUTED && data?.job?.job_id) {
+        activateJob(data.job);
+        setMessage(t("app.createdJob", { jobId: data.job.job_id }));
+      }
+      return data || null;
+    } catch (error) {
+      setMessage(localizeMessage(String(error.message || error)));
+      throw error;
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   async function submitMission(message, overrides = {}, sessionId = "") {
     setSubmitting(true);
     try {
@@ -563,10 +945,8 @@ export function useConsoleRuntime() {
         method: "POST",
         body: JSON.stringify({ message, overrides, session_id: sessionId || null }),
       });
-      setSelectedJobId(data.job.job_id);
-      await refreshAll();
+      activateJob(data.job);
       setMessage(t("app.createdJob", { jobId: data.job.job_id }));
-      goToView("jobs");
       return data;
     } catch (error) {
       setMessage(localizeMessage(String(error.message || error)));
@@ -608,9 +988,7 @@ export function useConsoleRuntime() {
         method: "POST",
         body: JSON.stringify({}),
       });
-      setSelectedJobId(data.job.job_id);
-      goToView("jobs");
-      await refreshAll();
+      activateJob(data.job);
       setMessage(t("app.assetScanCreated", { jobId: data.job.job_id }));
     } catch (error) {
       setMessage(localizeMessage(String(error.message || error)));
@@ -730,6 +1108,49 @@ export function useConsoleRuntime() {
     }
   }
 
+  function openJob(jobId) {
+    if (jobId) {
+      setSelectedJobId(jobId);
+    }
+    goToView("jobs");
+  }
+
+  async function openReportByJobId(jobId) {
+    try {
+      let nextReports = reports;
+      if (!nextReports.length) {
+        const data = await apiFetchWithAuth("/api/reports");
+        nextReports = Array.isArray(data.items) ? data.items : [];
+        setReports(nextReports);
+      }
+
+      const matched = nextReports.find((item) => item.job_id === jobId);
+      goToView("reports");
+
+      if (!matched) {
+        setMessage(t("reports.noReports"));
+        return;
+      }
+
+      await selectReport(matched);
+    } catch (error) {
+      setMessage(localizeMessage(String(error.message || error)));
+    }
+  }
+
+  function openFollowUpMission(seed) {
+    setFollowUpMissionSeed(seed && typeof seed === "object" ? { ...seed } : null);
+    goToView("jobs");
+  }
+
+  function consumeFollowUpMissionSeed() {
+    setFollowUpMissionSeed(null);
+  }
+
+  const approvalQueue = jobs.filter(
+    (item) => jobSessionStatusToWorkflowState(item?.session_status || item?.status) === WORKFLOW_STATES.RUNTIME_APPROVAL,
+  );
+
   return {
     activeView,
     accessToken,
@@ -758,6 +1179,12 @@ export function useConsoleRuntime() {
     message,
     setMessage,
     submitting,
+    searchResults,
+    searching,
+    selectedReportBaselineId,
+    selectedJobRealtimeRevision,
+    followUpMissionSeed,
+    approvalQueue,
     goToView,
     handleLogin,
     handleBootstrap,
@@ -765,8 +1192,10 @@ export function useConsoleRuntime() {
     refreshAll,
     setSelectedJobId,
     selectReport,
+    selectReportBaseline,
     submitJob,
     parseMission,
+    missionChat,
     submitMission,
     createAsset,
     deleteAsset,
@@ -782,5 +1211,13 @@ export function useConsoleRuntime() {
     reloadPlugin,
     saveLlmSettings,
     testLlmConnection,
+    searchGlobal,
+    clearGlobalSearch,
+    openGlobalSearchResult,
+    openFollowUpMission,
+    consumeFollowUpMissionSeed,
+    approveAndResumeJob,
+    openJob,
+    openReportByJobId,
   };
 }

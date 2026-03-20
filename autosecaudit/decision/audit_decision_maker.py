@@ -7,6 +7,7 @@ import ipaddress
 import json
 import re
 import socket
+from dataclasses import replace
 from typing import Any, Callable, Sequence
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
@@ -17,6 +18,7 @@ from autosecaudit.agent_safety import (
     normalize_safety_grade,
 )
 from autosecaudit.agent_core.builtin_tools import load_builtin_agent_tools
+from autosecaudit.agent_core.cve_validation_pipeline import CveValidationPipeline
 from autosecaudit.agent_core.cve_service import NvdCveService
 from autosecaudit.agent_core.skill_loader import SkillRegistry, load_builtin_skill_registry
 from autosecaudit.agent_core.skill_planner import SkillDrivenPlanner
@@ -30,6 +32,12 @@ from .defaults import (
     DEFAULT_TOOL_SELECTION_CAPS,
     PATH_CAPPED_TOOLS,
     STANDARD_PORT_PRIORITY,
+)
+from .llm_response_parser import (
+    extract_fenced_json,
+    extract_reason,
+    extract_tool_candidates,
+    parse_json_payload,
 )
 from .models import (
     IPAddress,
@@ -123,6 +131,7 @@ class AuditDecisionMaker:
         self._safety_grade = normalize_safety_grade(safety_grade)
         self._skill_registry = skill_registry if skill_registry is not None else load_builtin_skill_registry()
         self._skill_planner = skill_planner or SkillDrivenPlanner()
+        self._cve_validation_pipeline = CveValidationPipeline()
 
     def build_prompt(self, target: str, services: Sequence[str]) -> str:
         """Build lightweight compatibility prompt for external tool suggestion."""
@@ -200,7 +209,7 @@ class AuditDecisionMaker:
             "4) Budget\n"
             "- Each action must include integer cost.\n"
             "- Total action costs must be <= budget_remaining.\n"
-            "- If budget_remaining < 10, propose only priority 0 actions.\n\n"
+            "- If budget_remaining < 10, prefer priority 0 actions; if none fit, choose the safest action that still fits.\n\n"
             "CVE Verification Guidance\n"
             "- When proposing cve_verify, choose explicit cve_ids from surface.cve_candidates.\n"
             "- Prefer CVEs with higher cvss_score/severity and automation support evidence.\n"
@@ -273,6 +282,8 @@ class AuditDecisionMaker:
             "url_parameters_count": len(surface.get("url_parameters", {})) if isinstance(surface.get("url_parameters", {}), dict) else 0,
             "cve_candidates_count": len(surface.get("cve_candidates", [])) if isinstance(surface.get("cve_candidates", []), list) else 0,
         }
+        knowledge_context = surface.get("knowledge_context", {}) if isinstance(surface.get("knowledge_context", {}), dict) else {}
+        cve_validation = surface.get("cve_validation", {}) if isinstance(surface.get("cve_validation", {}), dict) else {}
 
         return {
             "target": str(audit_state.get("target", "")).strip(),
@@ -285,6 +296,28 @@ class AuditDecisionMaker:
             "findings_count": max(0, int(audit_state.get("findings_count", 0) or 0)),
             "feedback": audit_state.get("feedback", {}) if isinstance(audit_state.get("feedback", {}), dict) else {},
             "memory_context": memory_context,
+            "evidence_graph": self._compact_evidence_graph_for_llm(audit_state.get("evidence_graph", {})),
+            "knowledge_context": {
+                "summary": str(knowledge_context.get("summary", "")).strip()[:400],
+                "tags": [
+                    str(item).strip()
+                    for item in knowledge_context.get("tags", [])
+                    if str(item).strip()
+                ][:12],
+                "references": [
+                    str(item).strip()
+                    for item in knowledge_context.get("references", [])
+                    if str(item).strip()
+                ][:8],
+            },
+            "cve_validation": {
+                "summary": cve_validation.get("summary", {}) if isinstance(cve_validation.get("summary", {}), dict) else {},
+                "recommended_actions": [
+                    item
+                    for item in cve_validation.get("recommended_actions", [])
+                    if isinstance(item, dict)
+                ][:8],
+            },
             "history_recent": compact_history,
             "breadcrumbs_recent": compact_breadcrumbs,
             "surface_summary": compact_surface,
@@ -346,6 +379,181 @@ class AuditDecisionMaker:
             planning_hints.get("rag_recommended_tools", []),
         )
 
+    def _knowledge_context_tool_hints(self, surface: dict[str, Any]) -> list[str]:
+        """Infer planner hints from task-level enterprise context."""
+        if not isinstance(surface, dict):
+            return []
+        knowledge_context = surface.get("knowledge_context", {}) if isinstance(surface.get("knowledge_context", {}), dict) else {}
+        text_parts: list[str] = []
+        if knowledge_context:
+            text_parts.append(str(knowledge_context.get("summary", "")).strip().lower())
+            text_parts.extend(str(item).strip().lower() for item in knowledge_context.get("tags", []) if str(item).strip())
+            text_parts.extend(str(item).strip().lower() for item in knowledge_context.get("references", []) if str(item).strip())
+        else:
+            text_parts.append(str(surface.get("knowledge_summary", "")).strip().lower())
+            text_parts.extend(str(item).strip().lower() for item in surface.get("knowledge_tags", []) if str(item).strip())
+            text_parts.extend(str(item).strip().lower() for item in surface.get("knowledge_refs", []) if str(item).strip())
+        corpus = " ".join(part for part in text_parts if part)
+        if not corpus:
+            return []
+
+        hints: list[str] = []
+        if any(token in corpus for token in ("swagger", "openapi", "postman", "api schema", "/api/")):
+            hints.extend(["api_schema_discovery", "dynamic_crawl", "http_security_headers"])
+        if any(token in corpus for token in ("gateway", "ingress", "reverse proxy", "edge", "waf")):
+            hints.extend(["waf_detector", "cors_misconfiguration", "http_security_headers"])
+        if any(token in corpus for token in ("admin", "backoffice", "console", "portal")):
+            hints.extend(["login_form_detector", "dynamic_crawl", "page_vision_analyzer"])
+        if any(token in corpus for token in ("auth", "oauth", "sso", "token", "session", "cookie")):
+            hints.extend(["cookie_security_audit", "cors_misconfiguration", "login_form_detector"])
+        return self._merge_tool_hints(hints, [])
+
+    def _compact_evidence_graph_for_llm(self, evidence_graph: Any) -> dict[str, Any]:
+        """Compress evidence graph so LLM hints can use corroborated signals cheaply."""
+        if not isinstance(evidence_graph, dict):
+            return {}
+        summary = evidence_graph.get("summary", {}) if isinstance(evidence_graph.get("summary", {}), dict) else {}
+        priority_targets = evidence_graph.get("priority_targets", []) if isinstance(evidence_graph.get("priority_targets", []), list) else []
+        corroboration_hints = evidence_graph.get("corroboration_hints", []) if isinstance(evidence_graph.get("corroboration_hints", []), list) else []
+        return {
+            "summary": {
+                "claim_count": int(summary.get("claim_count", 0) or 0),
+                "corroborated_claims": int(summary.get("corroborated_claims", 0) or 0),
+                "high_confidence_claims": int(summary.get("high_confidence_claims", 0) or 0),
+                "recommended_tool_count": int(summary.get("recommended_tool_count", 0) or 0),
+                "priority_target_count": int(summary.get("priority_target_count", 0) or 0),
+            },
+            "recommended_tools": [
+                str(item).strip()
+                for item in evidence_graph.get("recommended_tools", [])
+                if str(item).strip()
+            ][:10],
+            "priority_targets": [
+                {
+                    "target": str(item.get("target", "")).strip(),
+                    "score": item.get("score"),
+                    "reasons": [
+                        str(reason).strip()
+                        for reason in item.get("reasons", [])
+                        if str(reason).strip()
+                    ][:3],
+                }
+                for item in priority_targets[:8]
+                if isinstance(item, dict) and str(item.get("target", "")).strip()
+            ],
+            "corroboration_hints": [
+                {
+                    "tool_name": str(item.get("tool_name", "")).strip(),
+                    "target": str(item.get("target", "")).strip(),
+                    "confidence": item.get("confidence"),
+                }
+                for item in corroboration_hints[:12]
+                if isinstance(item, dict)
+            ],
+        }
+
+    def _evidence_tool_hints(self, evidence_graph: dict[str, Any], active_tools: Sequence[str]) -> list[str]:
+        """Extract ranked follow-up tool hints from evidence graph."""
+        if not isinstance(evidence_graph, dict):
+            return []
+        active = {str(item).strip() for item in active_tools if str(item).strip()}
+        raw = [
+            str(item).strip()
+            for item in evidence_graph.get("recommended_tools", [])
+            if str(item).strip()
+        ]
+        hints = [item for item in raw if item in active]
+        return self._merge_tool_hints(hints, [])
+
+    def _apply_evidence_corroboration(
+        self,
+        candidates: list[_CandidateAction],
+        evidence_graph: dict[str, Any],
+    ) -> list[_CandidateAction]:
+        """Bias candidate ranking toward actions that corroborate multi-source evidence."""
+        if not candidates or not isinstance(evidence_graph, dict):
+            return candidates
+        hints = evidence_graph.get("corroboration_hints", [])
+        if not isinstance(hints, list) or not hints:
+            return candidates
+
+        output: list[_CandidateAction] = []
+        for candidate in candidates:
+            matching_hints: list[dict[str, Any]] = []
+            for raw_hint in hints:
+                if not isinstance(raw_hint, dict):
+                    continue
+                if self._candidate_matches_corroboration_hint(candidate, raw_hint):
+                    matching_hints.append(raw_hint)
+            if not matching_hints:
+                output.append(candidate)
+                continue
+
+            total_delta = sum(int(item.get("priority_delta", 0) or 0) for item in matching_hints)
+            best_confidence = max(float(item.get("confidence", 0.0) or 0.0) for item in matching_hints)
+            rationale = "; ".join(
+                str(item.get("reason", "")).strip()
+                for item in matching_hints
+                if str(item.get("reason", "")).strip()
+            )
+            new_reason = candidate.reason
+            if rationale:
+                new_reason = f"{candidate.reason} Corroboration: {rationale}"
+            output.append(
+                replace(
+                    candidate,
+                    priority=max(0, int(candidate.priority) + total_delta),
+                    reason=f"{new_reason} (evidence_confidence={best_confidence:.2f})",
+                )
+            )
+        return output
+
+    def _candidate_matches_corroboration_hint(
+        self,
+        candidate: _CandidateAction,
+        hint: dict[str, Any],
+    ) -> bool:
+        """Return whether one candidate aligns with an evidence-graph corroboration hint."""
+        hint_tool = str(hint.get("tool_name", "")).strip()
+        if hint_tool and hint_tool != candidate.tool_name:
+            return False
+        hint_target = str(hint.get("target", "")).strip()
+        if not hint_target:
+            return False
+
+        normalized_candidate = self._normalize_target_for_key(candidate.tool_name, candidate.target)
+        normalized_hint = self._normalize_target_for_key(candidate.tool_name, hint_target)
+        if normalized_candidate == normalized_hint:
+            return True
+
+        candidate_origin = self._origin_from_target(candidate.target)
+        hint_origin = self._origin_from_target(hint_target)
+        return bool(candidate_origin and hint_origin and candidate_origin == hint_origin)
+
+    def _origin_from_target(self, value: str) -> str:
+        """Return normalized origin when target is URL-like, else empty."""
+        raw = str(value).strip()
+        parsed = urlparse(raw)
+        if parsed.scheme in {"http", "https"} and parsed.netloc:
+            return urlunparse((parsed.scheme.lower(), self._canonical_netloc(parsed), "", "", "", ""))
+        return ""
+
+    def _evidence_summary_suffix(self, evidence_graph: dict[str, Any]) -> str:
+        """Create a short human-readable suffix for plan summaries."""
+        if not isinstance(evidence_graph, dict):
+            return ""
+        summary = evidence_graph.get("summary", {})
+        if not isinstance(summary, dict):
+            return ""
+        corroborated = int(summary.get("corroborated_claims", 0) or 0)
+        high_confidence = int(summary.get("high_confidence_claims", 0) or 0)
+        if corroborated <= 0 and high_confidence <= 0:
+            return ""
+        return (
+            f"Evidence graph has {corroborated} corroborated claim(s)"
+            f" and {high_confidence} high-confidence lead(s)."
+        )
+
     def _skill_surface_follow_up_hints(self, surface: dict[str, Any], active_tools: Sequence[str]) -> list[str]:
         """Resolve follow-up tool hints from declarative skill surface rules."""
         if not isinstance(surface, dict) or not self._skill_registry:
@@ -376,7 +584,21 @@ class AuditDecisionMaker:
         history_keys = self._collect_terminal_history_keys(history)
         surface = self._normalize_surface_for_planning(audit_state)
         memory_context = audit_state.get("memory_context", {}) if isinstance(audit_state.get("memory_context", {}), dict) else {}
+        evidence_graph = audit_state.get("evidence_graph", {}) if isinstance(audit_state.get("evidence_graph", {}), dict) else {}
         surface = self._merge_memory_surface_hints(surface, memory_context)
+        cve_validation = surface.get("cve_validation", {}) if isinstance(surface.get("cve_validation", {}), dict) else {}
+        if not cve_validation:
+            staged = self._cve_validation_pipeline.build(
+                state={
+                    **audit_state,
+                    "surface": surface,
+                    "evidence_graph": evidence_graph,
+                },
+                findings=audit_state.get("findings_preview", []) if isinstance(audit_state.get("findings_preview", []), list) else [],
+            )
+            if staged:
+                cve_validation = staged
+                surface["cve_validation"] = staged
         service_urls, endpoint_urls = self._extract_breadcrumb_urls(breadcrumbs)
         nmap_service_urls = self._extract_nmap_service_urls(surface)
         preferred_origins = self._surface_preferred_origins(surface)
@@ -480,12 +702,15 @@ class AuditDecisionMaker:
             )
         hints = self._merge_tool_hints(surface_skill_hints, hints)
         hints = self._merge_tool_hints(self._memory_tool_hints(memory_context), hints)
+        hints = self._merge_tool_hints(self._evidence_tool_hints(evidence_graph, active_tools), hints)
+        hints = self._merge_tool_hints(self._knowledge_context_tool_hints(surface), hints)
         if isinstance(feedback, dict):
             hints = self._merge_tool_hints(feedback.get("follow_up_tools", []), hints)
         candidates = self._apply_llm_cve_preferences(
             candidates,
             llm_preferred_cve_ids=llm_preferred_cve_ids,
         )
+        candidates = self._apply_evidence_corroboration(candidates, evidence_graph)
 
         actions = self._select_actions(
             candidates=candidates,
@@ -508,10 +733,13 @@ class AuditDecisionMaker:
             )
 
         total_cost = sum(item.cost for item in actions)
+        evidence_summary = self._evidence_summary_suffix(evidence_graph)
         summary = (
             f"Proposed {len(actions)} safe action(s), total estimated cost {total_cost}, "
             f"remaining budget after plan {max(0, budget_remaining - total_cost)}."
         )
+        if evidence_summary:
+            summary += f" {evidence_summary}"
         return ActionPlan(decision_summary=summary, actions=actions)
 
     def _build_candidates_for_tool(
@@ -1042,6 +1270,39 @@ class AuditDecisionMaker:
             ),
         )
 
+    @staticmethod
+    def _parameterized_endpoint_is_noise(value: str) -> bool:
+        """Return whether a parameterized endpoint is likely CDN/static noise."""
+        parsed = urlparse(value.strip())
+        path = (parsed.path or "/").lower()
+        if path.startswith("/cdn-cgi/"):
+            return True
+        return path.endswith(
+            (
+                ".css",
+                ".js",
+                ".mjs",
+                ".map",
+                ".png",
+                ".jpg",
+                ".jpeg",
+                ".gif",
+                ".svg",
+                ".ico",
+                ".webp",
+                ".woff",
+                ".woff2",
+                ".ttf",
+                ".eot",
+                ".otf",
+                ".mp4",
+                ".webm",
+                ".mp3",
+                ".wav",
+                ".pdf",
+            )
+        )
+
     def _resolve_parameterized_endpoint_targets(
         self,
         endpoint_params: dict[str, dict[str, str]],
@@ -1052,6 +1313,8 @@ class AuditDecisionMaker:
         for endpoint, params in sorted(endpoint_params.items(), key=lambda item: item[0]):
             host = urlparse(endpoint).hostname or ""
             if not self._is_host_in_scope(host, scope_model):
+                continue
+            if self._parameterized_endpoint_is_noise(endpoint):
                 continue
             resolved.append(
                 _ResolvedTarget(
@@ -1765,6 +2028,16 @@ class AuditDecisionMaker:
         explicit_approval = "approval_granted" in surface
         rag_hits = surface.get("rag_intel_hits", []) if isinstance(surface.get("rag_intel_hits", []), list) else []
         rag_recommended_tools = surface.get("rag_recommended_tools", []) if isinstance(surface.get("rag_recommended_tools", []), list) else []
+        cve_validation = surface.get("cve_validation", {}) if isinstance(surface.get("cve_validation", {}), dict) else {}
+        validation_candidates = cve_validation.get("candidates", []) if isinstance(cve_validation.get("candidates", []), list) else []
+        validation_index: dict[tuple[str, str], dict[str, Any]] = {}
+        for item in validation_candidates:
+            if not isinstance(item, dict):
+                continue
+            target_key = self._normalize_url(str(item.get("target", "")).strip()) if self._is_http_url(str(item.get("target", "")).strip()) else str(item.get("target", "")).strip().lower()
+            cve_key = str(item.get("cve_id", "")).strip().upper()
+            if target_key and cve_key:
+                validation_index[(target_key, cve_key)] = item
         fallback_target = self._fallback_http_target(
             origins=origins,
             scope_items=scope_items,
@@ -1831,6 +2104,9 @@ class AuditDecisionMaker:
                     self._coerce_bool(raw.get("approval_granted"), default=False)
                 )
             for candidate_id in normalized_cve_ids:
+                stage = validation_index.get((normalized_target, candidate_id))
+                if isinstance(stage, dict) and not bool(stage.get("version_corroborated", False)):
+                    continue
                 group["items"].append(
                     {
                         "cve_id": candidate_id,
@@ -1838,6 +2114,7 @@ class AuditDecisionMaker:
                         "cvss_score": item_cvss,
                         "has_nuclei_template": bool(raw.get("has_nuclei_template", False)),
                         "template_capability": raw.get("template_capability", {}),
+                        "validation_stage": stage if isinstance(stage, dict) else {},
                     }
                 )
 
@@ -1858,6 +2135,7 @@ class AuditDecisionMaker:
             ]
             if not ranked_ids:
                 continue
+            verification_stage = validation_index.get((target_key, ranked_ids[0]), {})
             item_authorization_values = group.get("authorization_confirmed_values", [])
             item_safe_only_values = group.get("safe_only_values", [])
             item_allow_high_risk_values = group.get("allow_high_risk_values", [])
@@ -1904,6 +2182,10 @@ class AuditDecisionMaker:
                         "authorization_confirmed": resolved_authorization,
                         "approval_granted": resolved_approval,
                         "safety_grade": safety_grade,
+                        "version_corroborated": bool(verification_stage.get("version_corroborated", False)),
+                        "template_verified": bool(verification_stage.get("template_verified", False)),
+                        "sandbox_ready": bool(verification_stage.get("sandbox_ready", False)),
+                        "verification_stage": verification_stage if isinstance(verification_stage, dict) else {},
                     },
                 )
             )
@@ -1926,6 +2208,32 @@ class AuditDecisionMaker:
             candidates = audit_state.get("cve_candidates", [])
             if isinstance(candidates, list):
                 surface["cve_candidates"] = candidates
+        if "cve_validation" in audit_state and "cve_validation" not in surface:
+            validation = audit_state.get("cve_validation", {})
+            if isinstance(validation, dict):
+                surface["cve_validation"] = validation
+        if "knowledge_context" in audit_state and "knowledge_context" not in surface:
+            knowledge_context = audit_state.get("knowledge_context", {})
+            if isinstance(knowledge_context, dict):
+                surface["knowledge_context"] = knowledge_context
+        if "knowledge_tags" in audit_state and "knowledge_tags" not in surface:
+            tags = audit_state.get("knowledge_tags", [])
+            if isinstance(tags, list):
+                surface["knowledge_tags"] = tags
+        if "knowledge_refs" in audit_state and "knowledge_refs" not in surface:
+            refs = audit_state.get("knowledge_refs", [])
+            if isinstance(refs, list):
+                surface["knowledge_refs"] = refs
+        if "knowledge_context" not in surface:
+            summary = str(surface.get("knowledge_summary", "")).strip()
+            tags = [str(item).strip() for item in surface.get("knowledge_tags", []) if str(item).strip()] if isinstance(surface.get("knowledge_tags", []), list) else []
+            refs = [str(item).strip() for item in surface.get("knowledge_refs", []) if str(item).strip()] if isinstance(surface.get("knowledge_refs", []), list) else []
+            if summary or tags or refs:
+                surface["knowledge_context"] = {
+                    "summary": summary,
+                    "tags": tags,
+                    "references": refs,
+                }
         return surface
 
     def _fallback_http_target(
@@ -2309,7 +2617,21 @@ class AuditDecisionMaker:
                     continue
                 if selected_counts.get(candidate.tool_name, 0) >= tool_cap:
                     continue
-                if budget_remaining < 10 and candidate.priority != 0:
+                if (
+                    budget_remaining < 10
+                    and candidate.priority != 0
+                    and self._has_selectable_priority_zero_candidate(
+                        scoped_candidates=scoped_candidates,
+                        selected_keys=selected_keys,
+                        selected_counts=selected_counts,
+                        round_limit=round_limit,
+                        spent=spent,
+                        budget_remaining=budget_remaining,
+                        effective_grade=effective_grade,
+                        nmap_service_origins=nmap_service_origins,
+                        path_capped_seen=path_capped_seen,
+                    )
+                ):
                     continue
                 if spent + candidate.cost > budget_remaining:
                     continue
@@ -2352,6 +2674,46 @@ class AuditDecisionMaker:
             if len(selected) >= max_actions or not made_progress:
                 break
         return selected
+
+    def _has_selectable_priority_zero_candidate(
+        self,
+        *,
+        scoped_candidates: list[tuple[_CandidateAction, str]],
+        selected_keys: set[str],
+        selected_counts: dict[str, int],
+        round_limit: int,
+        spent: int,
+        budget_remaining: int,
+        effective_grade: str,
+        nmap_service_origins: set[str] | None,
+        path_capped_seen: dict[str, dict[str, set[str]]],
+    ) -> bool:
+        """Return whether low-budget mode still has at least one runnable priority-0 candidate."""
+        for candidate, key in scoped_candidates:
+            if candidate.priority != 0 or key in selected_keys:
+                continue
+            tool_cap = self._tool_selection_cap(
+                candidate.tool_name,
+                effective_grade,
+                nmap_service_origins=nmap_service_origins,
+            )
+            if selected_counts.get(candidate.tool_name, 0) >= round_limit:
+                continue
+            if selected_counts.get(candidate.tool_name, 0) >= tool_cap:
+                continue
+            if spent + candidate.cost > budget_remaining:
+                continue
+            path_cap = self._path_selection_cap(candidate.tool_name)
+            if path_cap > 0:
+                path_scope = self._path_scope_key(candidate.target)
+                if path_scope is not None:
+                    host_key, path_key = path_scope
+                    tool_paths = path_capped_seen.get(candidate.tool_name, {})
+                    host_paths = tool_paths.get(host_key, set())
+                    if path_key not in host_paths and len(host_paths) >= path_cap:
+                        continue
+            return True
+        return False
 
     def _effective_available_tools(
         self,
@@ -3069,86 +3431,15 @@ class AuditDecisionMaker:
         return value
 
     def _parse_json_payload(self, llm_response: str) -> dict[str, Any]:
-        """Parse JSON payload from possibly noisy LLM text."""
-        raw = llm_response.strip()
-        if not raw:
-            raise ValueError("LLM response is empty")
-
-        try:
-            parsed = json.loads(raw)
-            if isinstance(parsed, dict):
-                return parsed
-        except json.JSONDecodeError:
-            pass
-
-        fenced = self._extract_fenced_json(raw)
-        if fenced:
-            try:
-                parsed = json.loads(fenced)
-                if isinstance(parsed, dict):
-                    return parsed
-            except json.JSONDecodeError:
-                pass
-
-        decoder = json.JSONDecoder()
-        for idx, char in enumerate(raw):
-            if char != "{":
-                continue
-            try:
-                parsed_obj, _end = decoder.raw_decode(raw[idx:])
-            except json.JSONDecodeError:
-                continue
-            if isinstance(parsed_obj, dict):
-                return parsed_obj
-
-        raise ValueError("Unable to parse JSON object from LLM response")
+        return parse_json_payload(llm_response)
 
     @staticmethod
     def _extract_fenced_json(text: str) -> str | None:
-        """Extract first markdown fenced block as JSON."""
-        marker = "```"
-        first = text.find(marker)
-        if first < 0:
-            return None
-        second = text.find(marker, first + len(marker))
-        if second < 0:
-            return None
-
-        block = text[first + len(marker) : second].strip()
-        if block.lower().startswith("json"):
-            block = block[4:].strip()
-        return block or None
+        return extract_fenced_json(text)
 
     def _extract_tool_candidates(self, payload: dict[str, Any]) -> list[str]:
-        """Extract tool names from several JSON shapes."""
-        raw_tools: list[str] = []
-
-        if isinstance(payload.get("tool"), str):
-            raw_tools.append(payload["tool"].strip())
-
-        tools_field = payload.get("tools")
-        if isinstance(tools_field, list):
-            for item in tools_field:
-                if isinstance(item, str):
-                    raw_tools.append(item.strip())
-                elif isinstance(item, dict) and isinstance(item.get("tool"), str):
-                    raw_tools.append(item["tool"].strip())
-
-        rec_field = payload.get("recommendations")
-        if isinstance(rec_field, list):
-            for item in rec_field:
-                if isinstance(item, str):
-                    raw_tools.append(item.strip())
-                elif isinstance(item, dict) and isinstance(item.get("tool"), str):
-                    raw_tools.append(item["tool"].strip())
-
-        return [item for item in raw_tools if item]
+        return extract_tool_candidates(payload)
 
     @staticmethod
     def _extract_reason(payload: dict[str, Any]) -> str | None:
-        """Extract optional reason field."""
-        reason = payload.get("reason")
-        if isinstance(reason, str):
-            reason_text = reason.strip()
-            return reason_text or None
-        return None
+        return extract_reason(payload)

@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from autosecaudit.agent_core.builtin_tools import (
     AgentCORSMisconfigurationTool,
+    AgentReverseDnsProbeTool,
     AgentSecurityTxtCheckTool,
     AgentServiceBannerProbeTool,
+    AgentTLSServiceProbeTool,
 )
 from autosecaudit.agent_core.policy import PolicyEngine
 from autosecaudit.agent_core.scheduler import Action
@@ -162,6 +164,81 @@ def test_policy_blocks_dependency_when_crawler_signal_is_missing() -> None:
     reason = engine.validate_preconditions(action, state, tool=_Tool())
 
     assert reason == "precondition_failed:crawler_signal_present"
+
+
+def test_policy_accepts_query_backed_parameterized_endpoint_base_target() -> None:
+    engine = PolicyEngine()
+    state = {
+        "scope": ["example.com"],
+        "breadcrumbs": [{"type": "service", "data": "https://example.com"}],
+        "surface": {
+            "parameter_origins": {
+                "id": ["https://example.com/api/user?id=1"],
+            },
+        },
+        "feedback": {},
+        "history": [],
+        "budget_remaining": 50,
+    }
+    action = _action(
+        "sql_sanitization_audit",
+        "https://example.com/api/user",
+        {"method": "GET", "params": {"id": "1"}},
+        priority=30,
+        cost=8,
+    )
+    action.preconditions = ["target_in_scope", "params_available", "crawler_signal_present"]
+
+    class _Tool:
+        depends_on = ["dynamic_crawl"]
+
+    reason = engine.validate_preconditions(action, state, tool=_Tool())
+
+    assert reason is None
+
+
+def test_tls_service_probe_does_not_require_nmap_history() -> None:
+    engine = PolicyEngine()
+    tool = AgentTLSServiceProbeTool()
+    state = {
+        "scope": ["example.com"],
+        "breadcrumbs": [{"type": "service", "data": "https://example.com:443/"}],
+        "surface": {},
+        "history": [],
+        "budget_remaining": 50,
+    }
+    action = _action(
+        "tls_service_probe",
+        "https://example.com:443/",
+        {"timeout_seconds": 5, "server_name": "example.com"},
+        priority=12,
+        cost=4,
+    )
+    action.preconditions = ["target_in_scope", "not_already_done", "https_service_confirmed"]
+
+    assert engine.validate_preconditions(action, state, tool=tool) is None
+
+
+def test_reverse_dns_probe_does_not_require_nmap_history() -> None:
+    engine = PolicyEngine()
+    tool = AgentReverseDnsProbeTool()
+    state = {
+        "scope": ["example.com"],
+        "breadcrumbs": [],
+        "surface": {},
+        "history": [],
+        "budget_remaining": 50,
+    }
+    action = _action(
+        "reverse_dns_probe",
+        "example.com",
+        {"timeout_seconds": 4, "max_addresses": 6},
+        priority=16,
+        cost=2,
+    )
+    action.preconditions = ["target_in_scope", "not_already_done"]
+
+    assert engine.validate_preconditions(action, state, tool=tool) is None
 
 
 def test_security_txt_metadata_schema_blocks_unexpected_options() -> None:
@@ -425,3 +502,31 @@ def test_poc_sandbox_precondition_requires_aggressive_grade() -> None:
     reason = engine.validate_preconditions(action, state)
 
     assert reason == "precondition_failed:poc_requires_aggressive_grade"
+
+
+def test_policy_allows_nonzero_priority_under_low_budget_when_no_priority_zero_fits() -> None:
+    engine = PolicyEngine()
+    state = {
+        "scope": ["example.com"],
+        "breadcrumbs": [{"type": "service", "data": "https://example.com"}],
+        "surface": {},
+        "history": [],
+        "budget_remaining": 9,
+        "safety_grade": "balanced",
+    }
+    plan = {
+        "actions": [
+            _action(
+                "api_schema_discovery",
+                "https://example.com",
+                {},
+                priority=14,
+                cost=4,
+            )
+        ]
+    }
+
+    allowed, blocked = engine.validate_plan(plan, state)
+
+    assert [action.tool_name for action in allowed] == ["api_schema_discovery"]
+    assert blocked == []

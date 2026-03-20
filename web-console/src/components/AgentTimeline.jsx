@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { useI18n } from "../i18n";
+import AnimatedCollapse from "./AnimatedCollapse";
 
 const STRUCTURED_EVENT_PATTERN = /(?:^|-\s+)\[([^\]]+)\]\s+([^|]+?)\s+\|\s+([^|]+?)\s+\|\s*(.*)$/;
+const TIMELINE_LINE_LIMIT = 1200;
 
 function safeJsonParse(value) {
   try {
@@ -55,6 +57,10 @@ function normalizeStatus(value) {
   return raw;
 }
 
+function tt(language, english, chinese) {
+  return language === "zh-CN" ? chinese : english;
+}
+
 function parseStructuredEvent(rawLine) {
   const line = String(rawLine || "").trim();
   if (!line) return null;
@@ -106,6 +112,14 @@ function parseActionDetail(detail) {
     if (targetMatch) output.target = String(targetMatch[1] || "").trim();
   }
   return output;
+}
+
+function parseSignalPayload(detail) {
+  const payload = safeJsonParse(detail);
+  if (payload && typeof payload === "object") {
+    return payload;
+  }
+  return { summary: String(detail || "").trim() };
 }
 
 function selectRankingCandidate(block) {
@@ -287,6 +301,20 @@ function parseLogToEvents(lines, rankingBlocks = []) {
         continue;
       }
 
+      if ((source === "agent" || source === "orchestrator") && ["thought", "observation", "strategy_shift", "approval_pending", "loop_break"].includes(action)) {
+        events.push({
+          id: `${item.ts}-${idx}-${action}`,
+          type: action,
+          ts: item.ts,
+          pluginId,
+          status,
+          rawStatus,
+          detail,
+          payload: parseSignalPayload(detail),
+        });
+        continue;
+      }
+
       if ((source === "agent" || source === "orchestrator") && ["run_end", "run_stop", "iteration_stop"].includes(action)) {
         events.push({
           id: `${item.ts}-${idx}-run-end`,
@@ -456,10 +484,14 @@ function RankingExplanation({ block, t }) {
   );
 }
 
-function ActionNode({ event, t }) {
+function ActionNode({ event, t, language }) {
   const [expanded, setExpanded] = useState(false);
+  const hasDetails = Boolean(event.cmdArgs || event.logs.length > 0);
+  const detailPanelId = `${event.id}-details`;
   const statusClass =
     event.status === "running" ? "is-running" : event.status === "completed" ? "is-completed" : "is-error";
+  const HeaderTag = hasDetails ? "button" : "div";
+  const toggleLabel = expanded ? tt(language, "Hide details", "\u6536\u8d77\u8be6\u60c5") : t("agentTimeline.toggleDetails");
 
   return (
     <div className={`timeline-node action-node ${statusClass}`}>
@@ -467,47 +499,69 @@ function ActionNode({ event, t }) {
         {event.status === "running" ? <div className="timeline-pulse" /> : event.status === "completed" ? "OK" : "ERR"}
       </div>
       <div className="node-content">
-        <div className="node-header" onClick={() => setExpanded((current) => !current)}>
-          <div className="node-title">
+        <HeaderTag
+          {...(hasDetails
+            ? {
+              type: "button",
+              className: "node-header node-header-button",
+              onClick: () => setExpanded((current) => !current),
+              "aria-expanded": expanded,
+              "aria-controls": detailPanelId,
+            }
+            : { className: "node-header" })}
+        >
+          <span className="node-title">
             <span className="plugin-tag">[{event.pluginId}]</span>
-            <span className="node-kind">tool</span>
+            <span className="node-kind">{tt(language, "tool", "\u5de5\u5177")}</span>
             {event.target ? <span className="target-tag">{event.target}</span> : null}
-          </div>
-          <div className="node-meta">
+          </span>
+          <span className="node-meta">
             <span className="status-label">{statusText(event.status, t)}</span>
             <span className="ts-label">{event.startTs}</span>
-          </div>
-        </div>
+            {hasDetails ? (
+              <span className={`collapse-indicator ${expanded ? "is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            ) : null}
+          </span>
+        </HeaderTag>
 
         {event.reasoning ? <div className="node-reasoning">{shortText(event.reasoning, 320)}</div> : null}
 
         {event.rankingBlock ? <RankingExplanation block={event.rankingBlock} t={t} /> : null}
 
-        {expanded && event.cmdArgs ? (
-          <div className="node-cmd">
-            <span className="cmd-prompt">{t("agentTimeline.terminalCommand")}</span>
-            <code>
-              {event.pluginId} {event.cmdArgs}
-            </code>
-          </div>
-        ) : null}
-
         {event.resultSummary ? <div className="node-summary">{shortText(event.resultSummary, 400)}</div> : null}
 
-        {event.logs.length > 0 && !expanded ? (
-          <button type="button" className="toggle-logs-btn" onClick={() => setExpanded(true)}>
-            {t("agentTimeline.toggleDetails")} ({event.logs.length} lines)
+        {hasDetails ? (
+          <button type="button" className={`toggle-logs-btn ${expanded ? "is-active" : ""}`} onClick={() => setExpanded((current) => !current)}>
+            {toggleLabel}
+            {event.logs.length > 0 ? ` (${event.logs.length} ${tt(language, "lines", "\u884c")})` : ""}
           </button>
         ) : null}
 
-        {expanded && event.logs.length > 0 ? (
-          <pre className="node-logs">
-            {event.logs.map((line, idx) => (
-              <div key={`${line.ts}-${idx}`} className="log-line">
-                <span className="log-ts">{line.ts}</span> {line.line}
-              </div>
-            ))}
-          </pre>
+        {hasDetails ? (
+          <AnimatedCollapse id={detailPanelId} open={expanded} className="timeline-detail-collapse">
+            <>
+              {event.cmdArgs ? (
+                <div className="node-cmd">
+                  <span className="cmd-prompt">{t("agentTimeline.terminalCommand")}</span>
+                  <code>
+                    {event.pluginId} {event.cmdArgs}
+                  </code>
+                </div>
+              ) : null}
+
+              {event.logs.length > 0 ? (
+                <pre className="node-logs">
+                  {event.logs.map((line, idx) => (
+                    <div key={`${line.ts}-${idx}`} className="log-line">
+                      <span className="log-ts">{line.ts}</span> {line.line}
+                    </div>
+                  ))}
+                </pre>
+              ) : null}
+            </>
+          </AnimatedCollapse>
         ) : null}
       </div>
     </div>
@@ -533,13 +587,57 @@ function GenericNode({ icon, title, detail, ts, className = "" }) {
   );
 }
 
-export default function AgentTimeline({ lines, analysis = null }) {
-  const { t } = useI18n();
+function ReasoningNode({ event, language }) {
+  const payload = event.payload || {};
+  const summary = shortText(payload.summary || event.detail || "", 320);
+  const meta = [
+    payload.phase ? `${tt(language, "phase", "\u9636\u6bb5")}: ${payload.phase}` : "",
+    payload.tool_name ? `${tt(language, "tool", "\u5de5\u5177")}: ${payload.tool_name}` : "",
+    payload.target ? shortText(payload.target, 80) : "",
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+  const config = {
+    thought: { icon: "TH", title: tt(language, "Thought", "\u601d\u8003"), className: "thought-node" },
+    observation: { icon: "OB", title: tt(language, "Observation", "\u89c2\u5bdf"), className: "observation-node" },
+    strategy_shift: { icon: "SW", title: tt(language, "Strategy shift", "\u7b56\u7565\u8c03\u6574"), className: "strategy-node" },
+    approval_pending: { icon: "AP", title: tt(language, "Approval required", "\u7b49\u5f85\u5ba1\u6279"), className: "approval-node" },
+    loop_break: { icon: "LB", title: tt(language, "Loop break", "\u5faa\u73af\u8df3\u51fa"), className: "loop-break-node" },
+  }[event.type] || { icon: "*", title: event.type, className: "signal-node" };
+
+  return (
+    <div className={`timeline-node ${config.className}`.trim()}>
+      <div className="node-icon">{config.icon}</div>
+      <div className="node-content">
+        <div className="node-header">
+          <div className="node-title">
+            <span className="plugin-tag">{config.title}</span>
+          </div>
+          <div className="node-meta">
+            <span className="status-label">{event.rawStatus || event.status || tt(language, "info", "\u4fe1\u606f")}</span>
+            <span className="ts-label">{event.ts}</span>
+          </div>
+        </div>
+        {summary ? <div className="node-detail">{summary}</div> : null}
+        {meta ? <div className="table-meta">{meta}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+export default function AgentTimeline({ lines, totalLineCount = 0, analysis = null }) {
+  const { t, language } = useI18n();
   const rankingBlocks = useMemo(
     () => (Array.isArray(analysis?.verification_ranking) ? analysis.verification_ranking : []),
     [analysis]
   );
-  const events = useMemo(() => parseLogToEvents(lines, rankingBlocks), [lines, rankingBlocks]);
+  const visibleLines = useMemo(
+    () => (Array.isArray(lines) && lines.length > TIMELINE_LINE_LIMIT ? lines.slice(-TIMELINE_LINE_LIMIT) : Array.isArray(lines) ? lines : []),
+    [lines],
+  );
+  const hiddenLineCount = Math.max(0, (Number(totalLineCount) || visibleLines.length) - visibleLines.length);
+  const events = useMemo(() => parseLogToEvents(visibleLines, rankingBlocks), [visibleLines, rankingBlocks]);
 
   if (!Array.isArray(lines) || lines.length === 0) {
     return <div className="empty-state">{t("agentTimeline.noEvents")}</div>;
@@ -547,11 +645,22 @@ export default function AgentTimeline({ lines, analysis = null }) {
 
   return (
     <div className="agent-timeline-wrapper">
+      {hiddenLineCount > 0 ? (
+        <div className="mb-3 text-xs font-medium text-slate-500">
+          {language === "zh-CN"
+            ? `为保证流畅度，时间线仅渲染最近 ${visibleLines.length} / ${totalLineCount} 条日志；完整内容可切到原始日志视图。`
+            : `Timeline is rendering the latest ${visibleLines.length} of ${totalLineCount} log lines for performance. Use raw view for the full log.`}
+        </div>
+      ) : null}
       <div className="timeline-track" />
       <div className="timeline-events">
         {events.map((event, idx) => {
           if (event.type === "action") {
-            return <ActionNode key={event.id || idx} event={event} t={t} />;
+            return <ActionNode key={event.id || idx} event={event} t={t} language={language} />;
+          }
+
+          if (["thought", "observation", "strategy_shift", "approval_pending", "loop_break"].includes(event.type)) {
+            return <ReasoningNode key={event.id || idx} event={event} language={language} />;
           }
 
           if (event.type === "run_start") {
@@ -560,7 +669,7 @@ export default function AgentTimeline({ lines, analysis = null }) {
                 key={event.id || idx}
                 icon="RUN"
                 className="run-node"
-                title={`[${event.pluginId}] run_start`}
+                title={`[${event.pluginId}] ${tt(language, "run start", "\u8fd0\u884c\u5f00\u59cb")}`}
                 detail={shortText(event.detail, 320)}
                 ts={event.ts}
               />
@@ -586,7 +695,7 @@ export default function AgentTimeline({ lines, analysis = null }) {
                 key={event.id || idx}
                 icon="END"
                 className="end-node"
-                title={`[${event.pluginId}] ${event.action || "run_end"}`}
+                title={`[${event.pluginId}] ${event.action || tt(language, "run end", "\u8fd0\u884c\u7ed3\u675f")}`}
                 detail={shortText(event.detail, 320)}
                 ts={event.ts}
               />
@@ -599,7 +708,7 @@ export default function AgentTimeline({ lines, analysis = null }) {
                 key={event.id || idx}
                 icon="$"
                 className="command-node"
-                title="command"
+                title={tt(language, "command", "\u547d\u4ee4")}
                 detail={shortText(event.command, 320)}
                 ts={event.ts}
               />
@@ -620,14 +729,14 @@ export default function AgentTimeline({ lines, analysis = null }) {
           }
 
           return (
-            <GenericNode
-              key={event.id || idx}
-              icon="i"
-              className="note-node"
-              title="note"
-              detail={shortText(event.text || event.detail || "", 260)}
-              ts={event.ts}
-            />
+              <GenericNode
+                key={event.id || idx}
+                icon="i"
+                className="note-node"
+                title={tt(language, "note", "\u5907\u6ce8")}
+                detail={shortText(event.text || event.detail || "", 260)}
+                ts={event.ts}
+              />
           );
         })}
       </div>

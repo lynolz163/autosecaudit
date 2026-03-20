@@ -59,6 +59,9 @@ def test_generate_agent_json_report_includes_coverage_summary(tmp_path: Path) ->
     assert coverage["completed_actions"] == 2
     assert coverage["error_actions"] == 1
     assert any(item["tool"] == "dynamic_crawl" for item in coverage["tool_stats"])
+    assert payload["risk_matrix"]["total_score"] == 15
+    assert payload["risk_matrix"]["categories"][0]["name"] == "configuration"
+    assert payload["risk_matrix"]["categories"][0]["finding_count"] == 1
 
 
 def test_recon_summary_with_full_surface(tmp_path: Path) -> None:
@@ -85,8 +88,19 @@ def test_recon_summary_with_full_surface(tmp_path: Path) -> None:
                 "server": "nginx",
                 "content-type": "text/html",
             },
+            "waf": {
+                "confidence": 0.92,
+                "summary": "Passive response markers matched Cloudflare.",
+                "signals": ["cf-cache-status", "server: cloudflare"],
+            },
             "tech_stack": ["nginx", "react"],
             "waf_vendors": ["cloudflare"],
+            "ports": [
+                {"port": 443, "protocol": "tcp", "state": "open", "service": "https"},
+            ],
+            "services": [
+                {"host": "example.com", "port": 443, "service": "https", "protocol": "tcp", "tls": True, "auth_required": False},
+            ],
             "security_txt": {
                 "present": True,
                 "status_code": 200,
@@ -193,6 +207,17 @@ def test_recon_summary_with_full_surface(tmp_path: Path) -> None:
 
     # Tools executed
     assert len(recon["tools_executed"]) == 1
+    infrastructure = payload["infrastructure"]
+    assert infrastructure["ports"][0]["port"] == 443
+    assert infrastructure["waf"]["detected"] is True
+    assert any(item["name"] == "nginx" for item in infrastructure["middleware"])
+    assert infrastructure["certificates"][0]["tls_version"] == "TLSv1.3"
+
+    attack_surface = payload["attack_surface"]
+    assert any(item["type"] == "login_form" for item in attack_surface["entry_points"])
+    assert any(item["type"] == "api_endpoint" for item in attack_surface["entry_points"])
+    assert any(item["type"] == "config_exposure" for item in attack_surface["sensitive_paths"])
+    assert any(item["type"] == "source_map" for item in attack_surface["sensitive_paths"])
 
 
 def test_recon_summary_with_empty_surface(tmp_path: Path) -> None:

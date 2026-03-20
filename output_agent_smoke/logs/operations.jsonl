@@ -1,5 +1,0 @@
-{"timestamp": "2026-02-18T17:34:31.098774+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=3, max_iterations=2, timeout=300.0s, resumed=False"}
-{"timestamp": "2026-02-18T17:34:31.110946+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://example.com:443"}
-{"timestamp": "2026-02-18T17:34:33.248991+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=2135"}
-{"timestamp": "2026-02-18T17:34:33.255847+00:00", "plugin_id": "agent", "action": "run_stop", "status": "warning", "detail": "Budget exhausted."}
-{"timestamp": "2026-02-18T17:34:33.261817+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=1, findings=0"}

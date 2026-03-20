@@ -91,6 +91,38 @@ class DirsearchTool(BaseAgentTool):
     _MAX_TIMEOUT_SECONDS = 900.0
     _DEFAULT_MAX_RESULTS = 300
     _MAX_MAX_RESULTS = 2000
+    _DEFAULT_WORDLIST_ENTRIES: tuple[str, ...] = (
+        "",
+        "admin",
+        "administrator",
+        "login",
+        "logout",
+        "dashboard",
+        "panel",
+        "console",
+        "api",
+        "api/docs",
+        "swagger",
+        "swagger.json",
+        "openapi.json",
+        "robots.txt",
+        "sitemap.xml",
+        ".env",
+        ".git/config",
+        ".git/HEAD",
+        ".gitignore",
+        ".well-known/security.txt",
+        "server-status",
+        "server-info",
+        "health",
+        "status",
+        "debug",
+        "phpinfo.php",
+        "actuator/health",
+        "actuator/env",
+        "graphql",
+        "uploads",
+    )
 
     def check_availability(self) -> tuple[bool, str | None]:
         """Check dirsearch executable/module availability before scheduling."""
@@ -144,10 +176,41 @@ class DirsearchTool(BaseAgentTool):
                 except FileNotFoundError as exc:
                     last_os_error = exc
                     continue
-                except subprocess.TimeoutExpired:
-                    return self._error_result(
+                except subprocess.TimeoutExpired as exc:
+                    parsed_report, parse_errors = self._load_report(report_path, validated_target)
+                    entries = self._extract_entries(parsed_report, validated_target)
+                    entries = self._dedupe_entries(entries)[:max_results]
+                    warning = f"dirsearch scan timed out after {timeout_seconds:.1f}s"
+                    return ToolExecutionResult(
+                        ok=True,
+                        tool_name=self.name,
                         target=validated_target,
-                        message=f"dirsearch scan timed out after {timeout_seconds:.1f}s",
+                        data={
+                            "status": "completed",
+                            "payload": {
+                                "command": command,
+                                "return_code": None,
+                                "stdout_preview": self._stringify_process_output(exc.stdout, limit=2000),
+                                "stderr_preview": self._stringify_process_output(exc.stderr, limit=1000),
+                                "parse_errors": parse_errors,
+                                "entry_count": len(entries),
+                                "timed_out": True,
+                                "warning": warning,
+                            },
+                            "findings": self._build_findings(entries),
+                            "breadcrumbs_delta": [
+                                {"type": "endpoint", "data": item["url"]}
+                                for item in entries
+                                if item.get("url")
+                            ],
+                            "surface_delta": {
+                                "dirsearch_results": entries,
+                                "discovered_urls": [item["url"] for item in entries if item.get("url")],
+                                "dirsearch_entry_count": len(entries),
+                                "dirsearch_timed_out": True,
+                            },
+                            "metadata": {"timed_out": True},
+                        },
                         duration_ms=self._elapsed_ms(started),
                     )
                 except OSError as exc:
@@ -245,15 +308,22 @@ class DirsearchTool(BaseAgentTool):
             str(self._coerce_threads(options.get("threads"))),
         ]
 
-        wordlist = options.get("wordlist")
-        if isinstance(wordlist, str) and wordlist.strip():
-            args.extend(["-w", wordlist.strip()])
+        args.extend(["-w", self._resolve_wordlist_path(options=options, workspace_dir=report_path.parent)])
 
         extensions = self._coerce_extensions(options.get("extensions"))
         if extensions:
             args.extend(["-e", ",".join(extensions)])
 
         return args
+
+    def _resolve_wordlist_path(self, *, options: dict[str, Any], workspace_dir: Path) -> str:
+        wordlist = options.get("wordlist")
+        if isinstance(wordlist, str) and wordlist.strip():
+            return wordlist.strip()
+        wordlist_path = Path(workspace_dir) / "autosecaudit-dirsearch-quick.txt"
+        if not wordlist_path.exists():
+            wordlist_path.write_text("\n".join(self._DEFAULT_WORDLIST_ENTRIES) + "\n", encoding="utf-8")
+        return str(wordlist_path)
 
     def _validate_target(self, target: str) -> str:
         parsed = urlparse(str(target).strip())
@@ -352,6 +422,16 @@ class DirsearchTool(BaseAgentTool):
                 raise ValueError("extensions must contain only alphanumeric values up to 10 chars")
             cleaned.append(item.lower())
         return cleaned
+
+    @staticmethod
+    def _stringify_process_output(value: str | bytes | None, *, limit: int) -> str:
+        if value is None:
+            return ""
+        if isinstance(value, bytes):
+            text = value.decode("utf-8", errors="replace")
+        else:
+            text = str(value)
+        return text.strip()[:limit]
 
     def _load_report(self, report_path: Path, target: str) -> tuple[dict[str, Any] | list[Any], int]:
         """Load dirsearch JSON report file. Returns payload + parse error count."""

@@ -13,8 +13,39 @@
     "target_type": "origin_url"
   },
   "parameters": {"defaults": {}, "constraints": {}},
-  "result_interpretation": {"success_indicators": [], "output_extraction": {}, "severity_mapping": {}, "severity_escalation": []},
-  "follow_up": {},
+  "result_interpretation": {
+    "success_indicators": [
+      {
+        "field": "surface_delta.waf_vendors",
+        "condition": "non_empty",
+        "meaning": "Passive WAF/CDN fingerprints detected from response markers."
+      }
+    ],
+    "output_extraction": {},
+    "severity_mapping": {},
+    "severity_escalation": []
+  },
+  "follow_up": {
+    "on_waf_detected": {
+      "condition": "waf_detected",
+      "trigger": ["http_security_headers", "security_txt_check", "passive_config_audit", "ssl_expiry_check", "cors_misconfiguration"],
+      "reason": "When WAF/CDN protection is present, prefer passive header, TLS, and configuration review before noisier validation."
+    },
+    "on_waf_strategy_detected": {
+      "when_surface_contains": {
+        "waf_strategy": ["prefer_passive_validation"]
+      },
+      "trigger": ["http_security_headers", "security_txt_check", "passive_config_audit", "ssl_expiry_check"],
+      "reason": "Persisted WAF strategy should keep future rounds focused on passive confirmation steps."
+    },
+    "on_cdn_waf_detected": {
+      "when_surface_contains": {
+        "waf_vendors": ["cloudflare", "akamai", "aws_waf", "fastly", "azure_front_door"]
+      },
+      "trigger": ["ssl_expiry_check", "security_txt_check"],
+      "reason": "Edge CDN/WAF vendors often change caching/TLS behavior; verify headers and certificates before deeper testing."
+    }
+  },
   "risk": {"level": "safe", "cost": 3, "priority": 13, "retry": {}},
   "dependencies": {"runtime": null, "tools": []}
 }

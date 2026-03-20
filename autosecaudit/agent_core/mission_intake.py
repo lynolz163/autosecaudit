@@ -1,4 +1,4 @@
-"""Natural-language mission intake and multi-turn mission dialogue."""
+﻿"""Natural-language mission intake and multi-turn mission dialogue."""
 
 from __future__ import annotations
 
@@ -24,15 +24,18 @@ from autosecaudit.agent_core.tool_registry import get_tool, list_tools
 _LOGGER = logging.getLogger("autosecaudit")
 
 
-_URL_RE = re.compile(r"(?P<value>https?://[^\s,，。；;]+)", re.IGNORECASE)
-_IP_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
-_DOMAIN_RE = re.compile(r"\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}\b", re.IGNORECASE)
+_URL_RE = re.compile(r"(?P<value>https?://[^\s,锛屻€傦紱;]+)", re.IGNORECASE)
+_IP_RE = re.compile(r"(?P<value>(?<!\d)(?:\d{1,3}\.){3}\d{1,3}(?::\d{2,5})?)")
+_DOMAIN_RE = re.compile(
+    r"(?P<value>(?<![A-Za-z0-9-])(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}(?::\d{2,5})?)",
+    re.IGNORECASE,
+)
 _CHINESE_RE = re.compile(r"[\u4e00-\u9fff]")
 _PORT_RE = re.compile(r"(?<!\d)(\d{2,5})(?!\d)")
 
 _INTENT_RULES: list[tuple[str, tuple[str, ...]]] = [
     ("retest", ("复测", "retest", "verify fix", "fix verification", "修复验证")),
-    ("verify", ("验证", "核验", "verify", "cve", "漏洞复现", "漏洞验证")),
+    ("verify", ("验证", "校验", "verify", "cve", "漏洞复现", "漏洞验证")),
     ("recon", ("信息收集", "侦察", "侦查", "资产摸排", "资产发现", "recon", "asset discovery")),
     ("pentest", ("渗透测试", "渗透", "攻防测试", "pentest", "penetration test", "security test")),
 ]
@@ -95,6 +98,9 @@ _OVERRIDE_KEYS = {
     "multi_agent_rounds",
     "approval_granted",
     "authorization_confirmed",
+    "knowledge_summary",
+    "knowledge_tags",
+    "knowledge_refs",
     "surface",
     "surface_file",
     "llm_config",
@@ -112,6 +118,58 @@ _OVERRIDE_KEYS = {
     "resume",
     "plan_filename",
 }
+
+_ALLOWED_LLM_ENUMS: dict[str, dict[str, str]] = {
+    "intent": {
+        "recon": "recon",
+        "pentest": "pentest",
+        "verify": "verify",
+        "retest": "retest",
+    },
+    "depth": {
+        "light": "light",
+        "standard": "standard",
+        "deep": "deep",
+    },
+    "mode": {
+        "agent": "agent",
+        "plan": "plan",
+        "plugins": "plugins",
+    },
+    "report_lang": {
+        "zh-cn": "zh-CN",
+        "en": "en",
+    },
+    "safety_grade": {
+        "conservative": "conservative",
+        "balanced": "balanced",
+        "aggressive": "aggressive",
+    },
+    "autonomy_mode": {
+        "constrained": "constrained",
+        "adaptive": "adaptive",
+        "supervised": "supervised",
+    },
+}
+_LLM_PLACEHOLDER_LITERALS = {
+    "string|null",
+    "boolean|null",
+    "integer|null",
+    "number|null",
+    "string[]",
+    "integer[]",
+    "recon|pentest|verify|retest|null",
+    "light|standard|deep|null",
+    "agent|plan|plugins|null",
+    "zh-cn|en|null",
+    "conservative|balanced|aggressive|null",
+    "constrained|adaptive|supervised|null",
+    "null",
+    "none",
+    "n/a",
+    "unknown",
+}
+_LLM_ENUM_PLACEHOLDER_RE = re.compile(r"^[a-z0-9_.-]+(?:\|[a-z0-9_.-]+)+\|null$", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -201,6 +259,33 @@ class MissionSessionManager:
         self._sessions[next_session_id] = conversation
         return conversation
 
+    def append_system_turn(
+        self,
+        session_id: str,
+        message: str,
+        *,
+        summary: list[str] | None = None,
+    ) -> MissionConversation:
+        normalized_session_id = str(session_id or "").strip()
+        conversation = self._sessions.get(normalized_session_id)
+        if conversation is None:
+            raise KeyError(f"mission_session_not_found:{normalized_session_id}")
+
+        normalized_message = str(message or "").strip()
+        if not normalized_message:
+            return conversation
+
+        next_conversation = MissionConversation(
+            session_id=conversation.session_id,
+            draft=conversation.draft,
+            messages=[
+                *conversation.messages,
+                MissionTurn(role="system", message=normalized_message, summary=list(summary or [])),
+            ],
+        )
+        self._sessions[normalized_session_id] = next_conversation
+        return next_conversation
+
 
 def build_mission_draft(
     message: str,
@@ -256,7 +341,11 @@ def _compile_mission_draft(
     base_surface = dict(base_payload.get("surface", {})) if isinstance(base_payload.get("surface", {}), dict) else {}
     override_surface = dict(override_payload.get("surface", {})) if isinstance(override_payload.get("surface", {}), dict) else {}
 
-    explicit_target = _clean_text(override_payload.get("target")) or _extract_target(raw_message)
+    explicit_target = (
+        _clean_text(override_payload.get("target"))
+        or _extract_target(raw_message)
+        or _extract_target(str(override_payload.get("scope", "")))
+    )
     target = explicit_target or (base_draft.target if base_draft is not None else "")
     scope = (
         _clean_text(override_payload.get("scope"))
@@ -305,7 +394,7 @@ def _compile_mission_draft(
     )
 
     multi_agent = bool(override_payload.get("multi_agent", base_draft.multi_agent if base_draft is not None else False))
-    if not multi_agent and ("multi-agent" in normalized or "多智能体" in raw_message):
+    if not multi_agent and ("multi-agent" in normalized or "澶氭櫤鑳戒綋" in raw_message):
         multi_agent = True
     multi_agent_rounds = _to_int(
         override_payload.get("multi_agent_rounds"),
@@ -340,8 +429,14 @@ def _compile_mission_draft(
     )
 
     explicit_tools_requested = "tools" in override_payload
-    payload_tools = list(override_payload.get("tools") or selected_tools)
-    payload_skills = list(override_payload.get("skills") or selected_skills)
+    selected_tools, selected_skills = _sanitize_capability_selection(
+        list(selected_tools),
+        list(selected_skills),
+        preserve_explicit_tools=False,
+    )
+    payload_tools = list(override_payload.get("tools") or [])
+    explicit_skills_requested = "skills" in override_payload
+    payload_skills = list(override_payload.get("skills") or [])
     payload_tools, payload_skills = _sanitize_capability_selection(
         payload_tools,
         payload_skills,
@@ -355,6 +450,8 @@ def _compile_mission_draft(
             for item in payload_skills
             if (skill := registry.get(item)) is None or skill.tool not in disabled_tools
         ]
+    final_selected_tools = list(payload_tools) if explicit_tools_requested else list(selected_tools)
+    final_selected_skills = list(payload_skills) if explicit_skills_requested else list(selected_skills)
 
     focus_ports = (
         directives["focus_ports"]
@@ -382,6 +479,21 @@ def _compile_mission_draft(
 
     if approval_granted is not None:
         surface["approval_granted"] = bool(approval_granted)
+    knowledge_summary = _clean_text(override_payload.get("knowledge_summary")) or _clean_text(base_surface.get("knowledge_summary"))
+    knowledge_tags = _coerce_text_list(override_payload.get("knowledge_tags")) or _coerce_text_list(base_surface.get("knowledge_tags", []))
+    knowledge_refs = _coerce_text_list(override_payload.get("knowledge_refs")) or _coerce_text_list(base_surface.get("knowledge_refs", []))
+    if knowledge_summary:
+        surface["knowledge_summary"] = knowledge_summary
+    if knowledge_tags:
+        surface["knowledge_tags"] = knowledge_tags
+    if knowledge_refs:
+        surface["knowledge_refs"] = knowledge_refs
+    if knowledge_summary or knowledge_tags or knowledge_refs:
+        surface["knowledge_context"] = {
+            "summary": knowledge_summary,
+            "tags": knowledge_tags,
+            "references": knowledge_refs,
+        }
 
     payload: dict[str, Any] = {
         "target": target or "",
@@ -443,8 +555,8 @@ def _compile_mission_draft(
         mode=mode,
         safety_grade=safety_grade,
         autonomy_mode=autonomy_mode,
-        tool_count=len(payload_tools),
-        skill_count=len(payload_skills),
+        tool_count=len(final_selected_tools),
+        skill_count=len(final_selected_skills),
         report_lang=report_lang,
         multi_agent=multi_agent,
         warnings=warnings,
@@ -466,8 +578,8 @@ def _compile_mission_draft(
         authorization_confirmed=bool(authorization_confirmed),
         approval_granted=approval_granted,
         payload=payload,
-        selected_tools=list(payload_tools),
-        selected_skills=list(payload_skills),
+        selected_tools=final_selected_tools,
+        selected_skills=final_selected_skills,
         warnings=warnings,
         missing_fields=missing_fields,
         summary=summary,
@@ -507,11 +619,21 @@ def _merge_normalized_overrides(base: dict[str, Any], explicit: dict[str, Any]) 
 
 def _extract_target(message: str) -> str:
     text = str(message or "").strip()
+    if not text:
+        return ""
+    text = (
+        text.replace("（", "(")
+        .replace("）", ")")
+        .replace("，", ",")
+        .replace("。", ".")
+        .replace("；", ";")
+        .replace("：", ":")
+    )
     for pattern in (_URL_RE, _IP_RE, _DOMAIN_RE):
         match = pattern.search(text)
         if match:
             value = match.group("value") if "value" in match.groupdict() else match.group(0)
-            return value.rstrip(".,);，。；")
+            return value.rstrip(".,);锛屻€傦紱")
     return ""
 
 
@@ -685,8 +807,8 @@ def _build_summary(
         f"Safety grade: {safety_grade}",
         f"Autonomy mode: {autonomy_mode}",
         f"Report language: {report_lang}",
-        f"Skills selected: {skill_count}",
-        f"Tools selected: {tool_count}",
+        f"Skill hints: {skill_count}",
+        f"Tool hints: {tool_count}",
         f"Multi-agent: {'enabled' if multi_agent else 'disabled'}",
         f"Mission parser: {parser_source}",
     ]
@@ -764,28 +886,28 @@ def _build_mission_llm_prompt(*, raw_message: str, base_draft: MissionDraft | No
         "surface": dict(base_draft.payload.get("surface", {})) if base_draft is not None else {},
     }
     schema = {
-        "target": "string|null",
-        "scope": "string|null",
-        "intent": "recon|pentest|verify|retest|null",
-        "depth": "light|standard|deep|null",
-        "mode": "agent|plan|plugins|null",
-        "report_lang": "zh-CN|en|null",
-        "safety_grade": "conservative|balanced|aggressive|null",
-        "autonomy_mode": "constrained|adaptive|supervised|null",
-        "authorization_confirmed": "boolean|null",
-        "approval_granted": "boolean|null",
-        "multi_agent": "boolean|null",
-        "multi_agent_rounds": "integer|null",
-        "budget": "integer|null",
-        "max_iterations": "integer|null",
-        "global_timeout": "number|null",
-        "plugins": "string|null",
-        "tools": "string[]",
-        "skills": "string[]",
+        "target": None,
+        "scope": None,
+        "intent": None,
+        "depth": None,
+        "mode": None,
+        "report_lang": None,
+        "safety_grade": None,
+        "autonomy_mode": None,
+        "authorization_confirmed": None,
+        "approval_granted": None,
+        "multi_agent": None,
+        "multi_agent_rounds": None,
+        "budget": None,
+        "max_iterations": None,
+        "global_timeout": None,
+        "plugins": None,
+        "tools": [],
+        "skills": [],
         "surface": {
-            "disabled_tools": "string[]",
-            "focus_ports": "integer[]",
-            "preferred_origins": "string[]",
+            "disabled_tools": [],
+            "focus_ports": [],
+            "preferred_origins": [],
         },
     }
     return (
@@ -794,6 +916,8 @@ def _build_mission_llm_prompt(*, raw_message: str, base_draft: MissionDraft | No
         "Do not explain. Do not use markdown. JSON only.\n"
         "Follow-up turns must update the previous mission instead of resetting it.\n"
         "If a field is not specified in the current user message, return null for scalars or [] for arrays.\n"
+        "Never echo schema hints such as string|null, boolean|null, integer|null, or enum menus.\n"
+        "Only return concrete values that actually appear in or can be safely inferred from the user's message.\n"
         "Never invent targets, tools, or skills.\n"
         "Allowed enums:\n"
         "- intent: recon, pentest, verify, retest\n"
@@ -832,28 +956,44 @@ def _extract_json_object(text: str) -> dict[str, Any] | None:
 
 def _normalize_llm_payload(payload: dict[str, Any]) -> dict[str, Any]:
     output: dict[str, Any] = {}
-    for key in (
-        "target",
-        "scope",
-        "intent",
-        "depth",
-        "mode",
-        "report_lang",
-        "safety_grade",
-        "autonomy_mode",
-        "authorization_confirmed",
-        "approval_granted",
-        "multi_agent",
-        "multi_agent_rounds",
-        "budget",
-        "max_iterations",
-        "global_timeout",
-        "plugins",
-        "tools",
-        "skills",
-    ):
-        if key in payload:
-            output[key] = payload.get(key)
+    for key in ("target", "scope", "plugins"):
+        normalized = _normalize_llm_text(payload.get(key))
+        if normalized is not None:
+            output[key] = normalized
+
+    for key in ("intent", "depth", "mode", "report_lang", "safety_grade", "autonomy_mode"):
+        normalized = _normalize_llm_enum(key, payload.get(key))
+        if normalized is not None:
+            output[key] = normalized
+
+    for key in ("authorization_confirmed", "approval_granted", "multi_agent"):
+        normalized = _coerce_bool(payload.get(key))
+        if normalized is not None:
+            output[key] = normalized
+
+    normalized_rounds = _normalize_llm_int(payload.get("multi_agent_rounds"), minimum=1, maximum=8)
+    if normalized_rounds is not None:
+        output["multi_agent_rounds"] = normalized_rounds
+
+    normalized_budget = _normalize_llm_int(payload.get("budget"), minimum=1, maximum=100000)
+    if normalized_budget is not None:
+        output["budget"] = normalized_budget
+
+    normalized_iterations = _normalize_llm_int(payload.get("max_iterations"), minimum=1, maximum=100)
+    if normalized_iterations is not None:
+        output["max_iterations"] = normalized_iterations
+
+    normalized_timeout = _normalize_llm_float(payload.get("global_timeout"), minimum=10.0, maximum=86400.0)
+    if normalized_timeout is not None:
+        output["global_timeout"] = normalized_timeout
+
+    normalized_tools = _normalize_llm_text_list(payload.get("tools"))
+    if normalized_tools:
+        output["tools"] = normalized_tools
+
+    normalized_skills = _normalize_llm_text_list(payload.get("skills"))
+    if normalized_skills:
+        output["skills"] = normalized_skills
 
     raw_surface = payload.get("surface", {})
     surface = dict(raw_surface) if isinstance(raw_surface, dict) else {}
@@ -861,8 +1001,65 @@ def _normalize_llm_payload(payload: dict[str, Any]) -> dict[str, Any]:
         if key in payload and key not in surface:
             surface[key] = payload.get(key)
     if surface:
-        output["surface"] = surface
+        normalized_surface: dict[str, Any] = {}
+        disabled_tools = _normalize_llm_text_list(surface.get("disabled_tools"))
+        if disabled_tools:
+            normalized_surface["disabled_tools"] = disabled_tools
+        focus_ports = _coerce_port_list(surface.get("focus_ports", []))
+        if focus_ports:
+            normalized_surface["focus_ports"] = focus_ports
+        preferred_origins = _normalize_llm_text_list(surface.get("preferred_origins"))
+        if preferred_origins:
+            normalized_surface["preferred_origins"] = preferred_origins
+        if normalized_surface:
+            output["surface"] = normalized_surface
     return output
+
+
+def _normalize_llm_text(value: Any) -> str | None:
+    if value in (None, ""):
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    lowered = text.lower()
+    if lowered in _LLM_PLACEHOLDER_LITERALS:
+        return None
+    if _LLM_ENUM_PLACEHOLDER_RE.fullmatch(lowered):
+        return None
+    return text
+
+
+def _normalize_llm_enum(key: str, value: Any) -> str | None:
+    text = _normalize_llm_text(value)
+    if text is None:
+        return None
+    return _ALLOWED_LLM_ENUMS.get(key, {}).get(text.lower())
+
+
+def _normalize_llm_text_list(value: Any) -> list[str]:
+    normalized_items: list[str] = []
+    for item in _coerce_text_list(value):
+        normalized = _normalize_llm_text(item)
+        if normalized is not None:
+            normalized_items.append(normalized)
+    return _dedupe_strings(normalized_items)
+
+
+def _normalize_llm_int(value: Any, *, minimum: int, maximum: int) -> int | None:
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return None
+    return max(minimum, min(maximum, parsed))
+
+
+def _normalize_llm_float(value: Any, *, minimum: float, maximum: float) -> float | None:
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError):
+        return None
+    return max(minimum, min(maximum, parsed))
 
 
 def _mission_parser_values(value: dict[str, Any]) -> dict[str, Any]:
@@ -1035,3 +1232,7 @@ def _to_float(value: Any, default: float, *, minimum: float, maximum: float) -> 
     except (TypeError, ValueError):
         parsed = default
     return max(minimum, min(maximum, parsed))
+
+
+
+

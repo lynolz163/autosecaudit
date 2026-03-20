@@ -184,12 +184,16 @@ class AuditPipeline:
         self.bootstrap_state(state)
         phase = self.current_phase(state) if phase_name is None else self._phase_lookup.get(phase_name, self.PHASES[0])
         total_budget = max(0, int(state.get("total_budget", state.get("budget_remaining", 0)) or 0))
-        budget_cap = max(1, int(total_budget * phase.max_budget_pct)) if total_budget > 0 else 0
-        min_floor = max(0, int(_PHASE_MIN_BUDGET.get(phase.name, 0)))
-        if total_budget > 0 and min_floor > 0:
-            budget_cap = min(total_budget, max(budget_cap, min_floor))
-        spent = int(dict(state.get("phase_budget_spent", {})).get(phase.name, 0) or 0)
-        return max(0, budget_cap - spent)
+        if total_budget <= 0:
+            return 0
+        phase_index = self._phase_index(phase.name)
+        cumulative_cap = min(
+            total_budget,
+            sum(self._phase_budget_cap(total_budget, item) for item in self.PHASES[: phase_index + 1]),
+        )
+        spent_map = dict(state.get("phase_budget_spent", {}))
+        cumulative_spent = sum(max(0, int(spent_map.get(item.name, 0) or 0)) for item in self.PHASES[: phase_index + 1])
+        return max(0, cumulative_cap - cumulative_spent)
 
     def record_spend(self, state: dict[str, Any], phase_name: str, amount: int) -> None:
         """Update per-phase budget accounting."""
@@ -197,6 +201,13 @@ class AuditPipeline:
         spent = dict(state.get("phase_budget_spent", {}))
         spent[phase_name] = max(0, int(spent.get(phase_name, 0))) + max(0, int(amount))
         state["phase_budget_spent"] = spent
+
+    def _phase_budget_cap(self, total_budget: int, phase: AuditPhase) -> int:
+        budget_cap = max(1, int(total_budget * phase.max_budget_pct)) if total_budget > 0 else 0
+        min_floor = max(0, int(_PHASE_MIN_BUDGET.get(phase.name, 0)))
+        if total_budget > 0 and min_floor > 0:
+            budget_cap = min(total_budget, max(budget_cap, min_floor))
+        return budget_cap
 
     def evaluate_transition(
         self,

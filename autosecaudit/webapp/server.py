@@ -8,6 +8,7 @@ from pathlib import Path
 import sys
 from typing import Any
 
+from .auth import AuthConfigurationError
 from .fastapi_app import create_app, resolve_runtime_paths
 from .runtime import _resolve_static_dir, _utc_now
 from .services.codex_auth import CodexWebAuthManager
@@ -142,13 +143,18 @@ def main(argv: list[str] | None = None) -> int:
         max_jobs=int(args.max_jobs),
         max_running_jobs=int(args.max_running_jobs),
     )
-    app = create_app(
-        workspace=workspace,
-        static_dir=static_dir,
-        manager=manager,
-        codex_auth=CodexWebAuthManager(),
-        api_token=str(args.api_token),
-    )
+    try:
+        app = create_app(
+            workspace=workspace,
+            static_dir=static_dir,
+            manager=manager,
+            codex_auth=CodexWebAuthManager(),
+            api_token=str(args.api_token),
+        )
+    except AuthConfigurationError as exc:
+        print(f"[autosecaudit-web] invalid auth configuration: {exc}", file=sys.stderr)
+        manager.close()
+        return 2
 
     print(f"[autosecaudit-web] serving http://{args.host}:{args.port}", flush=True)
     print(f"[autosecaudit-web] workspace={workspace}", flush=True)

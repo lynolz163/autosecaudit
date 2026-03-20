@@ -12,6 +12,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from .models import AuditSessionResult, Finding, PluginResult
+from .report_visual import build_visual_analysis_payload
 
 
 @dataclass(frozen=True)
@@ -165,6 +166,7 @@ def generate_markdown_report(
     filename: str,
     *,
     recon_data: dict[str, Any] | None = None,
+    evidence_graph: dict[str, Any] | None = None,
     report_lang: str = "en",
     coverage_data: dict[str, Any] | None = None,
     history_data: list[dict[str, Any]] | None = None,
@@ -290,6 +292,15 @@ def generate_markdown_report(
 
     state_source = state_data if isinstance(state_data, dict) else {}
     lines.extend(_render_scope_snapshot_markdown(state_source, report_lang=normalized_lang))
+    lines.extend(_render_knowledge_context_markdown(state_source, report_lang=normalized_lang))
+    lines.extend(_render_evidence_graph_markdown(evidence_graph, report_lang=normalized_lang))
+    lines.extend(_render_cve_validation_markdown(state_source.get("cve_validation"), report_lang=normalized_lang))
+    remediation_priority = (
+        evidence_graph.get("remediation_priority", [])
+        if isinstance(evidence_graph, dict)
+        else []
+    )
+    lines.extend(_render_remediation_priority_markdown(remediation_priority, report_lang=normalized_lang))
 
     if history_data:
         lines.extend(_render_history_markdown_detailed(history_data, report_lang=normalized_lang))
@@ -384,6 +395,257 @@ def _render_scope_snapshot_markdown(state: dict[str, Any], *, report_lang: str =
     lines.append(f"- {t('Surface Keys', '资产面键数')}: `{len(surface.keys())}`")
     if scope:
         lines.append(f"- {t('Scope Samples', '范围样本')}: {', '.join(f'`{item}`' for item in scope[:10])}")
+    lines.append("")
+    return lines
+
+
+def _render_knowledge_context_markdown(
+    state: dict[str, Any],
+    *,
+    report_lang: str = "en",
+) -> list[str]:
+    """Render task-level knowledge context used to steer the audit."""
+    zh = normalize_report_lang(report_lang).startswith("zh")
+
+    def t(en_text: str, zh_text: str) -> str:
+        return zh_text if zh else en_text
+
+    surface = state.get("surface", {}) if isinstance(state.get("surface", {}), dict) else {}
+    knowledge = (
+        surface.get("knowledge_context", {})
+        if isinstance(surface.get("knowledge_context", {}), dict)
+        else {}
+    )
+    summary = str(knowledge.get("summary", "")).strip()
+    tags = [
+        str(item).strip()
+        for item in knowledge.get("tags", [])
+        if str(item).strip()
+    ] if isinstance(knowledge.get("tags", []), list) else []
+    refs = [
+        str(item).strip()
+        for item in knowledge.get("references", [])
+        if str(item).strip()
+    ] if isinstance(knowledge.get("references", []), list) else []
+
+    if not summary and not tags and not refs:
+        return []
+
+    lines: list[str] = []
+    lines.append(t("## Knowledge Context", "## 任务知识上下文"))
+    lines.append("")
+    if summary:
+        lines.append(f"- {t('Summary', '摘要')}: {summary}")
+    if tags:
+        lines.append(
+            f"- {t('Tags', '标签')}: "
+            + ", ".join(f"`{item}`" for item in tags[:12])
+        )
+    if refs:
+        lines.append(f"- {t('References', '引用')}:")
+        for item in refs[:10]:
+            lines.append(f"  - `{item}`")
+    lines.append("")
+    return lines
+
+
+def _render_evidence_graph_markdown(
+    evidence_graph: dict[str, Any] | None,
+    *,
+    report_lang: str = "en",
+) -> list[str]:
+    """Render corroborated evidence chain summary into markdown."""
+    if not isinstance(evidence_graph, dict) or not evidence_graph:
+        return []
+    zh = normalize_report_lang(report_lang).startswith("zh")
+
+    def t(en_text: str, zh_text: str) -> str:
+        return zh_text if zh else en_text
+
+    summary = evidence_graph.get("summary", {}) if isinstance(evidence_graph.get("summary", {}), dict) else {}
+    claims = evidence_graph.get("claims", []) if isinstance(evidence_graph.get("claims", []), list) else []
+    priority_targets = (
+        evidence_graph.get("priority_targets", [])
+        if isinstance(evidence_graph.get("priority_targets", []), list)
+        else []
+    )
+    path_graph = (
+        evidence_graph.get("path_graph", {})
+        if isinstance(evidence_graph.get("path_graph", {}), dict)
+        else {}
+    )
+    remediation_priority = (
+        evidence_graph.get("remediation_priority", [])
+        if isinstance(evidence_graph.get("remediation_priority", []), list)
+        else []
+    )
+    recommended_tools = [
+        str(item).strip()
+        for item in evidence_graph.get("recommended_tools", [])
+        if str(item).strip()
+    ]
+
+    lines: list[str] = []
+    lines.append(t("## Evidence Correlation", "## 证据关联"))
+    lines.append("")
+    lines.append(f"- {t('Claims', '证据声明')}: `{int(summary.get('claim_count', 0) or 0)}`")
+    lines.append(
+        f"- {t('Corroborated Claims', '交叉印证声明')}: "
+        f"`{int(summary.get('corroborated_claims', 0) or 0)}`"
+    )
+    lines.append(
+        f"- {t('High Confidence Leads', '高置信线索')}: "
+        f"`{int(summary.get('high_confidence_claims', 0) or 0)}`"
+    )
+    lines.append(
+        f"- {t('High Quality Claims', '高质量证据')}: "
+        f"`{int(summary.get('high_quality_claims', 0) or 0)}`"
+    )
+    if isinstance(path_graph, dict):
+        node_count = len(path_graph.get("nodes", [])) if isinstance(path_graph.get("nodes", []), list) else 0
+        edge_count = len(path_graph.get("edges", [])) if isinstance(path_graph.get("edges", []), list) else 0
+        lines.append(
+            f"- {t('Path Graph', '攻击路径图')}: "
+            f"`{node_count}` {t('nodes', '节点')} / `{edge_count}` {t('edges', '连边')}"
+        )
+    lines.append(
+        f"- {t('Remediation Priorities', '修复优先事项')}: "
+        f"`{len(remediation_priority)}`"
+    )
+    if recommended_tools:
+        lines.append(
+            f"- {t('Recommended Follow-up Tools', '推荐后续工具')}: "
+            + ", ".join(f"`{item}`" for item in recommended_tools[:10])
+        )
+    lines.append("")
+
+    if priority_targets:
+        lines.append(t("### Priority Targets", "### 优先目标"))
+        lines.append("")
+        for item in priority_targets[:8]:
+            if not isinstance(item, dict):
+                continue
+            target = str(item.get("target", "")).strip()
+            if not target:
+                continue
+            reasons = [
+                str(reason).strip()
+                for reason in item.get("reasons", [])
+                if str(reason).strip()
+            ]
+            lines.append(
+                f"- `{target}` "
+                f"({t('score', '评分')} `{item.get('score', 0)}`): "
+                f"{'; '.join(reasons[:4]) or t('No explicit reason', '无明确理由')}"
+            )
+        lines.append("")
+
+    if claims:
+        lines.append(t("### Corroborated Claims", "### 已印证线索"))
+        lines.append("")
+        for item in claims[:12]:
+            if not isinstance(item, dict):
+                continue
+            subject = str(item.get("subject", "")).strip() or "-"
+            kind = str(item.get("kind", "")).strip() or "claim"
+            confidence = item.get("confidence", 0)
+            targets = [
+                str(target).strip()
+                for target in item.get("targets", [])
+                if str(target).strip()
+            ]
+            lines.append(
+                f"- `{kind}` / `{subject}` | "
+                f"{t('confidence', '置信度')} `{confidence}` | "
+                f"{t('quality', '质量')} `{item.get('quality_label', '-')}` | "
+                f"{t('sources', '来源')} `{item.get('source_count', 0)}` | "
+                f"{t('targets', '目标')} "
+                f"{', '.join(f'`{target}`' for target in targets[:3]) if targets else '`-`'}"
+            )
+        lines.append("")
+    return lines
+
+
+def _render_cve_validation_markdown(
+    cve_validation: dict[str, Any] | None,
+    *,
+    report_lang: str = "en",
+) -> list[str]:
+    """Render staged CVE validation pipeline summary."""
+    if not isinstance(cve_validation, dict) or not cve_validation:
+        return []
+
+    zh = normalize_report_lang(report_lang).startswith("zh")
+
+    def t(en_text: str, zh_text: str) -> str:
+        return zh_text if zh else en_text
+
+    summary = cve_validation.get("summary", {}) if isinstance(cve_validation.get("summary", {}), dict) else {}
+    candidates = cve_validation.get("candidates", []) if isinstance(cve_validation.get("candidates", []), list) else []
+    recommended = cve_validation.get("recommended_actions", []) if isinstance(cve_validation.get("recommended_actions", []), list) else []
+    if not summary and not candidates and not recommended:
+        return []
+
+    lines: list[str] = []
+    lines.append(t("## CVE Validation Pipeline", "## CVE 分级验证流水线"))
+    lines.append("")
+    if summary:
+        lines.append(f"- {t('Candidates', '候选数量')}: `{summary.get('candidate_count', 0)}`")
+        lines.append(f"- {t('Version Corroborated', '版本印证')}: `{summary.get('version_corroborated_count', 0)}`")
+        lines.append(f"- {t('Template Verified', '模板验证')}: `{summary.get('template_verified_count', 0)}`")
+        lines.append(f"- {t('Sandbox Ready', '沙箱就绪')}: `{summary.get('sandbox_ready_count', 0)}`")
+        lines.append("")
+
+    if recommended:
+        lines.append(t("Recommended next actions:", "推荐的后续动作："))
+        for item in recommended[:8]:
+            lines.append(f"- `{item}`")
+        lines.append("")
+
+    if candidates:
+        lines.append("| CVE | Target | Quality | Version | Template | Sandbox | Next Step |")
+        lines.append("|-----|--------|---------|---------|----------|---------|-----------|")
+        for item in candidates[:12]:
+            if not isinstance(item, dict):
+                continue
+            lines.append(
+                f"| {item.get('cve_id', '-')} | {item.get('target', '-')} | "
+                f"{item.get('quality_label', '-')} | "
+                f"{t('yes', '是') if item.get('version_corroborated') else t('no', '否')} | "
+                f"{t('yes', '是') if item.get('template_verified') else t('no', '否')} | "
+                f"{t('yes', '是') if item.get('sandbox_ready') else t('no', '否')} | "
+                f"{item.get('recommended_next_step', '-')} |"
+            )
+        lines.append("")
+    return lines
+
+
+def _render_remediation_priority_markdown(
+    remediation_priority: list[dict[str, Any]] | None,
+    *,
+    report_lang: str = "en",
+) -> list[str]:
+    """Render remediation ordering for operator and management review."""
+    if not isinstance(remediation_priority, list) or not remediation_priority:
+        return []
+
+    zh = normalize_report_lang(report_lang).startswith("zh")
+
+    def t(en_text: str, zh_text: str) -> str:
+        return zh_text if zh else en_text
+
+    lines: list[str] = []
+    lines.append(t("## Remediation Priority", "## 修复优先级"))
+    lines.append("")
+    lines.append("| Priority | Severity | Title | Target | Reason |")
+    lines.append("|----------|----------|-------|--------|--------|")
+    for item in remediation_priority[:15]:
+        if not isinstance(item, dict):
+            continue
+        lines.append(
+            f"| {item.get('priority', '-')} | {item.get('severity', '-')} | "
+            f"{item.get('title', '-')} | {item.get('target', '-')} | {item.get('reason', '-')} |"
+        )
     lines.append("")
     return lines
 
@@ -586,6 +848,7 @@ def _normalize_finding(raw: dict[str, Any], index: int) -> dict[str, Any]:
         "type": finding_type,
         "name": name,
         "title": title or name,
+        "category": str(raw.get("category", "")).strip() or None,
         "severity": severity,
         "evidence": evidence,
         "reproduction_steps": reproduction_steps,
@@ -676,6 +939,23 @@ def generate_agent_json_report(
     audit_score = _compute_audit_score(severity_counts)
     coverage = _build_coverage_summary(history_items, state)
     recon = _build_recon_summary(state)
+    infrastructure = _build_infrastructure_summary(recon=recon, state=state)
+    risk_matrix = _build_risk_matrix(normalized_findings=normalized_findings, audit_score=audit_score)
+    attack_surface = _build_attack_surface(recon=recon, state=state)
+    evidence_graph = state.get("evidence_graph", {}) if isinstance(state.get("evidence_graph", {}), dict) else {}
+    cve_validation = state.get("cve_validation", {}) if isinstance(state.get("cve_validation", {}), dict) else {}
+    knowledge_context = (
+        state.get("surface", {}).get("knowledge_context", {})
+        if isinstance(state.get("surface", {}), dict)
+        and isinstance(state.get("surface", {}).get("knowledge_context", {}), dict)
+        else {}
+    )
+    path_graph = evidence_graph.get("path_graph", {}) if isinstance(evidence_graph.get("path_graph", {}), dict) else {}
+    remediation_priority = (
+        evidence_graph.get("remediation_priority", [])
+        if isinstance(evidence_graph.get("remediation_priority", []), list)
+        else []
+    )
     failed_actions = [
         _compact_history_record(item, index)
         for index, item in enumerate(history_items, start=1)
@@ -691,6 +971,7 @@ def generate_agent_json_report(
             "resumed": bool(state.get("resumed", False)),
             "resumed_from": str(state.get("resumed_from", "")).strip() or None,
             "current_phase": str(state.get("current_phase", "")).strip() or None,
+            "session_status": str(state.get("session_status", "completed")).strip() or "completed",
         },
         "summary": {
             "audit_score": audit_score,
@@ -708,11 +989,27 @@ def generate_agent_json_report(
             "blocked_actions_count": len(blocked_items),
             "failed_actions_count": len(failed_actions),
             "safety_grade": str(state.get("safety_grade", "balanced")),
+            "pending_approval": bool(state.get("pending_approval")),
+            "corroborated_claims": int(evidence_graph.get("summary", {}).get("corroborated_claims", 0) or 0)
+            if isinstance(evidence_graph.get("summary", {}), dict)
+            else 0,
+            "priority_targets_count": int(evidence_graph.get("summary", {}).get("priority_target_count", 0) or 0)
+            if isinstance(evidence_graph.get("summary", {}), dict)
+            else 0,
+            "cve_candidates": int(cve_validation.get("summary", {}).get("candidate_count", 0) or 0)
+            if isinstance(cve_validation.get("summary", {}), dict)
+            else 0,
+            "sandbox_ready_cves": int(cve_validation.get("summary", {}).get("sandbox_ready_count", 0) or 0)
+            if isinstance(cve_validation.get("summary", {}), dict)
+            else 0,
         },
         "history": [_compact_history_record(item, index) for index, item in enumerate(history_items, start=1)],
         "budget_trace": budget_trace,
         "coverage": coverage,
         "recon": recon,
+        "infrastructure": infrastructure,
+        "risk_matrix": risk_matrix,
+        "attack_surface": attack_surface,
         "execution": {
             "blocked_actions": blocked_items,
             "failed_actions": failed_actions,
@@ -729,6 +1026,11 @@ def generate_agent_json_report(
                 "budget_remaining": _safe_int(state.get("budget_remaining", 0), default=0),
                 "resumed": bool(state.get("resumed", False)),
                 "resumed_from": str(state.get("resumed_from", "")).strip() or None,
+                "session_status": str(state.get("session_status", "completed")).strip() or "completed",
+                "pending_approval": state.get("pending_approval", {}) if isinstance(state.get("pending_approval", {}), dict) else {},
+                "loop_guard": state.get("loop_guard", {}) if isinstance(state.get("loop_guard", {}), dict) else {},
+                "feedback": state.get("feedback", {}) if isinstance(state.get("feedback", {}), dict) else {},
+                "circuit_breaker": state.get("circuit_breaker", {}) if isinstance(state.get("circuit_breaker", {}), dict) else {},
             },
         },
         "scope": {
@@ -746,6 +1048,7 @@ def generate_agent_json_report(
                 "index": item["index"],
                 "type": item["type"],
                 "name": item["name"],
+                "category": item.get("category"),
                 "severity": item["severity"],
                 "evidence": item["evidence"],
                 "reproduction_steps": item["reproduction_steps"],
@@ -757,6 +1060,16 @@ def generate_agent_json_report(
             }
             for item in normalized_findings
         ],
+        "thought_stream": (
+            state.get("thought_stream", [])
+            if isinstance(state.get("thought_stream", []), list)
+            else []
+        ),
+        "evidence_graph": evidence_graph,
+        "cve_validation": cve_validation,
+        "remediation_priority": remediation_priority,
+        "path_graph": path_graph,
+        "knowledge_context": knowledge_context,
     }
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -779,7 +1092,7 @@ def generate_agent_visual_html_report(
     state_payload = _read_json_object(agent_state_json_path)
     audit_payload = {
         **audit_payload,
-        "visual_analysis": _build_visual_analysis_payload(
+        "visual_analysis": build_visual_analysis_payload(
             audit_payload=audit_payload,
             state_payload=state_payload,
             audit_report_json_path=audit_report_json_path,
@@ -1146,6 +1459,303 @@ def _build_recon_summary(state: dict[str, Any]) -> dict[str, Any]:
         "error_page_markers": error_page_markers,
         "tools_executed": tools_executed,
     }
+
+
+# ---------------------------------------------------------------------------
+# Infrastructure / risk / attack-surface summaries
+# ---------------------------------------------------------------------------
+
+def _build_infrastructure_summary(*, recon: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    """Derive infrastructure-oriented report fields from recon state."""
+    ports_services = recon.get("ports_services", {}) if isinstance(recon, dict) else {}
+    ports = ports_services.get("ports", []) if isinstance(ports_services, dict) else []
+    services = ports_services.get("services", []) if isinstance(ports_services, dict) else []
+    target_info = recon.get("target_info", {}) if isinstance(recon, dict) else {}
+    headers = recon.get("http_headers", {}) if isinstance(recon, dict) else {}
+    tech_stack = recon.get("tech_stack", []) if isinstance(recon, dict) else []
+    waf_vendors = recon.get("waf_cdn", []) if isinstance(recon, dict) else []
+    tls_certificate = recon.get("tls_certificate", {}) if isinstance(recon, dict) else {}
+    dns_records = recon.get("dns_records", {}) if isinstance(recon, dict) else {}
+
+    normalized_ports = _normalize_infrastructure_ports(
+        ports=ports if isinstance(ports, list) else [],
+        services=services if isinstance(services, list) else [],
+        target=str(target_info.get("target", "")).strip(),
+    )
+    middleware = _infer_middleware(
+        headers=headers if isinstance(headers, dict) else {},
+        tech_stack=tech_stack if isinstance(tech_stack, list) else [],
+        services=services if isinstance(services, list) else [],
+    )
+    surface = state.get("surface", {}) if isinstance(state.get("surface", {}), dict) else {}
+    raw_waf = surface.get("waf", {}) if isinstance(surface.get("waf", {}), dict) else {}
+    waf = {
+        "detected": bool(waf_vendors) or bool(raw_waf),
+        "vendors": sorted({str(item).strip() for item in waf_vendors if str(item).strip()}),
+        "confidence": _safe_float(raw_waf.get("confidence"), default=None),
+        "signals": raw_waf.get("signals", []) if isinstance(raw_waf.get("signals", []), list) else [],
+        "notes": str(raw_waf.get("summary", "")).strip() or None,
+    }
+    certificates = [tls_certificate] if isinstance(tls_certificate, dict) and tls_certificate else []
+    return {
+        "ports": normalized_ports,
+        "middleware": middleware,
+        "waf": waf,
+        "tech_stack": sorted({str(item).strip() for item in tech_stack if str(item).strip()}) if isinstance(tech_stack, list) else [],
+        "certificates": certificates,
+        "dns": {
+            "scope": list(target_info.get("scope", [])) if isinstance(target_info.get("scope", []), list) else [],
+            "records": dns_records if isinstance(dns_records, dict) else {},
+            "subdomains": list(recon.get("subdomains", [])) if isinstance(recon.get("subdomains", []), list) else [],
+        },
+    }
+
+
+def _normalize_infrastructure_ports(*, ports: list[Any], services: list[Any], target: str) -> list[dict[str, Any]]:
+    default_host = urlparse(target if "://" in target else f"https://{target}").hostname or str(target).strip()
+    output: list[dict[str, Any]] = []
+    service_rows: dict[tuple[str, str], dict[str, Any]] = {}
+    for service in services:
+        if not isinstance(service, dict):
+            continue
+        port = str(service.get("port", "")).strip()
+        protocol = str(service.get("protocol") or service.get("proto") or "tcp").strip().lower() or "tcp"
+        if not port:
+            continue
+        service_rows[(port, protocol)] = service
+    for entry in ports:
+        if not isinstance(entry, dict):
+            continue
+        port = str(entry.get("port", "")).strip()
+        protocol = str(entry.get("protocol") or entry.get("proto") or "tcp").strip().lower() or "tcp"
+        service_row = service_rows.get((port, protocol), {})
+        output.append(
+            {
+                "host": str(service_row.get("host") or default_host or "").strip() or None,
+                "port": _safe_int(port, default=0) if port else None,
+                "protocol": protocol,
+                "state": str(entry.get("state", "")).strip() or "open",
+                "service": str(entry.get("service") or service_row.get("service") or "").strip() or None,
+                "tls": bool(service_row.get("tls", False)),
+                "auth_required": bool(service_row.get("auth_required", False)),
+            }
+        )
+    return output
+
+
+def _infer_middleware(*, headers: dict[str, Any], tech_stack: list[Any], services: list[Any]) -> list[dict[str, Any]]:
+    patterns = {
+        "nginx": "reverse_proxy",
+        "apache": "web_server",
+        "iis": "web_server",
+        "caddy": "reverse_proxy",
+        "traefik": "reverse_proxy",
+        "envoy": "gateway",
+        "haproxy": "load_balancer",
+        "tomcat": "app_server",
+        "jetty": "app_server",
+        "uvicorn": "app_server",
+        "gunicorn": "app_server",
+        "grafana": "application",
+    }
+    signals: list[tuple[str, str]] = []
+    for source_name, raw_value in (
+        ("server_header", headers.get("server")),
+        ("x_powered_by", headers.get("x-powered-by")),
+    ):
+        text = str(raw_value or "").strip().lower()
+        if text:
+            signals.append((source_name, text))
+    for item in tech_stack:
+        text = str(item).strip().lower()
+        if text:
+            signals.append(("tech_stack", text))
+    for item in services:
+        if not isinstance(item, dict):
+            continue
+        text = str(item.get("service", "")).strip().lower()
+        if text:
+            signals.append(("service_probe", text))
+
+    output: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for source_name, text in signals:
+        for token, category in patterns.items():
+            if token not in text:
+                continue
+            key = (token, source_name)
+            if key in seen:
+                continue
+            seen.add(key)
+            output.append({"name": token, "category": category, "source": source_name})
+    output.sort(key=lambda item: (item["name"], item["source"]))
+    return output
+
+
+def _build_risk_matrix(*, normalized_findings: list[dict[str, Any]], audit_score: int) -> dict[str, Any]:
+    """Group findings into higher-level risk categories."""
+    categories = {
+        name: {
+            "name": name,
+            "score": 0,
+            "finding_count": 0,
+            "severity_counts": {level: 0 for level in ("critical", "high", "medium", "low", "info")},
+        }
+        for name in ("network", "application", "configuration", "authentication")
+    }
+    for item in normalized_findings:
+        category = _classify_risk_category(item)
+        bucket = categories[category]
+        severity = str(item.get("severity", "info")).strip().lower() or "info"
+        bucket["finding_count"] += 1
+        bucket["score"] += _severity_risk_points(severity)
+        if severity not in bucket["severity_counts"]:
+            severity = "info"
+        bucket["severity_counts"][severity] += 1
+
+    ordered = sorted(categories.values(), key=lambda item: (-int(item["score"]), -int(item["finding_count"]), item["name"]))
+    return {
+        "total_score": max(0, min(100, 100 - audit_score)),
+        "categories": ordered,
+    }
+
+
+def _classify_risk_category(item: dict[str, Any]) -> str:
+    raw = item.get("raw", {}) if isinstance(item.get("raw", {}), dict) else {}
+    category = str(item.get("category") or raw.get("category") or "").strip().lower()
+    title = str(item.get("title") or item.get("name") or "").strip().lower()
+    evidence = str(item.get("evidence") or raw.get("evidence") or "").strip().lower()
+    haystack = "\n".join([category, title, evidence])
+    if any(token in haystack for token in ("auth", "jwt", "token", "session", "login", "password", "credential", "cookie")):
+        return "authentication"
+    if any(token in haystack for token in ("config", "misconfig", ".env", ".git", "secret", "header", "cors", "csp", "security.txt", "exposure")):
+        return "configuration"
+    if any(token in haystack for token in ("dns", "port", "service", "network", "tls", "ssl", "smtp", "ssh", "redis", "mysql", "postgres", "waf")):
+        return "network"
+    return "application"
+
+
+def _severity_risk_points(severity: str) -> int:
+    return {
+        "critical": 25,
+        "high": 15,
+        "medium": 8,
+        "low": 3,
+        "info": 1,
+    }.get(str(severity or "info").strip().lower(), 1)
+
+
+def _build_attack_surface(*, recon: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    """Summarize exposed entry points, services, and sensitive paths."""
+    target_info = recon.get("target_info", {}) if isinstance(recon, dict) else {}
+    ports_services = recon.get("ports_services", {}) if isinstance(recon, dict) else {}
+    login_forms = recon.get("login_forms", []) if isinstance(recon, dict) else []
+    api_endpoints = recon.get("api_endpoints", []) if isinstance(recon, dict) else []
+    discovered_urls = recon.get("discovered_urls", []) if isinstance(recon, dict) else []
+    config_exposures = recon.get("config_exposures", []) if isinstance(recon, dict) else []
+    git_exposures = recon.get("git_exposures", []) if isinstance(recon, dict) else []
+    source_maps = recon.get("source_maps", []) if isinstance(recon, dict) else []
+    api_schemas = recon.get("api_schemas", []) if isinstance(recon, dict) else []
+
+    entry_points = _dedupe_summary_rows(
+        [
+            *[
+                {"type": "origin", "url": str(origin).strip(), "method": "GET", "source": "service_origin"}
+                for origin in target_info.get("service_origins", [])
+                if str(origin).strip()
+            ],
+            *[
+                {"type": "login_form", "url": str(form.get("action") or "").strip(), "method": str(form.get("method") or "POST").upper(), "source": "login_form"}
+                for form in login_forms
+                if isinstance(form, dict) and str(form.get("action") or "").strip()
+            ],
+            *[
+                {"type": "api_endpoint", "url": str(item.get("url") or "").strip(), "method": str(item.get("method") or "GET").upper(), "source": str(item.get("source") or "api").strip() or "api"}
+                for item in api_endpoints
+                if isinstance(item, dict) and str(item.get("url") or "").strip()
+            ],
+            *[
+                {"type": "discovered_url", "url": str(item).strip(), "method": "GET", "source": "crawler"}
+                for item in discovered_urls
+                if str(item).strip()
+            ],
+        ]
+    )
+
+    exposed_services = _dedupe_summary_rows(
+        [
+            {
+                "host": str(item.get("host") or "").strip() or None,
+                "port": _safe_int(item.get("port"), default=0) if item.get("port") not in (None, "") else None,
+                "service": str(item.get("service") or "").strip() or None,
+                "protocol": str(item.get("protocol") or item.get("proto") or "tcp").strip().lower() or "tcp",
+                "tls": bool(item.get("tls", False)),
+                "auth_required": bool(item.get("auth_required", False)),
+            }
+            for item in ports_services.get("services", [])
+            if isinstance(item, dict)
+        ]
+    )
+    if not exposed_services:
+        exposed_services = _dedupe_summary_rows(
+            [
+                {
+                    "host": urlparse(str(target_info.get("target") or "")).hostname or None,
+                    "port": _safe_int(item.get("port"), default=0) if isinstance(item, dict) and item.get("port") not in (None, "") else None,
+                    "service": str(item.get("service") or "").strip() or None,
+                    "protocol": str(item.get("protocol") or "tcp").strip().lower() or "tcp",
+                    "tls": False,
+                    "auth_required": False,
+                }
+                for item in ports_services.get("ports", [])
+                if isinstance(item, dict)
+            ]
+        )
+
+    sensitive_paths = _dedupe_summary_rows(
+        [
+            *[
+                {"type": "config_exposure", "path": str(item.get("path") or "").strip() or None, "url": str(item.get("url") or "").strip() or None, "source": "config_exposures"}
+                for item in config_exposures
+                if isinstance(item, dict)
+            ],
+            *[
+                {"type": str(item.get("type") or "git_exposure").strip() or "git_exposure", "path": None, "url": str(item.get("url") or "").strip() or None, "source": "git_exposures"}
+                for item in git_exposures
+                if isinstance(item, dict)
+            ],
+            *[
+                {"type": "source_map", "path": None, "url": str(item).strip(), "source": "source_maps"}
+                for item in source_maps
+                if str(item).strip()
+            ],
+            *[
+                {"type": str(item.get("kind") or "api_schema").strip() or "api_schema", "path": None, "url": str(item.get("url") or "").strip() or None, "source": "api_schemas"}
+                for item in api_schemas
+                if isinstance(item, dict)
+            ],
+        ]
+    )
+
+    return {
+        "entry_points": entry_points[:40],
+        "exposed_services": exposed_services[:40],
+        "sensitive_paths": sensitive_paths[:40],
+    }
+
+
+def _dedupe_summary_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    output: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        key = json.dumps(row, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        if key in seen:
+            continue
+        seen.add(key)
+        output.append(row)
+    return output
 
 
 # ---------------------------------------------------------------------------
@@ -1596,26 +2206,11 @@ def _build_visual_analysis_payload(
     state_payload: dict[str, Any],
     audit_report_json_path: Path,
 ) -> dict[str, Any]:
-    findings = _extract_visual_findings(audit_payload)
-    assets = _extract_visual_assets(audit_payload, findings=findings)
-    return {
-        "verification_ranking": _build_visual_verification_ranking(audit_payload),
-        "asset_phase_trends": _build_visual_asset_phase_trends(
-            audit_payload,
-            assets=assets,
-            findings=findings,
-        ),
-        "asset_batch_trends": _build_visual_asset_batch_trends(
-            audit_payload=audit_payload,
-            state_payload=state_payload,
-            audit_report_json_path=audit_report_json_path,
-        ),
-        "batch_diff": _build_visual_batch_diff(
-            audit_payload=audit_payload,
-            state_payload=state_payload,
-            audit_report_json_path=audit_report_json_path,
-        ),
-    }
+    return build_visual_analysis_payload(
+        audit_payload=audit_payload,
+        state_payload=state_payload,
+        audit_report_json_path=audit_report_json_path,
+    )
 
 
 def _extract_visual_findings(payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -2431,17 +3026,36 @@ def _build_agent_visual_html(audit_report: dict[str, Any], agent_state: dict[str
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
     body {
+      font-family: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI",
+        "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "SimHei", "Segoe UI",
+        system-ui, sans-serif;
       background:
         radial-gradient(circle at 12% 18%, rgba(14,165,233,0.10), transparent 34%),
         radial-gradient(circle at 88% 12%, rgba(16,185,129,0.10), transparent 38%),
         linear-gradient(180deg, #f8fafc, #eef2ff 46%, #f8fafc);
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      font-synthesis-weight: none;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    html[lang="zh-CN"] body {
+      font-family: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI",
+        "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "SimHei", system-ui, sans-serif;
     }
     .glass {
       background: rgba(255,255,255,0.80);
       border: 1px solid rgba(148,163,184,0.22);
       box-shadow: 0 18px 40px rgba(15,23,42,0.06);
       backdrop-filter: blur(10px);
+      overflow-wrap: anywhere;
     }
   </style>
 </head>
@@ -2584,6 +3198,277 @@ def _build_agent_visual_html(audit_report: dict[str, Any], agent_state: dict[str
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      );
+    }
+
+    function EvidenceCorrelationPanel({ evidenceGraph }) {
+      const graph = evidenceGraph && typeof evidenceGraph === "object" ? evidenceGraph : {};
+      const summary = graph.summary && typeof graph.summary === "object" ? graph.summary : {};
+      const claims = Array.isArray(graph.claims) ? graph.claims : [];
+      const priorityTargets = Array.isArray(graph.priority_targets) ? graph.priority_targets : [];
+      const recommendedTools = Array.isArray(graph.recommended_tools) ? graph.recommended_tools : [];
+      if (!claims.length && !priorityTargets.length && !recommendedTools.length) return null;
+
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Evidence Correlation", "\\u8bc1\\u636e\\u5173\\u8054")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Cross-validated Leads", "\\u4ea4\\u53c9\\u5370\\u8bc1\\u7ebf\\u7d22")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">
+              {tt("Corroborated", "\\u5df2\\u5370\\u8bc1")} {summary.corroborated_claims ?? 0}
+              {" | "}
+              {tt("High confidence", "\\u9ad8\\u7f6e\\u4fe1")} {summary.high_confidence_claims ?? 0}
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+              <div className="text-sm font-semibold">{tt("Priority Targets", "\\u4f18\\u5148\\u76ee\\u6807")}</div>
+              <div className="mt-3 space-y-3">
+                {priorityTargets.length ? priorityTargets.slice(0, 8).map((item, index) => (
+                  <div key={"evidence-target-" + index} className="rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm font-medium break-all">{item.target || "-"}</div>
+                      <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
+                        {tt("Score", "\\u8bc4\\u5206")} {item.score ?? 0}
+                      </span>
+                    </div>
+                    <div className="mt-2 space-y-1 text-xs text-slate-600">
+                      {(Array.isArray(item.reasons) ? item.reasons : []).slice(0, 4).map((reason, reasonIndex) => (
+                        <div key={"evidence-target-reason-" + index + "-" + reasonIndex}>- {reason}</div>
+                      ))}
+                    </div>
+                  </div>
+                )) : (
+                  <div className="text-sm text-slate-500">{tt("No priority targets were derived.", "\\u6682\\u65e0\\u4f18\\u5148\\u76ee\\u6807\\u3002")}</div>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+              <div className="text-sm font-semibold">{tt("Corroborated Claims", "\\u5df2\\u5370\\u8bc1\\u58f0\\u660e")}</div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {recommendedTools.slice(0, 10).map((toolName, index) => (
+                  <span key={"evidence-tool-" + index} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
+                    {toolName}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 space-y-3">
+                {claims.length ? claims.slice(0, 10).map((claim, index) => (
+                  <div key={"evidence-claim-" + index} className="rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="text-sm font-medium">{claim.subject || "-"}</div>
+                        <div className="mt-1 text-xs text-slate-500">
+                          {(claim.kind || "claim")} | {tt("Sources", "\\u6765\\u6e90")} {claim.source_count ?? 0} | {tt("Evidence", "\\u8bc1\\u636e")} {claim.evidence_count ?? 0}
+                        </div>
+                      </div>
+                      <span className="rounded-full bg-cyan-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-cyan-700">
+                        {tt("Confidence", "\\u7f6e\\u4fe1")} {claim.confidence ?? 0}
+                      </span>
+                    </div>
+                    {Array.isArray(claim.targets) && claim.targets.length ? (
+                      <div className="mt-2 text-xs text-slate-600 break-all">
+                        {tt("Targets", "\\u76ee\\u6807")}: {claim.targets.slice(0, 3).join(", ")}
+                      </div>
+                    ) : null}
+                  </div>
+                )) : (
+                  <div className="text-sm text-slate-500">{tt("No corroborated claims yet.", "\\u6682\\u65e0\\u5df2\\u5370\\u8bc1\\u7ebf\\u7d22\\u3002")}</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function KnowledgeContextPanel({ knowledgeContext }) {
+      const context = knowledgeContext && typeof knowledgeContext === "object" ? knowledgeContext : {};
+      const summary = String(context.summary || "").trim();
+      const tags = Array.isArray(context.tags) ? context.tags : [];
+      const references = Array.isArray(context.references) ? context.references : [];
+      if (!summary && !tags.length && !references.length) return null;
+
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Knowledge Context", "任务知识上下文")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Task-Level Context", "任务级上下文")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">{tt("Swagger, architecture notes, and internal references", "Swagger、架构说明与内部引用")}</div>
+          </div>
+          {summary ? <div className="mt-4 rounded-2xl border border-slate-200 bg-white/70 p-4 text-sm text-slate-700">{summary}</div> : null}
+          {tags.length ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {tags.slice(0, 12).map((item, index) => (
+                <span key={"knowledge-tag-" + index} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
+                  {item}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          {references.length ? (
+            <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("References", "引用")}</div>
+              <div className="mt-3 space-y-2 text-sm text-slate-700">
+                {references.slice(0, 10).map((item, index) => (
+                  <div key={"knowledge-ref-" + index} className="break-all">{item}</div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      );
+    }
+
+    function CveValidationPanel({ cveValidation }) {
+      const pipeline = cveValidation && typeof cveValidation === "object" ? cveValidation : {};
+      const summary = pipeline.summary && typeof pipeline.summary === "object" ? pipeline.summary : {};
+      const candidates = Array.isArray(pipeline.candidates) ? pipeline.candidates : [];
+      const recommendedActions = Array.isArray(pipeline.recommended_actions) ? pipeline.recommended_actions : [];
+      if (!candidates.length && !recommendedActions.length) return null;
+
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("CVE Validation Pipeline", "CVE 分级验证流水线")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Version -> Template -> Sandbox", "版本印证 -> 模板验证 -> 沙箱最小 PoC")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">
+              {tt("Candidates", "候选")} {summary.candidate_count ?? candidates.length}
+              {" | "}
+              {tt("Sandbox ready", "沙箱就绪")} {summary.sandbox_ready_count ?? 0}
+            </div>
+          </div>
+          {recommendedActions.length ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {recommendedActions.slice(0, 8).map((toolName, index) => (
+                <span key={"cve-pipeline-action-" + index} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
+                  {toolName}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <MetricCard label={tt("Version Corroborated", "版本印证")} value={summary.version_corroborated_count ?? 0} sub={tt("Multi-source version matches", "多源版本匹配")} />
+            <MetricCard label={tt("Template Verified", "模板验证")} value={summary.template_verified_count ?? 0} sub={tt("Nuclei or equivalent confirmations", "Nuclei 或等效模板确认")} />
+          </div>
+          <div className="mt-4 space-y-3">
+            {candidates.slice(0, 10).map((item, index) => (
+              <div key={"cve-pipeline-candidate-" + index} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <div className="text-sm font-semibold">{item.cve_id || tt("Unknown CVE", "未知 CVE")}</div>
+                    <div className="mt-1 text-xs text-slate-500 break-all">{item.target || "-"}</div>
+                  </div>
+                  <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">
+                    {item.quality_label || "low"}
+                  </span>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                  <span className="rounded-full bg-emerald-50 px-3 py-1 font-medium text-emerald-700">
+                    {tt("Version", "版本")}: {item.version_corroborated ? tt("yes", "是") : tt("no", "否")}
+                  </span>
+                  <span className="rounded-full bg-sky-50 px-3 py-1 font-medium text-sky-700">
+                    {tt("Template", "模板")}: {item.template_verified ? tt("yes", "是") : tt("no", "否")}
+                  </span>
+                  <span className="rounded-full bg-violet-50 px-3 py-1 font-medium text-violet-700">
+                    {tt("Sandbox", "沙箱")}: {item.sandbox_ready ? tt("ready", "就绪") : tt("hold", "待定")}
+                  </span>
+                </div>
+                <div className="mt-3 text-sm text-slate-600">
+                  {tt("Next step", "下一步")}: {item.recommended_next_step || "-"}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function AttackPathPanel({ pathGraph }) {
+      const graph = pathGraph && typeof pathGraph === "object" ? pathGraph : {};
+      const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
+      const edges = Array.isArray(graph.edges) ? graph.edges : [];
+      if (!nodes.length && !edges.length) return null;
+
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Attack Path Graph", "攻击路径图")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Evidence-Linked Path View", "证据关联路径视图")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">
+              {nodes.length} {tt("nodes", "节点")} | {edges.length} {tt("edges", "连边")}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+              <div className="text-sm font-semibold">{tt("Graph nodes", "图节点")}</div>
+              <div className="mt-3 space-y-2 text-sm text-slate-700">
+                {nodes.slice(0, 10).map((node, index) => (
+                  <div key={"path-node-" + index} className="flex items-center justify-between gap-3 rounded-xl bg-slate-50/70 px-3 py-2">
+                    <span className="break-all">{node.label || node.id || "-"}</span>
+                    <span className="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-medium uppercase tracking-wider">{node.type || "node"}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+              <div className="text-sm font-semibold">{tt("Correlated edges", "关联路径")}</div>
+              <div className="mt-3 space-y-2 text-sm text-slate-700">
+                {edges.slice(0, 12).map((edge, index) => (
+                  <div key={"path-edge-" + index} className="rounded-xl bg-slate-50/70 px-3 py-2">
+                    <div className="break-all">{edge.source || "-"} -> {edge.target || "-"}</div>
+                    <div className="mt-1 text-xs text-slate-500">{tt("Kind", "类型")}: {edge.kind || "edge"} | {tt("Confidence", "置信度")}: {edge.confidence ?? 0}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function RemediationPriorityPanel({ items }) {
+      const rows = Array.isArray(items) ? items : [];
+      if (!rows.length) return null;
+
+      return (
+        <div className="mt-6 glass rounded-2xl p-5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-slate-500">{tt("Remediation Priority", "修复优先级")}</div>
+              <h2 className="mt-1 text-lg font-semibold">{tt("Where remediation breaks the most paths", "优先修复能切断最多路径的点")}</h2>
+            </div>
+            <div className="text-xs text-slate-500">{rows.length} {tt("tracked items", "条待修复项")}</div>
+          </div>
+          <div className="mt-4 space-y-3">
+            {rows.slice(0, 10).map((item, index) => (
+              <div key={"remediation-row-" + index} className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <div className="text-sm font-semibold">{item.title || "-"}</div>
+                    <div className="mt-1 text-xs text-slate-500 break-all">{item.target || "-"}</div>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-white">{item.priority || "P4"}</span>
+                    <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-amber-700">{item.severity || "info"}</span>
+                  </div>
+                </div>
+                <div className="mt-3 text-sm text-slate-600">{item.reason || "-"}</div>
+                {item.recommendation ? <div className="mt-2 text-sm text-slate-500">{tt("Recommendation", "建议")}: {item.recommendation}</div> : null}
+              </div>
+            ))}
           </div>
         </div>
       );
@@ -3613,6 +4498,11 @@ def _build_agent_visual_html(audit_report: dict[str, Any], agent_state: dict[str
       const meta = auditReport.meta || {};
       const scopePayload = auditReport.scope || {};
       const visualAnalysis = auditReport.visual_analysis || {};
+      const evidenceGraph = auditReport.evidence_graph || {};
+      const cveValidation = auditReport.cve_validation || {};
+      const knowledgeContext = auditReport.knowledge_context || {};
+      const remediationPriority = Array.isArray(auditReport.remediation_priority) ? auditReport.remediation_priority : [];
+      const pathGraph = auditReport.path_graph || {};
       const recon = auditReport.recon || {};
       const findings = Array.isArray(auditReport.findings) ? auditReport.findings : [];
       const executionHistory = Array.isArray(auditReport.history) ? auditReport.history : [];
@@ -3689,20 +4579,7 @@ def _build_agent_visual_html(audit_report: dict[str, Any], agent_state: dict[str
             <ScopeMap scopePayload={scopePayload} />
           </div>
 
-          <div className="mt-6">
-            <AssetTopologyPanel scopePayload={scopePayload} findings={findings} />
-          </div>
-
-          <VerificationRankingPanel blocks={verificationRanking} />
-
-          <ExecutionHistoryPanel rows={executionHistory} />
-
-          <AssetTrendPanels phaseRows={assetPhaseTrends} batchRows={assetBatchTrends} />
-
-          <BaselineDiffPanel diff={batchDiff} />
-
-          {/* ---------- Reconnaissance Section ---------- */}
-          <ReconSection recon={recon} />
+          <RemediationPriorityPanel items={remediationPriority} />
 
           <div className="mt-6">
             <div className="mb-3 flex items-center justify-between">
@@ -3717,6 +4594,36 @@ def _build_agent_visual_html(audit_report: dict[str, Any], agent_state: dict[str
               )}
             </div>
           </div>
+
+          <details className="mt-6 glass rounded-2xl p-5">
+            <summary className="cursor-pointer list-none text-sm font-semibold text-slate-900">
+              {tt("Technical appendix", "\\u6280\\u672f\\u9644\\u5f55")}
+            </summary>
+            <div className="mt-5 space-y-6">
+              <KnowledgeContextPanel knowledgeContext={knowledgeContext} />
+
+              <EvidenceCorrelationPanel evidenceGraph={evidenceGraph} />
+
+              <CveValidationPanel cveValidation={cveValidation} />
+
+              <AttackPathPanel pathGraph={pathGraph} />
+
+              <div className="mt-6">
+                <AssetTopologyPanel scopePayload={scopePayload} findings={findings} />
+              </div>
+
+              <VerificationRankingPanel blocks={verificationRanking} />
+
+              <ExecutionHistoryPanel rows={executionHistory} />
+
+              <AssetTrendPanels phaseRows={assetPhaseTrends} batchRows={assetBatchTrends} />
+
+              <BaselineDiffPanel diff={batchDiff} />
+
+              {/* ---------- Reconnaissance Section ---------- */}
+              <ReconSection recon={recon} />
+            </div>
+          </details>
         </div>
       );
     }

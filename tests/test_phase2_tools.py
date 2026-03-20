@@ -1,13 +1,20 @@
 from __future__ import annotations
 
 from pathlib import Path
+import subprocess
+from unittest.mock import patch
 import pytest
 
 from autosecaudit.agent_core.builtin_tools import (
     AgentCrawlerTool,
+    AgentLoginFormDetectorTool,
     AgentPageVisionAnalyzerTool,
     AgentRagIntelLookupTool,
+    AgentSubdomainEnumPassiveTool,
+    AgentWAFDetectorTool,
+    _check_playwright_runtime_availability,
 )
+from autosecaudit.agent_core.http_client import HttpClientError
 
 
 def test_rag_intel_lookup_tool_emits_surface_updates_and_follow_up_hints(
@@ -112,3 +119,107 @@ def test_playwright_tools_report_unavailable_when_browser_runtime_missing(
     assert "playwright install chromium" in str(crawler_reason)
     assert vision_available is False
     assert "playwright install chromium" in str(vision_reason)
+
+
+def test_playwright_runtime_check_uses_subprocess_probe(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _check_playwright_runtime_availability.cache_clear()
+    monkeypatch.setattr(
+        "autosecaudit.agent_core.builtin_tools.importlib.util.find_spec",
+        lambda _name: object(),
+    )
+    monkeypatch.setattr(
+        "autosecaudit.agent_core.builtin_tools.subprocess.run",
+        lambda *args, **kwargs: subprocess.CompletedProcess(
+            args=args[0],
+            returncode=0,
+            stdout='{"ok": true, "path": "C:/fake/chromium.exe"}\n',
+            stderr="",
+        ),
+    )
+    monkeypatch.setattr(
+        "autosecaudit.agent_core.builtin_tools.os.path.exists",
+        lambda path: path == "C:/fake/chromium.exe",
+    )
+
+    available, reason = _check_playwright_runtime_availability()
+
+    assert available is True
+    assert reason is None
+    _check_playwright_runtime_availability.cache_clear()
+
+
+def test_waf_detector_tool_emits_structured_waf_summary_and_follow_ups(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        "autosecaudit.agent_core.builtin_tools._http_fetch_text",
+        lambda *args, **kwargs: (
+            403,
+            {
+                "cf-ray": "abcd1234",
+                "cf-cache-status": "DYNAMIC",
+                "server": "cloudflare",
+            },
+            "<html>Attention Required! Cloudflare</html>",
+            "https://example.com/",
+        ),
+    )
+
+    tool = AgentWAFDetectorTool()
+    result = tool.run(target="https://example.com", options={})
+
+    assert result.ok is True
+    data = result.data.to_data() if hasattr(result.data, "to_data") else result.data
+    assert isinstance(data, dict)
+    assert "cloudflare" in data["surface_delta"]["waf_vendors"]
+    assert data["surface_delta"]["waf"]["detected"] is True
+    assert data["surface_delta"]["waf"]["strategy"] == "prefer_passive_validation"
+    assert data["surface_delta"]["waf_strategy"] == "prefer_passive_validation"
+    assert "ssl_expiry_check" in data["surface_delta"]["waf_recommendations"]
+    assert data["surface_delta"]["waf_vendor_profiles"][0]["classification"] == "cdn_waf"
+    assert "http_security_headers" in data["follow_up_hints"]
+    assert "ssl_expiry_check" in data["follow_up_hints"]
+    assert data["metadata"]["vendor_confidences"]["cloudflare"] >= 0.6
+
+
+def test_login_form_detector_does_not_emit_false_positive_without_password_forms(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        "autosecaudit.agent_core.builtin_tools._http_fetch_text",
+        lambda *args, **kwargs: (
+            200,
+            {"content-type": "text/html"},
+            "<html><body><form action='/search'><input name='q'></form></body></html>",
+            "https://example.com/",
+        ),
+    )
+
+    tool = AgentLoginFormDetectorTool()
+    result = tool.run(target="https://example.com", options={})
+
+    assert result.ok is True
+    data = result.data.to_data() if hasattr(result.data, "to_data") else result.data
+    assert isinstance(data, dict)
+    assert data["findings"] == []
+    assert data["surface_delta"]["login_forms"] == []
+    assert data["follow_up_hints"] == []
+
+
+def test_subdomain_enum_passive_soft_completes_when_ct_feed_times_out() -> None:
+    with patch(
+        "autosecaudit.agent_core.builtin_tools.request_json",
+        side_effect=HttpClientError("ReadTimeout: The read operation timed out"),
+    ):
+        result = AgentSubdomainEnumPassiveTool().run(target="example.com", options={})
+
+    assert result.ok is True
+    assert result.error is None
+    data = result.data.to_data() if hasattr(result.data, "to_data") else result.data
+    assert isinstance(data, dict)
+    assert data["status"] == "completed"
+    assert data["payload"]["subdomains"] == []
+    assert data["payload"]["source_status"] == "degraded_timeout"
+    assert "timed out" in data["payload"]["warning"].lower()

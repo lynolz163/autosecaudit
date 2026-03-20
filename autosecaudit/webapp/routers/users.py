@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 
-from ..api_support import audit_event, require_role
+from ..api_support import audit_event, public_error_code, require_role
 from ..auth import AuthPrincipal
 from ..schemas import UserCreateRequest, UserDeleteResponse, UserItemResponse, UserListResponse, UserUpdateRequest
 
@@ -37,7 +37,7 @@ async def create_user(
             enabled=bool(payload.enabled),
         )
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="user_request_invalid")) from exc
 
     audit_event(
         request,
@@ -70,7 +70,7 @@ async def update_user(
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="user_not_found") from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="user_update_rejected")) from exc
 
     audit_event(
         request,
@@ -95,7 +95,7 @@ async def delete_user(
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="user_not_found") from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="user_update_rejected")) from exc
 
     audit_event(
         request,

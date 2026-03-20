@@ -13,22 +13,24 @@ function formatBudgetDelta(entry) {
 export default function ExecutionHistoryPanel({ analysis }) {
   const { language } = useI18n();
   const rows = Array.isArray(analysis?.execution_history) ? analysis.execution_history : [];
+  const tt = (english, chinese) => (language === "zh-CN" ? chinese : english);
 
   if (!rows.length) {
     return null;
   }
 
   return (
-    <section className="panel">
+    <section className="panel thought-stream-panel">
       <div className="panel-head">
         <div>
-          <p className="eyebrow">{language === "zh-CN" ? "执行解释" : "Execution Context"}</p>
-          <h3>{language === "zh-CN" ? "已执行动作解释" : "Executed Action History"}</h3>
+          <p className="eyebrow">{tt("Thought Stream", "\u601d\u8003\u6d41")}</p>
+          <h3>{tt("Why the agent chose each step", "Agent \u4e3a\u4f55\u9009\u62e9\u6bcf\u4e00\u6b65")}</h3>
         </div>
         <div className="table-meta">
-          {language === "zh-CN"
-            ? "逐条解释动作为何被选中，并对齐执行结果。"
-            : "Explain why each executed action was selected and how it completed."}
+          {tt(
+            "Each entry explains the selected action, the ranking context, and the resulting outcome.",
+            "\u6bcf\u4e00\u9879\u4f1a\u89e3\u91ca\u672c\u6b21\u52a8\u4f5c\u7684\u9009\u62e9\u4f9d\u636e\u3001\u6392\u5e8f\u4e0a\u4e0b\u6587\u548c\u6700\u7ec8\u7ed3\u679c\u3002"
+          )}
         </div>
       </div>
 
@@ -48,10 +50,10 @@ export default function ExecutionHistoryPanel({ analysis }) {
                 <StatusBadge status={entry?.status} />
               </div>
               <div className="asset-meta">
-                <span>{language === "zh-CN" ? "目标" : "Target"}: {entry?.target || "-"}</span>
-                <span>{language === "zh-CN" ? "阶段" : "Phase"}: {entry?.phase || "-"}</span>
-                <span>{language === "zh-CN" ? "序号" : "Step"}: {entry?.index ?? index + 1}</span>
-                {budgetSpent !== null ? <span>{language === "zh-CN" ? "预算消耗" : "Budget Spent"}: {budgetSpent}</span> : null}
+                <span>{tt("Target", "\u6b65\u9aa4")}: {entry?.target || "-"}</span>
+                <span>{tt("Phase", "\u6b65\u9aa4")}: {entry?.phase || "-"}</span>
+                <span>{tt("Step", "\u6b65\u9aa4")}: {entry?.index ?? index + 1}</span>
+                {budgetSpent !== null ? <span>{tt("Budget Spent", "\u5019\u9009\u987a\u5e8f")}: {budgetSpent}</span> : null}
               </div>
 
               {ranking?.selected_candidate || ranking?.component || ranking?.service ? (
@@ -73,7 +75,7 @@ export default function ExecutionHistoryPanel({ analysis }) {
 
               {candidateOrder.length ? (
                 <div className="asset-meta">
-                  <span>{language === "zh-CN" ? "候选顺序" : "Candidate Order"}: {candidateOrder.join(", ")}</span>
+                  <span>{tt("Candidate Order", "\u5019\u9009\u987a\u5e8f")}: {candidateOrder.join(", ")}</span>
                 </div>
               ) : null}
 
@@ -82,16 +84,12 @@ export default function ExecutionHistoryPanel({ analysis }) {
                   <div key={`${entry?.tool || "tool"}-${reason}`} className="ranking-reason-item">{reason}</div>
                 )) : (
                   <div className="empty-state">
-                    {language === "zh-CN" ? "该动作未记录更细的选择原因。" : "No detailed selection reason was recorded for this action."}
+                    {tt("No detailed selection reason was recorded for this action.", "\u5f53\u524d\u52a8\u4f5c\u6ca1\u6709\u8bb0\u5f55\u66f4\u8be6\u7ec6\u7684\u9009\u62e9\u539f\u56e0\u3002")}
                   </div>
                 )}
               </div>
 
-              {entry?.error ? (
-                <div className="error-toast">
-                  {entry.error}
-                </div>
-              ) : null}
+              {entry?.error ? <div className="error-toast">{entry.error}</div> : null}
             </article>
           );
         })}

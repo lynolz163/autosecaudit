@@ -1,9 +1,0 @@
-{"timestamp": "2026-02-24T06:51:39.768990+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=30, max_iterations=2, timeout=180.0s, resumed=False"}
-{"timestamp": "2026-02-24T06:51:39.789742+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://lynolz.com:443"}
-{"timestamp": "2026-02-24T06:51:45.455716+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=5663"}
-{"timestamp": "2026-02-24T06:51:45.456771+00:00", "plugin_id": "dynamic_crawl", "action": "action_start", "status": "start", "detail": "A2 target=https://lynolz.com:443/"}
-{"timestamp": "2026-02-24T06:51:45.459843+00:00", "plugin_id": "dynamic_crawl", "action": "action_end", "status": "error", "detail": "A2 status=error duration_ms=2"}
-{"timestamp": "2026-02-24T06:51:45.460428+00:00", "plugin_id": "dirsearch_scan", "action": "action_start", "status": "start", "detail": "A3 target=https://lynolz.com:443"}
-{"timestamp": "2026-02-24T06:51:45.548798+00:00", "plugin_id": "dirsearch_scan", "action": "action_end", "status": "warning", "detail": "A3 status=failed duration_ms=80"}
-{"timestamp": "2026-02-24T06:51:45.585288+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 2: no executable actions after policy/scheduler."}
-{"timestamp": "2026-02-24T06:51:45.618365+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=3, findings=0"}

@@ -152,7 +152,7 @@ class PolicyEngine:
 
         scope_model = self._parse_scope(scope_items)
         safety_grade = normalize_safety_grade(state.get("safety_grade", self._safety_grade))
-        allowed_actions: list[Action] = []
+        budget_validated_actions: list[Action] = []
         blocked_actions: list[PolicyBlock] = []
 
         for index, raw in enumerate(raw_actions, start=1):
@@ -214,11 +214,22 @@ class PolicyEngine:
                 blocked_actions.append(PolicyBlock(action=action, reason=reason))
                 continue
 
-            reason = self.validate_budget(action, remaining_budget)
+            budget_validated_actions.append(action)
+
+        has_selectable_priority_zero = any(
+            int(action.priority) == 0 and int(action.cost) <= remaining_budget
+            for action in budget_validated_actions
+        )
+        allowed_actions: list[Action] = []
+        for action in budget_validated_actions:
+            reason = self.validate_budget(
+                action,
+                remaining_budget,
+                has_selectable_priority_zero=has_selectable_priority_zero,
+            )
             if reason is not None:
                 blocked_actions.append(PolicyBlock(action=action, reason=reason))
                 continue
-
             allowed_actions.append(action)
 
         return allowed_actions, blocked_actions
@@ -357,11 +368,17 @@ class PolicyEngine:
                 return "scope_fail_closed_resolved_ip_out_of_scope"
         return None
 
-    def validate_budget(self, action: Action, remaining_budget: int) -> str | None:
+    def validate_budget(
+        self,
+        action: Action,
+        remaining_budget: int,
+        *,
+        has_selectable_priority_zero: bool = True,
+    ) -> str | None:
         """Validate action cost against remaining budget rules."""
         if action.cost > remaining_budget:
             return "insufficient_budget"
-        if remaining_budget < 10 and action.priority != 0:
+        if remaining_budget < 10 and action.priority != 0 and has_selectable_priority_zero:
             return "low_budget_priority_restriction"
         return None
 
@@ -916,35 +933,58 @@ class PolicyEngine:
 
     def _has_crawler_signal(self, target: str, state: dict[str, Any]) -> bool:
         normalized_target = self.normalize_target("dynamic_crawl", target)
+        normalized_target_base = self._crawler_signal_base(normalized_target)
         surface = state.get("surface", {})
         if isinstance(surface, dict):
-            discovered = {
-                self.normalize_target("dynamic_crawl", str(item))
-                for item in surface.get("discovered_urls", [])
-                if str(item).strip()
-            }
-            api_endpoints = {
-                self.normalize_target("dynamic_crawl", str(item.get("url", "")))
-                for item in surface.get("api_endpoints", [])
-                if isinstance(item, dict) and str(item.get("url", "")).strip()
-            }
-            parameter_origins = {
-                self.normalize_target("dynamic_crawl", str(origin))
-                for origins in surface.get("parameter_origins", {}).values()
-                if isinstance(origins, list)
-                for origin in origins
-                if str(origin).strip()
-            }
-            if normalized_target in discovered or normalized_target in api_endpoints or normalized_target in parameter_origins:
-                return True
+            for item in surface.get("discovered_urls", []):
+                if self._crawler_signal_matches_target(str(item), normalized_target, normalized_target_base):
+                    return True
+            for item in surface.get("api_endpoints", []):
+                if not isinstance(item, dict):
+                    continue
+                if self._crawler_signal_matches_target(
+                    str(item.get("url", "")),
+                    normalized_target,
+                    normalized_target_base,
+                ):
+                    return True
+            raw_parameter_origins = surface.get("parameter_origins", {})
+            if isinstance(raw_parameter_origins, dict):
+                for origins in raw_parameter_origins.values():
+                    values = origins if isinstance(origins, list) else [origins]
+                    for origin in values:
+                        if self._crawler_signal_matches_target(
+                            str(origin),
+                            normalized_target,
+                            normalized_target_base,
+                        ):
+                            return True
 
         for entry in state.get("breadcrumbs", []):
             if not isinstance(entry, dict):
                 continue
-            candidate = self.normalize_target("dynamic_crawl", str(entry.get("data", "")))
-            if candidate and candidate == normalized_target:
+            if self._crawler_signal_matches_target(
+                str(entry.get("data", "")),
+                normalized_target,
+                normalized_target_base,
+            ):
                 return True
         return False
+
+    def _crawler_signal_matches_target(
+        self,
+        raw_candidate: str,
+        normalized_target: str,
+        normalized_target_base: str,
+    ) -> bool:
+        """Match crawler evidence against direct URLs or query-stripped endpoints."""
+        candidate = self.normalize_target("dynamic_crawl", raw_candidate)
+        if not candidate:
+            return False
+        if candidate == normalized_target:
+            return True
+        candidate_base = self._crawler_signal_base(candidate)
+        return bool(normalized_target_base and candidate_base and candidate_base == normalized_target_base)
 
     def _has_hints(self, surface: dict[str, Any], feedback: dict[str, Any], tool_name: str) -> bool:
         if any(
@@ -1549,6 +1589,13 @@ class PolicyEngine:
         if ":" in host and not host.startswith("["):
             host = f"[{host}]"
         return f"{host}:{port}" if port is not None else host
+
+    def _crawler_signal_base(self, value: str) -> str:
+        """Normalize a crawler-derived URL to scheme+host+path only."""
+        parsed = urlparse(value.strip())
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            return ""
+        return urlunparse((parsed.scheme.lower(), self._canonical_netloc(parsed), parsed.path or "/", "", "", ""))
 
     def _origin_if_url(self, value: str) -> str:
         """Return origin string if input is URL; else empty."""

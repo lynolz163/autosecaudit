@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import LlmConfigPanel from "../components/LlmConfigPanel";
 import NotificationSettingsForm from "../components/NotificationSettingsForm";
 import PaginationControls from "../components/PaginationControls";
@@ -25,7 +25,7 @@ export default function Settings({
   const pagination = paginateItems(auditEvents || [], page, PAGE_SIZE);
 
   useEffect(() => {
-    setPage((prev) => prev !== pagination.page ? pagination.page : prev);
+    setPage((prev) => (prev !== pagination.page ? pagination.page : prev));
   }, [pagination.page]);
 
   return (
@@ -140,3 +140,4 @@ export default function Settings({
     </div>
   );
 }
+

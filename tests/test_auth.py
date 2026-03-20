@@ -14,7 +14,7 @@ import secrets
 import pytest
 
 from autosecaudit.webapp.job_index import JobIndexStore
-from autosecaudit.webapp.auth import AuthService, AuthPrincipal, ROLE_ORDER
+from autosecaudit.webapp.auth import AuthConfigurationError, AuthService, AuthPrincipal, ROLE_ORDER
 
 
 # ---------------------------------------------------------------------------
@@ -174,7 +174,7 @@ class TestAccessToken:
         with pytest.raises(ValueError, match="invalid_token"):
             auth_service.get_principal_from_bearer(refresh)
 
-    def test_jwt_secret_persists_across_service_restart(self, tmp_store: JobIndexStore):
+    def test_jwt_secret_from_env_survives_service_restart(self, tmp_store: JobIndexStore):
         first = AuthService(tmp_store, bootstrap_token="test-bootstrap-token")
         user = first.create_user(username="persist-admin", password="PersistPass123", role="admin")
         token = first.issue_access_token(user)
@@ -184,6 +184,11 @@ class TestAccessToken:
 
         assert principal.username == "persist-admin"
         assert first.status()["token_ttl_seconds"] == second.status()["token_ttl_seconds"]
+
+    def test_missing_jwt_secret_raises(self, tmp_store: JobIndexStore, monkeypatch: pytest.MonkeyPatch):
+        monkeypatch.delenv("AUTOSECAUDIT_WEB_JWT_SECRET", raising=False)
+        with pytest.raises(AuthConfigurationError, match="AUTOSECAUDIT_WEB_JWT_SECRET is required"):
+            AuthService(tmp_store, bootstrap_token="test-bootstrap-token")
 
 
 # ---------------------------------------------------------------------------
@@ -224,6 +229,27 @@ class TestBootstrapToken:
     def test_wrong_bootstrap_token_rejected(self, auth_service: AuthService):
         with pytest.raises(ValueError):
             auth_service.get_principal_from_bearer("wrong-token")
+
+    def test_bootstrap_token_is_disabled_after_first_user_creation(self, tmp_store: JobIndexStore):
+        auth = AuthService(tmp_store, bootstrap_token="test-bootstrap-token")
+        assert auth.bootstrap_enabled
+
+        auth.create_user(username="admin", password="AdminPass1234", role="admin")
+
+        assert not auth.bootstrap_enabled
+        with pytest.raises(ValueError, match="bootstrap_unavailable"):
+            auth.get_principal_from_bearer("test-bootstrap-token")
+
+    def test_bootstrap_token_expires_after_ttl(self, tmp_store: JobIndexStore, monkeypatch: pytest.MonkeyPatch):
+        monkeypatch.setenv("AUTOSECAUDIT_WEB_BOOTSTRAP_TOKEN_TTL_SECONDS", "300")
+        monkeypatch.setattr("autosecaudit.webapp.auth.time.time", lambda: 1_700_000_000)
+        auth = AuthService(tmp_store, bootstrap_token="test-bootstrap-token")
+        assert auth.bootstrap_enabled
+
+        monkeypatch.setattr("autosecaudit.webapp.auth.time.time", lambda: 1_700_000_301)
+        assert not auth.bootstrap_enabled
+        with pytest.raises(ValueError, match="bootstrap_unavailable"):
+            auth.get_principal_from_bearer("test-bootstrap-token")
 
 
 # ---------------------------------------------------------------------------

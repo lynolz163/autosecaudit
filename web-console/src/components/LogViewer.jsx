@@ -1,23 +1,36 @@
-import { useState, useMemo } from "react";
+import { memo, useDeferredValue, useMemo, useState } from "react";
 import { useI18n } from "../i18n";
 import AgentTimeline from "./AgentTimeline";
 
 const STRUCTURED_HINT_PATTERN = /\[[^\]]+\]\s+[^|]+\|\s+[^|]+\|\s+/;
+const STRUCTURED_DETECTION_WINDOW = 400;
 
-export default function LogViewer({ lines, status, mode, analysis = null }) {
+function LogViewer({ lines, status, mode, analysis = null }) {
   const { t, formatStatus } = useI18n();
+  const deferredLines = useDeferredValue(Array.isArray(lines) ? lines : []);
 
   // default to timeline when agent mode or structured agent logs are detected
   const [viewOverride, setViewOverride] = useState(null);
-  const hasStructuredSignals = useMemo(
-    () => Array.isArray(lines) && lines.some((item) => STRUCTURED_HINT_PATTERN.test(String(item?.line || ""))),
-    [lines]
+  const recentLines = useMemo(
+    () => (Array.isArray(deferredLines) ? deferredLines.slice(-STRUCTURED_DETECTION_WINDOW) : []),
+    [deferredLines],
   );
-
+  const hasStructuredSignals = useMemo(
+    () => recentLines.some((item) => STRUCTURED_HINT_PATTERN.test(String(item?.line || ""))),
+    [recentLines],
+  );
   const currentView = useMemo(() => {
     if (viewOverride) return viewOverride;
     return mode === "agent" || hasStructuredSignals ? "timeline" : "raw";
   }, [mode, viewOverride, hasStructuredSignals]);
+  const rawText = useMemo(() => {
+    if (currentView !== "raw") {
+      return "";
+    }
+    return deferredLines.length
+      ? deferredLines.map((item) => `[${item.ts}] ${item.line}`).join("\n")
+      : t("logViewer.empty");
+  }, [currentView, deferredLines, t]);
 
   return (
     <section className="panel timeline-panel">
@@ -51,14 +64,12 @@ export default function LogViewer({ lines, status, mode, analysis = null }) {
       </div>
 
       {currentView === "timeline" ? (
-        <AgentTimeline lines={lines} analysis={analysis} />
+        <AgentTimeline lines={deferredLines} totalLineCount={Array.isArray(lines) ? lines.length : 0} analysis={analysis} />
       ) : (
-        <pre className="log-viewer">
-          {lines.length
-            ? lines.map((item) => `[${item.ts}] ${item.line}`).join("\n")
-            : t("logViewer.empty")}
-        </pre>
+        <pre className="log-viewer">{rawText}</pre>
       )}
     </section>
   );
 }
+
+export default memo(LogViewer);

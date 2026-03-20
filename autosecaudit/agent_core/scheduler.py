@@ -57,7 +57,7 @@ class ActionScheduler:
     Rules:
     - Deduplicate by `idempotency_key`.
     - Pop by (priority, insertion_index, action_id).
-    - Enforce budget and low-budget priority-0 restriction at pop-time.
+    - Enforce budget and prefer priority-0 actions in low-budget mode.
     """
 
     budget_remaining: int
@@ -109,7 +109,8 @@ class ActionScheduler:
         Pop next action that satisfies remaining budget policy.
 
         Behavior:
-        - If budget is low (< threshold), only priority=0 actions can run.
+        - If budget is low (< threshold), priority=0 actions are preferred.
+        - If no priority=0 action can fit the remaining budget, allow the best-fitting queued action.
         - Actions that cannot fit the current budget are discarded and recorded.
         """
         while self._heap:
@@ -118,7 +119,11 @@ class ActionScheduler:
             if action is None:
                 continue
 
-            if self.budget_remaining < self.low_budget_threshold and int(action.priority) != 0:
+            if (
+                self.budget_remaining < self.low_budget_threshold
+                and int(action.priority) != 0
+                and self._has_selectable_priority_zero_action()
+            ):
                 self.skipped_by_budget.append(
                     {
                         "action_id": action.action_id,
@@ -147,3 +152,10 @@ class ActionScheduler:
             self.budget_remaining -= int(action.cost)
             return action
         return None
+
+    def _has_selectable_priority_zero_action(self) -> bool:
+        """Return whether a priority-0 queued action can still run under the current budget."""
+        return any(
+            int(action.priority) == 0 and int(action.cost) <= self.budget_remaining
+            for action in self._actions.values()
+        )

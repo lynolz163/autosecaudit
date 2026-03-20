@@ -1,6 +1,0 @@
-{"timestamp": "2026-03-04T02:08:40.480725+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=15, max_iterations=2, timeout=120.0s, resumed=False"}
-{"timestamp": "2026-03-04T02:08:41.089720+00:00", "plugin_id": "passive_config_audit", "action": "action_start", "status": "start", "detail": "A1 target=https://edu.360-24.com:443"}
-{"timestamp": "2026-03-04T02:08:59.483418+00:00", "plugin_id": "passive_config_audit", "action": "action_end", "status": "success", "detail": "A1 status=completed duration_ms=18391"}
-{"timestamp": "2026-03-04T02:08:59.570568+00:00", "plugin_id": "agent", "action": "phase_transition", "status": "info", "detail": "phase=active_discovery reason=advance:passive_recon"}
-{"timestamp": "2026-03-04T02:08:59.578397+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 2: no executable actions after policy/scheduler."}
-{"timestamp": "2026-03-04T02:08:59.587229+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=1, findings=0"}

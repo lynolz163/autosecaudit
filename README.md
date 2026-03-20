@@ -246,24 +246,38 @@ http://localhost:18080
 - Web 发起的任务输出默认写入 `output/web-jobs/`
 - 任务、资产、计划任务、通知配置和审计事件会写入 SQLite 索引
 - 用户、角色和 JWT 运行时配置也会写入同一份 SQLite 索引
-- 日志通过 SSE 实时推送到前端
+- 任务队列和单任务日志支持 WebSocket 实时推送，SSE 保留为兼容回退通道
 - 控制台已内置：
   - Jobs：任务发起、实时日志、工件查看
   - Assets：资产清单录入与一键发起扫描
   - Schedules：Cron 定时扫描
   - Reports：在线预览、同目标趋势、基线差异、HTML/Markdown/JSON 导出
   - Plugins：热加载目录配置、注册表清单、单插件/全量 reload
+
+#### WebSocket 实时接口
+
+- `/api/v1/jobs/ws`：推送任务队列变化与待审批队列
+- `/api/v1/jobs/{job_id}/ws`：推送单任务状态、日志、分析刷新信号
+
+#### E2E 烟测
+
+- 安装浏览器运行时：`python -m playwright install chromium`
+- 运行烟测：`pytest tests/e2e -q`
   - Users：管理员可创建/禁用账户并调整角色
   - Settings：通知配置、LLM 运行时和审计事件查看
 - 若需要 LLM 配置，请在页面表单中填写容器内路径（例如 `/workspace/config/llm_router.json`）
 - Web 端口可通过环境变量覆盖：`AUTOSECAUDIT_WEB_PORT=8088 docker compose up -d autosecaudit-web`
 - 推荐开启 Web 鉴权：
   - 设置 `AUTOSECAUDIT_WEB_API_TOKEN=<strong_token>` 作为 bootstrap token
+  - 设置 `AUTOSECAUDIT_WEB_BOOTSTRAP_TOKEN_TTL_SECONDS` 控制 bootstrap token 的有效期；首个用户创建后该 token 会自动失效
   - 或者直接在 `.env` / compose 环境变量中设置：
     - `AUTOSECAUDIT_WEB_DEFAULT_ADMIN_USERNAME`
     - `AUTOSECAUDIT_WEB_DEFAULT_ADMIN_PASSWORD`
     - `AUTOSECAUDIT_WEB_DEFAULT_ADMIN_DISPLAY_NAME`（可选）
-  - 如需跨重启保持 JWT 签名密钥稳定，可显式设置 `AUTOSECAUDIT_WEB_JWT_SECRET`
+  - `AUTOSECAUDIT_WEB_JWT_SECRET` 现在是必填项，且必须至少 32 个字符
+  - Redis 模式请同时设置 `AUTOSECAUDIT_REDIS_PASSWORD`，并让 `AUTOSECAUDIT_REDIS_URL` 带上密码
+  - `AUTOSECAUDIT_WEB_RATE_LIMIT_BACKEND=auto` 时会优先启用 Redis 共享限流；Redis 不可用时自动回退到内存限流
+  - Compose 默认使用镜像内的非 root 用户 `autosec` 运行；如需兼容宿主机挂载权限，可覆盖 `AUTOSECAUDIT_CONTAINER_USER`
   - 当数据库里还没有任何用户时，Web 服务启动会自动创建这个默认管理员
   - 首次进入控制台时，用该 token 创建第一个 `admin`
   - 之后页面会通过 `/api/auth/login` 获取 `access_token + refresh_token`，并按 `admin / operator / viewer` 执行 RBAC
@@ -271,11 +285,14 @@ http://localhost:18080
   - SSE 和工件下载会自动携带同一份 token/JWT
   - 管理员现在可以在控制台中创建、冻结、解冻、删除其他账户
 - Web 安全基线新增：
-  - `AUTOSECAUDIT_WEB_CORS_ALLOW_ORIGINS`：逗号分隔的允许来源列表；未设置时默认不开放跨域
-  - `AUTOSECAUDIT_WEB_ENABLE_METRICS`：是否暴露 Prometheus `/metrics` 端点，默认 `1`
-  - `AUTOSECAUDIT_WEB_RATE_LIMIT_AUTH_LOGIN`：登录/首个管理员创建限流，默认 `5/60`
-  - `AUTOSECAUDIT_WEB_RATE_LIMIT_AUTH_REFRESH`：token 刷新限流，默认 `20/300`
-  - `AUTOSECAUDIT_WEB_RATE_LIMIT_API_WRITE`：所有 `/api/*` 写操作限流，默认 `120/60`
+- `AUTOSECAUDIT_WEB_CORS_ALLOW_ORIGINS`：逗号分隔的允许来源列表；未设置时默认不开放跨域
+- `AUTOSECAUDIT_WEB_ENABLE_METRICS`：是否暴露 Prometheus `/metrics` 端点，默认 `1`
+- `AUTOSECAUDIT_WEB_ENFORCE_HTTPS`：设为 `1` 时将 HTTP 请求 307 重定向到 HTTPS
+- `AUTOSECAUDIT_WEB_TRUST_PROXY_HEADERS`：设为 `1` 后信任 `X-Forwarded-Proto/Host`，适合放在 Nginx / Traefik 后面
+- `AUTOSECAUDIT_WEB_HSTS_MAX_AGE_SECONDS` / `AUTOSECAUDIT_WEB_HSTS_INCLUDE_SUBDOMAINS` / `AUTOSECAUDIT_WEB_HSTS_PRELOAD`：控制 `Strict-Transport-Security`
+- `AUTOSECAUDIT_WEB_RATE_LIMIT_AUTH_LOGIN`：登录/首个管理员创建限流，默认 `5/60`
+- `AUTOSECAUDIT_WEB_RATE_LIMIT_AUTH_REFRESH`：token 刷新限流，默认 `20/300`
+- `AUTOSECAUDIT_WEB_RATE_LIMIT_API_WRITE`：所有 `/api/*` 写操作限流，默认 `120/60`
   - `AUTOSECAUDIT_WEB_PASSWORD_MIN_LENGTH` / `AUTOSECAUDIT_WEB_PASSWORD_REQUIRE_MIXED_CASE` / `AUTOSECAUDIT_WEB_PASSWORD_REQUIRE_DIGIT` / `AUTOSECAUDIT_WEB_PASSWORD_REQUIRE_SPECIAL`
   - 默认密码策略为至少 `10` 位，且必须包含大小写字母和数字
 - 通知配置支持：

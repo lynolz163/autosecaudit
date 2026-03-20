@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import PaginationControls from "../components/PaginationControls";
 import StatusBadge from "../components/StatusBadge";
 import { useI18n } from "../i18n";
@@ -212,7 +212,7 @@ export default function Schedules({ assets, schedules, onCreate, onDelete }) {
                   <div className="record-value">{item.payload?.budget ?? "-"}</div>
                 </div>
                 <div>
-                  <span className="record-label">{language === "zh-CN" ? "下一次执行" : "Next run"}</span>
+                  <span className="record-label">{language === "zh-CN" ? "下次执行" : "Next run"}</span>
                   <div className="record-value">{formatDateTime(item.next_run_at, language)}</div>
                 </div>
                 <div>
@@ -253,3 +253,5 @@ export default function Schedules({ assets, schedules, onCreate, onDelete }) {
     </div>
   );
 }
+
+

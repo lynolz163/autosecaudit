@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 from html import escape as html_escape
 import json
+from pathlib import Path
+import re
 from typing import Any
 
 from fastapi import HTTPException
@@ -58,6 +60,215 @@ def build_dashboard_summary(manager: JobManager) -> dict[str, Any]:
         },
         "severity_counts": severity_counts,
         "recent_jobs": recent_jobs,
+    }
+
+
+def build_global_search_results(manager: JobManager, *, query: str, limit: int = 10) -> dict[str, Any]:
+    """Search jobs, reports, findings, assets, and schedules from one entry point."""
+    normalized_query = str(query or "").strip()
+    if len(normalized_query) < 2:
+        return {"query": normalized_query, "total": 0, "groups": {}, "items": []}
+
+    tokens = _tokenize_search_query(normalized_query)
+    if not tokens:
+        return {"query": normalized_query, "total": 0, "groups": {}, "items": []}
+
+    results: list[dict[str, Any]] = []
+
+    jobs = _collect_search_jobs(manager)
+
+    for job in jobs:
+        job_id = str(job.get("job_id") or "").strip()
+        target = str(job.get("target") or "").strip()
+        score = _score_search_match(
+            query=normalized_query,
+            tokens=tokens,
+            primary_fields=[job_id, target],
+            secondary_fields=[job.get("mode"), job.get("status"), job.get("session_status")],
+        )
+        if score <= 0:
+            continue
+        results.append(
+            {
+                "kind": "job",
+                "route": "jobs",
+                "title": target or job_id or "Job",
+                "subtitle": " / ".join(item for item in [job_id, job.get("status"), job.get("mode")] if item),
+                "summary": str(job.get("last_updated_at") or "").strip() or None,
+                "score": score,
+                "target": target or None,
+                "job_id": job_id or None,
+                "metadata": {
+                    "status": job.get("status"),
+                    "session_status": job.get("session_status"),
+                    "mode": job.get("mode"),
+                },
+            }
+        )
+
+    for asset in manager.store.list_assets():
+        asset_id = int(asset.get("asset_id", 0) or 0)
+        target = str(asset.get("target") or "").strip()
+        score = _score_search_match(
+            query=normalized_query,
+            tokens=tokens,
+            primary_fields=[asset.get("name"), target],
+            secondary_fields=[asset.get("scope"), asset.get("notes"), ", ".join(asset.get("tags", []) or [])],
+        )
+        if score <= 0:
+            continue
+        results.append(
+            {
+                "kind": "asset",
+                "route": "assets",
+                "title": str(asset.get("name") or target or f"Asset #{asset_id}").strip(),
+                "subtitle": " / ".join(item for item in [target, asset.get("default_mode")] if item),
+                "summary": _search_summary(asset.get("notes")) or _search_summary(", ".join(asset.get("tags", []) or [])),
+                "score": score,
+                "target": target or None,
+                "asset_id": asset_id or None,
+                "metadata": {
+                    "tags": list(asset.get("tags", []) or []),
+                    "enabled": bool(asset.get("enabled", False)),
+                },
+            }
+        )
+
+    for schedule in manager.store.list_schedules():
+        schedule_id = int(schedule.get("schedule_id", 0) or 0)
+        target = str(schedule.get("target") or "").strip()
+        score = _score_search_match(
+            query=normalized_query,
+            tokens=tokens,
+            primary_fields=[schedule.get("name"), target],
+            secondary_fields=[schedule.get("cron_expr"), schedule.get("last_job_id"), schedule.get("notes")],
+        )
+        if score <= 0:
+            continue
+        results.append(
+            {
+                "kind": "schedule",
+                "route": "schedules",
+                "title": str(schedule.get("name") or target or f"Schedule #{schedule_id}").strip(),
+                "subtitle": " / ".join(item for item in [target, schedule.get("cron_expr")] if item),
+                "summary": _search_summary(schedule.get("notes")) or _search_summary(schedule.get("last_job_id")),
+                "score": score,
+                "target": target or None,
+                "schedule_id": schedule_id or None,
+                "metadata": {
+                    "enabled": bool(schedule.get("enabled", False)),
+                    "asset_id": schedule.get("asset_id"),
+                },
+            }
+        )
+
+    for job in jobs:
+        job_id = str(job.get("job_id") or "").strip()
+        try:
+            artifacts = manager.store.list_artifacts(job_id)
+        except Exception:  # noqa: BLE001
+            artifacts = []
+        report = build_report_item(manager, job=job, artifacts=artifacts)
+        if report is None:
+            continue
+        job_id = str(report.get("job_id") or "").strip()
+        target = str(report.get("target") or "").strip()
+        report_score = _score_search_match(
+            query=normalized_query,
+            tokens=tokens,
+            primary_fields=[job_id, target],
+            secondary_fields=[report.get("decision_summary"), report.get("status"), report.get("mode")],
+        )
+        if report_score > 0:
+            results.append(
+                {
+                    "kind": "report",
+                    "route": "reports",
+                    "title": target or job_id or "Report",
+                    "subtitle": " / ".join(item for item in [job_id, report.get("status"), report.get("mode")] if item),
+                    "summary": _search_summary(report.get("decision_summary")),
+                    "score": report_score,
+                    "target": target or None,
+                    "job_id": job_id or None,
+                    "metadata": {
+                        "finding_total": int(report.get("finding_total", 0) or 0),
+                        "severity_counts": dict(report.get("severity_counts", {})),
+                    },
+                }
+            )
+
+        payload = read_report_json(manager, job_id=job_id, candidates=["agent/audit_report.json", "audit_report.json"])
+        for finding in extract_report_findings(payload):
+            fingerprint = str(finding.get("fingerprint") or "").strip()
+            finding_score = _score_search_match(
+                query=normalized_query,
+                tokens=tokens,
+                primary_fields=[finding.get("finding_id"), finding.get("cve_id"), finding.get("title")],
+                secondary_fields=[
+                    finding.get("description"),
+                    finding.get("plugin_name"),
+                    finding.get("evidence_text"),
+                    target,
+                ],
+            )
+            if finding_score <= 0:
+                continue
+            results.append(
+                {
+                    "kind": "finding",
+                    "route": "reports",
+                    "title": str(finding.get("title") or "Finding").strip(),
+                    "subtitle": " / ".join(
+                        item
+                        for item in [
+                            str(finding.get("severity") or "").upper(),
+                            finding.get("cve_id"),
+                            finding.get("plugin_name"),
+                            target,
+                        ]
+                        if item
+                    ),
+                    "summary": _search_summary(
+                        finding.get("description")
+                        or finding.get("recommendation")
+                        or finding.get("evidence_text")
+                    ),
+                    "score": finding_score + 1.5,
+                    "target": target or None,
+                    "job_id": job_id or None,
+                    "metadata": {
+                        "fingerprint": fingerprint or None,
+                        "finding_id": finding.get("finding_id"),
+                        "severity": finding.get("severity"),
+                        "cve_id": finding.get("cve_id"),
+                    },
+                }
+            )
+
+    deduped: dict[str, dict[str, Any]] = {}
+    for item in results:
+        key = _search_result_key(item)
+        current = deduped.get(key)
+        if current is None or float(item.get("score", 0.0) or 0.0) > float(current.get("score", 0.0) or 0.0):
+            deduped[key] = item
+
+    items = sorted(
+        deduped.values(),
+        key=lambda item: (
+            -float(item.get("score", 0.0) or 0.0),
+            _search_kind_rank(str(item.get("kind") or "")),
+            str(item.get("title") or ""),
+        ),
+    )[: max(1, int(limit or 10))]
+    groups: dict[str, int] = {}
+    for item in items:
+        kind = str(item.get("kind") or "other")
+        groups[kind] = groups.get(kind, 0) + 1
+    return {
+        "query": normalized_query,
+        "total": len(items),
+        "groups": groups,
+        "items": items,
     }
 
 
@@ -218,10 +429,27 @@ def build_report_analysis(manager: JobManager, *, job_id: str, baseline_job_id: 
         }
         for report in target_reports
     ]
+    runtime = current_payload.get("execution", {}).get("runtime", {}) if isinstance(current_payload.get("execution", {}), dict) else {}
+    scope = current_payload.get("scope", {}) if isinstance(current_payload.get("scope", {}), dict) else {}
+    scope_surface = scope.get("surface", {}) if isinstance(scope.get("surface", {}), dict) else {}
     return {
         "job_id": job_id,
         "target": item.get("target"),
         "baseline_job_id": baseline_item.get("job_id") if baseline_item else None,
+        "session_status": str(runtime.get("session_status") or current_payload.get("meta", {}).get("session_status") or item.get("status") or "").strip() or None,
+        "pending_approval": runtime.get("pending_approval", {}) if isinstance(runtime.get("pending_approval", {}), dict) else {},
+        "loop_guard": runtime.get("loop_guard", {}) if isinstance(runtime.get("loop_guard", {}), dict) else {},
+        "thought_stream": current_payload.get("thought_stream", []) if isinstance(current_payload.get("thought_stream", []), list) else [],
+        "evidence_graph": current_payload.get("evidence_graph", {}) if isinstance(current_payload.get("evidence_graph", {}), dict) else {},
+        "cve_validation": current_payload.get("cve_validation", {}) if isinstance(current_payload.get("cve_validation", {}), dict) else {},
+        "infrastructure": current_payload.get("infrastructure", {}) if isinstance(current_payload.get("infrastructure", {}), dict) else {},
+        "risk_matrix": current_payload.get("risk_matrix", {}) if isinstance(current_payload.get("risk_matrix", {}), dict) else {},
+        "attack_surface": current_payload.get("attack_surface", {}) if isinstance(current_payload.get("attack_surface", {}), dict) else {},
+        "remediation_priority": current_payload.get("remediation_priority", []) if isinstance(current_payload.get("remediation_priority", []), list) else [],
+        "path_graph": current_payload.get("path_graph", {}) if isinstance(current_payload.get("path_graph", {}), dict) else {},
+        "knowledge_context": current_payload.get("knowledge_context", {}) if isinstance(current_payload.get("knowledge_context", {}), dict) else (
+            scope_surface.get("knowledge_context", {}) if isinstance(scope_surface.get("knowledge_context", {}), dict) else {}
+        ),
         "history": history,
         "history_count": len(history),
         "execution_history": execution_history,
@@ -1253,12 +1481,127 @@ def normalize_target_key(value: Any) -> str:
     return str(value or "").strip().lower()
 
 
+def _collect_search_jobs(manager: JobManager) -> list[dict[str, Any]]:
+    merged: dict[str, dict[str, Any]] = {}
+    store = getattr(manager, "store", None)
+    if store is not None and hasattr(store, "list_jobs"):
+        for item in store.list_jobs():
+            job_id = str(item.get("job_id") or "").strip()
+            if not job_id:
+                continue
+            merged[job_id] = dict(item)
+    for item in manager.list_jobs():
+        job_id = str(item.get("job_id") or "").strip()
+        if not job_id:
+            continue
+        current = dict(merged.get(job_id, {}))
+        current.update(dict(item))
+        merged[job_id] = current
+    items = list(merged.values())
+    items.sort(key=lambda item: str(item.get("created_at") or item.get("last_updated_at") or ""), reverse=True)
+    return items
+
+
+def _tokenize_search_query(query: str) -> list[str]:
+    tokens = [item.strip().lower() for item in str(query or "").split() if item.strip()]
+    output: list[str] = []
+    seen: set[str] = set()
+    for token in tokens:
+        if token in seen:
+            continue
+        seen.add(token)
+        output.append(token)
+    return output
+
+
+def _normalize_search_text(value: Any) -> str:
+    if value in (None, ""):
+        return ""
+    if isinstance(value, list):
+        return " ".join(_normalize_search_text(item) for item in value if _normalize_search_text(item)).strip().lower()
+    if isinstance(value, dict):
+        return " ".join(
+            f"{_normalize_search_text(key)} {_normalize_search_text(item)}".strip()
+            for key, item in value.items()
+            if _normalize_search_text(key) or _normalize_search_text(item)
+        ).strip().lower()
+    return " ".join(str(value).strip().lower().split())
+
+
+def _score_search_match(*, query: str, tokens: list[str], primary_fields: list[Any], secondary_fields: list[Any]) -> float:
+    primary_text = _normalize_search_text(primary_fields)
+    secondary_text = _normalize_search_text(secondary_fields)
+    combined_text = " ".join(item for item in [primary_text, secondary_text] if item).strip()
+    if not combined_text or not all(token in combined_text for token in tokens):
+        return 0.0
+
+    score = 0.0
+    normalized_query = " ".join(str(query or "").strip().lower().split())
+    if normalized_query and normalized_query in primary_text:
+        score += 12.0
+    elif normalized_query and normalized_query in secondary_text:
+        score += 6.0
+
+    for token in tokens:
+        if token in primary_text:
+            score += 4.0
+        elif token in secondary_text:
+            score += 2.0
+    return score + min(3.0, float(len(tokens)))
+
+
+def _search_result_key(item: dict[str, Any]) -> str:
+    kind = str(item.get("kind") or "other").strip().lower()
+    if kind in {"job", "report"}:
+        return f"{kind}:{item.get('job_id')}"
+    if kind == "finding":
+        fingerprint = item.get("metadata", {}).get("fingerprint") if isinstance(item.get("metadata"), dict) else None
+        return f"{kind}:{item.get('job_id')}:{fingerprint or item.get('title')}"
+    if kind == "asset":
+        return f"{kind}:{item.get('asset_id')}"
+    if kind == "schedule":
+        return f"{kind}:{item.get('schedule_id')}"
+    return f"{kind}:{item.get('title')}"
+
+
+def _search_kind_rank(kind: str) -> int:
+    order = {"finding": 0, "report": 1, "job": 2, "asset": 3, "schedule": 4}
+    return order.get(str(kind or "").strip().lower(), 9)
+
+
+def _search_summary(value: Any, *, max_length: int = 180) -> str | None:
+    text = _normalize_search_text(value)
+    if not text:
+        return None
+    if len(text) <= max_length:
+        return text
+    return text[: max_length - 1].rstrip() + "…"
+
+
 def read_report_json(manager: JobManager, *, job_id: str, candidates: list[str]) -> dict[str, Any]:
+    job_record: dict[str, Any] | None = None
+    if hasattr(manager, "get_job"):
+        try:
+            job_record = manager.get_job(job_id)
+        except KeyError:
+            job_record = None
+    if job_record is None:
+        for item in _collect_search_jobs(manager):
+            if str(item.get("job_id") or "").strip() == str(job_id).strip():
+                job_record = item
+                break
     for candidate in candidates:
+        path: Path | None = None
         try:
             path = manager.resolve_file(job_id, candidate)
         except (KeyError, FileNotFoundError, PermissionError):
-            continue
+            output_dir = Path(str(job_record.get("output_dir") or "")).resolve() if isinstance(job_record, dict) and job_record.get("output_dir") else None
+            if output_dir is None:
+                continue
+            fallback = (output_dir / candidate).resolve()
+            if not fallback.is_relative_to(output_dir) or not fallback.is_file():
+                continue
+            path = fallback
         try:
             payload = json.loads(path.read_text(encoding="utf-8-sig"))
         except (OSError, json.JSONDecodeError):
@@ -1328,15 +1671,19 @@ def _render_verification_ranking_html(blocks: list[dict[str, Any]]) -> str:
             )
         table_rows = "".join(rows) or "<tr><td colspan='7'>No ranked candidates</td></tr>"
         output.append(
-            "<article class='card' style='margin-bottom:14px'>"
+            "<article class='card'>"
             f"<h3>{tool}</h3>"
-            f"<p><strong>Target:</strong> {target} | <strong>Component:</strong> {component} | "
-            f"<strong>Service:</strong> {service} | <strong>Version:</strong> {version}</p>"
-            f"<p><strong>Selected:</strong> {selected_candidate} | <strong>Templates:</strong> {template_text}</p>"
-            "<table>"
+            "<div class='detail-meta'>"
+            f"<span class='meta-tag'>Target {target}</span>"
+            f"<span class='meta-tag'>Component {component}</span>"
+            f"<span class='meta-tag'>Service {service}</span>"
+            f"<span class='meta-tag'>Version {version}</span>"
+            "</div>"
+            f"<p class='section-summary'><strong>Selected:</strong> {selected_candidate} | <strong>Templates:</strong> {template_text}</p>"
+            "<div class='table-wrap'><table>"
             "<thead><tr><th>CVE</th><th>Severity</th><th>CVSS</th><th>Template</th><th>Count</th><th>Status</th><th>Why ranked first</th></tr></thead>"
             f"<tbody>{table_rows}</tbody>"
-            "</table>"
+            "</table></div>"
             "</article>"
         )
     return "".join(output)
@@ -1398,9 +1745,9 @@ def _render_asset_diff_cards(title: str, entries: list[dict[str, Any]], empty_te
         ]
         meta = " | ".join(part for part in meta_parts if part)
         rows.append(
-            "<div style='border: 1px solid rgba(29,43,39,0.08); border-radius: 12px; padding: 10px 12px; margin-top: 10px;'>"
+            "<div class='subcard'>"
             f"<div><strong>{html_escape(str(entry.get('display_name') or entry.get('id') or '-'))}</strong></div>"
-            f"<div style='margin-top: 4px; font-size: 12px; color: #546477;'>{html_escape(meta or '-')}</div>"
+            f"<div class='subcard-meta'>{html_escape(meta or '-')}</div>"
             "</div>"
         )
     body = "".join(rows) or f"<p>{html_escape(empty_text)}</p>"
@@ -1469,21 +1816,109 @@ def _render_execution_history_html(rows: list[dict[str, Any]]) -> str:
         error_text = str(row.get("error") or "").strip()
         error_html = f"<p><strong>Error:</strong> {html_escape(error_text)}</p>" if error_text else ""
         output.append(
-            "<article class='card' style='margin-bottom:14px'>"
+            "<article class='card timeline-card'>"
+            f"<span class='timeline-index'>{index}</span>"
             f"<h3>{index}. {html_escape(str(row.get('tool') or '-'))}</h3>"
-            f"<p><strong>Target:</strong> {html_escape(str(row.get('target') or '-'))} | "
-            f"<strong>Phase:</strong> {html_escape(str(row.get('phase') or '-'))} | "
-            f"<strong>Status:</strong> {html_escape(str(row.get('status') or '-'))}</p>"
-            f"<p><strong>Selected Candidate:</strong> {html_escape(str(explanation.get('selected_candidate') or '-'))}</p>"
-            f"<p><strong>Candidate Order:</strong> {candidate_text}</p>"
-            f"<p><strong>Selected Templates:</strong> {template_text}</p>"
-            "<div><strong>Why Executed:</strong><ul>"
+            "<div class='detail-meta'>"
+            f"<span class='meta-tag'>Target {html_escape(str(row.get('target') or '-'))}</span>"
+            f"<span class='meta-tag'>Phase {html_escape(str(row.get('phase') or '-'))}</span>"
+            f"<span class='meta-tag'>Status {html_escape(str(row.get('status') or '-'))}</span>"
+            f"<span class='meta-tag'>Selected {html_escape(str(explanation.get('selected_candidate') or '-'))}</span>"
+            "</div>"
+            f"<p class='section-summary'><strong>Candidate Order:</strong> {candidate_text}</p>"
+            f"<p class='section-summary'><strong>Selected Templates:</strong> {template_text}</p>"
+            "<div><strong>Why Executed:</strong><ul class='reason-list'>"
             f"{reason_text}"
             "</ul></div>"
             f"{error_html}"
             "</article>"
         )
     return "".join(output) or "<p>No execution history recorded for this run.</p>"
+
+
+def _contains_cjk_text(value: Any) -> bool:
+    if isinstance(value, str):
+        return any(
+            0x3400 <= ord(char) <= 0x9FFF or 0xF900 <= ord(char) <= 0xFAFF
+            for char in value
+        )
+    if isinstance(value, dict):
+        return any(_contains_cjk_text(key) or _contains_cjk_text(item) for key, item in value.items())
+    if isinstance(value, (list, tuple, set)):
+        return any(_contains_cjk_text(item) for item in value)
+    return False
+
+
+def _detect_generated_report_lang(*, item: dict[str, Any], analysis: dict[str, Any]) -> str:
+    sample = {
+        "target": item.get("target"),
+        "decision_summary": item.get("decision_summary"),
+        "findings": analysis.get("findings", [])[:10] if isinstance(analysis.get("findings", []), list) else [],
+        "attack_surface": analysis.get("attack_surface", {}) if isinstance(analysis.get("attack_surface", {}), dict) else {},
+    }
+    return "zh-CN" if _contains_cjk_text(sample) else "en"
+
+
+def _render_html_value(value: Any) -> str:
+    text = str(value or "").strip() or "-"
+    escaped = html_escape(text)
+    display = _render_wrapped_html_text(text)
+    if text.startswith(("http://", "https://")):
+        return f"<a class='url-text' href='{escaped}' title='{escaped}' dir='ltr'>{display}</a>"
+    return f"<span class='url-text' title='{escaped}' dir='auto'>{display}</span>"
+
+
+def _render_wrapped_html_text(value: str) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return html_escape("-")
+    parts = re.split(r"([/?#&=._:%-]+)", text)
+    rendered: list[str] = []
+    for part in parts:
+        if not part:
+            continue
+        rendered.append(html_escape(part))
+        if re.fullmatch(r"[/?#&=._:%-]+", part):
+            rendered.append("<wbr>")
+    return "".join(rendered)
+
+
+def _render_report_metric_card(
+    label: str,
+    value: Any,
+    *,
+    detail: str | None = None,
+    tone: str = "neutral",
+) -> str:
+    normalized_tone = str(tone or "neutral").strip().lower()
+    if normalized_tone not in {"critical", "high", "medium", "low", "info", "neutral"}:
+        normalized_tone = "neutral"
+    detail_html = f"<p class='metric-detail'>{html_escape(str(detail))}</p>" if detail else ""
+    return (
+        f"<div class='metric-card metric-card-{html_escape(normalized_tone)}'>"
+        f"<p class='metric-label'>{html_escape(label)}</p>"
+        f"<p class='metric-value'>{html_escape(str(value if value not in (None, '') else '-'))}</p>"
+        f"{detail_html}"
+        "</div>"
+    )
+
+
+def _render_report_fact(label: str, value: Any) -> str:
+    return (
+        "<div class='fact-row'>"
+        f"<span class='fact-label'>{html_escape(label)}</span>"
+        f"<span class='fact-value'>{html_escape(str(value if value not in (None, '') else '-'))}</span>"
+        "</div>"
+    )
+
+
+def _render_report_nav_link(anchor: str, title: str, meta: str) -> str:
+    return (
+        f"<a class='toc-link' href='#{html_escape(anchor)}'>"
+        f"<strong>{html_escape(title)}</strong>"
+        f"<small>{html_escape(meta)}</small>"
+        "</a>"
+    )
 
 
 def render_generated_report_html(*, item: dict[str, Any], analysis: dict[str, Any]) -> str:
@@ -1494,6 +1929,9 @@ def render_generated_report_html(*, item: dict[str, Any], analysis: dict[str, An
     verification_ranking = analysis.get("verification_ranking", []) if isinstance(analysis, dict) else []
     asset_phase_trends = analysis.get("asset_phase_trends", []) if isinstance(analysis, dict) else []
     asset_batch_trends = analysis.get("asset_batch_trends", []) if isinstance(analysis, dict) else []
+    infrastructure = analysis.get("infrastructure", {}) if isinstance(analysis, dict) else {}
+    risk_matrix = analysis.get("risk_matrix", {}) if isinstance(analysis, dict) else {}
+    attack_surface = analysis.get("attack_surface", {}) if isinstance(analysis, dict) else {}
     severity_counts = item.get("severity_counts", {}) if isinstance(item, dict) else {}
     chips = "".join(
         f"<span class='chip chip-{html_escape(level)}'>{html_escape(level)} {int(severity_counts.get(level, 0) or 0)}</span>"
@@ -1565,100 +2003,531 @@ def render_generated_report_html(*, item: dict[str, Any], analysis: dict[str, An
         "No persistent protocol changes.",
     )
     execution_history_html = _render_execution_history_html(execution_history if isinstance(execution_history, list) else [])
+    infrastructure_html = _render_infrastructure_html(infrastructure if isinstance(infrastructure, dict) else {})
+    risk_matrix_html = _render_risk_matrix_html(risk_matrix if isinstance(risk_matrix, dict) else {})
+    attack_surface_html = _render_attack_surface_html(attack_surface if isinstance(attack_surface, dict) else {})
+    html_lang = _detect_generated_report_lang(item=item, analysis=analysis)
+    asset_summary = analysis.get("asset_summary", {}) if isinstance(analysis.get("asset_summary", {}), dict) else {}
+    total_assets = int(asset_summary.get("total_assets", 0) or 0)
+    service_assets = int(asset_summary.get("service_assets", 0) or 0)
+    baseline_job_id = str(analysis.get("baseline_job_id") or "None").strip() or "None"
+    session_status = str(analysis.get("session_status") or item.get("status") or "-").strip() or "-"
+    decision_summary = str(item.get("decision_summary") or "").strip()
+    ports = infrastructure.get("ports", []) if isinstance(infrastructure.get("ports", []), list) else []
+    tech_stack = infrastructure.get("tech_stack", []) if isinstance(infrastructure.get("tech_stack", []), list) else []
+    risk_categories = risk_matrix.get("categories", []) if isinstance(risk_matrix.get("categories", []), list) else []
+    risk_score = int(risk_matrix.get("total_score", 0) or 0)
+    entry_points = attack_surface.get("entry_points", []) if isinstance(attack_surface.get("entry_points", []), list) else []
+    sensitive_paths = attack_surface.get("sensitive_paths", []) if isinstance(attack_surface.get("sensitive_paths", []), list) else []
+    report_nav = "".join(
+        (
+            _render_report_nav_link(
+                "baseline-diff",
+                "Baseline Diff",
+                f"{int(diff.get('new_count', 0) or 0)} new · {int(diff.get('resolved_count', 0) or 0)} resolved",
+            ),
+            _render_report_nav_link("infrastructure", "Infrastructure", f"{len(ports)} ports · {len(tech_stack)} tech hints"),
+            _render_report_nav_link("risk-matrix", "Risk Matrix", f"score {risk_score} · {len(risk_categories)} categories"),
+            _render_report_nav_link("attack-surface", "Attack Surface", f"{len(entry_points)} entry points · {len(sensitive_paths)} paths"),
+            _render_report_nav_link("history", "History", f"{len(history)} related runs"),
+            _render_report_nav_link("execution-history", "Execution", f"{len(execution_history)} action records"),
+            _render_report_nav_link("verification-ranking", "Verification", f"{len(verification_ranking)} ranking blocks"),
+            _render_report_nav_link("asset-trends-phase", "Phase Trends", f"{len(asset_phase_trends)} phases"),
+            _render_report_nav_link("asset-trends-batch", "Batch Trends", f"{len(asset_batch_trends)} batches"),
+            _render_report_nav_link("findings", "Findings", f"{len(findings)} total findings"),
+        )
+    )
+    overview_facts = "".join(
+        (
+            _render_report_fact("Session Status", session_status),
+            _render_report_fact("Baseline Job", baseline_job_id),
+            _render_report_fact("History Count", len(history)),
+            _render_report_fact("Execution Steps", len(execution_history)),
+            _render_report_fact("Total Assets", total_assets),
+            _render_report_fact("Service Assets", service_assets),
+        )
+    )
+    hero_metrics = "".join(
+        (
+            _render_report_metric_card(
+                "Total Findings",
+                int(item.get("finding_total", 0) or 0),
+                detail="All findings in this exported run",
+                tone="critical" if int(item.get("finding_total", 0) or 0) else "neutral",
+            ),
+            _render_report_metric_card(
+                "New vs Baseline",
+                int(diff.get("new_count", 0) or 0),
+                detail=f"Compared with {baseline_job_id}",
+                tone="high" if int(diff.get("new_count", 0) or 0) else "neutral",
+            ),
+            _render_report_metric_card(
+                "Resolved vs Baseline",
+                int(diff.get("resolved_count", 0) or 0),
+                detail="Items no longer present in the latest run",
+                tone="low" if int(diff.get("resolved_count", 0) or 0) else "neutral",
+            ),
+            _render_report_metric_card(
+                "Persistent vs Baseline",
+                int(diff.get("persistent_count", 0) or 0),
+                detail="Findings that remain across runs",
+                tone="medium" if int(diff.get("persistent_count", 0) or 0) else "neutral",
+            ),
+            _render_report_metric_card(
+                "Total Assets",
+                total_assets,
+                detail=f"{service_assets} service assets",
+                tone="info" if total_assets else "neutral",
+            ),
+            _render_report_metric_card(
+                "Execution Steps",
+                len(execution_history),
+                detail=f"{len(verification_ranking)} verification ranking blocks",
+                tone="neutral",
+            ),
+        )
+    )
+    diff_metrics = "".join(
+        (
+            _render_report_metric_card("New Assets", int(diff.get("new_assets_count", 0) or 0), tone="high"),
+            _render_report_metric_card("Resolved Assets", int(diff.get("resolved_assets_count", 0) or 0), tone="low"),
+            _render_report_metric_card("New Services", int(diff.get("new_services_count", 0) or 0), tone="high"),
+            _render_report_metric_card("Resolved Services", int(diff.get("resolved_services_count", 0) or 0), tone="low"),
+        )
+    )
+    lede = decision_summary or "Grouped export with readable sections, sticky navigation, and full-width URL wrapping."
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{html_lang}">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html_escape(str(item.get("target") or item.get("job_id") or "AutoSecAudit Report"))}</title>
   <style>
-    body {{ font-family: 'Segoe UI', sans-serif; margin: 0; color: #1d2b27; background: #f4efe6; }}
-    .page {{ max-width: 1080px; margin: 0 auto; padding: 32px; }}
-    .hero {{ background: #fffaf4; border: 1px solid rgba(29,43,39,0.12); border-radius: 24px; padding: 24px; }}
+    * {{ box-sizing: border-box; }}
+    html {{ -webkit-text-size-adjust: 100%; }}
+    body {{
+      font-family: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI",
+        "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "SimHei", "Segoe UI",
+        system-ui, sans-serif;
+      margin: 0;
+      color: #1d2b27;
+      background: #f4efe6;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      font-synthesis-weight: none;
+      overflow-wrap: anywhere;
+    }}
+    html[lang="zh-CN"] body {{
+      font-family: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei UI",
+        "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "SimHei", system-ui, sans-serif;
+    }}
+    .page {{ max-width: 1280px; margin: 0 auto; padding: 24px; }}
+    .hero {{ background: #fffaf4; border: 1px solid rgba(29,43,39,0.12); border-radius: 24px; padding: 24px; overflow-wrap: anywhere; }}
     .grid {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }}
-    .card {{ background: white; border-radius: 18px; padding: 16px; border: 1px solid rgba(29,43,39,0.1); }}
-    .section {{ margin-top: 18px; background: white; border-radius: 24px; padding: 20px; border: 1px solid rgba(29,43,39,0.1); }}
+    .card {{ background: white; border-radius: 18px; padding: 16px; border: 1px solid rgba(29,43,39,0.1); overflow-wrap: anywhere; }}
+    .section {{ margin-top: 18px; background: white; border-radius: 24px; padding: 20px; border: 1px solid rgba(29,43,39,0.1); overflow-wrap: anywhere; }}
     .chip {{ display: inline-block; padding: 7px 11px; border-radius: 999px; margin-right: 8px; margin-top: 8px; font-size: 12px; font-weight: 700; }}
     .chip-critical {{ background: rgba(185,28,28,0.12); color: #b91c1c; }}
     .chip-high {{ background: rgba(217,119,6,0.14); color: #b45309; }}
     .chip-medium {{ background: rgba(202,138,4,0.14); color: #a16207; }}
     .chip-low {{ background: rgba(14,116,144,0.13); color: #0e7490; }}
     .chip-info {{ background: rgba(15,118,110,0.13); color: #0f766e; }}
-    table {{ width: 100%; border-collapse: collapse; }}
-    td, th {{ border-bottom: 1px solid rgba(29,43,39,0.08); padding: 10px 6px; text-align: left; }}
-    pre {{ white-space: pre-wrap; word-break: break-word; background: #15211f; color: #e7fff4; padding: 12px; border-radius: 14px; }}
+    table {{ width: 100%; border-collapse: collapse; table-layout: auto; }}
+    td, th {{ border-bottom: 1px solid rgba(29,43,39,0.08); padding: 10px 6px; text-align: left; vertical-align: top; overflow-wrap: anywhere; word-break: break-word; }}
+    pre {{
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      background: #15211f;
+      color: #e7fff4;
+      padding: 12px;
+      border-radius: 14px;
+      font-family: "Cascadia Mono", "Noto Sans Mono CJK SC", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }}
+    p, li, td, th, strong, span, a {{ overflow-wrap: anywhere; }}
+    .url-text {{
+      display: block;
+      width: 100%;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      color: inherit;
+      text-decoration: none;
+      line-height: 1.7;
+      unicode-bidi: plaintext;
+    }}
+    .url-text:hover {{ text-decoration: underline; }}
+    :root {{
+      color-scheme: light;
+      --bg: #efe7dc;
+      --panel-strong: #fffdfa;
+      --line: rgba(55, 74, 69, 0.12);
+      --text: #20332e;
+      --muted: #5a6d67;
+      --shadow: 0 18px 38px rgba(38, 54, 48, 0.08);
+      --accent: #2f6f62;
+      --accent-soft: rgba(47, 111, 98, 0.12);
+      --critical: #b91c1c;
+      --high: #b45309;
+      --medium: #a16207;
+      --low: #0e7490;
+      --info: #0f766e;
+    }}
+    body {{
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.9), transparent 28%),
+        linear-gradient(180deg, #f8f2e8 0%, var(--bg) 100%);
+    }}
+    a {{ color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }}
+    .page {{ max-width: 1480px; padding: 28px; }}
+    .hero {{
+      background: linear-gradient(180deg, rgba(255, 251, 245, 0.96), rgba(255, 255, 255, 0.9));
+      border-color: var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }}
+    .hero-shell {{
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.95fr);
+      gap: 24px;
+      align-items: start;
+    }}
+    .eyebrow, .panel-title, .section-kicker, .metric-label, .fact-label, thead th {{
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }}
+    .hero h1 {{ margin-bottom: 0; font-size: clamp(28px, 4vw, 42px); line-height: 1.15; }}
+    .lede {{ margin: 12px 0 0; max-width: 72ch; color: var(--muted); font-size: 15px; }}
+    .meta-row, .chip-row, .detail-meta, .finding-meta {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }}
+    .meta-row, .chip-row {{ margin-top: 18px; }}
+    .meta-pill, .meta-tag, .section-badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--muted);
+      font-size: 13px;
+    }}
+    .hero-panel, .toc-panel, .section, .card, .metric-card {{
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 10px 28px rgba(30, 45, 40, 0.04);
+    }}
+    .hero-panel, .toc-panel, .section, .card, .metric-card {{ overflow-wrap: anywhere; }}
+    .hero-panel {{ padding: 18px; background: rgba(255, 255, 255, 0.72); }}
+    .panel-title {{ margin: 0; }}
+    .fact-grid {{ display: grid; gap: 10px; margin-top: 14px; }}
+    .fact-row {{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }}
+    .fact-row:last-child {{ border-bottom: 0; padding-bottom: 0; }}
+    .fact-value {{ font-size: 14px; font-weight: 600; text-align: right; color: var(--text); }}
+    .metric-grid, .card-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }}
+    .metric-grid {{ margin-top: 20px; }}
+    .card-grid.two-up {{ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }}
+    .card-grid.three-up {{ grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }}
+    .space-top {{ margin-top: 18px; }}
+    .metric-card {{ padding: 18px; position: relative; }}
+    .metric-card::before {{
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: rgba(55, 74, 69, 0.16);
+    }}
+    .metric-card-critical::before {{ background: rgba(185, 28, 28, 0.72); }}
+    .metric-card-high::before {{ background: rgba(180, 83, 9, 0.72); }}
+    .metric-card-medium::before {{ background: rgba(161, 98, 7, 0.72); }}
+    .metric-card-low::before {{ background: rgba(14, 116, 144, 0.72); }}
+    .metric-card-info::before {{ background: rgba(15, 118, 110, 0.72); }}
+    .metric-label {{ margin: 0; }}
+    .metric-value {{ margin: 10px 0 0; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.1; font-weight: 800; }}
+    .metric-detail, .section-summary, .muted {{ color: var(--muted); }}
+    .metric-detail, .section-summary {{ margin: 8px 0 0; font-size: 14px; }}
+    .report-layout {{
+      display: grid;
+      grid-template-columns: minmax(250px, 290px) minmax(0, 1fr);
+      gap: 20px;
+      margin-top: 22px;
+      align-items: start;
+    }}
+    .toc-panel {{ position: sticky; top: 20px; padding: 18px; background: rgba(255, 251, 245, 0.9); }}
+    .toc-links {{ display: grid; gap: 10px; margin-top: 14px; }}
+    .toc-link {{
+      display: block;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(55, 74, 69, 0.08);
+      background: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      color: inherit;
+    }}
+    .toc-link strong {{ display: block; font-size: 14px; color: var(--text); }}
+    .toc-link small {{ display: block; margin-top: 4px; font-size: 12px; color: var(--muted); }}
+    .toc-note {{
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: var(--accent-soft);
+      color: var(--muted);
+      font-size: 13px;
+    }}
+    .report-main {{ display: grid; gap: 18px; }}
+    .section {{ padding: 24px; }}
+    .section-header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 18px;
+    }}
+    .section h2, .card h3 {{ margin: 0; line-height: 1.25; }}
+    .section h2 {{ font-size: clamp(22px, 3vw, 28px); }}
+    .card {{ padding: 18px; }}
+    .subcard {{
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(55, 74, 69, 0.08);
+      background: rgba(250, 250, 248, 0.92);
+    }}
+    .subcard-meta {{ margin-top: 6px; font-size: 12px; color: var(--muted); }}
+    .table-wrap {{
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid rgba(55, 74, 69, 0.08);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.76);
+    }}
+    table {{ min-width: 100%; }}
+    thead th {{
+      position: sticky;
+      top: 0;
+      background: rgba(250, 248, 244, 0.96);
+      z-index: 1;
+    }}
+    tbody tr:nth-child(even) {{ background: rgba(245, 241, 235, 0.5); }}
+    td, th {{ padding: 12px; }}
+    .finding-card {{ border-left: 4px solid rgba(55, 74, 69, 0.14); }}
+    .finding-card.severity-critical {{ border-left-color: rgba(185, 28, 28, 0.72); }}
+    .finding-card.severity-high {{ border-left-color: rgba(180, 83, 9, 0.72); }}
+    .finding-card.severity-medium {{ border-left-color: rgba(161, 98, 7, 0.72); }}
+    .finding-card.severity-low {{ border-left-color: rgba(14, 116, 144, 0.72); }}
+    .finding-card.severity-info {{ border-left-color: rgba(15, 118, 110, 0.72); }}
+    .severity-badge {{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }}
+    .severity-critical .severity-badge {{ background: rgba(185, 28, 28, 0.12); color: var(--critical); }}
+    .severity-high .severity-badge {{ background: rgba(180, 83, 9, 0.12); color: var(--high); }}
+    .severity-medium .severity-badge {{ background: rgba(161, 98, 7, 0.12); color: var(--medium); }}
+    .severity-low .severity-badge {{ background: rgba(14, 116, 144, 0.12); color: var(--low); }}
+    .severity-info .severity-badge {{ background: rgba(15, 118, 110, 0.12); color: var(--info); }}
+    .timeline-card {{ position: relative; padding-left: 64px; }}
+    .timeline-index {{
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 800;
+    }}
+    .reason-list {{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); }}
+    .stack-sm > * + * {{ margin-top: 12px; }}
     h1, h2, h3, p {{ margin-top: 0; }}
+    @media (max-width: 900px) {{
+      .page {{ padding: 16px; }}
+      .grid,
+      .hero-shell,
+      .report-layout {{ grid-template-columns: 1fr; }}
+      .hero,
+      .section {{ padding: 20px; }}
+      .toc-panel {{ position: static; order: -1; }}
+      .timeline-card {{ padding-left: 18px; }}
+      .timeline-index {{ position: static; margin-bottom: 10px; }}
+    }}
   </style>
 </head>
 <body>
-  <div class="page">
+  <div class="page" id="top">
     <section class="hero">
-      <p>AutoSecAudit Report Export</p>
-      <h1>{html_escape(str(item.get("target") or item.get("job_id") or "Report"))}</h1>
-      <p>Job {html_escape(str(item.get("job_id") or '-'))} | Status {html_escape(str(item.get("status") or '-'))} | Updated {html_escape(str(item.get("updated_at") or '-'))}</p>
-      <div>{chips}</div>
-      <div class="grid">
-        <div class="card"><strong>Total Findings</strong><p>{int(item.get("finding_total", 0) or 0)}</p></div>
-        <div class="card"><strong>New vs Baseline</strong><p>{int(diff.get("new_count", 0) or 0)}</p></div>
-        <div class="card"><strong>Resolved vs Baseline</strong><p>{int(diff.get("resolved_count", 0) or 0)}</p></div>
-        <div class="card"><strong>Persistent vs Baseline</strong><p>{int(diff.get("persistent_count", 0) or 0)}</p></div>
+      <div class="hero-shell">
+        <div>
+          <p class="eyebrow">AutoSecAudit Report Export</p>
+          <h1>{html_escape(str(item.get("target") or item.get("job_id") or "Report"))}</h1>
+          <p class="lede">{html_escape(lede)}</p>
+          <div class="meta-row">
+            <span class="meta-pill">Job {html_escape(str(item.get("job_id") or '-'))}</span>
+            <span class="meta-pill">Status {html_escape(str(item.get("status") or '-'))}</span>
+            <span class="meta-pill">Updated {html_escape(str(item.get("updated_at") or '-'))}</span>
+            <span class="meta-pill">Baseline {html_escape(baseline_job_id)}</span>
+          </div>
+          <div class="chip-row">{chips}</div>
+        </div>
+        <aside class="hero-panel">
+          <p class="panel-title">Report Overview</p>
+          <div class="fact-grid">{overview_facts}</div>
+        </aside>
       </div>
+      <div class="metric-grid">{hero_metrics}</div>
     </section>
-    <section class="section">
-      <h2>Baseline Asset / Service Diff</h2>
-      <div class="grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
-        <div class="card"><strong>New Assets</strong><p>{int(diff.get("new_assets_count", 0) or 0)}</p></div>
-        <div class="card"><strong>Resolved Assets</strong><p>{int(diff.get("resolved_assets_count", 0) or 0)}</p></div>
-        <div class="card"><strong>New Services</strong><p>{int(diff.get("new_services_count", 0) or 0)}</p></div>
-        <div class="card"><strong>Resolved Services</strong><p>{int(diff.get("resolved_services_count", 0) or 0)}</p></div>
-      </div>
-      <div class="grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px;">
-        {new_asset_cards}
-        {resolved_asset_cards}
-        {new_service_cards}
-        {resolved_service_cards}
-      </div>
-      <div class="grid" style="grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px;">
-        {new_asset_severity_cards}
-        {resolved_asset_severity_cards}
-        {persistent_asset_severity_cards}
-        {new_service_protocol_cards}
-        {resolved_service_protocol_cards}
-        {persistent_service_protocol_cards}
-      </div>
-    </section>
-    <section class="section">
-      <h2>History</h2>
-      <table>
-        <thead><tr><th>Job</th><th>Completed</th><th>Status</th><th>Findings</th></tr></thead>
-        <tbody>{history_rows}</tbody>
-      </table>
-    </section>
-    <section class="section">
-      <h2>Execution History</h2>
-      {execution_history_html}
-    </section>
-    <section class="section">
-      <h2>Verification Ranking</h2>
-      {verification_html}
-    </section>
-    <section class="section">
-      <h2>Asset Trends by Phase</h2>
-      <table>
-        <thead><tr><th>Phase</th><th>Actions</th><th>Tools</th><th>Assets</th><th>Services</th><th>Findings</th><th>Delta Assets</th><th>Reason</th></tr></thead>
-        <tbody>{phase_rows}</tbody>
-      </table>
-    </section>
-    <section class="section">
-      <h2>Asset Trends by Run Batch</h2>
-      <table>
-        <thead><tr><th>Job</th><th>Completed</th><th>Assets</th><th>Services</th><th>Findings</th><th>Delta Assets</th><th>Delta Findings</th></tr></thead>
-        <tbody>{batch_rows}</tbody>
-      </table>
-    </section>
-    <section class="section">
-      <h2>Findings</h2>
-      {finding_cards}
-    </section>
+    <div class="report-layout">
+      <aside class="toc-panel report-nav">
+        <p class="panel-title">Jump to Sections</p>
+        <nav class="toc-links">{report_nav}</nav>
+        <div class="toc-note">This export keeps long URLs fully visible, wraps wide text, and groups dense data into smaller reading blocks.</div>
+      </aside>
+      <main class="report-main">
+        <section class="section" id="baseline-diff">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Compare Runs</p>
+              <h2>Baseline Asset / Service Diff</h2>
+              <p class="section-summary">Asset and service deltas compared with baseline job {html_escape(baseline_job_id)}.</p>
+            </div>
+            <span class="section-badge">Baseline {html_escape(baseline_job_id)}</span>
+          </div>
+          <div class="metric-grid">{diff_metrics}</div>
+          <div class="card-grid two-up space-top">{new_asset_cards}{resolved_asset_cards}{new_service_cards}{resolved_service_cards}</div>
+          <div class="card-grid two-up space-top">{new_asset_severity_cards}{resolved_asset_severity_cards}{persistent_asset_severity_cards}{new_service_protocol_cards}{resolved_service_protocol_cards}{persistent_service_protocol_cards}</div>
+        </section>
+        <section class="section" id="infrastructure">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Surface Snapshot</p>
+              <h2>Infrastructure Summary</h2>
+              <p class="section-summary">Ports, middleware, technology hints, certificates, and DNS records detected for this run.</p>
+            </div>
+            <span class="section-badge">{len(ports)} ports</span>
+          </div>
+          {infrastructure_html}
+        </section>
+        <section class="section" id="risk-matrix">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Scoring</p>
+              <h2>Risk Matrix</h2>
+              <p class="section-summary">High-level risk breakdown by category with severity distribution.</p>
+            </div>
+            <span class="section-badge">Score {risk_score}</span>
+          </div>
+          {risk_matrix_html}
+        </section>
+        <section class="section" id="attack-surface">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Exposure View</p>
+              <h2>Attack Surface</h2>
+              <p class="section-summary">Entry points, exposed services, and sensitive URLs or paths observed in the scan output.</p>
+            </div>
+            <span class="section-badge">{len(entry_points)} entry points</span>
+          </div>
+          {attack_surface_html}
+        </section>
+        <section class="section" id="history">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Timeline</p>
+              <h2>History</h2>
+              <p class="section-summary">Related report runs for the same target, ordered by completion time.</p>
+            </div>
+            <span class="section-badge">{len(history)} runs</span>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Job</th><th>Completed</th><th>Status</th><th>Findings</th></tr></thead><tbody>{history_rows}</tbody></table></div>
+        </section>
+        <section class="section" id="execution-history">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Agent Flow</p>
+              <h2>Execution History</h2>
+              <p class="section-summary">Why each tool or candidate was selected, with ranked candidates and templates when available.</p>
+            </div>
+            <span class="section-badge">{len(execution_history)} actions</span>
+          </div>
+          <div class="stack-sm">{execution_history_html}</div>
+        </section>
+        <section class="section" id="verification-ranking">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Validation Context</p>
+              <h2>Verification Ranking</h2>
+              <p class="section-summary">Ranked CVE candidates, template coverage, and verification outcomes associated with the run.</p>
+            </div>
+            <span class="section-badge">{len(verification_ranking)} blocks</span>
+          </div>
+          <div class="stack-sm">{verification_html}</div>
+        </section>
+        <section class="section" id="asset-trends-phase">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Trend Analysis</p>
+              <h2>Asset Trends by Phase</h2>
+              <p class="section-summary">How the asset graph and finding count changed as the scan progressed through phases.</p>
+            </div>
+            <span class="section-badge">{len(asset_phase_trends)} phases</span>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Phase</th><th>Actions</th><th>Tools</th><th>Assets</th><th>Services</th><th>Findings</th><th>Delta Assets</th><th>Reason</th></tr></thead><tbody>{phase_rows}</tbody></table></div>
+        </section>
+        <section class="section" id="asset-trends-batch">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Run Comparison</p>
+              <h2>Asset Trends by Run Batch</h2>
+              <p class="section-summary">Cross-run asset and finding changes for the same target across historical batches.</p>
+            </div>
+            <span class="section-badge">{len(asset_batch_trends)} batches</span>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Job</th><th>Completed</th><th>Assets</th><th>Services</th><th>Findings</th><th>Delta Assets</th><th>Delta Findings</th></tr></thead><tbody>{batch_rows}</tbody></table></div>
+        </section>
+        <section class="section" id="findings">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Detailed Output</p>
+              <h2>Findings</h2>
+              <p class="section-summary">Each finding now uses clearer severity markers, grouped metadata, and isolated evidence blocks.</p>
+            </div>
+            <span class="section-badge">{len(findings)} findings</span>
+          </div>
+          <div class="stack-sm">{finding_cards}</div>
+        </section>
+      </main>
+    </div>
   </div>
 </body>
 </html>"""
@@ -1667,15 +2536,152 @@ def render_generated_report_html(*, item: dict[str, Any], analysis: dict[str, An
 def render_finding_html(item: dict[str, Any]) -> str:
     description = html_escape(str(item.get("description") or ""))
     recommendation = html_escape(str(item.get("recommendation") or ""))
+    severity = normalize_severity(item.get("severity"))
+    plugin_label = str(item.get("plugin_name") or item.get("plugin_id") or "-").strip() or "-"
     return (
-        "<article class='card' style='margin-bottom:14px'>"
+        f"<article class='card finding-card severity-{html_escape(severity)}'>"
         f"<h3>{html_escape(str(item.get('title') or 'Untitled finding'))}</h3>"
-        f"<p><strong>{html_escape(str(item.get('severity') or 'info').upper())}</strong> | "
-        f"{html_escape(str(item.get('plugin_name') or item.get('plugin_id') or '-'))}</p>"
+        "<div class='finding-meta'>"
+        f"<span class='severity-badge'>{html_escape(severity.upper())}</span>"
+        f"<span class='meta-tag'>Source {html_escape(plugin_label)}</span>"
+        "</div>"
+        "<div class='finding-body'>"
         f"{f'<p>{description}</p>' if description else ''}"
         f"{f'<p><strong>Recommendation:</strong> {recommendation}</p>' if recommendation else ''}"
+        "</div>"
         f"<pre>{html_escape(str(item.get('evidence_text') or '{}'))}</pre>"
         "</article>"
+    )
+
+
+def _render_infrastructure_html(infrastructure: dict[str, Any]) -> str:
+    ports = infrastructure.get("ports", []) if isinstance(infrastructure.get("ports", []), list) else []
+    middleware = infrastructure.get("middleware", []) if isinstance(infrastructure.get("middleware", []), list) else []
+    tech_stack = infrastructure.get("tech_stack", []) if isinstance(infrastructure.get("tech_stack", []), list) else []
+    waf = infrastructure.get("waf", {}) if isinstance(infrastructure.get("waf", {}), dict) else {}
+    certificates = infrastructure.get("certificates", []) if isinstance(infrastructure.get("certificates", []), list) else []
+    dns = infrastructure.get("dns", {}) if isinstance(infrastructure.get("dns", {}), dict) else {}
+    dns_records = dns.get("records", {}) if isinstance(dns.get("records", {}), dict) else {}
+
+    port_rows = "".join(
+        "<tr>"
+        f"<td>{html_escape(str(item.get('host') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('port') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('protocol') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('service') or '-'))}</td>"
+        f"<td>{'yes' if item.get('tls') else 'no'}</td>"
+        "</tr>"
+        for item in ports[:20]
+        if isinstance(item, dict)
+    ) or "<tr><td colspan='5'>No exposed ports summarized.</td></tr>"
+    middleware_chips = "".join(
+        f"<span class='chip chip-info'>{html_escape(str(item.get('name') or '-'))} · {html_escape(str(item.get('source') or '-'))}</span>"
+        for item in middleware[:12]
+        if isinstance(item, dict)
+    ) or "<p>No middleware fingerprint available.</p>"
+    tech_chips = "".join(
+        f"<span class='chip chip-low'>{html_escape(str(item))}</span>"
+        for item in tech_stack[:16]
+        if str(item).strip()
+    ) or "<p>No technology hints recorded.</p>"
+    cert_cards = "".join(
+        "<div class='card'>"
+        f"<strong>{html_escape(str(item.get('host') or '-'))}:{html_escape(str(item.get('port') or 443))}</strong>"
+        f"<p>TLS {html_escape(str(item.get('tls_version') or '-'))} · expires {html_escape(str(item.get('expires_at') or '-'))}</p>"
+        "</div>"
+        for item in certificates[:4]
+        if isinstance(item, dict)
+    ) or "<p>No certificate metadata recorded.</p>"
+    dns_rows = "".join(
+        "<tr>"
+        f"<td>{html_escape(str(rtype))}</td>"
+        f"<td>{html_escape(', '.join(str(value) for value in records[:8]))}</td>"
+        "</tr>"
+        for rtype, records in dns_records.items()
+        if isinstance(records, list)
+    ) or "<tr><td colspan='2'>No DNS records recorded.</td></tr>"
+    waf_vendors = waf.get("vendors", []) if isinstance(waf.get("vendors", []), list) else []
+    waf_html = "".join(f"<span class='chip chip-medium'>{html_escape(str(item))}</span>" for item in waf_vendors[:8]) or "<span>None</span>"
+    return (
+        "<div class='card-grid two-up'>"
+        "<div class='card'><h3>Open Ports</h3>"
+        "<div class='table-wrap'><table><thead><tr><th>Host</th><th>Port</th><th>Proto</th><th>Service</th><th>TLS</th></tr></thead>"
+        f"<tbody>{port_rows}</tbody></table></div></div>"
+        f"<div class='card'><h3>Middleware</h3><div>{middleware_chips}</div><div class='detail-meta'><span class='meta-tag'>WAF {waf_html}</span><span class='meta-tag'>Detected {'yes' if waf.get('detected') else 'no'}</span></div></div>"
+        f"<div class='card'><h3>Technology Stack</h3><div class='chip-row'>{tech_chips}</div></div>"
+        f"<div class='card'><h3>Certificates</h3><div class='stack-sm'>{cert_cards}</div></div>"
+        "<div class='card'><h3>DNS</h3>"
+        "<div class='table-wrap'><table><thead><tr><th>Type</th><th>Values</th></tr></thead>"
+        f"<tbody>{dns_rows}</tbody></table></div></div>"
+        "</div>"
+    )
+
+
+def _render_risk_matrix_html(risk_matrix: dict[str, Any]) -> str:
+    categories = risk_matrix.get("categories", []) if isinstance(risk_matrix.get("categories", []), list) else []
+    total_score = int(risk_matrix.get("total_score", 0) or 0)
+    rows = "".join(
+        "<tr>"
+        f"<td>{html_escape(str(item.get('name') or '-'))}</td>"
+        f"<td>{int(item.get('score', 0) or 0)}</td>"
+        f"<td>{int(item.get('finding_count', 0) or 0)}</td>"
+        f"<td>{html_escape(json.dumps(item.get('severity_counts', {}), ensure_ascii=False))}</td>"
+        "</tr>"
+        for item in categories
+        if isinstance(item, dict)
+    ) or "<tr><td colspan='4'>No categorized risk findings.</td></tr>"
+    return (
+        "<div class='card-grid two-up'>"
+        f"{_render_report_metric_card('Total Risk Score', total_score, detail='Aggregate score across categories', tone='medium' if total_score else 'neutral')}"
+        f"<div class='card'><h3>Category Breakdown</h3><div class='table-wrap'><table><thead><tr><th>Category</th><th>Score</th><th>Findings</th><th>Severity Mix</th></tr></thead><tbody>{rows}</tbody></table></div></div>"
+        "</div>"
+    )
+
+
+def _render_attack_surface_html(attack_surface: dict[str, Any]) -> str:
+    entry_points = attack_surface.get("entry_points", []) if isinstance(attack_surface.get("entry_points", []), list) else []
+    exposed_services = attack_surface.get("exposed_services", []) if isinstance(attack_surface.get("exposed_services", []), list) else []
+    sensitive_paths = attack_surface.get("sensitive_paths", []) if isinstance(attack_surface.get("sensitive_paths", []), list) else []
+    entry_rows = "".join(
+        "<tr>"
+        f"<td>{html_escape(str(item.get('type') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('method') or '-'))}</td>"
+        f"<td>{_render_html_value(item.get('url'))}</td>"
+        "</tr>"
+        for item in entry_points[:20]
+        if isinstance(item, dict)
+    ) or "<tr><td colspan='3'>No entry points summarized.</td></tr>"
+    service_rows = "".join(
+        "<tr>"
+        f"<td>{html_escape(str(item.get('host') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('port') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('service') or '-'))}</td>"
+        f"<td>{html_escape(str(item.get('protocol') or '-'))}</td>"
+        "</tr>"
+        for item in exposed_services[:20]
+        if isinstance(item, dict)
+    ) or "<tr><td colspan='4'>No exposed services summarized.</td></tr>"
+    path_rows = "".join(
+        "<tr>"
+        f"<td>{html_escape(str(item.get('type') or '-'))}</td>"
+        f"<td>{_render_html_value(item.get('path'))}</td>"
+        f"<td>{_render_html_value(item.get('url'))}</td>"
+        "</tr>"
+        for item in sensitive_paths[:20]
+        if isinstance(item, dict)
+    ) or "<tr><td colspan='3'>No sensitive paths summarized.</td></tr>"
+    return (
+        "<div class='card-grid three-up'>"
+        "<div class='card'><h3>Entry Points</h3>"
+        "<div class='table-wrap'><table><thead><tr><th>Type</th><th>Method</th><th>URL</th></tr></thead>"
+        f"<tbody>{entry_rows}</tbody></table></div></div>"
+        "<div class='card'><h3>Exposed Services</h3>"
+        "<div class='table-wrap'><table><thead><tr><th>Host</th><th>Port</th><th>Service</th><th>Proto</th></tr></thead>"
+        f"<tbody>{service_rows}</tbody></table></div></div>"
+        "<div class='card'><h3>Sensitive Paths</h3>"
+        "<div class='table-wrap'><table><thead><tr><th>Type</th><th>Path</th><th>URL</th></tr></thead>"
+        f"<tbody>{path_rows}</tbody></table></div></div>"
+        "</div>"
     )
 
 

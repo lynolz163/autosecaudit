@@ -64,7 +64,7 @@ export default function Plugins({
           </div>
         </form>
 
-        <div className="job-detail-grid" style={{ marginTop: 18 }}>
+        <div className="job-detail-grid mt-5">
           <div>
             <p className="eyebrow">{t("plugins.totalPlugins")}</p>
             <div>{metrics.total_plugins || 0}</div>
@@ -111,7 +111,7 @@ export default function Plugins({
           {!resolvedDirs.length ? <div className="empty-state">{t("plugins.noDirectories")}</div> : null}
         </div>
 
-        <div className="table-list" style={{ marginTop: 18 }}>
+        <div className="table-list mt-5">
           {errors.map((item, index) => (
             <div key={`${item.path}-${index}`} className="table-row">
               <div className="table-title">
@@ -168,3 +168,4 @@ export default function Plugins({
     </div>
   );
 }
+

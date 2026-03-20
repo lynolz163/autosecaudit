@@ -36,11 +36,11 @@ SAFETY_GRADE_ACTION_LIMITS: Final[dict[str, int]] = {
 }
 
 # Recommended defaults when the Web UI submits with its own defaults.
-# Keys: max_iterations, global_timeout_seconds
+# Keys: budget, max_iterations, global_timeout_seconds
 SAFETY_GRADE_DEFAULTS: Final[dict[str, dict[str, int | float]]] = {
-    "conservative": {"max_iterations": 3, "global_timeout_seconds": 300.0},
-    "balanced": {"max_iterations": 5, "global_timeout_seconds": 600.0},
-    "aggressive": {"max_iterations": 10, "global_timeout_seconds": 1800.0},
+    "conservative": {"budget": 80, "max_iterations": 3, "global_timeout_seconds": 300.0},
+    "balanced": {"budget": 160, "max_iterations": 5, "global_timeout_seconds": 600.0},
+    "aggressive": {"budget": 320, "max_iterations": 10, "global_timeout_seconds": 1800.0},
 }
 
 

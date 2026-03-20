@@ -121,6 +121,13 @@ class FeedbackEngine:
             overrides["rag_intel_lookup"] = min(overrides.get("rag_intel_lookup", 0), -4)
         if surface.get("discovered_urls") and not surface.get("vision_snapshots"):
             overrides["page_vision_analyzer"] = min(overrides.get("page_vision_analyzer", 0), -3)
+        waf_summary = surface.get("waf", {}) if isinstance(surface.get("waf", {}), dict) else {}
+        waf_vendors = surface.get("waf_vendors", []) if isinstance(surface.get("waf_vendors", []), list) else []
+        if bool(waf_summary.get("detected")) or any(str(item).strip() for item in waf_vendors):
+            for tool_name in ("http_security_headers", "security_txt_check", "passive_config_audit", "ssl_expiry_check", "cors_misconfiguration"):
+                overrides[tool_name] = min(overrides.get(tool_name, 0), -6)
+            for tool_name in ("param_fuzzer", "sql_sanitization_audit", "xss_protection_audit", "dirsearch_scan"):
+                overrides[tool_name] = max(overrides.get(tool_name, 0), 3)
         cve_candidates = surface.get("cve_candidates", []) if isinstance(surface, dict) else []
         if isinstance(cve_candidates, list) and any(isinstance(item, dict) for item in cve_candidates):
             overrides["cve_verify"] = min(overrides.get("cve_verify", 0), -6)

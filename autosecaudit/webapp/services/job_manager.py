@@ -89,7 +89,33 @@ def _normalize_llm_timeout(value: Any) -> float:
 
 def _is_terminal_job_status(status: str) -> bool:
     """Return whether one web job status is terminal."""
-    return str(status) in {"completed", "failed", "error", "canceled"}
+    return str(status) in {
+        "completed",
+        "failed",
+        "error",
+        "canceled",
+        "waiting_approval",
+        "partial_complete",
+        "environment_blocked",
+    }
+
+
+def _resolve_session_status(status: Any, session_status: Any) -> str:
+    """Return the status that should be exposed to the web UI."""
+    current_status = str(status or "").strip().lower()
+    current_session_status = str(session_status or "").strip().lower()
+
+    if current_status in {"failed", "error", "canceled"}:
+        return current_status
+
+    if current_status in {"completed", "waiting_approval", "partial_complete", "environment_blocked"} and current_session_status in {
+        "",
+        "queued",
+        "running",
+    }:
+        return current_status
+
+    return current_session_status or current_status
 
 
 def _normalize_agent_safety_grade(value: Any) -> str:
@@ -286,6 +312,7 @@ class JobManager:
         record: dict[str, Any] = {
             "job_id": job_id,
             "status": "queued",
+            "session_status": None,
             "created_at": _utc_now(),
             "started_at": None,
             "ended_at": None,
@@ -308,6 +335,8 @@ class JobManager:
             "log_line_count": 0,
             "logs": [],
             "artifacts": [],
+            "pending_approval": {},
+            "loop_guard": {},
         }
 
         with self._lock:
@@ -387,6 +416,40 @@ class JobManager:
         self._append_log(job_id, "[web] cancel requested")
         return self.get_job(job_id)
 
+    def approve_and_resume(self, job_id: str, *, actor: str = "web") -> dict[str, Any]:
+        """Resume one waiting-approval agent job with approval granted."""
+        with self._lock:
+            record = self._jobs.get(job_id)
+            if record is None:
+                raise KeyError(job_id)
+            status = str(record.get("status", "")).strip().lower()
+            if status != "waiting_approval":
+                raise ValueError("job_not_waiting_for_approval")
+            if str(record.get("mode", "")).strip().lower() != "agent":
+                raise ValueError("approval_resume_requires_agent_mode")
+            payload: dict[str, Any] = {
+                "target": str(record.get("target", "")).strip(),
+                "mode": "agent",
+                "resume": str(record.get("output_dir", "")).strip(),
+                "approval_granted": True,
+                "safety_grade": record.get("safety_grade") or DEFAULT_AGENT_SAFETY_GRADE,
+                "report_lang": record.get("report_lang") or "zh-CN",
+                "llm_config": record.get("llm_config"),
+                "tools": list(record.get("tools", []) or []),
+                "skills": list(record.get("skills", []) or []),
+            }
+        next_job = self.submit(payload, actor=actor)
+        self._store.add_audit_event(
+            created_at=_utc_now(),
+            actor=str(actor or "web"),
+            event_type="job_approval_resume",
+            resource_type="job",
+            resource_id=job_id,
+            detail={"resumed_job_id": next_job.get("job_id")},
+        )
+        self._append_log(job_id, f"[web] approval granted; resumed as {next_job.get('job_id')}")
+        return next_job
+
     def resolve_file(self, job_id: str, relative_path: str) -> Path:
         """Resolve artifact file path safely under job output directory."""
         with self._lock:
@@ -411,6 +474,24 @@ class JobManager:
             "terminal": _is_terminal_job_status(str(job.get("status", ""))),
         }
 
+    def get_jobs_summary_signature(self) -> str:
+        """Return one stable signature for semantic job-list updates."""
+        with self._lock:
+            return self._jobs_summary_signature_locked()
+
+    def wait_for_jobs_summary_change(self, summary_signature: str, *, timeout: float) -> bool:
+        """Block until semantic job summary fields change."""
+        deadline = time.monotonic() + max(0.1, float(timeout))
+        with self._updates:
+            while True:
+                current_signature = self._jobs_summary_signature_locked()
+                if current_signature != summary_signature:
+                    return True
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    return False
+                self._updates.wait(timeout=remaining)
+
     def wait_for_job_update(self, job_id: str, *, offset: int, status: str, timeout: float) -> bool:
         """Block until a job gets a new log line or status update."""
         deadline = time.monotonic() + max(0.1, float(timeout))
@@ -427,6 +508,31 @@ class JobManager:
                 if remaining <= 0:
                     return False
                 self._updates.wait(timeout=remaining)
+
+    def _jobs_summary_signature_locked(self) -> str:
+        """Build a stable summary fingerprint without log-noise churn."""
+        items: list[dict[str, Any]] = []
+        for record in self._jobs.values():
+            items.append(
+                {
+                    "job_id": str(record.get("job_id", "")).strip(),
+                    "status": str(record.get("status", "")).strip(),
+                    "session_status": str(record.get("session_status") or record.get("status") or "").strip(),
+                    "target": str(record.get("target", "")).strip(),
+                    "mode": str(record.get("mode", "")).strip(),
+                    "return_code": record.get("return_code"),
+                    "cancel_requested": bool(record.get("cancel_requested", False)),
+                    "artifact_count": len(record.get("artifacts", [])),
+                    "pending_approval": dict(record.get("pending_approval", {}) or {})
+                    if isinstance(record.get("pending_approval", {}), dict)
+                    else {},
+                    "loop_guard": dict(record.get("loop_guard", {}) or {})
+                    if isinstance(record.get("loop_guard", {}), dict)
+                    else {},
+                }
+            )
+        items.sort(key=lambda item: str(item.get("job_id", "")))
+        return json.dumps(items, ensure_ascii=False, sort_keys=True)
 
     def _build_command(self, payload: dict[str, Any], *, target: str, mode: str, output_dir: Path) -> list[str]:
         """Construct CLI subprocess command."""
@@ -471,13 +577,19 @@ class JobManager:
             cmd.extend(["--timeout", str(timeout)])
             return cmd
 
-        budget = _to_int(payload.get("budget"), 50, minimum=1, maximum=100000)
+        grade = _normalize_agent_safety_grade(payload.get("safety_grade"))
+        grade_defaults = SAFETY_GRADE_DEFAULTS.get(grade, {})
+        default_budget = _to_int(grade_defaults.get("budget"), 50, minimum=1, maximum=100000)
+        budget_value = payload.get("budget")
+        if budget_value in (None, ""):
+            budget = default_budget
+        else:
+            budget = _to_int(budget_value, default_budget, minimum=1, maximum=100000)
+
         max_iterations = _to_int(payload.get("max_iterations"), 3, minimum=1, maximum=100)
         global_timeout = _to_float(payload.get("global_timeout"), 300.0, minimum=10.0, maximum=86400.0)
 
         # Auto-upgrade defaults when the Web UI sends its baseline values.
-        grade = _normalize_agent_safety_grade(payload.get("safety_grade"))
-        grade_defaults = SAFETY_GRADE_DEFAULTS.get(grade, {})
         if max_iterations == 3 and grade_defaults.get("max_iterations", 3) != 3:
             max_iterations = int(grade_defaults["max_iterations"])
         if abs(global_timeout - 300.0) < 0.1 and grade_defaults.get("global_timeout_seconds", 300.0) != 300.0:
@@ -593,6 +705,21 @@ class JobManager:
             surface["autonomy_mode"] = autonomy_mode
         if "approval_granted" in payload and payload.get("approval_granted") is not None:
             surface["approval_granted"] = bool(payload.get("approval_granted"))
+        knowledge_summary = str(payload.get("knowledge_summary", "")).strip()
+        knowledge_tags = self._coerce_text_list(payload.get("knowledge_tags"))
+        knowledge_refs = self._coerce_text_list(payload.get("knowledge_refs"))
+        if knowledge_summary:
+            surface["knowledge_summary"] = knowledge_summary
+        if knowledge_tags:
+            surface["knowledge_tags"] = knowledge_tags
+        if knowledge_refs:
+            surface["knowledge_refs"] = knowledge_refs
+        if knowledge_summary or knowledge_tags or knowledge_refs:
+            surface["knowledge_context"] = {
+                "summary": knowledge_summary,
+                "tags": knowledge_tags,
+                "references": knowledge_refs,
+            }
         return surface
 
     def _append_cli_str(self, cmd: list[str], flag: str, value: Any) -> None:
@@ -705,6 +832,7 @@ class JobManager:
             record["started_at"] = _utc_now()
             record["last_updated_at"] = _utc_now()
             command = list(record["command"])
+            output_dir = str(record.get("output_dir", "")).strip()
         self._persist_job(job_id)
         self._notify_updates()
 
@@ -713,8 +841,7 @@ class JobManager:
 
         process: subprocess.Popen[str] | None = None
         try:
-            env_overlay = dict(os.environ)
-            env_overlay.update(self._get_saved_llm_env())
+            env_overlay = self._build_job_env(output_dir=output_dir)
             process = subprocess.Popen(
                 command,
                 cwd=str(self._workspace_dir),
@@ -746,6 +873,7 @@ class JobManager:
                 if record is not None:
                     record["return_code"] = rc
                     record["status"] = "canceled" if record.get("cancel_requested") else ("completed" if rc == 0 else "failed")
+                    record["session_status"] = _resolve_session_status(record["status"], record.get("session_status"))
                     record["ended_at"] = _utc_now()
                     record["last_updated_at"] = _utc_now()
                     record["pid"] = None
@@ -758,6 +886,7 @@ class JobManager:
                 record = self._jobs.get(job_id)
                 if record is not None:
                     record["status"] = "error"
+                    record["session_status"] = "error"
                     record["error"] = str(exc)
                     record["ended_at"] = _utc_now()
                     record["last_updated_at"] = _utc_now()
@@ -772,7 +901,17 @@ class JobManager:
                 except OSError:
                     pass
             self._refresh_artifacts(job_id)
+            self._apply_agent_runtime_state(job_id)
             self._dispatch_notifications(job_id)
+
+    def _build_job_env(self, *, output_dir: str) -> dict[str, str]:
+        """Build subprocess env for one web-launched job."""
+        env_overlay = dict(os.environ)
+        env_overlay.update(self._get_saved_llm_env())
+        resolved_output_dir = str(output_dir or "").strip()
+        if resolved_output_dir:
+            env_overlay["AUTOSECAUDIT_AGENT_MEMORY_DIR"] = str(Path(resolved_output_dir) / "agent_memory")
+        return env_overlay
 
     def _append_log(self, job_id: str, line: str) -> None:
         """Append one log line."""
@@ -822,11 +961,55 @@ class JobManager:
         self._persist_job(job_id)
         self._notify_updates()
 
+    def _apply_agent_runtime_state(self, job_id: str) -> None:
+        """Hydrate semantic agent status from generated agent_state.json."""
+        with self._lock:
+            record = self._jobs.get(job_id)
+            if record is None:
+                return
+            output_dir = Path(record.get("output_dir", "")).resolve()
+            mode = str(record.get("mode", "")).strip().lower()
+            current_status = str(record.get("status", "")).strip().lower()
+        if mode != "agent":
+            return
+
+        state_path = output_dir / "agent" / "agent_state.json"
+        if not state_path.exists():
+            return
+        try:
+            payload = json.loads(state_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return
+        if not isinstance(payload, dict):
+            return
+
+        session_status = str(payload.get("session_status", "")).strip().lower()
+        pending_approval = payload.get("pending_approval", {})
+        loop_guard = payload.get("loop_guard", {})
+        with self._lock:
+            record = self._jobs.get(job_id)
+            if record is None:
+                return
+            record["session_status"] = _resolve_session_status(record.get("status"), session_status or record.get("status"))
+            record["pending_approval"] = pending_approval if isinstance(pending_approval, dict) else {}
+            record["loop_guard"] = loop_guard if isinstance(loop_guard, dict) else {}
+            if current_status not in {"failed", "error", "canceled"} and session_status in {
+                "waiting_approval",
+                "partial_complete",
+                "environment_blocked",
+                "completed",
+            }:
+                record["status"] = session_status
+            record["last_updated_at"] = _utc_now()
+        self._persist_job(job_id)
+        self._notify_updates()
+
     def _serialize_job(self, record: dict[str, Any]) -> dict[str, Any]:
         """Build JSON-safe job summary."""
         return {
             "job_id": record["job_id"],
             "status": record["status"],
+            "session_status": _resolve_session_status(record.get("status"), record.get("session_status")),
             "created_at": record.get("created_at"),
             "started_at": record.get("started_at"),
             "ended_at": record.get("ended_at"),
@@ -848,6 +1031,8 @@ class JobManager:
             "log_line_count": int(record.get("log_line_count", 0)),
             "artifact_count": len(record.get("artifacts", [])),
             "command_preview": self._command_preview(list(record.get("command", []))),
+            "pending_approval": dict(record.get("pending_approval", {}) or {}),
+            "loop_guard": dict(record.get("loop_guard", {}) or {}),
         }
 
     @staticmethod
@@ -859,6 +1044,7 @@ class JobManager:
         """Load persisted jobs from SQLite and mark in-flight items as interrupted."""
         restored = self._store.list_jobs()
         for record in restored:
+            record["session_status"] = _resolve_session_status(record.get("status"), record.get("session_status"))
             record["logs"] = []
             record["artifacts"] = self._store.list_artifacts(record["job_id"])
             record["pid"] = None
@@ -888,6 +1074,7 @@ class JobManager:
             if record is None:
                 return
             snapshot = dict(record)
+            snapshot["session_status"] = _resolve_session_status(snapshot.get("status"), snapshot.get("session_status"))
         if self._closed:
             return
         self._store.upsert_job(snapshot)

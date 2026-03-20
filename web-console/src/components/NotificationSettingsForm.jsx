@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useI18n } from "../i18n";
 
 const EVENT_OPTIONS = [
@@ -242,7 +242,7 @@ export default function NotificationSettingsForm({ notificationConfig, onSave })
                     onChange={(event) => updateChannel(channel.id, "timeout_seconds", Number(event.target.value))}
                   />
                 </label>
-                <label style={{ gridColumn: "1 / -1" }}>
+                <label className="field-span-2">
                   <span>{isZh ? "附加请求头（JSON，可选）" : "Extra Headers (JSON, optional)"}</span>
                   <textarea
                     rows={4}

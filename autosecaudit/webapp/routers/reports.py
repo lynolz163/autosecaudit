@@ -20,13 +20,22 @@ require_viewer = require_role("viewer")
 @router.get("/reports", response_model=ReportListResponse)
 async def list_reports(request: Request, principal: AuthPrincipal = Depends(require_viewer)) -> ReportListResponse:
     del principal
-    return ReportListResponse(items=build_report_items(request.app.state.manager))
+    items = request.app.state.cache.get_or_compute(
+        "reports:list:v1",
+        ttl_seconds=10.0,
+        builder=lambda: build_report_items(request.app.state.manager),
+    )
+    return ReportListResponse(items=items)
 
 
 @router.get("/reports/{job_id}", response_model=ReportItemResponse)
 async def get_report(job_id: str, request: Request, principal: AuthPrincipal = Depends(require_viewer)) -> ReportItemResponse:
     del principal
-    items = build_report_items(request.app.state.manager, only_job_id=job_id)
+    items = request.app.state.cache.get_or_compute(
+        f"reports:item:{job_id}:v1",
+        ttl_seconds=10.0,
+        builder=lambda: build_report_items(request.app.state.manager, only_job_id=job_id),
+    )
     if not items:
         raise HTTPException(status_code=404, detail="report_not_found")
     return ReportItemResponse(item=items[0])
@@ -40,8 +49,17 @@ async def get_report_analysis(
     principal: AuthPrincipal = Depends(require_viewer),
 ) -> ReportAnalysisResponse:
     del principal
-    item = get_report_item_or_404(request.app.state.manager, job_id)
-    analysis = build_report_analysis(request.app.state.manager, job_id=job_id, baseline_job_id=baseline_job_id)
+    item = request.app.state.cache.get_or_compute(
+        f"reports:item:{job_id}:v1",
+        ttl_seconds=10.0,
+        builder=lambda: get_report_item_or_404(request.app.state.manager, job_id),
+    )
+    baseline_key = baseline_job_id or "-"
+    analysis = request.app.state.cache.get_or_compute(
+        f"reports:analysis:{job_id}:{baseline_key}:v1",
+        ttl_seconds=12.0,
+        builder=lambda: build_report_analysis(request.app.state.manager, job_id=job_id, baseline_job_id=baseline_job_id),
+    )
     return ReportAnalysisResponse(item=item, analysis=analysis)
 
 

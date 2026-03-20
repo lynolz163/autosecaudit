@@ -22,10 +22,27 @@ ROLE_ORDER = {"viewer": 10, "operator": 20, "admin": 30}
 TRUE_VALUES = {"1", "true", "yes", "on"}
 FALSE_VALUES = {"0", "false", "no", "off"}
 PASSWORD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
+AUTH_RUNTIME_SETTING_KEY = "auth_runtime"
+BOOTSTRAP_RUNTIME_SETTING_KEY = "bootstrap_runtime"
+DEFAULT_BOOTSTRAP_TOKEN_TTL_SECONDS = 3600
+MIN_BOOTSTRAP_TOKEN_TTL_SECONDS = 300
+MAX_BOOTSTRAP_TOKEN_TTL_SECONDS = 604800
 
 
 def _utc_now() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+
+def _utc_from_epoch(epoch_seconds: int) -> str:
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(int(epoch_seconds)))
+
+
+def _bounded_int_env(raw_value: str, *, default: int, minimum: int, maximum: int) -> int:
+    parsed = default
+    normalized = str(raw_value or "").strip()
+    if normalized.isdigit():
+        parsed = int(normalized)
+    return max(minimum, min(maximum, parsed))
 
 
 def _b64url_decode(raw: str) -> bytes:
@@ -87,6 +104,10 @@ class PasswordPolicy:
             raise ValueError("password_requires_special")
 
 
+class AuthConfigurationError(RuntimeError):
+    """Raised when required auth-related runtime configuration is unsafe or missing."""
+
+
 class AuthService:
     """Persisted user auth with JWT access tokens and bootstrap fallback."""
 
@@ -102,11 +123,12 @@ class AuthService:
         self._bootstrap_token = bootstrap_token.strip() if isinstance(bootstrap_token, str) and bootstrap_token.strip() else None
         self._password_policy = PasswordPolicy.from_env()
         self._runtime = self._ensure_runtime_settings()
+        self._bootstrap_runtime = self._ensure_bootstrap_runtime()
         self._ensure_env_default_admin()
 
     @property
     def bootstrap_enabled(self) -> bool:
-        return bool(self._bootstrap_token)
+        return self._bootstrap_token_active()
 
     @property
     def token_ttl_seconds(self) -> int:
@@ -180,7 +202,7 @@ class AuthService:
         enabled: bool = True,
     ) -> dict[str, Any]:
         now = _utc_now()
-        return self._store.create_user(
+        user = self._store.create_user(
             {
                 "username": username,
                 "password_hash": self.hash_password(password),
@@ -192,6 +214,8 @@ class AuthService:
                 "last_login_at": None,
             }
         )
+        self._disable_bootstrap_token("user_provisioned")
+        return user
 
     def update_user(
         self,
@@ -285,6 +309,8 @@ class AuthService:
         if not token:
             raise ValueError("missing_credentials")
         if self._bootstrap_token and hmac.compare_digest(token, self._bootstrap_token):
+            if not self._bootstrap_token_active():
+                raise ValueError("bootstrap_unavailable")
             return AuthPrincipal(
                 username="bootstrap-admin",
                 role="admin",
@@ -401,10 +427,14 @@ class AuthService:
         return True
 
     def _ensure_runtime_settings(self) -> dict[str, Any]:
-        existing = self._store.get_setting("auth_runtime", default={}).get("value") or {}
+        existing = self._store.get_setting(AUTH_RUNTIME_SETTING_KEY, default={}).get("value") or {}
         if not isinstance(existing, dict):
             existing = {}
         env_secret = os.getenv("AUTOSECAUDIT_WEB_JWT_SECRET", "").strip()
+        if not env_secret:
+            raise AuthConfigurationError("AUTOSECAUDIT_WEB_JWT_SECRET is required")
+        if len(env_secret) < 32:
+            raise AuthConfigurationError("AUTOSECAUDIT_WEB_JWT_SECRET must be at least 32 characters")
         ttl_raw = os.getenv("AUTOSECAUDIT_WEB_JWT_TTL_SECONDS", "").strip()
         refresh_ttl_raw = os.getenv("AUTOSECAUDIT_WEB_REFRESH_TTL_SECONDS", "").strip()
         ttl = int(ttl_raw) if ttl_raw.isdigit() else int(existing.get("token_ttl_seconds", 28800) or 28800)
@@ -415,14 +445,64 @@ class AuthService:
             else int(existing.get("refresh_token_ttl_seconds", 1209600) or 1209600)
         )
         refresh_ttl = max(ttl, min(2592000, refresh_ttl))
-        secret = env_secret or str(existing.get("jwt_secret", "")).strip() or secrets.token_urlsafe(48)
         normalized = {
-            "jwt_secret": secret,
+            "jwt_secret": env_secret,
             "token_ttl_seconds": ttl,
             "refresh_token_ttl_seconds": refresh_ttl,
         }
         if normalized != existing:
-            self._store.set_setting("auth_runtime", normalized, updated_at=_utc_now())
+            self._store.set_setting(AUTH_RUNTIME_SETTING_KEY, normalized, updated_at=_utc_now())
+        return normalized
+
+    def _ensure_bootstrap_runtime(self) -> dict[str, Any]:
+        if not self._bootstrap_token:
+            return {}
+        existing = self._store.get_setting(BOOTSTRAP_RUNTIME_SETTING_KEY, default={}).get("value") or {}
+        if not isinstance(existing, dict):
+            existing = {}
+        token_fingerprint = hashlib.sha256(self._bootstrap_token.encode("utf-8")).hexdigest()
+        ttl_seconds = _bounded_int_env(
+            os.getenv("AUTOSECAUDIT_WEB_BOOTSTRAP_TOKEN_TTL_SECONDS", ""),
+            default=DEFAULT_BOOTSTRAP_TOKEN_TTL_SECONDS,
+            minimum=MIN_BOOTSTRAP_TOKEN_TTL_SECONDS,
+            maximum=MAX_BOOTSTRAP_TOKEN_TTL_SECONDS,
+        )
+        now_epoch = int(time.time())
+        if str(existing.get("token_fingerprint", "")) != token_fingerprint:
+            normalized = {
+                "token_fingerprint": token_fingerprint,
+                "enabled": True,
+                "ttl_seconds": ttl_seconds,
+                "issued_at_epoch": now_epoch,
+                "issued_at": _utc_from_epoch(now_epoch),
+                "expires_at_epoch": now_epoch + ttl_seconds,
+                "expires_at": _utc_from_epoch(now_epoch + ttl_seconds),
+                "disabled_at": None,
+                "disabled_reason": None,
+            }
+        else:
+            issued_at_epoch = int(existing.get("issued_at_epoch", 0) or 0) or now_epoch
+            effective_ttl = int(existing.get("ttl_seconds", ttl_seconds) or ttl_seconds)
+            expires_at_epoch = int(existing.get("expires_at_epoch", 0) or 0) or (issued_at_epoch + effective_ttl)
+            normalized = {
+                "token_fingerprint": token_fingerprint,
+                "enabled": bool(existing.get("enabled", True)),
+                "ttl_seconds": effective_ttl,
+                "issued_at_epoch": issued_at_epoch,
+                "issued_at": _utc_from_epoch(issued_at_epoch),
+                "expires_at_epoch": expires_at_epoch,
+                "expires_at": _utc_from_epoch(expires_at_epoch),
+                "disabled_at": existing.get("disabled_at"),
+                "disabled_reason": existing.get("disabled_reason"),
+            }
+
+        if self._store.count_users() > 0 and normalized.get("enabled", False):
+            normalized["enabled"] = False
+            normalized["disabled_reason"] = "user_provisioned"
+            normalized["disabled_at"] = normalized.get("disabled_at") or _utc_now()
+
+        if normalized != existing:
+            self._store.set_setting(BOOTSTRAP_RUNTIME_SETTING_KEY, normalized, updated_at=_utc_now())
         return normalized
 
     def _ensure_env_default_admin(self) -> None:
@@ -471,6 +551,42 @@ class AuthService:
 
         if is_current_admin and not is_future_admin and self._store.count_enabled_admins() <= 1:
             raise ValueError("last_enabled_admin")
+
+    def _disable_bootstrap_token(self, reason: str) -> None:
+        if not self._bootstrap_token or not isinstance(self._bootstrap_runtime, dict) or not self._bootstrap_runtime:
+            return
+        updated = dict(self._bootstrap_runtime)
+        changed = False
+        if updated.get("enabled", False):
+            updated["enabled"] = False
+            changed = True
+        if str(updated.get("disabled_reason", "")) != str(reason):
+            updated["disabled_reason"] = str(reason)
+            changed = True
+        if not updated.get("disabled_at"):
+            updated["disabled_at"] = _utc_now()
+            changed = True
+        if not changed:
+            return
+        self._store.set_setting(BOOTSTRAP_RUNTIME_SETTING_KEY, updated, updated_at=_utc_now())
+        self._bootstrap_runtime = updated
+
+    def _bootstrap_token_active(self) -> bool:
+        if not self._bootstrap_token:
+            return False
+        runtime = self._bootstrap_runtime if isinstance(self._bootstrap_runtime, dict) else {}
+        if not runtime:
+            return False
+        if self._store.count_users() > 0:
+            self._disable_bootstrap_token("user_provisioned")
+            return False
+        if not bool(runtime.get("enabled", False)):
+            return False
+        expires_at_epoch = int(runtime.get("expires_at_epoch", 0) or 0)
+        if expires_at_epoch and int(time.time()) >= expires_at_epoch:
+            self._disable_bootstrap_token("token_expired")
+            return False
+        return True
 
     def _signing_key(self) -> bytes:
         return str(self._runtime.get("jwt_secret", "")).encode("utf-8")

@@ -27,6 +27,8 @@ from .builtin_tools import load_builtin_agent_tools
 from .agent_memory import AgentMemoryStore
 from .audit_pipeline import AuditPipeline
 from .circuit_breaker import ToolCircuitBreaker
+from .cve_validation_pipeline import CveValidationPipeline
+from .evidence_graph import EvidenceGraphBuilder
 from .feedback_engine import FeedbackEngine
 from .policy import PolicyBlock, PolicyEngine
 from .scheduler import Action, ActionScheduler
@@ -106,6 +108,8 @@ class AgentOrchestrator:
         )
         self._circuit_breaker = circuit_breaker or ToolCircuitBreaker()
         self._memory_store = memory_store or AgentMemoryStore()
+        self._evidence_graph_builder = EvidenceGraphBuilder()
+        self._cve_validation_pipeline = CveValidationPipeline()
 
         # Load all builtin tools once; registrations are import side-effects.
         load_builtin_agent_tools()
@@ -172,9 +176,22 @@ class AgentOrchestrator:
             "feedback": {},
             "findings_count": 0,
             "circuit_breaker": {},
+            "findings_preview": [],
+            "session_status": "idle",
+            "pending_approval": {},
+            "loop_guard": {
+                "stalled_iterations": 0,
+                "last_signature": "",
+                "last_reason": "",
+                "environment_block_count": 0,
+            },
+            "thought_stream": [],
+            "evidence_graph": {},
+            "cve_validation": {},
         }
         normalized = self._pipeline.bootstrap_state(self._normalize_runtime_state(state))
-        return self._attach_memory_context(normalized)
+        self._attach_memory_context(normalized)
+        return self._refresh_derived_analysis(normalized)
 
     def load_state_from_file(self, path: Path) -> dict[str, Any]:
         """
@@ -232,8 +249,24 @@ class AgentOrchestrator:
         payload.setdefault("feedback", {})
         payload.setdefault("findings_count", 0)
         payload.setdefault("circuit_breaker", {})
+        payload.setdefault("findings_preview", [])
+        payload.setdefault("session_status", "idle")
+        payload.setdefault("pending_approval", {})
+        payload.setdefault(
+            "loop_guard",
+            {
+                "stalled_iterations": 0,
+                "last_signature": "",
+                "last_reason": "",
+                "environment_block_count": 0,
+            },
+        )
+        payload.setdefault("thought_stream", [])
+        payload.setdefault("evidence_graph", {})
+        payload.setdefault("cve_validation", {})
         normalized = self._pipeline.bootstrap_state(self._normalize_runtime_state(payload))
-        return self._attach_memory_context(normalized)
+        self._attach_memory_context(normalized)
+        return self._refresh_derived_analysis(normalized)
 
     def plan_only(
         self,
@@ -248,6 +281,7 @@ class AgentOrchestrator:
         self._normalize_runtime_state(state)
         self._pipeline.bootstrap_state(state)
         self._attach_memory_context(state)
+        self._refresh_derived_analysis(state)
 
         raw_plan, allowed_actions, blocked = self._request_and_filter_plan(state)
 
@@ -287,6 +321,7 @@ class AgentOrchestrator:
         generate_markdown_report(
             [],
             str(markdown_report_path),
+            evidence_graph=state.get("evidence_graph", {}),
             report_lang=str(state.get("report_lang", "en")),
             history_data=state.get("history", []),
             blocked_actions=blocked_payload,
@@ -371,6 +406,10 @@ class AgentOrchestrator:
         resumed_from = str(state.get("resumed_from") or "") or None
         start_iteration = int(state.get("iteration_count", len(state.get("history", [])))) + 1
         start_budget = int(state.get("budget_remaining", 0))
+        final_stop_reason = ""
+        state["session_status"] = "running"
+        state["pending_approval"] = {}
+        state.setdefault("thought_stream", [])
 
         self._record_operation(
             plugin_id="agent",
@@ -396,7 +435,9 @@ class AgentOrchestrator:
 
         for iteration in range(start_iteration, self._max_iterations + 1):
             self._attach_memory_context(state, findings=all_findings)
+            self._refresh_derived_analysis(state, findings=all_findings)
             if self._is_timed_out(started):
+                final_stop_reason = "timeout"
                 self._record_operation(
                     plugin_id="agent",
                     action="run_stop",
@@ -406,6 +447,7 @@ class AgentOrchestrator:
                 break
 
             if int(state.get("budget_remaining", 0)) <= 0:
+                final_stop_reason = "budget_exhausted"
                 self._record_operation(
                     plugin_id="agent",
                     action="run_stop",
@@ -426,7 +468,16 @@ class AgentOrchestrator:
                     status="info",
                     detail=f"phase={current_phase.name} reason={transition.reason}",
                 )
+                self._emit_reasoning_event(
+                    state,
+                    kind="strategy_shift",
+                    summary=f"Shifted into phase `{current_phase.name}`.",
+                    phase_name=current_phase.name,
+                    status="info",
+                    context={"reason": transition.reason},
+                )
             if effective_iteration_budget <= 0:
+                final_stop_reason = "phase_budget_exhausted"
                 self._record_operation(
                     plugin_id="agent",
                     action="iteration_stop",
@@ -479,8 +530,49 @@ class AgentOrchestrator:
             )
             plan_path = self._plan_dir / f"iteration_{iteration:02d}_plan.json"
             self._write_json(plan_path, self._plan_to_dict(final_plan))
+            self._emit_reasoning_event(
+                state,
+                kind="thought",
+                summary=(
+                    f"Iteration {iteration} planned {len(getattr(raw_plan, 'actions', []))} action(s); "
+                    f"{len(scheduled_actions)} executable, {len(new_blocked)} blocked."
+                ),
+                phase_name=current_phase.name,
+                status="info",
+                context={
+                    "decision_summary": final_plan.decision_summary,
+                    "blocked_count": len(new_blocked),
+                    "executable_count": len(scheduled_actions),
+                    "planned_count": len(getattr(raw_plan, "actions", [])),
+                },
+            )
+
+            pending_approval = self._build_pending_approval(state, blocked=new_blocked, phase_name=current_phase.name)
+            if pending_approval and not execution_order:
+                state["session_status"] = "waiting_approval"
+                state["pending_approval"] = pending_approval
+                final_stop_reason = "approval_pending"
+                self._emit_reasoning_event(
+                    state,
+                    kind="approval_pending",
+                    summary="High-risk follow-up actions are ready and require operator approval.",
+                    phase_name=current_phase.name,
+                    status="warning",
+                    context=pending_approval,
+                )
 
             if not execution_order:
+                if state.get("session_status") != "waiting_approval" and self._blocked_actions_are_environmental(new_blocked):
+                    state["session_status"] = "environment_blocked"
+                    final_stop_reason = "environment_blocked"
+                    self._emit_reasoning_event(
+                        state,
+                        kind="loop_break",
+                        summary="No executable actions remain because the environment is blocking all next steps.",
+                        phase_name=current_phase.name,
+                        status="warning",
+                        context={"blocked_reasons": [str(item.reason) for item in new_blocked]},
+                    )
                 state["iteration_count"] = iteration
                 self._flush_iteration_state(state, artifact_index, blocked_actions, final_plan)
                 self._record_operation(
@@ -493,8 +585,14 @@ class AgentOrchestrator:
 
             executed_count = 0
             pause_requested = False
+            iteration_findings = 0
+            iteration_breadcrumb_delta = 0
+            iteration_asset_delta = 0
+            iteration_surface_delta = 0
+            iteration_errors: list[str] = []
             for action in execution_order:
                 if self._is_timed_out(started):
+                    final_stop_reason = "timeout"
                     self._record_operation(
                         plugin_id="agent",
                         action="run_stop",
@@ -503,6 +601,20 @@ class AgentOrchestrator:
                     )
                     break
 
+                self._emit_reasoning_event(
+                    state,
+                    kind="thought",
+                    summary=f"Select `{action.tool_name}` for `{action.target}`.",
+                    phase_name=current_phase.name,
+                    action=action,
+                    status="info",
+                    context={
+                        "reason": action.reason,
+                        "priority": action.priority,
+                        "cost": action.cost,
+                        "preconditions": list(action.preconditions),
+                    },
+                )
                 prior_budget = int(state.get("budget_remaining", 0))
                 result = self._execute_action(action, phase_name=current_phase.name, state=state)
                 executed_count += 1
@@ -515,6 +627,13 @@ class AgentOrchestrator:
                 state["history"].append(result["history_record"])
                 artifact_index.extend(result["artifacts"])
                 all_findings.extend(result["findings"])
+                state["findings_preview"] = list(all_findings[-8:])
+                iteration_findings += len(result["findings"])
+                iteration_breadcrumb_delta += len(result["breadcrumbs_delta"])
+                iteration_asset_delta += len(result.get("assets_delta", []))
+                iteration_surface_delta += len(result["surface_delta"])
+                if result["history_record"].get("error"):
+                    iteration_errors.append(str(result["history_record"]["error"]))
 
                 state["breadcrumbs"] = self._merge_breadcrumbs(
                     state.get("breadcrumbs", []),
@@ -530,6 +649,7 @@ class AgentOrchestrator:
                 )
                 self._normalize_runtime_state(state)
                 state["findings_count"] = len(all_findings)
+                self._refresh_derived_analysis(state, findings=all_findings)
                 feedback_update = self._feedback_engine.build_feedback(
                     history=state.get("history", []),
                     surface=state.get("surface", {}),
@@ -541,23 +661,53 @@ class AgentOrchestrator:
                     feedback_update,
                 )
                 state["circuit_breaker"] = self._circuit_breaker.snapshot()
+                self._emit_reasoning_event(
+                    state,
+                    kind="observation",
+                    summary=(
+                        f"`{action.tool_name}` finished with status `{result['history_record'].get('status', 'unknown')}` "
+                        f"and produced {len(result['findings'])} finding(s)."
+                    ),
+                    phase_name=current_phase.name,
+                    action=action,
+                    status=str(result["history_record"].get("status", "info")),
+                    context={
+                        "error": result["history_record"].get("error"),
+                        "finding_count": len(result["findings"]),
+                        "breadcrumb_delta": len(result["breadcrumbs_delta"]),
+                        "asset_delta": len(result.get("assets_delta", [])),
+                        "surface_delta_keys": sorted(result["surface_delta"].keys()),
+                    },
+                )
                 risk_signal = str(state.get("feedback", {}).get("risk_signal", "none")).strip().lower()
-                if risk_signal == "tighten":
-                    state["safety_grade"] = normalize_safety_grade("conservative")
-                elif risk_signal == "pause":
+                pause_from_risk, stop_reason = self._apply_risk_signal_controls(
+                    state,
+                    risk_signal=risk_signal,
+                    phase_name=current_phase.name,
+                    action=action,
+                )
+                if pause_from_risk:
                     pause_requested = True
-                    self._record_operation(
-                        plugin_id="agent",
-                        action="risk_pause",
-                        status="warning",
-                        detail="Critical finding triggered pause signal.",
-                    )
+                    final_stop_reason = stop_reason or final_stop_reason
                     break
 
+            should_break, loop_reason = self._evaluate_loop_guard(
+                state,
+                phase_name=current_phase.name,
+                executed_count=executed_count,
+                blocked=new_blocked,
+                error_messages=iteration_errors,
+                finding_count=iteration_findings,
+                breadcrumb_delta=iteration_breadcrumb_delta,
+                asset_delta=iteration_asset_delta,
+                surface_delta=iteration_surface_delta,
+            )
+            if should_break:
+                final_stop_reason = "environment_blocked"
             state["iteration_count"] = iteration
             self._flush_iteration_state(state, artifact_index, blocked_actions, final_plan)
 
-            if executed_count == 0 or pause_requested:
+            if should_break or executed_count == 0 or pause_requested:
                 break
 
         history_path = self._agent_dir / "agent_history.json"
@@ -568,6 +718,12 @@ class AgentOrchestrator:
         markdown_report_path = self._agent_dir / "agent_report.md"
         html_report_path = self._agent_dir / "agent_report.html"
         audit_report_json_path = self._agent_dir / "audit_report.json"
+
+        if state.get("session_status") == "running":
+            state["session_status"] = self._finalize_session_status(
+                state,
+                final_stop_reason=final_stop_reason,
+            )
 
         persisted_memory = self._persist_target_memory(state, findings=all_findings)
         self._write_json(history_path, state.get("history", []))
@@ -590,6 +746,7 @@ class AgentOrchestrator:
             all_findings,
             str(markdown_report_path),
             recon_data=json_payload.get("recon"),
+            evidence_graph=json_payload.get("evidence_graph"),
             report_lang=str(state.get("report_lang", "en")),
             coverage_data=json_payload.get("coverage"),
             history_data=json_payload.get("history"),
@@ -620,7 +777,10 @@ class AgentOrchestrator:
             plugin_id="agent",
             action="run_end",
             status="success",
-            detail=f"history={len(state.get('history', []))}, findings={len(all_findings)}",
+            detail=(
+                f"history={len(state.get('history', []))}, findings={len(all_findings)}, "
+                f"session_status={state.get('session_status', 'completed')}"
+            ),
         )
         self._safe_flush_notifier()
 
@@ -656,6 +816,59 @@ class AgentOrchestrator:
             persisted_memory=persisted_memory,
             findings=findings,
         )
+        return state
+
+    def _refresh_evidence_graph(
+        self,
+        state: dict[str, Any],
+        *,
+        findings: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        """Rebuild evidence correlation graph from current runtime state."""
+        if not isinstance(state, dict):
+            return {}
+        safe_findings = findings if isinstance(findings, list) else state.get("findings_preview", [])
+        if not isinstance(safe_findings, list):
+            safe_findings = []
+        state["evidence_graph"] = self._evidence_graph_builder.build(
+            state=state,
+            findings=safe_findings,
+        )
+        return state
+
+    def _refresh_derived_analysis(
+        self,
+        state: dict[str, Any],
+        *,
+        findings: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        """Refresh corroboration and staged-validation views used across the platform."""
+        safe_findings = findings if isinstance(findings, list) else state.get("findings_preview", [])
+        if not isinstance(safe_findings, list):
+            safe_findings = []
+        try:
+            self._refresh_evidence_graph(state, findings=safe_findings)
+            state["cve_validation"] = self._cve_validation_pipeline.build(
+                state=state,
+                findings=safe_findings,
+            )
+            if isinstance(state.get("analysis_errors"), list):
+                state["analysis_errors"] = []
+        except Exception as exc:  # noqa: BLE001
+            error_text = str(exc)
+            analysis_errors = state.get("analysis_errors", [])
+            if not isinstance(analysis_errors, list):
+                analysis_errors = []
+            analysis_errors.append(error_text)
+            state["analysis_errors"] = analysis_errors[-5:]
+            state.setdefault("evidence_graph", {})
+            state.setdefault("cve_validation", {})
+            self._record_operation(
+                plugin_id="agent",
+                action="analysis_refresh_error",
+                status="warning",
+                detail=error_text,
+            )
         return state
 
     def _persist_target_memory(
@@ -807,6 +1020,8 @@ class AgentOrchestrator:
         tool_result: ToolExecutionResult | None = None
         attempts = 0
         autonomy_adjustments: list[str] = []
+        retry_policy: dict[str, Any] = {"max_retries": 0, "backoff_seconds": 0.0, "retryable_errors": set()}
+        last_retryable_error = False
 
         self._record_operation(
             plugin_id=action.tool_name,
@@ -851,7 +1066,8 @@ class AgentOrchestrator:
                     surface_delta = normalized["surface_delta"]
                     follow_up_hints = normalized["follow_up_hints"]
                     metadata = normalized["metadata"]
-                    if status == "error" and self._is_retryable_error(error, retry_policy) and attempts < max_attempts:
+                    last_retryable_error = self._is_retryable_error(error, retry_policy)
+                    if status == "error" and last_retryable_error and attempts < max_attempts:
                         time.sleep(backoff_seconds * attempts)
                         continue
                     break
@@ -859,7 +1075,8 @@ class AgentOrchestrator:
                     error = str(exc)
                     payload = {"error": error}
                     status = "error"
-                    if self._is_retryable_error(error, retry_policy) and attempts < max_attempts:
+                    last_retryable_error = self._is_retryable_error(error, retry_policy)
+                    if last_retryable_error and attempts < max_attempts:
                         time.sleep(backoff_seconds * attempts)
                         continue
                     break
@@ -895,12 +1112,20 @@ class AgentOrchestrator:
             action_payload["ranking_explanation"] = ranking_explanation
         if autonomy_adjustments:
             action_payload["autonomy_adjustments"] = list(autonomy_adjustments)
+        retry_metadata = {
+            "max_retries": int(retry_policy.get("max_retries", 0) or 0),
+            "attempts": attempts,
+            "retryable_error": bool(last_retryable_error),
+            "final_attempt": attempts >= max(1, int(retry_policy.get("max_retries", 0) or 0) + 1),
+            "backoff_seconds": float(retry_policy.get("backoff_seconds", 0.0) or 0.0),
+        }
         artifact_payload = {
             "action": action_payload,
             "status": status,
             "error": error,
             "duration_ms": duration_ms,
             "attempts": attempts,
+            "retry": retry_metadata,
             "result": payload,
             "metadata": metadata,
             "tool_result": asdict(tool_result) if tool_result is not None else None,
@@ -922,6 +1147,7 @@ class AgentOrchestrator:
             "started_at": started_at,
             "ended_at": ended_at,
             "retry_attempts": attempts,
+            "retry": retry_metadata,
             "artifacts": [str(artifact_path)],
         }
         if phase_name:
@@ -1058,6 +1284,70 @@ class AgentOrchestrator:
                 continue
             compact[key] = value
         return compact
+
+    def _apply_risk_signal_controls(
+        self,
+        state: dict[str, Any],
+        *,
+        risk_signal: str,
+        phase_name: str,
+        action: Action,
+    ) -> tuple[bool, str | None]:
+        """Apply post-observation risk controls without mutating requested safety grade."""
+        normalized_signal = str(risk_signal).strip().lower()
+        if normalized_signal == "tighten":
+            self._tighten_autonomy_mode(state)
+            self._emit_reasoning_event(
+                state,
+                kind="strategy_shift",
+                summary="Recent findings increased risk; tightening autonomy for the next planning cycle.",
+                phase_name=phase_name,
+                status="warning",
+                context={
+                    "risk_signal": normalized_signal,
+                    "autonomy_mode": state.get("autonomy_mode"),
+                    "safety_grade": state.get("safety_grade"),
+                },
+            )
+            return False, None
+        if normalized_signal == "pause":
+            state["session_status"] = "waiting_approval"
+            state["pending_approval"] = self._pending_approval_from_risk_signal(
+                state,
+                action=action,
+                phase_name=phase_name,
+            )
+            self._record_operation(
+                plugin_id="agent",
+                action="risk_pause",
+                status="warning",
+                detail="Critical finding triggered pause signal.",
+            )
+            self._emit_reasoning_event(
+                state,
+                kind="approval_pending",
+                summary="Critical evidence was found. Further validation is paused pending operator approval.",
+                phase_name=phase_name,
+                action=action,
+                status="warning",
+                context=state.get("pending_approval", {}),
+            )
+            return True, "approval_pending"
+        return False, None
+
+    def _tighten_autonomy_mode(self, state: dict[str, Any]) -> None:
+        """Tighten autonomy one step without overwriting the configured safety grade."""
+        surface = state.get("surface", {})
+        if not isinstance(surface, dict):
+            surface = {}
+            state["surface"] = surface
+        current = normalize_autonomy_mode(
+            state.get("autonomy_mode", surface.get("autonomy_mode", None)),
+            safety_grade=state.get("safety_grade", self._safety_grade),
+        )
+        next_mode = "adaptive" if current == "supervised" else current
+        state["autonomy_mode"] = next_mode
+        surface["autonomy_mode"] = next_mode
 
     @staticmethod
     def _normalize_candidate_list(value: Any) -> list[str]:
@@ -1317,6 +1607,255 @@ class AgentOrchestrator:
             )
         )
 
+    def _emit_reasoning_event(
+        self,
+        state: dict[str, Any],
+        *,
+        kind: str,
+        summary: str,
+        phase_name: str | None = None,
+        action: Action | None = None,
+        status: str = "info",
+        context: dict[str, Any] | None = None,
+    ) -> None:
+        """Append operator-facing reasoning events to state and structured logs."""
+        payload: dict[str, Any] = {
+            "kind": kind,
+            "summary": summary,
+            "phase": phase_name,
+            "status": status,
+            "timestamp": utc_now_iso(),
+        }
+        if action is not None:
+            payload.update(
+                {
+                    "action_id": action.action_id,
+                    "tool_name": action.tool_name,
+                    "target": action.target,
+                }
+            )
+        if context:
+            payload["context"] = context
+        stream = state.get("thought_stream", [])
+        if not isinstance(stream, list):
+            stream = []
+        stream.append(payload)
+        state["thought_stream"] = stream[-80:]
+        self._record_operation(
+            plugin_id="agent",
+            action=kind,
+            status=status,
+            detail=json.dumps(payload, ensure_ascii=False, sort_keys=True),
+        )
+
+    def _build_pending_approval(
+        self,
+        state: dict[str, Any],
+        *,
+        blocked: list[PolicyBlock],
+        phase_name: str,
+    ) -> dict[str, Any] | None:
+        """Build approval request context from blocked high-risk actions."""
+        pending_actions: list[dict[str, Any]] = []
+        for block in blocked:
+            reason = str(block.reason).strip().lower()
+            if reason not in {"precondition_failed:approval_granted", "precondition_failed:authorization_confirmed"}:
+                continue
+            try:
+                tool = self._tool_getter(block.action.tool_name)
+                risk_level = str(getattr(tool, "risk_level", "safe")).strip().lower()
+            except Exception:  # noqa: BLE001
+                risk_level = "unknown"
+            if risk_level not in {"high", "critical"}:
+                continue
+            pending_actions.append(
+                {
+                    "action_id": block.action.action_id,
+                    "tool_name": block.action.tool_name,
+                    "target": block.action.target,
+                    "reason": block.reason,
+                    "risk_level": risk_level,
+                    "rationale": block.action.reason,
+                }
+            )
+        if not pending_actions:
+            return None
+        return {
+            "requested_at": utc_now_iso(),
+            "phase": phase_name,
+            "summary": "High-risk validation is ready but requires explicit operator approval.",
+            "actions": pending_actions,
+            "evidence_summary": self._summarize_recent_findings(state),
+        }
+
+    def _pending_approval_from_risk_signal(
+        self,
+        state: dict[str, Any],
+        *,
+        action: Action,
+        phase_name: str,
+    ) -> dict[str, Any]:
+        """Build approval payload when feedback engine triggers a pause."""
+        return {
+            "requested_at": utc_now_iso(),
+            "phase": phase_name,
+            "summary": "Critical findings triggered a manual approval checkpoint before deeper validation.",
+            "actions": [
+                {
+                    "action_id": action.action_id,
+                    "tool_name": action.tool_name,
+                    "target": action.target,
+                    "reason": "feedback_pause",
+                    "risk_level": "high",
+                    "rationale": action.reason,
+                }
+            ],
+            "evidence_summary": self._summarize_recent_findings(state),
+        }
+
+    def _summarize_recent_findings(self, state: dict[str, Any], limit: int = 3) -> list[dict[str, Any]]:
+        """Summarize recent findings for approval dialogs and reports."""
+        findings = state.get("findings_preview", [])
+        if not isinstance(findings, list):
+            findings = []
+        output: list[dict[str, Any]] = []
+        for item in findings[-limit:]:
+            if not isinstance(item, dict):
+                continue
+            output.append(
+                {
+                    "name": str(item.get("name", "")).strip(),
+                    "severity": str(item.get("severity", "")).strip().lower() or "info",
+                    "evidence": str(item.get("evidence", ""))[:280],
+                }
+            )
+        return output
+
+    def _evaluate_loop_guard(
+        self,
+        state: dict[str, Any],
+        *,
+        phase_name: str,
+        executed_count: int,
+        blocked: list[PolicyBlock],
+        error_messages: list[str],
+        finding_count: int,
+        breadcrumb_delta: int,
+        asset_delta: int,
+        surface_delta: int,
+    ) -> tuple[bool, str | None]:
+        """Detect repeated non-progress environment loops and stop early."""
+        if str(state.get("session_status", "")).strip().lower() == "waiting_approval":
+            return False, None
+
+        loop_guard = state.get("loop_guard", {})
+        if not isinstance(loop_guard, dict):
+            loop_guard = {}
+
+        made_progress = any(
+            value > 0
+            for value in (finding_count, breadcrumb_delta, asset_delta, surface_delta)
+        )
+        if executed_count > 0 and not error_messages:
+            made_progress = True
+
+        reasons: list[str] = []
+        env_like = False
+        for block in blocked:
+            reason = str(block.reason).strip()
+            if not reason:
+                continue
+            reasons.append(reason)
+            lowered = reason.lower()
+            if lowered.startswith("tool_unavailable:") or lowered.startswith("circuit_open"):
+                env_like = True
+        for message in error_messages:
+            lowered = str(message).strip().lower()
+            if not lowered:
+                continue
+            reasons.append(lowered[:180])
+            if any(token in lowered for token in ("timed out", "timeout", "connection", "refused", "unreachable", "waf", "forbidden", "network", "dns", "ssl")):
+                env_like = True
+
+        if made_progress or not reasons or not env_like:
+            state["loop_guard"] = {
+                "stalled_iterations": 0,
+                "last_signature": "",
+                "last_reason": "",
+                "environment_block_count": 0,
+            }
+            return False, None
+
+        signature = json.dumps(
+            {
+                "phase": phase_name,
+                "reasons": sorted(set(reasons)),
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+        stalled_iterations = 1
+        environment_block_count = 1
+        if signature == str(loop_guard.get("last_signature", "")):
+            stalled_iterations = int(loop_guard.get("stalled_iterations", 0) or 0) + 1
+            environment_block_count = int(loop_guard.get("environment_block_count", 0) or 0) + 1
+        state["loop_guard"] = {
+            "stalled_iterations": stalled_iterations,
+            "last_signature": signature,
+            "last_reason": reasons[0],
+            "environment_block_count": environment_block_count,
+        }
+        if stalled_iterations < 2:
+            return False, None
+
+        state["session_status"] = "environment_blocked"
+        self._emit_reasoning_event(
+            state,
+            kind="loop_break",
+            summary="Repeated environment blocking signals detected. Pausing the session to avoid budget burn.",
+            phase_name=phase_name,
+            status="warning",
+            context={"reasons": sorted(set(reasons)), "stalled_iterations": stalled_iterations},
+        )
+        return True, reasons[0]
+
+    def _finalize_session_status(
+        self,
+        state: dict[str, Any],
+        *,
+        final_stop_reason: str,
+    ) -> str:
+        """Map stop reason into stable session status."""
+        if final_stop_reason == "budget_exhausted":
+            history = state.get("history", [])
+            has_failures = any(
+                isinstance(entry, dict)
+                and (
+                    str(entry.get("status", "")).strip().lower() in {"failed", "error"}
+                    or (
+                        entry.get("error") is not None
+                        and str(entry.get("error", "")).strip() != ""
+                    )
+                )
+                for entry in history
+            )
+            return "partial_complete" if has_failures else "completed"
+        if final_stop_reason in {"timeout", "phase_budget_exhausted"}:
+            return "partial_complete" if state.get("history") else "completed"
+        return "completed"
+
+    def _blocked_actions_are_environmental(self, blocked: list[PolicyBlock]) -> bool:
+        """Return whether blocked actions indicate an environment-level stop."""
+        reasons = [str(item.reason).strip().lower() for item in blocked if str(item.reason).strip()]
+        if not reasons:
+            return False
+        allowed_prefixes = (
+            "tool_unavailable:",
+            "circuit_open",
+            "tool_availability_check_failed:",
+        )
+        return all(reason.startswith(allowed_prefixes) for reason in reasons)
+
     def _write_json(self, path: Path, payload: Any) -> None:
         """Write JSON file with UTF-8 encoding."""
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -1510,6 +2049,10 @@ class AgentOrchestrator:
         state["disabled_tools"] = disabled_tools
         state["focus_ports"] = focus_ports
         state["preferred_origins"] = preferred_origins
+        evidence_graph = state.get("evidence_graph", {})
+        if not isinstance(evidence_graph, dict):
+            evidence_graph = {}
+        state["evidence_graph"] = evidence_graph
         surface["authorization_confirmed"] = authorization_confirmed
         surface["safe_only"] = cve_safe_only
         surface["allow_high_risk"] = cve_allow_high_risk

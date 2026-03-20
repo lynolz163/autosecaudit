@@ -1,3 +1,0 @@
-{"timestamp": "2026-03-06T03:50:14.394628+00:00", "plugin_id": "agent", "action": "run_start", "status": "start", "detail": "budget=999, max_iterations=10, timeout=1800.0s, resumed=False"}
-{"timestamp": "2026-03-06T03:50:56.807987+00:00", "plugin_id": "agent", "action": "iteration_stop", "status": "warning", "detail": "Iteration 1: no executable actions after policy/scheduler."}
-{"timestamp": "2026-03-06T03:50:56.858631+00:00", "plugin_id": "agent", "action": "run_end", "status": "success", "detail": "history=0, findings=0"}

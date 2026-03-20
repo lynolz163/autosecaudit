@@ -15,13 +15,14 @@ import os
 import re
 import socket
 import ssl
+import subprocess
 import shutil
+import sys
 import tempfile
 import time
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import ParseResult, parse_qsl, urlencode, urljoin, urlparse, urlunparse
-from urllib.request import Request, urlopen
 
 from autosecaudit.auditors import SQLSanitizationAuditor, XSSProtectionAuditor
 from autosecaudit.crawlers import DynamicWebCrawler
@@ -35,6 +36,7 @@ from autosecaudit.tools.nuclei_tool import NucleiTool
 
 from . import builtin_tool_schemas
 from .cve_service import CveServiceError, NvdCveService
+from .http_client import HttpClientError, request_json, request_text
 from .rag_service import RagIntelService
 from .sandbox_runner import SandboxRunner
 from .template_capability_index import TemplateCapabilityIndex
@@ -99,13 +101,54 @@ def _check_playwright_runtime_availability() -> tuple[bool, str | None]:
             "playwright is required. Install with `pip install playwright` and run `playwright install chromium`.",
         )
 
-    try:
-        from playwright.sync_api import sync_playwright
+    probe_script = """
+import json
+try:
+    from playwright.sync_api import sync_playwright
+except Exception as exc:  # noqa: BLE001
+    print(json.dumps({"ok": False, "error": f"{type(exc).__name__}: {exc}"}))
+    raise SystemExit(0)
 
-        with sync_playwright() as playwright:
-            executable_path = str(getattr(playwright.chromium, "executable_path", "") or "").strip()
+try:
+    with sync_playwright() as playwright:
+        executable_path = str(getattr(playwright.chromium, "executable_path", "") or "").strip()
+except Exception as exc:  # noqa: BLE001
+    print(json.dumps({"ok": False, "error": f"{type(exc).__name__}: {exc}"}))
+    raise SystemExit(0)
+
+print(json.dumps({"ok": True, "path": executable_path}))
+"""
+    try:
+        completed = subprocess.run(
+            [sys.executable, "-c", probe_script],
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+            env=os.environ.copy(),
+        )
     except Exception as exc:  # noqa: BLE001
         return False, f"playwright browser runtime unavailable: {type(exc).__name__}: {exc}"
+
+    stdout_lines = [line.strip() for line in str(completed.stdout or "").splitlines() if line.strip()]
+    payload_line = stdout_lines[-1] if stdout_lines else ""
+    payload: dict[str, Any] | None = None
+    if payload_line:
+        try:
+            maybe_payload = json.loads(payload_line)
+            if isinstance(maybe_payload, dict):
+                payload = maybe_payload
+        except json.JSONDecodeError:
+            payload = None
+
+    if payload and payload.get("ok") is False:
+        return False, f"playwright browser runtime unavailable: {payload.get('error', 'unknown_error')}"
+    if completed.returncode != 0:
+        stderr = str(completed.stderr or "").strip()
+        suffix = f": {stderr}" if stderr else ""
+        return False, f"playwright browser runtime unavailable: subprocess exited {completed.returncode}{suffix}"
+
+    executable_path = str((payload or {}).get("path", "") or "").strip()
 
     if not executable_path or not os.path.exists(executable_path):
         return False, "playwright browser runtime is missing. Run `playwright install chromium`."
@@ -120,23 +163,17 @@ def _http_fetch_text(
     max_bytes: int = 500_000,
 ) -> tuple[int, dict[str, str], str, str]:
     """Fetch text content with small bounded reads."""
-    request = Request(
-        url=url,
-        method="GET",
-        headers={
-            "User-Agent": "AutoSecAudit-Agent/0.1",
-            "Accept": accept,
-        },
-    )
     try:
-        with urlopen(request, timeout=timeout) as response:
-            body = (response.read(max_bytes) or b"").decode("utf-8", errors="replace")
-            final_url = getattr(response, "url", url)
-            return int(response.status), {key.lower(): value for key, value in response.headers.items()}, body, str(final_url)
-    except HTTPError as exc:
-        body = (exc.read(max_bytes) or b"").decode("utf-8", errors="replace")
-        final_url = getattr(exc, "url", url)
-        return int(exc.code), {key.lower(): value for key, value in exc.headers.items()}, body, str(final_url)
+        response = request_text(
+            url,
+            accept=accept,
+            timeout=timeout,
+            max_bytes=max_bytes,
+            retry_policy={"attempts": 2},
+        )
+    except HttpClientError as exc:
+        raise URLError(str(exc)) from exc
+    return response.status_code, response.headers, response.text, response.url
 
 
 def _normalize_base_origin(target: str) -> str:
@@ -2179,7 +2216,6 @@ class AgentReverseDnsProbeTool(BaseAgentTool):
     category = "recon"
     target_types = ["scope_host"]
     phase_affinity = ["passive_recon", "verification"]
-    depends_on = ["nmap_scan"]
     risk_level = "safe"
     retry_policy = {"max_retries": 1, "backoff_seconds": 0.5}
     default_options = {
@@ -2306,7 +2342,6 @@ class AgentTLSServiceProbeTool(BaseAgentTool):
     category = "recon"
     target_types = ["https_origin"]
     phase_affinity = ["passive_recon", "verification"]
-    depends_on = ["nmap_scan"]
     risk_level = "safe"
     retry_policy = {"max_retries": 1, "backoff_seconds": 0.5}
     default_options = {
@@ -3156,19 +3191,19 @@ class AgentPageVisionAnalyzerTool(BaseAgentTool):
             ],
         }
         endpoint = f"{base_url.rstrip('/')}/chat/completions"
-        request = Request(
-            endpoint,
-            method="POST",
-            data=json.dumps(payload).encode("utf-8"),
-            headers={
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}",
-            },
-        )
         try:
-            with urlopen(request, timeout=max(3.0, float(timeout_seconds) + 10.0)) as response:
-                raw = response.read() or b"{}"
-            parsed = json.loads(raw.decode("utf-8", errors="replace"))
+            _response, parsed = request_json(
+                endpoint,
+                method="POST",
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {api_key}",
+                },
+                content=json.dumps(payload).encode("utf-8"),
+                timeout=max(3.0, float(timeout_seconds) + 10.0),
+                max_bytes=4_000_000,
+                retry_policy={"attempts": 1},
+            )
             if not isinstance(parsed, dict):
                 return "", {"error": "vision_response_invalid_json"}
             text, extract_meta = extract_text_from_openai_compatible_response(parsed)
@@ -3365,9 +3400,9 @@ class AgentLoginFormDetectorTool(BaseAgentTool):
                 url_parameters.setdefault(param_name, []).append(value)
                 parameter_origins.setdefault(param_name, []).append(normalized_action)
 
-        output = StandardToolOutput(
-            status="completed",
-            findings=[
+        findings = []
+        if login_forms:
+            findings.append(
                 StandardFinding(
                     id=f"{self.name}:forms",
                     tool=self.name,
@@ -3378,7 +3413,11 @@ class AgentLoginFormDetectorTool(BaseAgentTool):
                     evidence={"status_code": status_code, "forms": login_forms, "url": final_url},
                     remediation="Use the discovered auth surface to drive low-risk validation of cookie and session controls.",
                 )
-            ],
+            )
+
+        output = StandardToolOutput(
+            status="completed",
+            findings=findings,
             discovered_assets=[DiscoveredAsset(type=item["type"], data=item["data"]) for item in breadcrumbs_delta],
             surface_updates={
                 "login_forms": login_forms,
@@ -3938,21 +3977,19 @@ class AgentPassiveConfigAuditTool(BaseAgentTool):
             if (time.perf_counter() - started) >= max_total_seconds:
                 break
             url = f"{target.rstrip('/')}/{path}"
-            request = Request(
-                url=url,
-                method="GET",
-                headers={
-                    "User-Agent": "AutoSecAudit-AgentPassiveConfig/0.1",
-                    "Accept": "text/plain,text/html,*/*;q=0.8",
-                },
-            )
             try:
-                with urlopen(request, timeout=request_timeout_seconds) as response:
-                    if response.status != 200:
-                        continue
-                    body = (response.read(200_000) or b"").decode("utf-8", errors="replace")
-            except (HTTPError, URLError, TimeoutError, OSError):
+                response = request_text(
+                    url,
+                    accept="text/plain,text/html,*/*;q=0.8",
+                    timeout=request_timeout_seconds,
+                    max_bytes=200_000,
+                    retry_policy={"attempts": 2},
+                )
+            except (HttpClientError, TimeoutError, OSError):
                 continue
+            if response.status_code != 200:
+                continue
+            body = response.text
 
             lower_body = body.lower()
             matched = [token for token in keywords_map[path] if token.lower() in lower_body]
@@ -4065,21 +4102,15 @@ class AgentHTTPSecurityHeadersTool(BaseAgentTool):
         url = self._normalize_target_url(target)
 
         try:
-            request = Request(
-                url=url,
-                method="GET",
-                headers={
-                    "User-Agent": "AutoSecAudit-HTTPHeaders/0.1",
-                    "Accept": "text/html,application/json,*/*;q=0.8",
-                },
+            response = request_text(
+                url,
+                timeout=8.0,
+                max_bytes=1,
+                retry_policy={"attempts": 2},
             )
-            with urlopen(request, timeout=8) as response:
-                status_code = int(response.status)
-                headers = {key.lower(): value for key, value in response.headers.items()}
-        except HTTPError as exc:
-            status_code = int(exc.code)
-            headers = {key.lower(): value for key, value in exc.headers.items()}
-        except (URLError, TimeoutError, OSError) as exc:
+            status_code = response.status_code
+            headers = response.headers
+        except (HttpClientError, TimeoutError, OSError) as exc:
             return _standard_tool_result(
                 ok=False,
                 tool_name=self.name,
@@ -4336,22 +4367,21 @@ class AgentCORSMisconfigurationTool(BaseAgentTool):
     @staticmethod
     def _collect_headers(url: str, test_origin: str) -> tuple[dict[str, str], int, str]:
         for method in ("OPTIONS", "GET"):
-            request = Request(
-                url=url,
-                method=method,
-                headers={
-                    "Origin": test_origin,
-                    "Access-Control-Request-Method": "GET",
-                    "User-Agent": "AutoSecAudit-CORS/0.1",
-                },
-            )
             try:
-                with urlopen(request, timeout=8) as response:
-                    return {k.lower(): v for k, v in response.headers.items()}, int(response.status), method
-            except HTTPError as exc:
-                if exc.code in {403, 404, 405}:
-                    return {k.lower(): v for k, v in exc.headers.items()}, exc.code, method
-                raise
+                response = request_text(
+                    url,
+                    method=method,
+                    headers={
+                        "Origin": test_origin,
+                        "Access-Control-Request-Method": "GET",
+                    },
+                    timeout=8.0,
+                    max_bytes=1,
+                    retry_policy={"attempts": 2},
+                )
+                return response.headers, response.status_code, method
+            except HttpClientError:
+                continue
         return {}, 0, "GET"
 
 
@@ -4380,6 +4410,8 @@ class AgentSubdomainEnumPassiveTool(BaseAgentTool):
         "additional_properties": False,
         "additional_properties_error": "subdomain_enum_passive_options_invalid_keys",
     }
+    _REQUEST_TIMEOUT_SECONDS = 6.0
+    _RETRY_POLICY = {"attempts": 2, "backoff_seconds": 0.25}
 
     def run(self, target: str, options: dict[str, Any]) -> ToolExecutionResult:
         started = time.perf_counter()
@@ -4396,16 +4428,39 @@ class AgentSubdomainEnumPassiveTool(BaseAgentTool):
             )
         url = f"https://crt.sh/?q=%25.{domain}&output=json"
         try:
-            request = Request(url=url, headers={"User-Agent": "AutoSecAudit-SubdomainPassive/0.1", "Accept": "application/json"})
-            with urlopen(request, timeout=12) as response:
-                payload = json.loads((response.read(2_000_000) or b"[]").decode("utf-8", errors="replace"))
-        except (HTTPError, URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
+            response, payload = request_json(
+                url,
+                headers={"Accept": "application/json"},
+                timeout=self._REQUEST_TIMEOUT_SECONDS,
+                max_bytes=2_000_000,
+                retry_policy=self._RETRY_POLICY,
+            )
+            if response.status_code >= 400:
+                raise HttpClientError(f"http_status:{response.status_code}")
+        except (HttpClientError, TimeoutError, OSError) as exc:
+            error_text = str(exc).strip() or type(exc).__name__
+            degraded_status = "degraded_timeout" if self._is_timeout_like_error(exc) else "degraded_unavailable"
             return ToolExecutionResult(
-                ok=False,
+                ok=True,
                 tool_name=self.name,
                 target=target,
-                data={"status": "error", "payload": {"error": str(exc)}, "findings": [], "breadcrumbs_delta": [], "surface_delta": {}},
-                error=str(exc),
+                data={
+                    "status": "completed",
+                    "payload": {
+                        "domain": domain,
+                        "subdomains": [],
+                        "source": "crt.sh",
+                        "source_status": degraded_status,
+                        "warning": error_text,
+                    },
+                    "findings": [],
+                    "breadcrumbs_delta": [],
+                    "surface_delta": {},
+                    "metadata": {
+                        "source": "crt.sh",
+                        "source_status": degraded_status,
+                    },
+                },
                 duration_ms=int((time.perf_counter() - started) * 1000),
             )
 
@@ -4445,6 +4500,11 @@ class AgentSubdomainEnumPassiveTool(BaseAgentTool):
             },
             duration_ms=int((time.perf_counter() - started) * 1000),
         )
+
+    @staticmethod
+    def _is_timeout_like_error(exc: Exception) -> bool:
+        error_text = str(exc).strip().lower()
+        return isinstance(exc, TimeoutError) or "timeout" in error_text or "timed out" in error_text
 
     @staticmethod
     def _normalize_domain(target: str) -> str:
@@ -4808,11 +4868,112 @@ class AgentWAFDetectorTool(BaseAgentTool):
     input_schema = _origin_no_options_schema()
 
     _VENDOR_MARKERS = {
-        "cloudflare": ("cf-ray", "__cf_bm", "cf-cache-status", "attention required"),
-        "akamai": ("akamai", "ghost", "akamaighost"),
-        "aws_waf": ("x-amzn-requestid", "awsalb", "aws"),
-        "incapsula": ("incap_ses", "visid_incap", "incapsula"),
-        "sucuri": ("x-sucuri-id", "x-sucuri-cache"),
+        "cloudflare": ("cf-ray", "__cf_bm", "cf-cache-status", "cloudflare"),
+        "akamai": ("akamai", "akamaighost", "x-akamai", "akamai-origin-hop"),
+        "aws_waf": ("x-amzn-requestid", "x-amzn-waf-action", "x-amz-cf-id", "x-amz-cf-pop", "awsalb", "awselb"),
+        "modsecurity": ("modsecurity", "mod_security", "owasp_modsecurity_crs"),
+        "imperva": ("imperva", "incap_ses", "visid_incap", "x-iinfo"),
+        "sucuri": ("x-sucuri-id", "x-sucuri-cache", "sucuri"),
+        "f5_bigip": ("bigipserver", "f5avr", "x-waf-event-info"),
+        "barracuda": ("barra_counter_session", "barracuda", "x-barracuda"),
+        "azure_front_door": ("x-azure-ref", "azurefrontdoor", "x-azure-fdid"),
+        "radware": ("x-sl-compstate", "x-rdwr", "radware"),
+        "fastly": ("x-fastly-request-id", "fastly-debug", "x-served-by"),
+    }
+    _GENERIC_BLOCK_MARKERS = (
+        "attention required",
+        "request blocked",
+        "access denied",
+        "forbidden",
+        "bot protection",
+        "web application firewall",
+        "security challenge",
+    )
+    _VENDOR_PROFILES = {
+        "cloudflare": {
+            "display_name": "Cloudflare",
+            "classification": "cdn_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "ssl_expiry_check"],
+            "notes": "Cloudflare commonly adds challenge pages and edge caching headers that can skew active probes.",
+        },
+        "akamai": {
+            "display_name": "Akamai",
+            "classification": "cdn_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "ssl_expiry_check"],
+            "notes": "Akamai edge controls often alter caching, redirects, and origin shielding behavior.",
+        },
+        "aws_waf": {
+            "display_name": "AWS WAF / CloudFront",
+            "classification": "edge_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "ssl_expiry_check", "cors_misconfiguration"],
+            "notes": "AWS edge protection often sits behind CloudFront and may normalize blocked requests.",
+        },
+        "modsecurity": {
+            "display_name": "ModSecurity",
+            "classification": "origin_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "passive_config_audit", "cors_misconfiguration"],
+            "notes": "Origin-side ModSecurity deployments typically warrant header/config review before fuzzing.",
+        },
+        "imperva": {
+            "display_name": "Imperva",
+            "classification": "edge_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "ssl_expiry_check"],
+            "notes": "Imperva edge filtering may inject cookies and challenge responses that affect probe fidelity.",
+        },
+        "sucuri": {
+            "display_name": "Sucuri",
+            "classification": "cdn_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "passive_config_audit"],
+            "notes": "Sucuri filtering is often visible through cache and challenge headers; passive review is safer first.",
+        },
+        "f5_bigip": {
+            "display_name": "F5 BIG-IP ASM",
+            "classification": "origin_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "passive_config_audit", "cors_misconfiguration"],
+            "notes": "F5 deployments are usually close to the origin and may enforce request-shape controls aggressively.",
+        },
+        "barracuda": {
+            "display_name": "Barracuda",
+            "classification": "origin_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "passive_config_audit", "security_txt_check"],
+            "notes": "Barracuda appliances frequently surface banner/cookie markers and favor passive confirmation.",
+        },
+        "azure_front_door": {
+            "display_name": "Azure Front Door",
+            "classification": "cdn_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "ssl_expiry_check", "security_txt_check"],
+            "notes": "Azure Front Door modifies edge routing and TLS termination behavior; validate from the edge first.",
+        },
+        "radware": {
+            "display_name": "Radware",
+            "classification": "edge_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "passive_config_audit"],
+            "notes": "Radware challenge and bot-defense behavior can distort active validation results.",
+        },
+        "fastly": {
+            "display_name": "Fastly",
+            "classification": "cdn_edge",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "ssl_expiry_check", "security_txt_check"],
+            "notes": "Fastly edge routing and cache layers should be profiled passively before noisier testing.",
+        },
+        "generic_waf": {
+            "display_name": "Generic WAF / Bot Defense",
+            "classification": "generic_waf",
+            "strategy": "prefer_passive_validation",
+            "recommended_follow_ups": ["http_security_headers", "security_txt_check", "passive_config_audit"],
+            "notes": "Blocking behavior suggests upstream request filtering even though no vendor-specific marker was matched.",
+        },
     }
 
     def run(self, target: str, options: dict[str, Any]) -> ToolExecutionResult:
@@ -4833,11 +4994,61 @@ class AgentWAFDetectorTool(BaseAgentTool):
             )
         header_text = "\n".join(f"{key}:{value}" for key, value in headers.items()).lower()
         combined = f"{header_text}\n{body[:4000].lower()}"
-        vendors = [
-            vendor
-            for vendor, markers in self._VENDOR_MARKERS.items()
-            if any(marker in combined for marker in markers)
-        ]
+        vendor_rows: list[dict[str, Any]] = []
+        for vendor, markers in self._VENDOR_MARKERS.items():
+            matched_markers = [marker for marker in markers if marker in combined]
+            if not matched_markers:
+                continue
+            confidence = min(0.45 + (0.15 * len(matched_markers)), 0.95)
+            vendor_rows.append(
+                {
+                    "vendor": vendor,
+                    "confidence": round(confidence, 2),
+                    "matched_markers": matched_markers,
+                    "detection_method": "passive_response_markers",
+                }
+            )
+        if not vendor_rows and status_code in {403, 406, 429}:
+            matched_markers = [marker for marker in self._GENERIC_BLOCK_MARKERS if marker in combined]
+            if matched_markers:
+                vendor_rows.append(
+                    {
+                        "vendor": "generic_waf",
+                        "confidence": 0.42,
+                        "matched_markers": matched_markers,
+                        "detection_method": "response_block_behavior",
+                    }
+                )
+        vendors = [str(item["vendor"]) for item in vendor_rows]
+        vendor_profiles: list[dict[str, Any]] = []
+        follow_up_hints: list[str] = []
+        for item in vendor_rows:
+            vendor = str(item.get("vendor", "")).strip().lower()
+            profile = dict(self._VENDOR_PROFILES.get(vendor, self._VENDOR_PROFILES["generic_waf"]))
+            recommended = [
+                str(candidate).strip()
+                for candidate in profile.get("recommended_follow_ups", [])
+                if str(candidate).strip()
+            ]
+            follow_up_hints.extend(recommended)
+            vendor_profiles.append(
+                {
+                    **item,
+                    "display_name": profile.get("display_name"),
+                    "classification": profile.get("classification"),
+                    "strategy": profile.get("strategy"),
+                    "recommended_follow_ups": recommended,
+                    "notes": profile.get("notes"),
+                }
+            )
+        deduped_follow_ups: list[str] = []
+        seen_follow_ups: set[str] = set()
+        for item in follow_up_hints:
+            if item in seen_follow_ups:
+                continue
+            seen_follow_ups.add(item)
+            deduped_follow_ups.append(item)
+        strategy = "prefer_passive_validation" if vendor_rows else "standard"
         findings = [
             StandardFinding(
                 id=f"{self.name}:{vendor}",
@@ -4846,7 +5057,15 @@ class AgentWAFDetectorTool(BaseAgentTool):
                 category="misconfig",
                 title="Potential WAF/CDN Identified",
                 description=f"Response metadata suggests {vendor} is protecting the target.",
-                evidence={"url": final_url, "status_code": status_code, "vendor": vendor},
+                evidence={
+                    "url": final_url,
+                    "status_code": status_code,
+                    "vendor": vendor,
+                    "matched_markers": next(
+                        (list(item.get("matched_markers", [])) for item in vendor_rows if item.get("vendor") == vendor),
+                        [],
+                    ),
+                },
                 remediation="Account for upstream WAF/CDN behavior when validating false positives or tuning scans.",
             )
             for vendor in vendors
@@ -4854,8 +5073,28 @@ class AgentWAFDetectorTool(BaseAgentTool):
         output = StandardToolOutput(
             status="completed",
             findings=findings,
-            surface_updates={"waf_vendors": vendors},
-            metadata={"origin": origin, "status_code": status_code},
+            surface_updates={
+                "waf_vendors": vendors,
+                "waf_strategy": strategy,
+                "waf_recommendations": deduped_follow_ups,
+                "waf_vendor_profiles": vendor_profiles,
+                "waf": {
+                    "detected": bool(vendor_rows),
+                    "vendors": vendor_profiles,
+                    "response_status": status_code,
+                    "response_url": final_url,
+                    "strategy": strategy,
+                    "recommendations": deduped_follow_ups,
+                },
+            },
+            follow_up_hints=deduped_follow_ups,
+            metadata={
+                "origin": origin,
+                "status_code": status_code,
+                "detected_vendors": vendors,
+                "vendor_confidences": {str(item["vendor"]): item["confidence"] for item in vendor_rows},
+                "waf_strategy": strategy,
+            },
         )
         return _standard_tool_result(
             ok=True,
@@ -4974,22 +5213,16 @@ class AgentCookieSecurityAuditTool(BaseAgentTool):
         del options
         started = time.perf_counter()
         url = _normalize_base_origin(target)
-        request = Request(
-            url=url,
-            method="GET",
-            headers={
-                "User-Agent": "AutoSecAudit-CookieAudit/0.1",
-                "Accept": "text/html,application/json,*/*;q=0.8",
-            },
-        )
         try:
-            with urlopen(request, timeout=8.0) as response:
-                status_code = int(response.status)
-                cookies = response.headers.get_all("Set-Cookie") or []
-        except HTTPError as exc:
-            status_code = int(exc.code)
-            cookies = exc.headers.get_all("Set-Cookie") or []
-        except (URLError, TimeoutError, OSError) as exc:
+            response = request_text(
+                url,
+                timeout=8.0,
+                max_bytes=1,
+                retry_policy={"attempts": 2},
+            )
+            status_code = response.status_code
+            cookies = response.header_lists.get("set-cookie", [])
+        except (HttpClientError, TimeoutError, OSError) as exc:
             output = StandardToolOutput(status="error", metadata={"error": str(exc)})
             return _standard_tool_result(
                 ok=False,
@@ -6299,7 +6532,7 @@ class AgentPocSandboxExecTool(BaseAgentTool):
             f"TARGET = {target!r}\n"
             f"CVE = {marker!r}\n"
             "try:\n"
-            "    req = Request(TARGET, method='GET', headers={'User-Agent':'AutoSecAudit-PoC/0.1'})\n"
+            "    req = Request(TARGET, method='GET', headers={'User-Agent':'Mozilla/5.0 (compatible; SecurityResearchBot)'})\n"
             "    with urlopen(req, timeout=8) as resp:\n"
             "        status = int(getattr(resp, 'status', 0) or 0)\n"
             "        body = (resp.read(120000) or b'').decode('utf-8', errors='replace')\n"

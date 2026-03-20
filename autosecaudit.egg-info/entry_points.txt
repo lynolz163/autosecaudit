@@ -1,3 +1,0 @@
-[console_scripts]
-autosecaudit = autosecaudit.cli:main
-autosecaudit-web = autosecaudit.webapp.server:main

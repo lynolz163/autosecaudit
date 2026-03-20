@@ -1,0 +1,19 @@
+{
+  "primary_model": "deepseek/deepseek-reasoner",
+  "fallback_models": [
+    "deepseek/deepseek-chat"
+  ],
+  "default_provider": "deepseek",
+  "request": {
+    "temperature": 0.0,
+    "max_output_tokens": 4096
+  },
+  "providers": {
+    "deepseek": {
+      "type": "openai_compatible",
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "timeout_seconds": 300
+    }
+  }
+}

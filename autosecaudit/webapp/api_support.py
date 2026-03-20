@@ -9,6 +9,26 @@ from fastapi import HTTPException, Request
 
 from .auth import AuthPrincipal
 
+PUBLIC_ERROR_CODE_MAP = {
+    "bootstrap_locked": "bootstrap_unavailable",
+    "last_enabled_admin": "user_update_rejected",
+    "cannot_delete_self": "user_update_rejected",
+    "cannot_freeze_self": "user_update_rejected",
+    "cannot_change_own_role": "user_update_rejected",
+}
+PUBLIC_ERROR_PREFIX_MAP = {
+    "submit_failed": "job_submit_failed",
+    "mission_submit_failed": "job_submit_failed",
+    "cve_verify_submit_failed": "job_submit_failed",
+    "codex_login_start_failed": "codex_login_failed",
+    "models_fetch_failed": "codex_models_failed",
+    "cve_search_failed": "cve_backend_unavailable",
+    "rag_corpus_invalid": "rag_request_invalid",
+    "rag_corpus_write_failed": "rag_write_failed",
+    "mission_missing_required_fields": "mission_request_incomplete",
+    "mission_session_not_found": "session_not_found",
+}
+
 
 def _utc_now() -> str:
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -31,7 +51,7 @@ def authenticate_request(request: Request) -> AuthPrincipal:
     try:
         return request.app.state.auth_service.get_principal_from_bearer(token)
     except ValueError as exc:
-        raise HTTPException(status_code=401, detail=str(exc)) from exc
+        raise HTTPException(status_code=401, detail=public_error_code(str(exc))) from exc
 
 
 def require_role(required_role: str) -> Callable[[Request], AuthPrincipal]:
@@ -54,6 +74,21 @@ def permission_summary(principal: AuthPrincipal) -> dict[str, Any]:
         "can_operate": principal.allows("operator"),
         "can_admin": principal.allows("admin"),
     }
+
+
+def public_error_code(detail: str, *, default: str | None = None) -> str:
+    """Map internal service codes to stable public API error codes."""
+    normalized = str(detail or "").strip()
+    if not normalized:
+        return default or "request_failed"
+    if normalized.startswith(("'", '"')) and normalized.endswith(("'", '"')) and len(normalized) >= 2:
+        normalized = normalized[1:-1].strip()
+        if not normalized:
+            return default or "request_failed"
+    prefix = normalized.split(":", 1)[0].strip().lower()
+    if prefix in PUBLIC_ERROR_PREFIX_MAP:
+        return PUBLIC_ERROR_PREFIX_MAP[prefix]
+    return PUBLIC_ERROR_CODE_MAP.get(normalized, normalized)
 
 
 def audit_event(

@@ -490,6 +490,15 @@ class SkillDrivenPlanner:
                 candidates = surface_delta.get("cve_candidates", [])
                 return isinstance(candidates, list) and any(isinstance(item, dict) for item in candidates)
             return False
+        if normalized == "waf_detected":
+            surface_delta = result.get("surface_delta", {})
+            if not isinstance(surface_delta, dict):
+                return False
+            waf_summary = surface_delta.get("waf", {})
+            if isinstance(waf_summary, dict) and waf_summary.get("detected") is True:
+                return True
+            vendors = surface_delta.get("waf_vendors", [])
+            return isinstance(vendors, list) and any(str(item).strip() for item in vendors)
         return False
 
     def _surface_condition_matches(self, conditions: dict[str, list[str]], surface: dict[str, Any]) -> bool:

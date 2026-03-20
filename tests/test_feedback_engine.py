@@ -109,3 +109,26 @@ def test_feedback_engine_prioritizes_poc_when_authorized_and_approved() -> None:
     )
 
     assert feedback["priority_overrides"]["poc_sandbox_exec"] <= -3
+
+
+def test_feedback_engine_biases_toward_passive_review_when_waf_detected() -> None:
+    engine = FeedbackEngine()
+
+    feedback = engine.build_feedback(
+        history=[],
+        surface={
+            "waf_vendors": ["cloudflare"],
+            "waf": {
+                "detected": True,
+                "strategy": "prefer_passive_validation",
+            },
+        },
+        findings=[],
+        tool_follow_up_hints=[],
+    )
+
+    assert feedback["priority_overrides"]["http_security_headers"] <= -6
+    assert feedback["priority_overrides"]["security_txt_check"] <= -6
+    assert feedback["priority_overrides"]["passive_config_audit"] <= -6
+    assert feedback["priority_overrides"]["dirsearch_scan"] >= 3
+    assert feedback["priority_overrides"]["param_fuzzer"] >= 3

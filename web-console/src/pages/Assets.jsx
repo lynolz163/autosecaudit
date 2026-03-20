@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import PaginationControls from "../components/PaginationControls";
 import StatusBadge from "../components/StatusBadge";
 import { useI18n } from "../i18n";
@@ -94,7 +94,12 @@ export default function Assets({ assets, onCreate, onScan, onDelete }) {
             </label>
             <label>
               <span>{language === "zh-CN" ? "备注" : "Notes"}</span>
-              <input name="notes" value={form.notes} onChange={updateField} placeholder={language === "zh-CN" ? "资产说明、归属团队、场景" : "Owner, criticality, notes"} />
+              <input
+                name="notes"
+                value={form.notes}
+                onChange={updateField}
+                placeholder={language === "zh-CN" ? "资产说明、归属团队、场景" : "Owner, criticality, notes"}
+              />
             </label>
           </div>
           <button className="primary-button" type="submit">

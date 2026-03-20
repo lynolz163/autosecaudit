@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 
-from ..api_support import audit_event, require_role
+from ..api_support import audit_event, public_error_code, require_role
 from ..auth import AuthPrincipal
 from ..runtime import _utc_now
 from ..schemas import AssetCreateRequest, AssetDeleteResponse, AssetItemResponse, AssetListResponse, AssetUpdateRequest, JobItemResponse, JsonObjectRequest
@@ -36,7 +36,7 @@ async def create_asset(
             }
         )
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="asset_request_invalid")) from exc
 
     audit_event(
         request,
@@ -76,7 +76,7 @@ async def update_asset(
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="asset_not_found") from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="asset_request_invalid")) from exc
 
     audit_event(
         request,
@@ -131,7 +131,7 @@ async def scan_asset(
     try:
         job = request.app.state.manager.submit(merged_payload, actor=principal.actor)
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=public_error_code(str(exc), default="asset_request_invalid")) from exc
 
     audit_event(
         request,
