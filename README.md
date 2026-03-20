@@ -135,6 +135,16 @@ The repository ships with declarative skill manifests and human-readable instruc
 
 The root `SKILL.md` is the entry point for another agent that wants to call this repository as a subordinate recon skill.
 
+## Examples
+
+Only agent-invocation examples are kept:
+
+- `examples/agent_invocation/README.md`
+- `examples/agent_invocation/run_plan.py`
+- `examples/agent_invocation/run_agent.py`
+
+Legacy standalone demo scripts were intentionally removed so the repository stays focused on agent-callable usage.
+
 ## Optional dependencies and compatibility
 
 These dependencies are optional. Install only the ones required by the skills you intend to use.
@@ -238,3 +248,7 @@ It is intentionally designed around:
 - scope-bound execution
 - non-destructive validation
 - auditable outputs
+
+## License
+
+This repository is distributed under the MIT License. See `LICENSE`.

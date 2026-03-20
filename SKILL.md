@@ -2,7 +2,7 @@
 
 Use this repository when a parent agent needs a subordinate skill for safe network security information gathering, scoped validation, and resumable evidence collection.
 
-This skill is written for agent runtimes such as Codex, OpenClaw, Claude Code, and similar orchestration systems. It is not a chat UI. It is a structured execution substrate that another agent can call to gather evidence and continue reasoning from machine-readable artifacts.
+This skill is written for agent runtimes such as Codex, OpenClaw, Claude Code, and similar orchestration systems. It is a structured execution substrate that another agent can call to gather evidence and continue reasoning from machine-readable artifacts.
 
 ## What this skill provides
 
