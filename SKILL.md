@@ -1,70 +1,63 @@
-# AutoSecAudit Skill Pack
+# AutoSecAudit Agent Invocation Skill
 
-Use this repository as a read-only reconnaissance and validation skill pack for an agent. The project is optimized for safe information collection, lightweight validation, and evidence-rich reporting inside authorized environments.
+This file is written for agent runtimes such as OpenClaw, Codex, Claude Code, or any orchestration layer that needs to call AutoSecAudit as a subordinate reconnaissance tool.
 
-## When to use this skill
+AutoSecAudit is not a chat UI. Treat it as an execution skill that:
+- accepts a target and scope
+- chooses safe information-gathering actions
+- emits structured evidence for follow-up reasoning
 
-Use AutoSecAudit when the task is to:
-- map exposed surface area for a domain, host, or IP range
-- validate configuration and exposure weaknesses without destructive actions
-- collect cross-checked evidence before deeper manual testing
-- produce structured outputs that another agent or analyst can continue from
+## Skill purpose
+
+Use AutoSecAudit when the parent agent needs:
+- attack-surface discovery
+- safe exposure validation
+- evidence correlation across DNS, HTTP, TLS, service banners, crawler output, and CVE signals
+- resumable machine-readable outputs for later steps
 
 Do not use it for:
 - destructive exploitation
-- persistence, lateral movement, or payload delivery
-- brute force, denial of service, or state-changing actions
+- persistence or payload delivery
+- brute force or auth bypass
+- state-changing actions
 - unauthorized targets
 
-## Core operating model
+## Invocation contract
 
-AutoSecAudit works best as a two-step skill:
-1. plan the run with clear scope and target constraints
-2. execute the safest useful tool chain and keep the outputs for follow-up work
+### Required inputs
 
-The CLI already exposes the useful entrypoints:
-- `python -m autosecaudit --target <target> --mode plan ...`
-- `python -m autosecaudit --target <target> --mode agent ...`
-- `python -m autosecaudit doctor`
-- `python -m autosecaudit skills list`
-- `python -m autosecaudit skills show <skill-or-tool>`
+The parent agent should provide:
+- `target`: one URL, hostname, IP, or CIDR seed
+- `scope`: explicit scope boundary; use the target-derived domain/IP when possible
+- `output_dir`: writable directory for artifacts
 
-## Recommended workflow for an agent
+Optional inputs:
+- `mode`: `plan` or `agent`
+- `llm_config`: model-routing JSON file if LLM-assisted planning is desired
+- `resume_path`: prior `output/agent` directory or `agent_state.json`
+- `tools` or `skills`: only when the parent agent must hard-constrain the planner
 
-### 1. Validate environment first
+### Preferred command patterns
 
-Run:
+#### Preflight
+
 ```bash
 python -m autosecaudit doctor --json
 ```
 
-Check:
-- Python version
-- writable output/config paths
-- tool availability (`nmap`, `dirsearch`, `nuclei`, `playwright` when needed)
-- LLM config validity if one is supplied
+Use this before planning or execution. Parse the JSON and block unsafe assumptions when required tools are missing.
 
-If a required tool is unavailable, either narrow the plan or clearly state the missing dependency before execution.
+#### Skill discovery
 
-### 2. Inspect available skills
-
-Run:
 ```bash
-python -m autosecaudit skills list
+python -m autosecaudit skills list --json
+python -m autosecaudit skills show nmap_scan --json
 ```
 
-For a specific capability:
-```bash
-python -m autosecaudit skills show nmap_scan
-python -m autosecaudit skills show dirsearch_scan
-python -m autosecaudit skills show cve_verify
-```
+Use this when the parent agent needs to understand tool/skill metadata before constraining execution.
 
-Use this to decide which built-in skill/tool combinations match the mission.
+#### Planning
 
-### 3. Generate a safe plan
-
-Example:
 ```bash
 python -m autosecaudit \
   --target example.com \
@@ -73,14 +66,13 @@ python -m autosecaudit \
   --output ./output
 ```
 
-Use `plan` when:
-- the target is new
-- the operator wants review before execution
-- you need to explain why the tool chain was selected
+Use `plan` for:
+- first contact with a target
+- human review gates
+- explaining intended tool selection before running
 
-### 4. Execute an evidence-focused run
+#### Execution
 
-Example:
 ```bash
 python -m autosecaudit \
   --target https://example.com \
@@ -91,23 +83,37 @@ python -m autosecaudit \
   --output ./output
 ```
 
-Execution guidance:
-- prefer URL targets for web-first audits
-- prefer host/domain targets for service discovery first
-- only pass `--tools` or `--skills` when you need to explicitly constrain the planner
-- let the planner choose tools by default; it already reasons over evidence, scope, risk, and skill metadata
+#### Resume
 
-### 5. Read the outputs
+```bash
+python -m autosecaudit \
+  --target https://example.com \
+  --mode agent \
+  --resume ./output/agent \
+  --output ./output
+```
 
-Primary outputs:
+Use `resume` instead of restarting whenever the parent agent already has a prior state.
+
+## Parent-agent decision rules
+
+- Prefer URL targets for web-first audits.
+- Prefer hostname/IP targets for service-discovery-first audits.
+- Do not pass `--tools` or `--skills` unless the parent agent has a strong reason to constrain the planner.
+- Let AutoSecAudit choose tools by default. The planner already reasons over scope, evidence, risk, and skill metadata.
+- Treat `plan` output as intent, not ground truth.
+- Treat `agent` output as evidence, not exploit proof.
+
+## Output contract
+
+The parent agent should read these files first:
 - `output/agent/ActionPlan.json`
 - `output/agent/agent_state.json`
 - `output/agent/agent_history.json`
-- `output/agent/agent_report.json` (when generated)
 - `output/agent/agent_report.md`
 - `output/agent/artifacts/*.json`
 
-Important fields to correlate:
+Most useful structured fields:
 - `thought_stream`
 - `evidence_graph`
 - `cve_validation`
@@ -115,37 +121,86 @@ Important fields to correlate:
 - `path_graph`
 - `knowledge_context`
 
-## LLM usage guidance
+Recommended parent-agent use:
+- read `agent_state.json` to recover current state
+- read `evidence_graph` to avoid duplicate probing
+- read `agent_history.json` to understand what was already attempted
+- read `agent_report.md` when a human-readable summary is needed
 
-An LLM is optional. The skill should still work without one.
+## Optional dependency awareness
 
-If a model is available:
-- use it for action planning and tool prioritization
-- do not delegate scope validation or safety boundaries to the model
+The parent agent should understand these optional tool dependencies:
+
+- `nmap_scan` -> `nmap >= 7.80`
+- `dirsearch_scan` -> official `dirsearch` Python implementation from upstream
+- `nuclei_exploit_check` -> `nuclei 3.3.x`, tested baseline `3.3.10`
+- `dynamic_crawl` -> `playwright` + Chromium runtime
+
+If a dependency is missing:
+- do not guess that the tool is usable
+- either narrow the mission
+- or report the missing dependency clearly before execution
+
+## Optional dependency install hints
+
+These are fallback installation hints the parent agent may surface to an operator:
+
+### Linux
+
+```bash
+sudo apt-get update
+sudo apt-get install -y nmap git curl unzip
+git clone --depth=1 https://github.com/maurosoria/dirsearch.git /opt/dirsearch
+python -m pip install -r /opt/dirsearch/requirements.txt
+python -m pip install playwright
+python -m playwright install chromium
+```
+
+### Docker build toggles
+
+```bash
+INSTALL_NUCLEI=1 INSTALL_PLAYWRIGHT=1 INSTALL_PLAYWRIGHT_BROWSER=1 docker compose build
+```
+
+### Nuclei compatibility note
+
+The current wrappers are validated against:
+- `nuclei 3.3.10`
+
+If the parent agent upgrades nuclei beyond `3.3.x`, it should assume output parsing may need re-validation.
+
+## LLM guidance
+
+An LLM is optional.
+
+If an LLM is available:
+- use it for planning and prioritization
+- do not delegate scope enforcement or safety boundaries to the model
 - keep temperature low for repeatable plans
 
 Generate a config template with:
+
 ```bash
 python -m autosecaudit init --output ./config/llm_router.json
 ```
 
-## Best practices for downstream agents
+## Failure handling
 
-- treat AutoSecAudit outputs as evidence, not proof of exploitability
-- confirm high-severity findings with at least two signals when possible
-- use `agent_history.json` and `evidence_graph` to avoid duplicate work
-- use `resume` to continue from a prior state instead of restarting from scratch
-- keep a human in the loop before any high-risk validation path
+If the command exits non-zero:
+- inspect logs under `output/logs/`
+- inspect partial `agent_state.json` if it exists
+- prefer resuming from preserved state rather than re-running blindly
 
-## Example mission prompts
+If the environment cannot execute a tool:
+- surface the missing dependency
+- continue with narrower skills if still useful
 
-- `Audit example.com for externally exposed web risk. Stay read-only and prioritize misconfigurations.`
-- `Map the attack surface for 10.10.10.0/24 and validate service exposure safely.`
-- `Continue from the previous findings on app.example.com and verify only the highest-confidence weaknesses.`
-
-## Boundaries
+## Safety boundaries
 
 - authorized targets only
 - read-only by default
 - non-destructive validation only
-- no brute force, no auth bypass, no persistence, no destructive payloads
+- no brute force
+- no auth bypass
+- no persistence
+- no destructive payloads
