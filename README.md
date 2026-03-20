@@ -1,6 +1,6 @@
-# AutoSecAudit
+# Network Security Information Gathering Tool for AI Agents
 
-AutoSecAudit is now positioned as an agent-facing skill pack and CLI toolkit for safe, read-only reconnaissance and validation in authorized environments.
+AutoSecAudit is now positioned as a network security information gathering tool for AI agents, delivered as an agent-facing skill pack and CLI toolkit for safe, read-only reconnaissance and validation in authorized environments.
 
 ## What this repository is now
 
